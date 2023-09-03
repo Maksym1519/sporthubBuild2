@@ -1,0 +1,18 @@
+@media (min-width: 1025px) {
+.wrapper {
+    width: 100%;
+    max-width: 1392px;
+    height: 62px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.functions__wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 24px;
+}
+}
+@media (min-width: 280px) and (max-width: 1024px) {
+}

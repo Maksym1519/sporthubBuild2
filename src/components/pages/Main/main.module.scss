@@ -1,0 +1,17 @@
+@media (min-width: 1025px) {
+.main__wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: rgba(17, 17, 17, 1);
+}
+.container {
+  width: 100%;
+  max-width: 1392px;
+  margin: 0 auto;
+}
+}
+@media (min-width: 280px) and (max-width: 1024px) {
+}

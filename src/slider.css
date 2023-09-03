@@ -1,0 +1,11 @@
+.mySlider .swiper-pagination {
+    background: red !important;    
+height: 100px !important;
+}
+.mySlider .swiper-pagination-progressbar-fill {
+background: red !important;    
+height: 100px !important;
+}
+.mySlider .swiper-pagination-progressbar {
+    width: 150% !important;
+  }
