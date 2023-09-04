@@ -1,7 +1,7 @@
 import React from "react";
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import m from "./main.module.scss";
+import ul from "./userLatest.module";
 import { useState, useEffect, useRef } from "react";
 import {useAppDispatch, useAppSelector} from '../../../App/hooks';
 import { increment, incrementByAmount } from '../../../features/counter/counterSlice';
@@ -49,7 +49,7 @@ import "swiper/css/effect-creative";
 import "swiper/swiper-bundle.css";
 //------------------------------------------------------------------------
 
-const Main = () => {
+const UserLatest = () => {
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
     setActiveIndex(0);
@@ -62,96 +62,49 @@ const Main = () => {
   const toggleMessages = () => {
     setShowMore(!showMore);
   };
-  //slider---------------------------------------------------
-  register();
-  const params = {
-    injectStyles: [
-      `
-      swiper-container {
-        width: 100%;
-        justify-self: flex-start;
-        }
-      .swiper-wrapper {
-        max-width: 100%;
-        display: flex;
-        align-items: center;
-        column-gap: 24px;
-        justify-self: flex-start;
-        overflow: hidden;
-         }
-        swiper-slide {
-        max-width: 368px;
-      }
-      @media (max-width: 767px) {
-        swiper-slide {
-        width: 214px;
-      }
-      swiper-container {
-        width: 100%;
-        justify-self: flex-start;
-        }
-      .swiper-wrapper {
-        display: flex;
-        align-items: center;
-        column-gap: 16px;
-        justify-self: flex-start;
-        }
-        .swiper-slide-active {
-          min-width: 214px;
-        }
-                `,
-    ],
-  };
-
-  const mainSlider = useRef("none");
-
-  useEffect(() => {
-    Object.assign(mainSlider.current, params);
-    mainSlider.current.initialize();
-  }, []);
-
+ 
   //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
   //---------------------------------------------------------
   return (
-    <div className={m.main__wrapper}>
+    <div className={ul.main__wrapper}>
       <Header />
-      <div className={m.container}>
-        <div className={m.sidebar__wrapper}>
-          <div className={m.switcher__wrapper}>
+      <div className={ul.container}>
+        <div className={ul.sidebar__wrapper}>
+          <div className={ul.switcher__wrapper}>
             <div
-              className={`${m.switcher__item} ${
-                activeIndex === 0 ? m.active : ""
+              className={`${ul.switcher__item} ${
+                activeIndex === 0 ? ul.active : ""
               }`}
               onClick={() => handleSwitcher(0)}
             >
               <Text16400 text="Home" color="rgba(187, 187, 187, 1)" />
             </div>
             <div
-              className={`${m.switcher__item} ${
-                activeIndex === 1 ? m.active : ""
+              className={`${ul.switcher__item} ${
+                activeIndex === 1 ? ul.active : ""
               }`}
               onClick={() => handleSwitcher(1)}
             >
               <Text16400 text="Latest" color="rgba(187, 187, 187, 1)" />
             </div>
             <div
-              className={`${m.switcher__item} ${
-                activeIndex === 2 ? m.active : ""
+              className={`${ul.switcher__item} ${
+                activeIndex === 2 ? ul.active : ""
               }`}
               onClick={() => handleSwitcher(2)}
             >
               <Text16400 text="View later" color="rgba(187, 187, 187, 1)" />
             </div>
           </div>
-          <div className={m.mySubscription__wrapper}>
-            <div className={m.title}>
+          <div className={ul.mySubscription__wrapper}>
+            <div className={ul.title}>
               <Text12600 text="MY SUBSCRIPTION" color="rgba(173, 121, 85, 1)" />
             </div>
-            <div className={m.items__wrapper}>
+            <div className={ul.items__wrapper}>
               {/* //item1-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava1}
                   text1={
@@ -163,7 +116,7 @@ const Main = () => {
                 />
               </div>
               {/* //item2-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava2}
                   text1={
@@ -173,10 +126,10 @@ const Main = () => {
                     />
                   }
                 />
-                <div className={m.messages}></div>
+                <div className={ul.messages}></div>
               </div>
               {/* //item3-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava3}
                   text1={
@@ -188,7 +141,7 @@ const Main = () => {
                 />
               </div>
               {/* //item4-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava4}
                   text1={
@@ -200,7 +153,7 @@ const Main = () => {
                 />
               </div>
               {/* //item5-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava5}
                   text1={
@@ -210,10 +163,10 @@ const Main = () => {
                     />
                   }
                 />
-                <div className={m.messages}></div>
+                <div className={ul.messages}></div>
               </div>
               {/* //item6-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava6}
                   text1={
@@ -225,7 +178,7 @@ const Main = () => {
                 />
               </div>
               {/* //item7-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava7}
                   text1={
@@ -237,7 +190,7 @@ const Main = () => {
                 />
               </div>
               {/* //item8-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava8}
                   text1={
@@ -247,10 +200,10 @@ const Main = () => {
                     />
                   }
                 />
-                <div className={m.messages}></div>
+                <div className={ul.messages}></div>
               </div>
               {/* //item9-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava9}
                   text1={
@@ -262,7 +215,7 @@ const Main = () => {
                 />
               </div>
               {/* //item10-------------------------------------------------------------- */}
-              <div className={m.item}>
+              <div className={ul.item}>
                 <Avatext
                   img={Ava10}
                   text1={
@@ -275,8 +228,8 @@ const Main = () => {
               </div>
               {/* //item-------------------------------------------------------------- */}
             </div>
-            <div className={m.showMore__wrapper}>
-              <div className={m.showMore__button} onClick={toggleMessages}>
+            <div className={ul.showMore__wrapper}>
+              <div className={ul.showMore__button} onClick={toggleMessages}>
                 <Text14400
                   text="Show moreShow more"
                   color="rgba(173, 121, 85, 1)"
@@ -284,11 +237,11 @@ const Main = () => {
                 <img
                   src={Arrow}
                   alt="arrow"
-                  className={`${showMore ? m.rotate : ""}`}
+                  className={`${showMore ? ul.rotate : ""}`}
                 />
               </div>
               {showMore && (
-                <div className={m.item}>
+                <div className={ul.item}>
                   <Avatext
                     img={Ava10}
                     text1={
@@ -303,80 +256,15 @@ const Main = () => {
             </div>
           </div>
         </div>
-        <div className={m.videos__wrapper}>
+        <div className={ul.videos__wrapper}>
           {/* //item1--------------------------------------------------------------- */}
-          <div className={m.slider__wrapper}>
-            <swiper-container
-              init="false"
-              ref={mainSlider}
-              slides-per-view="1.6"
-              speed="500"
-              loop="true"
-              css-mode="true"
-              class="mainSlider"
-              // swiper={{
-              //   // Добавьте параметры для свайпа
-              //   touchEventsTarget: 'mainSlider', // Цель для свайпа
-              //   simulateTouch: true, // Симулировать свайп на устройствах без поддержки тач-событий
-              //   allowTouchMove: true, // Разрешить свайп
-              // }}
-            >
-              <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore1} alt="video" />
-                  </div>
-                </div>
-              </swiper-slide>
-
-              {/* //item2--------------------------------------------------------------- */}
-
-              <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore2} alt="video" />
-                  </div>
-                </div>
-              </swiper-slide>
-
-              {/* //item3--------------------------------------------------------------- */}
-              <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore3} alt="video" />
-                  </div>
-                </div>
-              </swiper-slide>
-              {/* <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore3} alt="video" />
-                  </div>
-                </div>
-              </swiper-slide>
-              <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore3} alt="video" />
-                  </div>
-                </div>
-              </swiper-slide> */}
-              </swiper-container>
-          </div>
-          {isMobile ? (
-          <h3 className={m.title}>
-            <Text18500 text="Video List" />
-          </h3>) : ( <h3 className={m.title}>
-            <Text24500 text="Video List" />
-          </h3>)
-          }
-          {/* //item4--------------------------------------------------------------- */}
-          <div className={m.videos__body}>
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
+    {/* //item4--------------------------------------------------------------- */}
+          <div className={ul.videos__body}>
+          <div className={ul.item}>
+            <div className={ul.video__wrapper}>
               <img src={Video1} alt="video" />
             </div>
-            <div className={m.video__description}>
+            <div className={ul.video__description}>
               <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -407,11 +295,11 @@ const Main = () => {
             </div>
           </div>
           {/* //item5--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
+          <div className={ul.item}>
+            <div className={ul.video__wrapper}>
               <img src={Video2} alt="video" />
             </div>
-            <div className={m.video__description}>
+            <div className={ul.video__description}>
               <ColumnTemplate
                 row1={
                   <Text16500
@@ -437,11 +325,11 @@ const Main = () => {
             </div>
           </div>
           {/* //item6--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
+          <div className={ul.item}>
+            <div className={ul.video__wrapper}>
               <img src={Video3} alt="video" />
             </div>
-            <div className={m.video__description}>
+            <div className={ul.video__description}>
               <ColumnTemplate
                 row1={
                   <Text16500
@@ -467,11 +355,11 @@ const Main = () => {
             </div>
           </div>
           {/* //item7--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
+          <div className={ul.item}>
+            <div className={ul.video__wrapper}>
               <img src={Video4} alt="video" />
             </div>
-            <div className={m.video__description}>
+            <div className={ul.video__description}>
               <ColumnTemplate
                 row1={
                   <Text16500
@@ -497,11 +385,11 @@ const Main = () => {
             </div>
           </div>
           {/* //item8--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
+          <div className={ul.item}>
+            <div className={ul.video__wrapper}>
               <img src={Video5} alt="video" />
             </div>
-            <div className={m.video__description}>
+            <div className={ul.video__description}>
               <ColumnTemplate
                 row1={
                   <Text16500
@@ -527,11 +415,11 @@ const Main = () => {
             </div>
           </div>
           {/* //item9--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
+          <div className={ul.item}>
+            <div className={ul.video__wrapper}>
               <img src={Video6} alt="video" />
             </div>
-            <div className={m.video__description}>
+            <div className={ul.video__description}>
               <ColumnTemplate
                 row1={
                   <Text16500
@@ -563,4 +451,4 @@ const Main = () => {
     </div>
   );
 };
-export default Main;
+export default UserLatest;

@@ -4,9 +4,6 @@ body {
 	padding: 0;
 	box-sizing: border-box;
 	}
-.main-wrapper {
-	background: #1d2228;
-}
 p {
 	margin: 0;
 }
@@ -45,58 +42,6 @@ html {
 
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    overflow-x: hidden;
-	min-width: 0;
-}
 
-#root {
-    margin-top: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-	height: 100%;
-    overflow-x: hidden;
-	min-width: 0;
-}
-
-.p-wrapper {
-	width: 100%;
-	min-height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	background: #fafafa;
-	 overflow: hidden;
-
-	&__page-container {
-		margin: 60px 0 0 0;
-		width: 100%;
-		// flex: 1 1 auto;
-		max-width: 1670px;
-		display: flex;
-		flex-direction: column;
-		position: relative;
-
-		// overflow-x: hidden;
-		// overflow-x: hidden;
-
-		&.calendar{
-			margin: 55px 0 0 0;
-			max-width: 1680px;
-		}
-
-		&.floor-plan-container{
-			margin: 55px 0 0 0;
-			max-width: 1680px;
-		}
-	}
-}
 
 
