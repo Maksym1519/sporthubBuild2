@@ -6,7 +6,7 @@ const ColumnTemplate = (props) => {
     }
     return (
         <div className={c.wrapper} style={styled}>
-           {props.row1}
+           <div className={c.line__wrapper}>{props.row1}{props.rightText}</div>
            {props.row2}
         </div>
     )

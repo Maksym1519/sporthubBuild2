@@ -347,21 +347,7 @@ const Main = () => {
                   </div>
                 </div>
               </swiper-slide>
-              {/* <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore3} alt="video" />
-                  </div>
-                </div>
-              </swiper-slide>
-              <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore3} alt="video" />
-                  </div>
-                </div>
-              </swiper-slide> */}
-              </swiper-container>
+             </swiper-container>
           </div>
           {isMobile ? (
           <h3 className={m.title}>
@@ -412,12 +398,17 @@ const Main = () => {
               <img src={Video2} alt="video" />
             </div>
             <div className={m.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
@@ -442,12 +433,17 @@ const Main = () => {
               <img src={Video3} alt="video" />
             </div>
             <div className={m.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
@@ -472,12 +468,17 @@ const Main = () => {
               <img src={Video4} alt="video" />
             </div>
             <div className={m.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
@@ -502,12 +503,17 @@ const Main = () => {
               <img src={Video5} alt="video" />
             </div>
             <div className={m.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
@@ -532,12 +538,17 @@ const Main = () => {
               <img src={Video6} alt="video" />
             </div>
             <div className={m.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext

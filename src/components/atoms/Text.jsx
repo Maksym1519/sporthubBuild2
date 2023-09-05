@@ -24,10 +24,23 @@ export const Text14500 = (props) => {
 export const Text16500 = (props) => {
     const styled = {
         color: props.color,
-        lineHeight: props.lineHeight
+        lineHeight: props.lineHeight,
+        textDecoration: props.underline ? 'underline' : 'none',
     }
     return (
         <div className={t.text16500__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
+export const Text16500R = (props) => {
+    const styled = {
+        color: props.color,
+        lineHeight: props.lineHeight,
+        textDecoration: props.underline ? 'underline' : 'none',
+    }
+    return (
+        <div className={t.text16500R__wrapper} style={styled}>
             {props.text}
         </div>
     )
@@ -52,10 +65,23 @@ export const Text18500 = (props) => {
         </div>
     )
 }
+export const Text32500 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text32500__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
 //--------------------------------------------------------------------------------
 export const Text14400 = (props) => {
     const styled = {
-        color: props.color
+        color: props.color,
+        textAlign: props.textAlign,
+        maxWidth: props.maxWidth,
+        marginBottom: props.marginBottom
     }
     return (
         <div className={t.text14400__wrapper} style={styled}>
@@ -80,6 +106,16 @@ export const Text16400 = (props) => {
     }
     return (
         <div className={t.text16400__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
+export const Text16400R = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text16400R__wrapper} style={styled}>
             {props.text}
         </div>
     )
@@ -111,6 +147,17 @@ export const Text12600 = (props) => {
     }
     return (
         <div className={t.text12600__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
+//------------------------------------------------------------------------
+export const Text14700 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text14700__wrapper} style={styled}>
             {props.text}
         </div>
     )

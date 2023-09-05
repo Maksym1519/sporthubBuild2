@@ -16,6 +16,12 @@
     font-size: 16px;
     line-height: normal;
 }
+.text16500R__wrapper {
+    color: #fff;
+    font-family: 'Roboto-500';
+    font-size: 16px;
+    line-height: normal;
+}
 .text24500__wrapper {
     color: #fff;
     font-family: 'Uto-500';
@@ -28,16 +34,28 @@
     font-size: 18px;
     line-height: normal;
 }
+.text32500__wrapper {
+    color: #fff;
+    font-family: 'Uto-500';
+    font-size: 32px;
+    line-height: normal;
+}
 //---------------------------------------------------------------
 .text14400__wrapper {
     color: #fff;
     font-family: 'Uto-400';
     font-size: 14px;
     line-height: normal;
-}
+    }
 .text16400__wrapper {
     color: #fff;
     font-family: 'Uto-400';
+    font-size: 16px;
+    line-height: normal;
+}
+.text16400R__wrapper {
+    color: #fff;
+    font-family: 'Roboto-400';
     font-size: 16px;
     line-height: normal;
 }
@@ -64,5 +82,18 @@
     color: #fff;
     font-family: 'Uto-600';
     font-size: 12px;
+    line-height: normal;
+}
+.text16600__wrapper {
+    color: #fff;
+    font-family: 'Uto-600';
+    font-size: 16px;
+    line-height: normal;
+}
+//---------------------------------------------------
+.text14700__wrapper {
+    color: #fff;
+    font-family: 'Uto-700';
+    font-size: 14px;
     line-height: normal;
 }

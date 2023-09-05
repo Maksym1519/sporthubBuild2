@@ -8,6 +8,11 @@ import "./fonts.scss";
 import "./style.scss";
 const MainLazy = React.lazy(() => import("./components/pages/Main/Main"));
 const UserLatestLazy = React.lazy(() => import("./components/pages/UserLatest/UserLatest"));
+const SignInLazy = React.lazy(() => import("./components/pages/SignIn/SignIn"));
+const SignUpLazy = React.lazy(() => import("./components/pages/SignUp/SignUp"));
+const ForgotPasswordLazy = React.lazy(() => import("./components/pages/ForgotPassword/ForgotPassword"));
+const CheckInboxLazy = React.lazy(() => import("./components/pages/CheckInbox/CheckInbox"));
+const RestorePasswordLazy = React.lazy(() => import("./components/pages/RestorePassword/RestorePassword"));
 //---------------------------------------------------------
 import { updateScreenWidth } from './features/headerSlice';
 window.addEventListener('resize', () => {
@@ -23,6 +28,11 @@ const App = () => {
       <nav>
         <Link to="/">Home</Link>
         <Link to="/UserLatest">UserLatest</Link>
+        <Link to="/SignIn">SignIn</Link>
+        <Link to="/SignUp">SignUp</Link>
+        <Link to="/ForgotPassword">ForgotPassword</Link>
+        <Link to="/CheckInbox">CheckInbox</Link>
+        <Link to="/RestorePassword">RestorePassword</Link>
         
          </nav>
       <Routes>
@@ -39,6 +49,46 @@ const App = () => {
           element={
             <React.Suspense>
               <UserLatestLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/SignIn"
+          element={
+            <React.Suspense>
+              <SignInLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/SignUp"
+          element={
+            <React.Suspense>
+              <SignUpLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/ForgotPassword"
+          element={
+            <React.Suspense>
+              <ForgotPasswordLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/CheckInbox"
+          element={
+            <React.Suspense>
+              <CheckInboxLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/RestorePassword"
+          element={
+            <React.Suspense>
+              <RestorePasswordLazy />
             </React.Suspense>
           }
         ></Route>

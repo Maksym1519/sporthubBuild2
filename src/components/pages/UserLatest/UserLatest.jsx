@@ -258,8 +258,7 @@ const UserLatest = () => {
         </div>
         <div className={ul.videos__wrapper}>
           {/* //item1--------------------------------------------------------------- */}
-    {/* //item4--------------------------------------------------------------- */}
-          <div className={ul.videos__body}>
+        <div className={ul.videos__body}>
           <div className={ul.item}>
             <div className={ul.video__wrapper}>
               <img src={Video1} alt="video" />
@@ -294,18 +293,23 @@ const UserLatest = () => {
               />
             </div>
           </div>
-          {/* //item5--------------------------------------------------------------- */}
+          {/* //item2--------------------------------------------------------------- */}
           <div className={ul.item}>
             <div className={ul.video__wrapper}>
               <img src={Video2} alt="video" />
             </div>
             <div className={ul.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
@@ -324,18 +328,23 @@ const UserLatest = () => {
               />
             </div>
           </div>
-          {/* //item6--------------------------------------------------------------- */}
+          {/* //item3--------------------------------------------------------------- */}
           <div className={ul.item}>
             <div className={ul.video__wrapper}>
               <img src={Video3} alt="video" />
             </div>
             <div className={ul.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
@@ -354,18 +363,23 @@ const UserLatest = () => {
               />
             </div>
           </div>
-          {/* //item7--------------------------------------------------------------- */}
+          {/* //item4--------------------------------------------------------------- */}
           <div className={ul.item}>
             <div className={ul.video__wrapper}>
               <img src={Video4} alt="video" />
             </div>
             <div className={ul.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
@@ -384,18 +398,23 @@ const UserLatest = () => {
               />
             </div>
           </div>
-          {/* //item8--------------------------------------------------------------- */}
+          {/* //item5--------------------------------------------------------------- */}
           <div className={ul.item}>
             <div className={ul.video__wrapper}>
               <img src={Video5} alt="video" />
             </div>
             <div className={ul.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
@@ -414,18 +433,23 @@ const UserLatest = () => {
               />
             </div>
           </div>
-          {/* //item9--------------------------------------------------------------- */}
+          {/* //item6--------------------------------------------------------------- */}
           <div className={ul.item}>
             <div className={ul.video__wrapper}>
               <img src={Video6} alt="video" />
             </div>
             <div className={ul.video__description}>
-              <ColumnTemplate
-                row1={
-                  <Text16500
+            <ColumnTemplate
+                    row1={
+                    isMobile ? (
+                   <Text14500
                     text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="18px"
+                    lineHeight="16px"
                   />
+                   ) : <Text16500
+                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                   lineHeight="18px"
+                 />
                 }
                 row2={
                   <Avatext
