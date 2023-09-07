@@ -1,0 +1,15 @@
+{
+  "kind": "singleType",
+  "collectionName": "texts",
+  "info": {
+    "singularName": "text",
+    "pluralName": "texts",
+    "displayName": "text",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {}
+}
