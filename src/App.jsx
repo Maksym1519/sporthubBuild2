@@ -15,6 +15,7 @@ const CheckInboxLazy = React.lazy(() => import("./components/pages/CheckInbox/Ch
 const RestorePasswordLazy = React.lazy(() => import("./components/pages/RestorePassword/RestorePassword"));
 //---------------------------------------------------------
 import { updateScreenWidth } from './features/headerSlice';
+import TestStrapi from "./components/pages/Test/Test";
 window.addEventListener('resize', () => {
   const newScreenWidth = window.innerWidth;
   store.dispatch(updateScreenWidth(newScreenWidth));
@@ -33,6 +34,7 @@ const App = () => {
         <Link to="/ForgotPassword">ForgotPassword</Link>
         <Link to="/CheckInbox">CheckInbox</Link>
         <Link to="/RestorePassword">RestorePassword</Link>
+        <Link to="/Test">Test</Link>
         
          </nav>
       <Routes>
@@ -89,6 +91,14 @@ const App = () => {
           element={
             <React.Suspense>
               <RestorePasswordLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/Test"
+          element={
+            <React.Suspense>
+              <TestStrapi />
             </React.Suspense>
           }
         ></Route>

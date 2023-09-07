@@ -105,19 +105,19 @@ const Main = () => {
 
   const mainSlider = useRef("none");
 
-  useEffect(() => {
-    Object.assign(mainSlider.current, params);
-    mainSlider.current.initialize();
-  }, []);
+  // useEffect(() => {
+  //   Object.assign(mainSlider.current, params);
+  //   mainSlider.current.initialize();
+  // }, []);
 
   //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
-  //---------------------------------------------------------
+  
   return (
     <div className={m.main__wrapper}>
       <Header />
-      <div className={m.container}>
+       <div className={m.container}>
         <div className={m.sidebar__wrapper}>
           <div className={m.switcher__wrapper}>
             <div

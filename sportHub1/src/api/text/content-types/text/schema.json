@@ -11,5 +11,11 @@
     "draftAndPublish": true
   },
   "pluginOptions": {},
-  "attributes": {}
+  "attributes": {
+    "greet": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
 }
