@@ -17,8 +17,8 @@ export const Button18044 = (props) => {
         borderRadius: props.borderRadius
     }
     return (
-        <div className={b.wrapper__18044} style={styled}>
+        <button className={b.wrapper__18044} style={styled} >
            {props.text}
-        </div>
+        </button>
     )
 }

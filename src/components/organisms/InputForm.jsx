@@ -16,8 +16,9 @@ const InputForm = (props) => {
     const styled = {
         marginBottom: props.marginBottom,
        }
+      
     return (
-        <div className={i.signInForm__body} >
+        <div className={i.signInForm__body}>
         <h3 className={i.title} style={styled}>{props.title}</h3>
         {props.description}
         <div className={i.inputs__wrapper}>
@@ -34,7 +35,7 @@ const InputForm = (props) => {
         </div>
         <div className={i.terms}>By proceeding, you agree to our <span className={i.underline}>Terms of Use</span> and <span className={i.underline}>Privacy Policy</span></div>
      </div>
-    )
+      )
 }
 
 export default InputForm;
