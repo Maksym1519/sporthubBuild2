@@ -1,9 +1,15 @@
 import s from "./signIn.module.scss";
-import InputForm from "../../organisms/InputForm";
-import { Text36500 } from "../../atoms/Text";
-import { Text14400 } from "../../atoms/Text";
-import { Text16600 } from "../../atoms/Text";
-import { Text32500 } from "../../atoms/Text";
+import { useDispatch, useSelector } from "react-redux";
+import { showSignInForm, showSignUpForm, showForgotPasswordForm,showCheckInboxForm } from '../../../features/signInSlice';
+import axios from "axios";
+import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import SignInFunction from "../../functions/signInFunction";
+import SignInForm from "../../organisms/SignInForm";
+import SignUpForm from "../../organisms/SignUpForm";
+import ForgotPasswordForm from "../../organisms/ForgotPasswordForm";
+import CheckInboxForm from "../../organisms/CheckInboxForm";
+import RestorePasswordForm from "../../organisms/RestorePasswordForm";
 import Img1 from "../../../images/signIn1.webp";
 import Img2 from "../../../images/signIn2.webp";
 import Img3 from "../../../images/signIn3.webp";
@@ -16,6 +22,9 @@ import Blur from "../../../images/blur-signIn.svg";
 import Blur2 from "../../../images/signIn-blur2.svg";
 import Logo from '../../../images/mobile-logo.svg';
 
+
+
+
 //redux-----------------------------------------------------
 import {useAppDispatch, useAppSelector} from '../../../App/hooks';
 import { increment, incrementByAmount } from '../../../features/counter/counterSlice';
@@ -25,8 +34,25 @@ const SignIn = () => {
     //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
-  //---------------------------------------------------------
-  return (
+ //redux-forms--------------------------------------------------------------------
+  const dispatch = useDispatch();
+  const currentComponent = useSelector((state) => state.signIn.currentComponent);
+console.log(currentComponent)
+  
+  const handleSignInClick = () => {
+    dispatch(showSignInForm());
+  };
+
+  const handleSignUpClick = () => {
+    dispatch(showSignUpForm());
+  };
+  const handleForgotPasswordClick = () => {
+    dispatch(showForgotPasswordForm());
+  };
+  const handlecheckInboxClick = () => {
+    dispatch(showCheckInboxForm());
+  };
+   return (
     <div className={s.signIn__wrapper}>
       {isMobile ? (<img src={Logo} className={s.logo}/>) : (' ')}
       <div className={s.signIn__container}>
@@ -50,27 +76,14 @@ const SignIn = () => {
           </div>
         </div>)
         }
-        <div className={s.signInForm__wrapper}>
-          <InputForm
-            
-            title= {isMobile ? <Text32500 text="Sign in" /> : <Text36500 text="Sign in" />}
-
-            marginBottom='49px'
-            label={<Text14400 text="Email" color="rgba(153, 153, 153, 1)" />}
-            placeholder="Your Email"
-            row={true}
-            rowEye={true}
-            forgot='Forgot password?'
-            label2={<Text14400 text="Password" color="rgba(153, 153, 153, 1)" />}
-            placeholder2="Your password"
-            button={true}
-            buttonText={<Text16600 text='Sign in' />}
-            reminder={true}
-            reminderText1='Don’t have an account?'
-            reminderText2='Sign up'
-          />
-          
-        </div>
+       {/* //forms--------------------------------------------------------------------------- */}
+         {currentComponent === 'signUp' && <SignUpForm click={handleSignInClick} />}
+         {currentComponent === 'signIn' && <SignInForm click={handleSignUpClick} forgotPassword={handleForgotPasswordClick}/>}
+         {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick}/>}
+         {currentComponent === 'checkInbox' && <CheckInboxForm click={handleSignUpClick}/>}
+         {currentComponent === 'restorePassword' && <RestorePasswordForm />}
+         
+       {/* //-------------------------------------------------------------------------------- */}
       </div>
       <img src={Blur} alt="blur" className={s.blur} />
       <img src={Blur2} alt="blur" className={s.blur2} />

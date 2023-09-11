@@ -1,11 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
 import screenWidthReducer from '../features/headerSlice'; 
+import rootReducer from './rootReducer';
 
 
-export default configureStore({
-  reducer: {
-    counter: counterReducer,
-    screenWidth: screenWidthReducer,
-  }
+const store = configureStore({
+  reducer: rootReducer
 })
+export default store;

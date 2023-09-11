@@ -105,10 +105,10 @@ const Main = () => {
 
   const mainSlider = useRef("none");
 
-  // useEffect(() => {
-  //   Object.assign(mainSlider.current, params);
-  //   mainSlider.current.initialize();
-  // }, []);
+  useEffect(() => {
+    Object.assign(mainSlider.current, params);
+    mainSlider.current.initialize();
+  }, []);
 
   //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);

@@ -31,6 +31,7 @@ const App = () => {
         <Link to="/UserLatest">UserLatest</Link>
         <Link to="/SignIn">SignIn</Link>
         <Link to="/SignUp">SignUp</Link>
+        <br></br>
         <Link to="/ForgotPassword">ForgotPassword</Link>
         <Link to="/CheckInbox">CheckInbox</Link>
         <Link to="/RestorePassword">RestorePassword</Link>

@@ -1,12 +1,18 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
   entry: path.resolve(__dirname, '..', './src/index.jsx'),
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', '.css', '.scss'],
-  },
+    fallback: {
+      "fs": false,
+      "os": false,
+      "path": false,
+    }
+    },
   module: {
       rules: [
       {
@@ -48,6 +54,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '..', './src/index.html'),
     }),
-  ],
-  stats: 'errors-only',
-}
+    new NodePolyfillPlugin()
+  ]
+ 
+  }
