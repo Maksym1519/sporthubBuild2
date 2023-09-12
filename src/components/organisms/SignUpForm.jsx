@@ -1,5 +1,8 @@
 import s from './signUpForm.module.scss';
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { showPassword, hidePassword } from '../../features/inputTypeSlice';
+import { useAppDispatch, useAppSelector } from "../../App/hooks";
 import axios from "axios";
 import { Text36500 } from "../atoms/Text";
 import { Text14400 } from "../atoms/Text";
@@ -75,11 +78,30 @@ const SignUpForm = (props) => {
       console.error("Error registering user:", error);
     }
   };
+  //isMobile-----------------------------------------------------------
+  const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
+  const isMobile = screenWidth <= 1024;
+  //redux-forms--------------------------------------------------------------------
+  const dispatch = useDispatch();
+  const isPasswordVisible = useSelector((state) => state.inputType.isPasswordVisible);
+  const togglePasswordVisibility = () => {
+    if (isPasswordVisible) {
+      dispatch(hidePassword());
+    } else {
+      dispatch(showPassword());
+    }
+  };
     return (
         <div className={s.signUpForm__wrapper}>
+          {isMobile ? (
+        <h3 className={s.title}>
+          <Text32500 text="Sign up" />
+        </h3>
+      ) : (
         <h3 className={s.title}>
           <Text36500 text="Sign up" />
         </h3>
+      )}
         <form onSubmit={handleSubmit} className={s.signUp__form}>
           <div className={s.inputs__wrapper}>
             <div className={s.input__wrapper}>
@@ -126,14 +148,14 @@ const SignUpForm = (props) => {
                 <Text14400 text="Password" color="rgba(153, 153, 153, 1)" />
               </span>
               <input
-                type="text"
+                type={isPasswordVisible ? 'text' : 'password'}
                 className={s.input}
                 placeholder={placeholderData.password}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
               />
-              <img src={Eye} alt="eye" className={s.eye} />
+              <img src={Eye} alt="eye" className={s.eye}  onClick={togglePasswordVisibility}/>
             </div>
         {/* <Link to='/SignIn'> */}
             <button className={s.button__wrapper} type="submit">

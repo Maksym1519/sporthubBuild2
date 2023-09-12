@@ -67,7 +67,8 @@ export const Text18500 = (props) => {
 }
 export const Text32500 = (props) => {
     const styled = {
-        color: props.color
+        color: props.color,
+        textAlign: props.textAlign
     }
     return (
         <div className={t.text32500__wrapper} style={styled}>

@@ -1,6 +1,7 @@
 import s from "./checkInboxForm.module.scss";
 import axios from "axios";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../App/hooks";
 import { Link, useHistory } from "react-router-dom";
 import InputForm from "../../components/organisms/InputForm";
 //import SignInFunction from "../../functions/signInFunction";
@@ -16,12 +17,22 @@ import { Text14700 } from "../atoms/Text";
 import Eye from "../../images/eye.svg";
 
 const CheckInboxForm = (props) => {
+  //isMobile-----------------------------------------------------------
+  const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
+  const isMobile = screenWidth <= 1024;
+
   return (
     <div className={s.signInForm__wrapper}>
       <form className={s.forgotPassword__form}>
+      {isMobile ? (
+        <h3 className={s.title}>
+          <Text32500 text="Please check your inbox" textAlign='center'/>
+        </h3>
+      ) : (
         <h3 className={s.title}>
           <Text36500 text="Please check your inbox" />
         </h3>
+      )}
         <div className={s.text}>
           Check your email<span className={s.text__bold}> name@gmail.com </span>
           for instructions on how to reset your password. If it doesn’t appear

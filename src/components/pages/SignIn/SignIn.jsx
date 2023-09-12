@@ -1,8 +1,8 @@
 import s from "./signIn.module.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { showSignInForm, showSignUpForm, showForgotPasswordForm,showCheckInboxForm } from '../../../features/signInSlice';
+import { showSignInForm, showSignUpForm, showForgotPasswordForm,showCheckInboxForm,showRestorePasswordForm } from '../../../features/signInSlice';
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import SignInFunction from "../../functions/signInFunction";
 import SignInForm from "../../organisms/SignInForm";
@@ -51,7 +51,15 @@ console.log(currentComponent)
   };
   const handlecheckInboxClick = () => {
     dispatch(showCheckInboxForm());
+
+    // Перейти на 'restorePassword' через 5 секунд
+    setTimeout(() => {
+      dispatch(showRestorePasswordForm());
+    }, 5000);
   };
+
+//setTimeOut-------------------------------------------------------
+
    return (
     <div className={s.signIn__wrapper}>
       {isMobile ? (<img src={Logo} className={s.logo}/>) : (' ')}
@@ -80,8 +88,8 @@ console.log(currentComponent)
          {currentComponent === 'signUp' && <SignUpForm click={handleSignInClick} />}
          {currentComponent === 'signIn' && <SignInForm click={handleSignUpClick} forgotPassword={handleForgotPasswordClick}/>}
          {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick}/>}
-         {currentComponent === 'checkInbox' && <CheckInboxForm click={handleSignUpClick}/>}
-         {currentComponent === 'restorePassword' && <RestorePasswordForm />}
+         {currentComponent === 'checkInbox' && <CheckInboxForm />}
+         {currentComponent === 'restorePassword' && <RestorePasswordForm />} 
          
        {/* //-------------------------------------------------------------------------------- */}
       </div>

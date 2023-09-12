@@ -2,6 +2,7 @@ import s from './forgotPasswordForm.module.scss';
 import axios from "axios";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../App/hooks";
 import InputForm from "../../components/organisms/InputForm";
 //import SignInFunction from "../../functions/signInFunction";
 import { Button18044 } from "../atoms/Buttons";
@@ -15,15 +16,24 @@ import { Text32500 } from "../atoms/Text";
 import Eye from '../../images/eye.svg';
 
 const ForgotPasswordForm = (props) => {
-  
+   //isMobile-----------------------------------------------------------
+   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
+   const isMobile = screenWidth <= 1024;
+ 
      
     return (
         <div className={s.signInForm__wrapper}>
            <form className={s.forgotPassword__form} >
-           <h3 className={s.title}>
-            <Text36500 text="Forgot your password?" />
-          </h3>
-          <div className={s.text}><Text14400 text='Enter your email address and well send you instructions on how to reset your password' textAlign='center' maxWidth='90%' color='rgba(255, 255, 255, 0.5)'/></div>
+           {isMobile ? (
+        <h3 className={s.title}>
+          <Text32500 text="Forgot your password?" textAlign='center'/>
+        </h3>
+      ) : (
+        <h3 className={s.title}>
+          <Text36500 text="Forgot your password?" />
+        </h3>
+      )}
+          <div className={s.text}><Text14400 text='Enter your email address and well send you instructions on how to reset your password' textAlign='center' maxWidth='100%' color='rgba(255, 255, 255, 0.5)'/></div>
             <div className={s.inputs__wrapper}>
              <div className={s.input__wrapper}>
                 <span className={s.label}>

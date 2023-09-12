@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "show_mores",
+  "info": {
+    "singularName": "show-more",
+    "pluralName": "show-mores",
+    "displayName": "showMore"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "showMore": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
+    }
+  }
+}
