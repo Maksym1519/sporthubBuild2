@@ -3,9 +3,13 @@ import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import m from "./main.module.scss";
 import { useState, useEffect, useRef } from "react";
-import {useAppDispatch, useAppSelector} from '../../../App/hooks';
-import { increment, incrementByAmount } from '../../../features/counter/counterSlice';
-import { updateScreenWidth } from '../../../features/headerSlice';
+import { useAppDispatch, useAppSelector } from "../../../App/hooks";
+import {
+  increment,
+  incrementByAmount,
+} from "../../../features/counter/counterSlice";
+import { updateScreenWidth } from "../../../features/headerSlice";
+import { getShowMore } from "../../functions/getShowMore";
 import { Text14400 } from "../../atoms/Text";
 import { Text16400 } from "../../atoms/Text";
 import { Text12600 } from "../../atoms/Text";
@@ -47,6 +51,7 @@ import "swiper/scss/effect-fade";
 import "swiper/scss/effect-cards";
 import "swiper/css/effect-creative";
 import "swiper/swiper-bundle.css";
+register();
 //------------------------------------------------------------------------
 
 const Main = () => {
@@ -63,61 +68,84 @@ const Main = () => {
     setShowMore(!showMore);
   };
   //slider---------------------------------------------------
-  register();
-  const params = {
-    injectStyles: [
-      `
-      swiper-container {
-        width: 100%;
-        justify-self: flex-start;
-        }
-      .swiper-wrapper {
-        max-width: 100%;
-        display: flex;
-        align-items: center;
-        column-gap: 24px;
-        justify-self: flex-start;
-        overflow: hidden;
-         }
-        swiper-slide {
-        max-width: 368px;
-      }
-      @media (max-width: 767px) {
-        swiper-slide {
-        width: 214px;
-      }
-      swiper-container {
-        width: 100%;
-        justify-self: flex-start;
-        }
-      .swiper-wrapper {
-        display: flex;
-        align-items: center;
-        column-gap: 16px;
-        justify-self: flex-start;
-        }
-        .swiper-slide-active {
-          min-width: 214px;
-        }
-                `,
-    ],
-  };
-
-  const mainSlider = useRef("none");
-
-  useEffect(() => {
-    Object.assign(mainSlider.current, params);
-    mainSlider.current.initialize();
-  }, []);
+  //   const params = {
+  //     injectStyles: [
+  //       `
+  //       swiper-container {
+  //         width: 100%;
+  //         justify-self: flex-start;
+  //         }
+  //       .swiper-wrapper {
+  //         max-width: 100%;
+  //         display: flex;
+  //         align-items: center;
+  //         column-gap: 24px;
+  //         justify-self: flex-start;
+  //         overflow: hidden;
+  //          }
+  //         SwiperSlide {
+  //         max-width: 368px;
+  //       }
+  //       @media (max-width: 767px) {
+  //         SwiperSlide {
+  //         width: 214px;
+  //       }
+  //       swiper-container {
+  //         width: 100%;
+  //         justify-self: flex-start;
+  //         }
+  //       .swiper-wrapper {
+  //         display: flex;
+  //         align-items: center;
+  //         column-gap: 16px;
+  //         justify-self: flex-start;
+  //         }
+  //         .SwiperSlide-active {
+  //           min-width: 214px;
+  //         }
+  //                 `,
+  //     ],
+  //   };
+  //  const mainSlider = useRef("none");
+  // useEffect(() => {
+  //   Object.assign(mainSlider.current, params);
+  //   mainSlider.current.initialize();
+  // }, []);
 
   //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
-  
+  //strapi-getShowMore---------------------------------------------
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const getShowMoreFromApi = async () => {
+      try {
+        const result = await getShowMore(); // Вызываем функцию для получения данных
+        setData(result);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    getShowMoreFromApi();
+  }, []);
+
+  if (loading) {
+    return <p>Загрузка...</p>;
+  }
+
+  if (error) {
+    return <p>Ошибка: {error}</p>;
+  }
+
   return (
     <div className={m.main__wrapper}>
       <Header />
-       <div className={m.container}>
+      <div className={m.container}>
         <div className={m.sidebar__wrapper}>
           <div className={m.switcher__wrapper}>
             <div
@@ -305,268 +333,292 @@ const Main = () => {
         </div>
         <div className={m.videos__wrapper}>
           {/* //item1--------------------------------------------------------------- */}
-          <div className={m.slider__wrapper}>
-            <swiper-container
-              init="false"
-              ref={mainSlider}
-              slides-per-view="1.6"
-              speed="500"
-              loop="true"
-              css-mode="true"
-              class="mainSlider"
-              // swiper={{
-              //   // Добавьте параметры для свайпа
-              //   touchEventsTarget: 'mainSlider', // Цель для свайпа
-              //   simulateTouch: true, // Симулировать свайп на устройствах без поддержки тач-событий
-              //   allowTouchMove: true, // Разрешить свайп
-              // }}
-            >
-              <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore1} alt="video" />
-                  </div>
+          {data.map((item) => (
+          <div className={m.slider__wrapper} key={item}>
+            <Swiper
+              //init="false"
+              //ref={mainSlider}
+              slidesPerView={1}
+              speed={1000}
+              loop={true}
+              //css-mode="true"
+              //class="mainSlider"
+              >
+              <SwiperSlide className={m.slide__wrapper} key={item.id}>
+                <div className={m.video__wrapper}>
+                  <img src={item.attributes.title} alt="video" />
+                 </div>
+                <div className={m.video__wrapper}>
+                  <img src={VideoMore2} alt="video" />
                 </div>
-              </swiper-slide>
-
-              {/* //item2--------------------------------------------------------------- */}
-
-              <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore2} alt="video" />
-                  </div>
+                <div className={m.video__wrapper}>
+                  <img src={VideoMore2} alt="video" />
                 </div>
-              </swiper-slide>
-
-              {/* //item3--------------------------------------------------------------- */}
-              <swiper-slide>
-                <div className={m.item + " " + m.itemMore}>
-                  <div className={m.video__wrapper}>
-                    <img src={VideoMore3} alt="video" />
-                  </div>
+              </SwiperSlide>
+              <SwiperSlide className={m.slide__wrapper}>
+                <div className={m.video__wrapper}>
+                  <img src={VideoMore1} alt="video" />
                 </div>
-              </swiper-slide>
-             </swiper-container>
-          </div>
-          {isMobile ? (
-          <h3 className={m.title}>
-            <Text18500 text="Video List" />
-          </h3>) : ( <h3 className={m.title}>
-            <Text24500 text="Video List" />
-          </h3>)
-          }
+                <div className={m.video__wrapper}>
+                  <img src={VideoMore2} alt="video" />
+                </div>
+                <div className={m.video__wrapper}>
+                  <img src={VideoMore2} alt="video" />
+                </div>
+              </SwiperSlide>
+           </Swiper>
+         </div>
+          ))} 
+           {isMobile ? (
+            <h3 className={m.title}>
+              <Text18500 text="Video List" />
+            </h3>
+          ) : (
+            <h3 className={m.title}>
+              <Text24500 text="Video List" />
+            </h3>
+          )}
           {/* //item4--------------------------------------------------------------- */}
           <div className={m.videos__body}>
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
-              <img src={Video1} alt="video" />
-            </div>
-            <div className={m.video__description}>
-              <ColumnTemplate
-                    row1={
+            <div className={m.item}>
+              <div className={m.video__wrapper}>
+                <img src={Video1} alt="video" />
+              </div>
+              <div className={m.video__description}>
+                <ColumnTemplate
+                  row1={
                     isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={Ava1}
-                    text1={
-                      <Text14400
-                        text="Adan Lauzon"
-                        color="rgba(153, 153, 153, 1)"
+                      <Text14500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="16px"
                       />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
+                    ) : (
+                      <Text16500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="18px"
+                      />
+                    )
+                  }
+                  row2={
+                    <Avatext
+                      img={Ava1}
+                      text1={
+                        <Text14400
+                          text="Adan Lauzon"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                      text2={
+                        <Text14400
+                          text="3h ago"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                    />
+                  }
+                />
+              </div>
             </div>
-          </div>
-          {/* //item5--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
-              <img src={Video2} alt="video" />
-            </div>
-            <div className={m.video__description}>
-            <ColumnTemplate
-                    row1={
+            {/* //item5--------------------------------------------------------------- */}
+            <div className={m.item}>
+              <div className={m.video__wrapper}>
+                <img src={Video2} alt="video" />
+              </div>
+              <div className={m.video__description}>
+                <ColumnTemplate
+                  row1={
                     isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={Ava7}
-                    text1={
-                      <Text14400
-                        text="Savannah Nguyen"
-                        color="rgba(153, 153, 153, 1)"
+                      <Text14500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="16px"
                       />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
+                    ) : (
+                      <Text16500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="18px"
+                      />
+                    )
+                  }
+                  row2={
+                    <Avatext
+                      img={Ava7}
+                      text1={
+                        <Text14400
+                          text="Savannah Nguyen"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                      text2={
+                        <Text14400
+                          text="3h ago"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                    />
+                  }
+                />
+              </div>
             </div>
-          </div>
-          {/* //item6--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
-              <img src={Video3} alt="video" />
-            </div>
-            <div className={m.video__description}>
-            <ColumnTemplate
-                    row1={
+            {/* //item6--------------------------------------------------------------- */}
+            <div className={m.item}>
+              <div className={m.video__wrapper}>
+                <img src={Video3} alt="video" />
+              </div>
+              <div className={m.video__description}>
+                <ColumnTemplate
+                  row1={
                     isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={Ava5}
-                    text1={
-                      <Text14400
-                        text="Theresa Webb"
-                        color="rgba(153, 153, 153, 1)"
+                      <Text14500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="16px"
                       />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
+                    ) : (
+                      <Text16500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="18px"
+                      />
+                    )
+                  }
+                  row2={
+                    <Avatext
+                      img={Ava5}
+                      text1={
+                        <Text14400
+                          text="Theresa Webb"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                      text2={
+                        <Text14400
+                          text="3h ago"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                    />
+                  }
+                />
+              </div>
             </div>
-          </div>
-          {/* //item7--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
-              <img src={Video4} alt="video" />
-            </div>
-            <div className={m.video__description}>
-            <ColumnTemplate
-                    row1={
+            {/* //item7--------------------------------------------------------------- */}
+            <div className={m.item}>
+              <div className={m.video__wrapper}>
+                <img src={Video4} alt="video" />
+              </div>
+              <div className={m.video__description}>
+                <ColumnTemplate
+                  row1={
                     isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={Ava2}
-                    text1={
-                      <Text14400
-                        text="Kristin Watson"
-                        color="rgba(153, 153, 153, 1)"
+                      <Text14500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="16px"
                       />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
+                    ) : (
+                      <Text16500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="18px"
+                      />
+                    )
+                  }
+                  row2={
+                    <Avatext
+                      img={Ava2}
+                      text1={
+                        <Text14400
+                          text="Kristin Watson"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                      text2={
+                        <Text14400
+                          text="3h ago"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                    />
+                  }
+                />
+              </div>
             </div>
-          </div>
-          {/* //item8--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
-              <img src={Video5} alt="video" />
-            </div>
-            <div className={m.video__description}>
-            <ColumnTemplate
-                    row1={
+            {/* //item8--------------------------------------------------------------- */}
+            <div className={m.item}>
+              <div className={m.video__wrapper}>
+                <img src={Video5} alt="video" />
+              </div>
+              <div className={m.video__description}>
+                <ColumnTemplate
+                  row1={
                     isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={Ava7}
-                    text1={
-                      <Text14400
-                        text="Jenny Wilson"
-                        color="rgba(153, 153, 153, 1)"
+                      <Text14500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="16px"
                       />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
+                    ) : (
+                      <Text16500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="18px"
+                      />
+                    )
+                  }
+                  row2={
+                    <Avatext
+                      img={Ava7}
+                      text1={
+                        <Text14400
+                          text="Jenny Wilson"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                      text2={
+                        <Text14400
+                          text="3h ago"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                    />
+                  }
+                />
+              </div>
             </div>
-          </div>
-          {/* //item9--------------------------------------------------------------- */}
-          <div className={m.item}>
-            <div className={m.video__wrapper}>
-              <img src={Video6} alt="video" />
-            </div>
-            <div className={m.video__description}>
-            <ColumnTemplate
-                    row1={
+            {/* //item9--------------------------------------------------------------- */}
+            <div className={m.item}>
+              <div className={m.video__wrapper}>
+                <img src={Video6} alt="video" />
+              </div>
+              <div className={m.video__description}>
+                <ColumnTemplate
+                  row1={
                     isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={Ava9}
-                    text1={
-                      <Text14400
-                        text="Darlene Robertson"
-                        color="rgba(153, 153, 153, 1)"
+                      <Text14500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="16px"
                       />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
+                    ) : (
+                      <Text16500
+                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                        lineHeight="18px"
+                      />
+                    )
+                  }
+                  row2={
+                    <Avatext
+                      img={Ava9}
+                      text1={
+                        <Text14400
+                          text="Darlene Robertson"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                      text2={
+                        <Text14400
+                          text="3h ago"
+                          color="rgba(153, 153, 153, 1)"
+                        />
+                      }
+                    />
+                  }
+                />
+              </div>
             </div>
-          </div>
           </div>
           {/* //item--------------------------------------------------------------- */}
         </div>

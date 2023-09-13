@@ -4,7 +4,8 @@
   "info": {
     "singularName": "show-more",
     "pluralName": "show-mores",
-    "displayName": "showMore"
+    "displayName": "showMore",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,14 +13,18 @@
   "pluginOptions": {},
   "attributes": {
     "showMore": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true,
+      ]
+    },
+    "title": {
+      "type": "string",
       "required": true
     }
   }

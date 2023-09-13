@@ -42,7 +42,10 @@ html {
     min-width: 0;
 
 }
-
-
+swiper-wrapper {
+	display: flex !important;
+	column-gap: 24px !important;
+	max-width: 100%;
+}
 
 

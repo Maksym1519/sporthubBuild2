@@ -9,8 +9,8 @@ function TestStrapi() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:1337/api/signups");
-
+        const response = await axios.get("http://localhost:1337/api/show-mores?populate[0]=show-mores&populate[1]=show-mores.formats&populate[2]=show-mores.formats.thumbnail");
+// http://localhost:1337/api/show-mores?populate[0]=content&populate[1]=content.formats&populate[2]=content.formats.thumbnail
         if (response.status === 200) {
           setData(response.data.data);
           setLoading(false);
@@ -40,8 +40,8 @@ function TestStrapi() {
     <div>
       {data.map((item) => (
         <div key={item.id}>
-          <h1>{item.attributes.firstName}</h1>
-          <p>{item.attributes.loginInput}</p>
+          <img src={item.attributes.formats.thumbnail} alt="img" />
+          {/* <p>{item.attributes.title}</p> */}
         </div>
       ))}
     </div>
