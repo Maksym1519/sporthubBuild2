@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import m from "./main.module.scss";
@@ -19,27 +21,15 @@ import { Text18500 } from "../../atoms/Text";
 import { Text14500 } from "../../atoms/Text";
 import Avatext from "../../molecules/Avatext";
 import ColumnTemplate from "../../molecules/ColumnTemplate";
+import MenuDots from "../../molecules/MenuDots";
 import Header from "../../organisms/Header";
-import Ava1 from "../../../images/ava24-1.svg";
-import Ava2 from "../../../images/ava24-2.svg";
-import Ava3 from "../../../images/ava24-3.svg";
-import Ava4 from "../../../images/ava24-4.svg";
-import Ava5 from "../../../images/ava24-5.svg";
-import Ava6 from "../../../images/ava24-6.svg";
-import Ava7 from "../../../images/ava24-7.svg";
-import Ava8 from "../../../images/ava24-8.svg";
-import Ava9 from "../../../images/ava24-9.svg";
-import Ava10 from "../../../images/ava24-10.svg";
+import { showHome, showLatest, showViewLater } from "../../../features/videoUserSlice";
+import { AvaArray } from "../../../Data";
+import { VideoUserArray } from "../../../Data";
+import UserLatest from "../../organisms/UserLatest";
+import ViewLater from "../../organisms/ViewLater";
 import Arrow from "../../../images/arrow-down-yellow.svg";
-import VideoMore1 from "../../../images/videoMore1.webp";
-import VideoMore2 from "../../../images/videoMore2.webp";
-import VideoMore3 from "../../../images/videoMore3.webp";
-import Video1 from "../../../images/video1-main.webp";
-import Video2 from "../../../images/video2-main.webp";
-import Video3 from "../../../images/video3-main.webp";
-import Video4 from "../../../images/video4-main.webp";
-import Video5 from "../../../images/video5-main.webp";
-import Video6 from "../../../images/video6-main.webp";
+import More from '../../../images/more.svg'
 //slider------------------------------------------------------------------
 import { Swiper, SwiperSlide } from "swiper/react";
 import { register } from "swiper/element/bundle";
@@ -55,6 +45,12 @@ register();
 //------------------------------------------------------------------------
 
 const Main = () => {
+  const [menuDots, setMenuDots] = useState(false)
+  const toggleMenuDots = () => {
+    setMenuDots(!menuDots)
+  }
+ 
+//-----------------------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
     setActiveIndex(0);
@@ -67,54 +63,26 @@ const Main = () => {
   const toggleMessages = () => {
     setShowMore(!showMore);
   };
-  //slider---------------------------------------------------
-  //   const params = {
-  //     injectStyles: [
-  //       `
-  //       swiper-container {
-  //         width: 100%;
-  //         justify-self: flex-start;
-  //         }
-  //       .swiper-wrapper {
-  //         max-width: 100%;
-  //         display: flex;
-  //         align-items: center;
-  //         column-gap: 24px;
-  //         justify-self: flex-start;
-  //         overflow: hidden;
-  //          }
-  //         SwiperSlide {
-  //         max-width: 368px;
-  //       }
-  //       @media (max-width: 767px) {
-  //         SwiperSlide {
-  //         width: 214px;
-  //       }
-  //       swiper-container {
-  //         width: 100%;
-  //         justify-self: flex-start;
-  //         }
-  //       .swiper-wrapper {
-  //         display: flex;
-  //         align-items: center;
-  //         column-gap: 16px;
-  //         justify-self: flex-start;
-  //         }
-  //         .SwiperSlide-active {
-  //           min-width: 214px;
-  //         }
-  //                 `,
-  //     ],
-  //   };
-  //  const mainSlider = useRef("none");
-  // useEffect(() => {
-  //   Object.assign(mainSlider.current, params);
-  //   mainSlider.current.initialize();
-  // }, []);
+
 
   //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
+
+
+  //redux-state-video-------------------------------------------
+  const dispatch = useAppDispatch()
+  const currentComponent = useSelector((state) => state.videoUser.currentComponent)
+  const handleHomeClick = () => {
+    dispatch(showHome());
+  };
+  const handleLatestClick = () => {
+    dispatch(showLatest());
+  };
+  const handleViewLaterClick = () => {
+    dispatch(showViewLater());
+  };
+  
   //strapi-getShowMore---------------------------------------------
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -141,7 +109,8 @@ const Main = () => {
   if (error) {
     return <p>Ошибка: {error}</p>;
   }
-
+  //video-menu-----------------------------------------------
+  
   return (
     <div className={m.main__wrapper}>
       <Header />
@@ -152,7 +121,7 @@ const Main = () => {
               className={`${m.switcher__item} ${
                 activeIndex === 0 ? m.active : ""
               }`}
-              onClick={() => handleSwitcher(0)}
+              onClick={() => {handleSwitcher(0),handleHomeClick()}}
             >
               <Text16400 text="Home" color="rgba(187, 187, 187, 1)" />
             </div>
@@ -160,7 +129,7 @@ const Main = () => {
               className={`${m.switcher__item} ${
                 activeIndex === 1 ? m.active : ""
               }`}
-              onClick={() => handleSwitcher(1)}
+              onClick={() => {handleSwitcher(1),handleLatestClick()}}
             >
               <Text16400 text="Latest" color="rgba(187, 187, 187, 1)" />
             </div>
@@ -168,7 +137,7 @@ const Main = () => {
               className={`${m.switcher__item} ${
                 activeIndex === 2 ? m.active : ""
               }`}
-              onClick={() => handleSwitcher(2)}
+              onClick={() => {handleSwitcher(2),handleViewLaterClick()}}
             >
               <Text16400 text="View later" color="rgba(187, 187, 187, 1)" />
             </div>
@@ -181,7 +150,7 @@ const Main = () => {
               {/* //item1-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava1}
+                  img={AvaArray[0]}
                   text1={
                     <Text14400
                       text="Marvin McKinney"
@@ -193,7 +162,7 @@ const Main = () => {
               {/* //item2-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava2}
+                  img={AvaArray[1]}
                   text1={
                     <Text14400
                       text="Eleanor Pena"
@@ -206,7 +175,7 @@ const Main = () => {
               {/* //item3-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava3}
+                  img={AvaArray[2]}
                   text1={
                     <Text14400
                       text="Robert Fox"
@@ -218,7 +187,7 @@ const Main = () => {
               {/* //item4-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava4}
+                  img={AvaArray[3]}
                   text1={
                     <Text14400
                       text="Savannah Nguyen"
@@ -230,7 +199,7 @@ const Main = () => {
               {/* //item5-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava5}
+                  img={AvaArray[4]}
                   text1={
                     <Text14400
                       text="Jenny Wilson"
@@ -243,7 +212,7 @@ const Main = () => {
               {/* //item6-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava6}
+                  img={AvaArray[5]}
                   text1={
                     <Text14400
                       text="Guy Hawkins"
@@ -255,7 +224,7 @@ const Main = () => {
               {/* //item7-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava7}
+                  img={AvaArray[6]}
                   text1={
                     <Text14400
                       text="Annette Black"
@@ -267,7 +236,7 @@ const Main = () => {
               {/* //item8-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava8}
+                  img={AvaArray[7]}
                   text1={
                     <Text14400
                       text="Darrell Steward"
@@ -280,7 +249,7 @@ const Main = () => {
               {/* //item9-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava9}
+                  img={AvaArray[8]}
                   text1={
                     <Text14400
                       text="Ralph Edwards"
@@ -292,7 +261,7 @@ const Main = () => {
               {/* //item10-------------------------------------------------------------- */}
               <div className={m.item}>
                 <Avatext
-                  img={Ava10}
+                  img={AvaArray[9]}
                   text1={
                     <Text14400
                       text="Floyd Miles"
@@ -318,7 +287,7 @@ const Main = () => {
               {showMore && (
                 <div className={m.item}>
                   <Avatext
-                    img={Ava10}
+                    img={AvaArray[9]}
                     text1={
                       <Text14400
                         text="Floyd Miles"
@@ -331,10 +300,10 @@ const Main = () => {
             </div>
           </div>
         </div>
+        {/* //redux-video-state-------------------------------------------------------- */}
+        {currentComponent === 'home' &&
         <div className={m.videos__wrapper}>
-          {/* //item1--------------------------------------------------------------- */}
-          {data.map((item) => (
-          <div className={m.slider__wrapper} key={item}>
+          <div className={m.slider__wrapper}>
             <Swiper
               //init="false"
               //ref={mainSlider}
@@ -344,31 +313,30 @@ const Main = () => {
               //css-mode="true"
               //class="mainSlider"
               >
-              <SwiperSlide className={m.slide__wrapper} key={item.id}>
+              <SwiperSlide className={m.slide__wrapper} >
                 <div className={m.video__wrapper}>
-                  <img src={item.attributes.title} alt="video" />
+                  <img src={'http://localhost:1337/uploads/video_More1_6a77d41eb9.webp'} alt="video" />
                  </div>
                 <div className={m.video__wrapper}>
-                  <img src={VideoMore2} alt="video" />
+                  <img src={'http://localhost:1337/uploads/video_More2_6106767343.webp'} alt="video" />
                 </div>
                 <div className={m.video__wrapper}>
-                  <img src={VideoMore2} alt="video" />
+                  <img src={'http://localhost:1337/uploads/video_More3_e0e9300cfd.webp'} alt="video" />
                 </div>
               </SwiperSlide>
               <SwiperSlide className={m.slide__wrapper}>
                 <div className={m.video__wrapper}>
-                  <img src={VideoMore1} alt="video" />
+                  <img src={'http://localhost:1337/uploads/video_More1_6a77d41eb9.webp'} alt="video" />
                 </div>
                 <div className={m.video__wrapper}>
-                  <img src={VideoMore2} alt="video" />
+                  <img src={'http://localhost:1337/uploads/video_More2_6106767343.webp'} alt="video" />
                 </div>
                 <div className={m.video__wrapper}>
-                  <img src={VideoMore2} alt="video" />
+                  <img src={'http://localhost:1337/uploads/video_More3_e0e9300cfd.webp'} alt="video" />
                 </div>
               </SwiperSlide>
            </Swiper>
          </div>
-          ))} 
            {isMobile ? (
             <h3 className={m.title}>
               <Text18500 text="Video List" />
@@ -379,10 +347,10 @@ const Main = () => {
             </h3>
           )}
           {/* //item4--------------------------------------------------------------- */}
-          <div className={m.videos__body}>
-            <div className={m.item}>
+           <div className={m.videos__body}>
+             <div className={m.item}>
               <div className={m.video__wrapper}>
-                <img src={Video1} alt="video" />
+                <img src={VideoUserArray[0]} alt="video" />
               </div>
               <div className={m.video__description}>
                 <ColumnTemplate
@@ -401,7 +369,7 @@ const Main = () => {
                   }
                   row2={
                     <Avatext
-                      img={Ava1}
+                      img={AvaArray[0]}
                       text1={
                         <Text14400
                           text="Adan Lauzon"
@@ -419,10 +387,12 @@ const Main = () => {
                 />
               </div>
             </div>
+         {/* //------------------------------------------------------------------------ */}
+            
             {/* //item5--------------------------------------------------------------- */}
-            <div className={m.item}>
+            <div className={m.item + " " + m.itemMenu}>
               <div className={m.video__wrapper}>
-                <img src={Video2} alt="video" />
+                <img src={VideoUserArray[1]} alt="video" />
               </div>
               <div className={m.video__description}>
                 <ColumnTemplate
@@ -441,7 +411,7 @@ const Main = () => {
                   }
                   row2={
                     <Avatext
-                      img={Ava7}
+                      img={AvaArray[6]}
                       text1={
                         <Text14400
                           text="Savannah Nguyen"
@@ -458,11 +428,15 @@ const Main = () => {
                   }
                 />
               </div>
-            </div>
+              <div className={m.dotsMenu}>
+                <img src={More} alt="menu" onClick={() => toggleMenuDots()}/>
+              </div>
+              {menuDots && <MenuDots />}
+             </div>
             {/* //item6--------------------------------------------------------------- */}
             <div className={m.item}>
               <div className={m.video__wrapper}>
-                <img src={Video3} alt="video" />
+                <img src={VideoUserArray[2]} alt="video" />
               </div>
               <div className={m.video__description}>
                 <ColumnTemplate
@@ -481,7 +455,7 @@ const Main = () => {
                   }
                   row2={
                     <Avatext
-                      img={Ava5}
+                      img={AvaArray[4]}
                       text1={
                         <Text14400
                           text="Theresa Webb"
@@ -502,7 +476,7 @@ const Main = () => {
             {/* //item7--------------------------------------------------------------- */}
             <div className={m.item}>
               <div className={m.video__wrapper}>
-                <img src={Video4} alt="video" />
+                <img src={VideoUserArray[3]} alt="video" />
               </div>
               <div className={m.video__description}>
                 <ColumnTemplate
@@ -521,7 +495,7 @@ const Main = () => {
                   }
                   row2={
                     <Avatext
-                      img={Ava2}
+                      img={AvaArray[1]}
                       text1={
                         <Text14400
                           text="Kristin Watson"
@@ -542,7 +516,7 @@ const Main = () => {
             {/* //item8--------------------------------------------------------------- */}
             <div className={m.item}>
               <div className={m.video__wrapper}>
-                <img src={Video5} alt="video" />
+                <img src={VideoUserArray[4]} alt="video" />
               </div>
               <div className={m.video__description}>
                 <ColumnTemplate
@@ -561,7 +535,7 @@ const Main = () => {
                   }
                   row2={
                     <Avatext
-                      img={Ava7}
+                      img={AvaArray[6]}
                       text1={
                         <Text14400
                           text="Jenny Wilson"
@@ -582,7 +556,7 @@ const Main = () => {
             {/* //item9--------------------------------------------------------------- */}
             <div className={m.item}>
               <div className={m.video__wrapper}>
-                <img src={Video6} alt="video" />
+                <img src={VideoUserArray[5]} alt="video" />
               </div>
               <div className={m.video__description}>
                 <ColumnTemplate
@@ -601,7 +575,7 @@ const Main = () => {
                   }
                   row2={
                     <Avatext
-                      img={Ava9}
+                      img={AvaArray[8]}
                       text1={
                         <Text14400
                           text="Darlene Robertson"
@@ -622,6 +596,10 @@ const Main = () => {
           </div>
           {/* //item--------------------------------------------------------------- */}
         </div>
+          }
+          {currentComponent === 'latest' && <UserLatest />}
+          {currentComponent === 'viewLater' && <ViewLater />}
+        {/* //------------------------------------------------------------------------------------- */}
       </div>
     </div>
   );

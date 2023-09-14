@@ -7,7 +7,6 @@ import store from "./App/store";
 import "./fonts.scss";
 import "./style.scss";
 const MainLazy = React.lazy(() => import("./components/pages/Main/Main"));
-const UserLatestLazy = React.lazy(() => import("./components/pages/UserLatest/UserLatest"));
 const SignInLazy = React.lazy(() => import("./components/pages/SignIn/SignIn"));
 const SignUpLazy = React.lazy(() => import("./components/pages/SignUp/SignUp"));
 const ForgotPasswordLazy = React.lazy(() => import("./components/pages/ForgotPassword/ForgotPassword"));
@@ -28,7 +27,6 @@ const App = () => {
     <>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/UserLatest">UserLatest</Link>
         <Link to="/SignIn">SignIn</Link>
         <Link to="/SignUp">SignUp</Link>
         <br></br>
@@ -47,15 +45,7 @@ const App = () => {
             </React.Suspense>
           }
         ></Route>
-        <Route
-          path="/UserLatest"
-          element={
-            <React.Suspense>
-              <UserLatestLazy />
-            </React.Suspense>
-          }
-        ></Route>
-        <Route
+         <Route
           path="/SignIn"
           element={
             <React.Suspense>

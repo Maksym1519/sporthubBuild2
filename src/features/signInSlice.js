@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currentComponent: 'signUp'
+  currentComponent: 'signIn'
 }
 
 const signInSlice = createSlice({

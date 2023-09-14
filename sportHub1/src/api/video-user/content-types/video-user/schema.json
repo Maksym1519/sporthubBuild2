@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "video_users",
+  "info": {
+    "singularName": "video-user",
+    "pluralName": "video-users",
+    "displayName": "videoUser"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "videoUser": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
