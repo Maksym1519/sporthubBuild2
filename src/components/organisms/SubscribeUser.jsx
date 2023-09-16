@@ -1,5 +1,5 @@
-import React from "react";
-import ul from "./userLatest.module";
+import ut from './subscribeUser.module.scss';
+import SubscribeBg from '../../images/subscribe-bg.webp'
 import { useState, useEffect, useRef } from "react";
 import {useAppDispatch, useAppSelector} from '../../App/hooks';
 import { increment, incrementByAmount } from '../../features/counter/counterSlice';
@@ -11,14 +11,27 @@ import { Text16500 } from "../atoms/Text";
 import { Text24500 } from "../atoms/Text";
 import { Text18500 } from "../atoms/Text";
 import { Text14500 } from "../atoms/Text";
+import { Text32600 } from '../atoms/Text';
+import { Text24600 } from '../atoms/Text';
+import { Text12300 } from '../atoms/Text';
+import { Text18700 } from '../atoms/Text';
+import { Text16600 } from '../atoms/Text';
+import { Button18044 } from '../atoms/Buttons';
 import Avatext from "../molecules/Avatext";
-import ColumnTemplate from "../molecules/ColumnTemplate";
+import ColumnTemplate from '../molecules/ColumnTemplate';
 import { AvaArray } from "../../Data";
 import { VideoUserArray } from "../../Data";
-//------------------------------------------------------------------------
+import { showVideo, showBio, showStore, showPlaylist } from '../../features/videoSwitcherSlice';
+import { subscribe, unsubscribe } from '../../features/subscribeButtonSlice';
+import People from '../../images/people-icon.svg';
+import Camera from '../../images/camera.svg';
+import Eye from '../../images/eye-icon.svg'
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const ViewLater = (props) => {
-  const [activeIndex, setActiveIndex] = useState(true);
+
+const SubscribeUser = (props) => {
+  const [activeIndex, setActiveIndex] = useState(0);
   useEffect(() => {
     setActiveIndex(0);
   }, []);
@@ -30,25 +43,101 @@ const ViewLater = (props) => {
   const toggleMessages = () => {
     setShowMore(!showMore);
   };
+   //redux---------------------------------------------------------
+   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
+   const isMobile = screenWidth <= 1024;
+   //redux---------------------------------------------------------
+   const dispatch = useDispatch()
+   const currentComponent = useSelector((state) => state.videoSwitcher.currentComponent)
+   const currentSubscribeButton = useSelector((state) => state.subscribeButton.currentSubscribeButton)
+   const handleVideoClick = () => {
+    dispatch(showVideo())
+   }
+   const handleBioClick = () => {
+    dispatch(showBio())
+   }
+   const handleStoreClick = () => {
+    dispatch(showStore())
+   }
+   const handlePlaylistClick = () => {
+    dispatch(showPlaylist())
+   }
+   const handleSubscribeClick = () => {
+    dispatch(subscribe())
+   }
+   const handleUnSubscribeClick = () => {
+    dispatch(unsubscribe())
+   }
  
-  //redux---------------------------------------------------------
-  const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
-  const isMobile = screenWidth <= 1024;
-  //---------------------------------------------------------
-  return (
-    <div className={ul.main__wrapper}>
-       <div className={ul.container}>
-        <div className={ul.videos__wrapper}>
+    return (
+        <div className={ut.wrapper}>
+          <div className={ut.main}>
+            <div className={ut.bg__wrapper}>
+                <div className={ut.overlay}></div>
+                <div className={ut.gradient}></div>
+              <img src={SubscribeBg} alt="bg" />
+              <div className={ut.statistics__wrapper}>
+              <div className={ut.statistics__header}>
+                {isMobile ? (<img src='http://localhost:1337/uploads/subscribe_mobile_fc07ea0b38.svg'/>) : (<img src={'http://localhost:1337/uploads/photo_cae7ef4294.svg'} alt="ava" />)}
+
+                {isMobile ?  (<Text24600 text='Eleanor Pena'/>) : (<Text32600 text='Eleanor Pena'/>)}
+              </div>
+              <div className={ut.statistics__body}>
+                <div className={ut.statistics__body__item}>
+                   <img src={People} alt="logo" />
+                   <ColumnTemplate row1={<Text18700 text='6.4K'/>} row2={<Text12300 text='Subscribers' color='rgba(187, 187, 187, 1)'/>} alignItems='center'/>
+                </div>
+                <div className={ut.statistics__body__item}>
+                   <img src={Camera} alt="logo" />
+                   <ColumnTemplate row1={<Text18700 text='257'/>} row2={<Text12300 text='Videos' color='rgba(187, 187, 187, 1)'/>} alignItems='center'/>
+                </div>
+                <div className={ut.statistics__body__item}>
+                   <img src={Eye} alt="logo" />
+                   <ColumnTemplate row1={<Text18700 text='15K'/>} row2={<Text12300 text='Views' color='rgba(187, 187, 187, 1)'/>} alignItems='center'/>
+                </div>
+              </div>
+              {currentSubscribeButton === 'subscribe' &&
+              <div className={ut.button__wrapper}  onClick={() => handleUnSubscribeClick()}>
+               <Button18044 text={<Text16600 text='Subscribe'/>} borderRadius='8px'/>
+               </div>
+              }
+              {currentSubscribeButton === 'unsubscribe' &&
+              <div className={ut.button__wrapper} onClick={() => handleSubscribeClick()}>
+               <Button18044 text={<Text16600 text='Unsubscribe'/>} borderRadius='8px'/>
+               </div>
+              }
+            </div>
+            </div>
+           </div>
+          <div className={ut.video__navigation}>
+            <div className={ut.videoSwitcher__wrapper}>
+            <div className={`${ut.switcher__item} ${activeIndex === 0 ? ut.active : ""}`} onClick={() => handleSwitcher(0)}>
+              Video
+              </div>
+               <div className={`${ut.switcher__item} ${activeIndex === 1 ? ut.active : ""}`} onClick={() => handleSwitcher(1)}>
+               Bio
+               </div>
+               <div className={`${ut.switcher__item} ${activeIndex === 2 ? ut.active : ""}`} onClick={() => handleSwitcher(2)}>
+               Store
+               </div>
+               <div className={`${ut.switcher__item} ${activeIndex === 3 ? ut.active : ""}`} onClick={() => handleSwitcher(3)}>
+               Playlists
+               </div>
+            </div>
+          </div>
+          <div className={ut.main__wrapper}>
+       <div className={ut.container}>
+        <div className={ut.videos__wrapper}>
           {/* //item1--------------------------------------------------------------- */}
-        <div className={ul.videos__body}>
+        <div className={ut.videos__body}>
         
           {/* //item2--------------------------------------------------------------- */}
          {props.selected &&
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[0]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
               <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -80,11 +169,11 @@ const ViewLater = (props) => {
           </div>
           }
           {/* //item3--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[1]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -115,11 +204,11 @@ const ViewLater = (props) => {
             </div>
           </div>
           {/* //item4--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[2]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -150,11 +239,11 @@ const ViewLater = (props) => {
             </div>
           </div>
           {/* //item5--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[3]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -185,11 +274,11 @@ const ViewLater = (props) => {
             </div>
           </div>
           {/* //item6--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[4]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -220,11 +309,11 @@ const ViewLater = (props) => {
             </div>
           </div>
           {/* //item7--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[5]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -255,11 +344,11 @@ const ViewLater = (props) => {
             </div>
           </div>
           {/* //item8--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[6]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -290,11 +379,11 @@ const ViewLater = (props) => {
             </div>
           </div>
           {/* //item9--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[7]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -325,11 +414,11 @@ const ViewLater = (props) => {
             </div>
           </div>
           {/* //item--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[8]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -360,11 +449,11 @@ const ViewLater = (props) => {
             </div>
           </div>
           {/* //item--------------------------------------------------------------- */}
-          <div className={ul.item}>
-            <div className={ul.video__wrapper}>
+          <div className={ut.item}>
+            <div className={ut.video__wrapper}>
               <img src={VideoUserArray[8]} alt="video" />
             </div>
-            <div className={ul.video__description}>
+            <div className={ut.video__description}>
             <ColumnTemplate
                     row1={
                     isMobile ? (
@@ -400,6 +489,8 @@ const ViewLater = (props) => {
         </div>
       </div>
     </div>
-  );
-};
-export default ViewLater;
+       </div>
+    )
+}
+
+export default SubscribeUser;

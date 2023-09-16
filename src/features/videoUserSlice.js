@@ -16,6 +16,9 @@ const videoUserSlice = createSlice({
         },
         showViewLater:(state) => {
             state.currentComponent = 'viewLater'
+        },
+        showSubscribe:(state) => {
+            state.currentComponent = 'subscribe'
         }
     }
 })
@@ -23,7 +26,8 @@ const videoUserSlice = createSlice({
 export const {
     showHome,
     showLatest,
-    showViewLater
+    showViewLater,
+    showSubscribe
 } = videoUserSlice.actions;
 
 export default videoUserSlice.reducer

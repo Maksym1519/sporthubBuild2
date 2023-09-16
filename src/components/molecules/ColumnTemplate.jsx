@@ -2,7 +2,8 @@ import c from './columnTemplate.module.scss';
 
 const ColumnTemplate = (props) => {
     const styled = {
-        rowGap: props.rowGap
+        rowGap: props.rowGap,
+        alignItems: props.alignItems
     }
     return (
         <div className={c.wrapper} style={styled}>

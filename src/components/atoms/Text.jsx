@@ -152,6 +152,26 @@ export const Text12600 = (props) => {
         </div>
     )
 }
+export const Text32600 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text32600__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
+export const Text24600 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text24600__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
 //------------------------------------------------------------------------
 export const Text14700 = (props) => {
     const styled = {
@@ -159,6 +179,27 @@ export const Text14700 = (props) => {
     }
     return (
         <div className={t.text14700__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
+export const Text18700 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text18700__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
+//uto-300-----------------------------------------------------------------
+export const Text12300 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text12300__wrapper} style={styled}>
             {props.text}
         </div>
     )

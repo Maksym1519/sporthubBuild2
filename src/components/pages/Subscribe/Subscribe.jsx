@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import m from "./main.module.scss";
+import m from "./subscribe.module.scss";
 import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
 import {
@@ -46,7 +46,7 @@ import "swiper/swiper-bundle.css";
 register();
 //------------------------------------------------------------------------
 
-const Main = () => {
+const Subscribe = () => {
   const [menuDots, setMenuDots] = useState(false)
   const toggleMenuDots = () => {
     setMenuDots(!menuDots)
@@ -83,9 +83,6 @@ const Main = () => {
   };
   const handleViewLaterClick = () => {
     dispatch(showViewLater());
-  };
-  const handleSubscribeClick = () => {
-    dispatch(showSubscribe());
   };
   
   //strapi-getShowMore---------------------------------------------
@@ -165,10 +162,7 @@ const Main = () => {
                 />
               </div>
               {/* //item2-------------------------------------------------------------- */}
-              <div className={`${m.item} ${
-                activeIndex === 4 ? m.active : ""
-              }`}
-              onClick={() => {handleSwitcher(4),handleSubscribeClick()}}>
+              <div className={m.item}>
                 <Avatext
                   img={AvaArray[1]}
                   text1={
@@ -311,41 +305,7 @@ const Main = () => {
         {/* //redux-video-state-------------------------------------------------------- */}
        {currentComponent === 'home' &&
         <div className={m.videos__wrapper}>
-           {currentComponent === 'subscribe' && <SubscribeUser />}
-          <div className={m.slider__wrapper}>
-            <Swiper
-              //init="false"
-              //ref={mainSlider}
-              slidesPerView={1}
-              speed={1000}
-              loop={true}
-              //css-mode="true"
-              //class="mainSlider"
-              >
-              <SwiperSlide className={m.slide__wrapper} >
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More1_6a77d41eb9.webp'} alt="video" />
-                 </div>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More2_6106767343.webp'} alt="video" />
-                </div>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More3_e0e9300cfd.webp'} alt="video" />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className={m.slide__wrapper}>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More1_6a77d41eb9.webp'} alt="video" />
-                </div>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More2_6106767343.webp'} alt="video" />
-                </div>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More3_e0e9300cfd.webp'} alt="video" />
-                </div>
-              </SwiperSlide>
-           </Swiper>
-         </div>
+           <SubscribeUser />
            {isMobile ? (
             <h3 className={m.title}>
               <Text18500 text="Video List" />
@@ -610,10 +570,9 @@ const Main = () => {
           }
           {currentComponent === 'latest' && <UserLatest />}
           {currentComponent === 'viewLater' && <ViewLater />}
-          {currentComponent === 'subscribe' && <SubscribeUser />}
         {/* //------------------------------------------------------------------------------------- */}
       </div>
     </div>
   );
 };
-export default Main;
+export default Subscribe;
