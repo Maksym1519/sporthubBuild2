@@ -19,6 +19,9 @@ import { Text16600 } from '../atoms/Text';
 import { Button18044 } from '../atoms/Buttons';
 import Avatext from "../molecules/Avatext";
 import ColumnTemplate from '../molecules/ColumnTemplate';
+import Bio from './Bio';
+import Store from './Store';
+import Playlist from './Playlist';
 import { AvaArray } from "../../Data";
 import { VideoUserArray } from "../../Data";
 import { showVideo, showBio, showStore, showPlaylist } from '../../features/videoSwitcherSlice';
@@ -111,27 +114,26 @@ const SubscribeUser = (props) => {
            </div>
           <div className={ut.video__navigation}>
             <div className={ut.videoSwitcher__wrapper}>
-            <div className={`${ut.switcher__item} ${activeIndex === 0 ? ut.active : ""}`} onClick={() => handleSwitcher(0)}>
+            <div className={`${ut.switcher__item} ${activeIndex === 0 ? ut.active : ""}`} onClick={() => {handleSwitcher(0), handleVideoClick()}}>
               Video
               </div>
-               <div className={`${ut.switcher__item} ${activeIndex === 1 ? ut.active : ""}`} onClick={() => handleSwitcher(1)}>
+               <div className={`${ut.switcher__item} ${activeIndex === 1 ? ut.active : ""}`} onClick={() => {handleSwitcher(1), handleBioClick()}}>
                Bio
                </div>
-               <div className={`${ut.switcher__item} ${activeIndex === 2 ? ut.active : ""}`} onClick={() => handleSwitcher(2)}>
+               <div className={`${ut.switcher__item} ${activeIndex === 2 ? ut.active : ""}`} onClick={() => {handleSwitcher(2), handleStoreClick()}}>
                Store
                </div>
-               <div className={`${ut.switcher__item} ${activeIndex === 3 ? ut.active : ""}`} onClick={() => handleSwitcher(3)}>
+               <div className={`${ut.switcher__item} ${activeIndex === 3 ? ut.active : ""}`} onClick={() => {handleSwitcher(3), handlePlaylistClick()}}>
                Playlists
                </div>
             </div>
           </div>
           <div className={ut.main__wrapper}>
        <div className={ut.container}>
+        {currentComponent === 'video' &&
         <div className={ut.videos__wrapper}>
-          {/* //item1--------------------------------------------------------------- */}
-        <div className={ut.videos__body}>
-        
-          {/* //item2--------------------------------------------------------------- */}
+         <div className={ut.videos__body}>
+         {/* //item2--------------------------------------------------------------- */}
          {props.selected &&
           <div className={ut.item}>
             <div className={ut.video__wrapper}>
@@ -485,8 +487,11 @@ const SubscribeUser = (props) => {
           </div>
           {/* //item--------------------------------------------------------------- */}
           </div>
-        
         </div>
+          }
+          {currentComponent === 'bio' && <Bio />}
+          {currentComponent === 'store' && <Store />}
+          {currentComponent === 'playlist' && <Playlist />}
       </div>
     </div>
        </div>

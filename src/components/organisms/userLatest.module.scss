@@ -148,6 +148,14 @@
       row-gap: 24px;
       overflow: hidden;
     }
+    .itemMenu {
+      position: relative;
+      & .dotsMenu {
+        position: absolute;
+        top: 12px;
+        right: 12px
+      }
+    }
     }
     
     

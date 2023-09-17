@@ -24,13 +24,29 @@ import ColumnTemplate from "../../molecules/ColumnTemplate";
 import MenuDots from "../../molecules/MenuDots";
 import Header from "../../organisms/Header";
 import SubscribeUser from "../../organisms/SubscribeUser";
-import { showHome, showLatest, showViewLater,showSubscribe } from "../../../features/videoUserSlice";
+import {
+  showHome,
+  showLatest,
+  showViewLater,
+  showSubscribe,
+} from "../../../features/videoUserSlice";
+import {
+  show1,
+  show2,
+  show3,
+  show4,
+  show5,
+  show6,
+  show7,
+  show8,
+  show9,
+} from "../../../features/menuDotsSlice";
 import { AvaArray } from "../../../Data";
 import { VideoUserArray } from "../../../Data";
 import UserLatest from "../../organisms/UserLatest";
 import ViewLater from "../../organisms/ViewLater";
 import Arrow from "../../../images/arrow-down-yellow.svg";
-import More from '../../../images/more.svg';
+import More from "../../../images/more.svg";
 
 //slider------------------------------------------------------------------
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -47,12 +63,7 @@ register();
 //------------------------------------------------------------------------
 
 const Main = () => {
-  const [menuDots, setMenuDots] = useState(false)
-  const toggleMenuDots = () => {
-    setMenuDots(!menuDots)
-  }
- 
-//-----------------------------------------------------------------------
+  //-----------------------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
     setActiveIndex(0);
@@ -66,15 +77,15 @@ const Main = () => {
     setShowMore(!showMore);
   };
 
-
   //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
 
-
   //redux-state-video-------------------------------------------
-  const dispatch = useAppDispatch()
-  const currentComponent = useSelector((state) => state.videoUser.currentComponent)
+  const dispatch = useAppDispatch();
+  const currentComponent = useSelector(
+    (state) => state.videoUser.currentComponent
+  );
   const handleHomeClick = () => {
     dispatch(showHome());
   };
@@ -87,7 +98,84 @@ const Main = () => {
   const handleSubscribeClick = () => {
     dispatch(showSubscribe());
   };
-  
+
+  //redux-menu-Dots------------------------------------------------
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isMenuVisible2, setIsMenuVisible2] = useState(false);
+  const [isMenuVisible3, setIsMenuVisible3] = useState(false);
+  const [isMenuVisible4, setIsMenuVisible4] = useState(false);
+  const [isMenuVisible5, setIsMenuVisible5] = useState(false);
+  const [isMenuVisible6, setIsMenuVisible6] = useState(false);
+  const [isMenuVisible7, setIsMenuVisible7] = useState(false);
+  const [isMenuVisible8, setIsMenuVisible8] = useState(false);
+  const [isMenuVisible9, setIsMenuVisible9] = useState(false);
+  const currentMenu = useSelector((state) => state.menuDots.currentMenu);
+  const toggleMenuDots = () => {
+    setIsMenuVisible(!isMenuVisible);
+  };
+  const toggleMenuDots2 = () => {
+    setIsMenuVisible2(!isMenuVisible2);
+  };
+  const toggleMenuDots3 = () => {
+    setIsMenuVisible3(!isMenuVisible3);
+  };
+  const toggleMenuDots4 = () => {
+    setIsMenuVisible4(!isMenuVisible4);
+  };
+  const toggleMenuDots5 = () => {
+    setIsMenuVisible5(!isMenuVisible5);
+  };
+  const toggleMenuDots6 = () => {
+    setIsMenuVisible6(!isMenuVisible6);
+  };
+  const toggleMenuDots7 = () => {
+    setIsMenuVisible7(!isMenuVisible7);
+  };
+  const toggleMenuDots8 = () => {
+    setIsMenuVisible8(!isMenuVisible8);
+  };
+  const handleMouseEnter = () => {
+    setIsMenuVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsMenuVisible(false);
+  };
+  const handleMouseEnter2 = () => {
+    setIsMenuVisible2(true);
+  };
+
+  const handleMouseLeave2 = () => {
+    setIsMenuVisible2(false);
+  };
+  const handleMouseEnter3 = () => {
+    setIsMenuVisible3(true);
+  };
+
+  const handleMouseLeave3 = () => {
+    setIsMenuVisible3(false);
+  };
+  const handleMouseEnter4 = () => {
+    setIsMenuVisible4(true);
+  };
+
+  const handleMouseLeave4 = () => {
+    setIsMenuVisible4(false);
+  };
+  const handleMouseEnter5 = () => {
+    setIsMenuVisible5(true);
+  };
+
+  const handleMouseLeave5 = () => {
+    setIsMenuVisible5(false);
+  };
+  const handleMouseEnter6 = () => {
+    setIsMenuVisible6(true);
+  };
+
+  const handleMouseLeave6 = () => {
+    setIsMenuVisible6(false);
+  };
   //strapi-getShowMore---------------------------------------------
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -115,7 +203,7 @@ const Main = () => {
     return <p>Ошибка: {error}</p>;
   }
   //video-menu-----------------------------------------------
-  
+
   return (
     <div className={m.main__wrapper}>
       <Header />
@@ -126,7 +214,9 @@ const Main = () => {
               className={`${m.switcher__item} ${
                 activeIndex === 0 ? m.active : ""
               }`}
-              onClick={() => {handleSwitcher(0),handleHomeClick()}}
+              onClick={() => {
+                handleSwitcher(0), handleHomeClick();
+              }}
             >
               <Text16400 text="Home" color="rgba(187, 187, 187, 1)" />
             </div>
@@ -134,7 +224,9 @@ const Main = () => {
               className={`${m.switcher__item} ${
                 activeIndex === 1 ? m.active : ""
               }`}
-              onClick={() => {handleSwitcher(1),handleLatestClick()}}
+              onClick={() => {
+                handleSwitcher(1), handleLatestClick();
+              }}
             >
               <Text16400 text="Latest" color="rgba(187, 187, 187, 1)" />
             </div>
@@ -142,7 +234,9 @@ const Main = () => {
               className={`${m.switcher__item} ${
                 activeIndex === 2 ? m.active : ""
               }`}
-              onClick={() => {handleSwitcher(2),handleViewLaterClick()}}
+              onClick={() => {
+                handleSwitcher(2), handleViewLaterClick();
+              }}
             >
               <Text16400 text="View later" color="rgba(187, 187, 187, 1)" />
             </div>
@@ -165,10 +259,12 @@ const Main = () => {
                 />
               </div>
               {/* //item2-------------------------------------------------------------- */}
-              <div className={`${m.item} ${
-                activeIndex === 4 ? m.active : ""
-              }`}
-              onClick={() => {handleSwitcher(4),handleSubscribeClick()}}>
+              <div
+                className={`${m.item} ${activeIndex === 4 ? m.active : ""}`}
+                onClick={() => {
+                  handleSwitcher(4), handleSubscribeClick();
+                }}
+              >
                 <Avatext
                   img={AvaArray[1]}
                   text1={
@@ -309,308 +405,448 @@ const Main = () => {
           </div>
         </div>
         {/* //redux-video-state-------------------------------------------------------- */}
-       {currentComponent === 'home' &&
-        <div className={m.videos__wrapper}>
-           {currentComponent === 'subscribe' && <SubscribeUser />}
-          <div className={m.slider__wrapper}>
-            <Swiper
-              //init="false"
-              //ref={mainSlider}
-              slidesPerView={1}
-              speed={1000}
-              loop={true}
-              //css-mode="true"
-              //class="mainSlider"
+        {currentComponent === "home" && (
+          <div className={m.videos__wrapper}>
+            {currentComponent === "subscribe" && <SubscribeUser />}
+            <div className={m.slider__wrapper}>
+              <Swiper
+                //init="false"
+                //ref={mainSlider}
+                slidesPerView={1}
+                speed={1000}
+                loop={true}
+                //css-mode="true"
+                //class="mainSlider"
               >
-              <SwiperSlide className={m.slide__wrapper} >
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More1_6a77d41eb9.webp'} alt="video" />
-                 </div>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More2_6106767343.webp'} alt="video" />
-                </div>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More3_e0e9300cfd.webp'} alt="video" />
-                </div>
-              </SwiperSlide>
-              <SwiperSlide className={m.slide__wrapper}>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More1_6a77d41eb9.webp'} alt="video" />
-                </div>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More2_6106767343.webp'} alt="video" />
-                </div>
-                <div className={m.video__wrapper}>
-                  <img src={'http://localhost:1337/uploads/video_More3_e0e9300cfd.webp'} alt="video" />
-                </div>
-              </SwiperSlide>
-           </Swiper>
-         </div>
-           {isMobile ? (
-            <h3 className={m.title}>
-              <Text18500 text="Video List" />
-            </h3>
-          ) : (
-            <h3 className={m.title}>
-              <Text24500 text="Video List" />
-            </h3>
-          )}
-          {/* //item4--------------------------------------------------------------- */}
-          {currentComponent === 'home' &&
-           <div className={m.videos__body}>
-             <div className={m.item}>
-              <div className={m.video__wrapper}>
-                <img src={VideoUserArray[0]} alt="video" />
-              </div>
-              <div className={m.video__description}>
-                <ColumnTemplate
-                  row1={
-                    isMobile ? (
-                      <Text14500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="16px"
-                      />
-                    ) : (
-                      <Text16500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="18px"
-                      />
-                    )
-                  }
-                  row2={
-                    <Avatext
-                      img={AvaArray[0]}
-                      text1={
-                        <Text14400
-                          text="Adan Lauzon"
-                          color="rgba(153, 153, 153, 1)"
-                        />
+                <SwiperSlide className={m.slide__wrapper}>
+                  <div className={m.video__wrapper}>
+                    <img
+                      src={
+                        "http://localhost:1337/uploads/video_More1_6a77d41eb9.webp"
                       }
-                      text2={
-                        <Text14400
-                          text="3h ago"
-                          color="rgba(153, 153, 153, 1)"
-                        />
-                      }
+                      alt="video"
                     />
-                  }
-                />
-              </div>
+                  </div>
+                  <div className={m.video__wrapper}>
+                    <img
+                      src={
+                        "http://localhost:1337/uploads/video_More2_6106767343.webp"
+                      }
+                      alt="video"
+                    />
+                  </div>
+                  <div className={m.video__wrapper}>
+                    <img
+                      src={
+                        "http://localhost:1337/uploads/video_More3_e0e9300cfd.webp"
+                      }
+                      alt="video"
+                    />
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide className={m.slide__wrapper}>
+                  <div className={m.video__wrapper}>
+                    <img
+                      src={
+                        "http://localhost:1337/uploads/video_More1_6a77d41eb9.webp"
+                      }
+                      alt="video"
+                    />
+                  </div>
+                  <div className={m.video__wrapper}>
+                    <img
+                      src={
+                        "http://localhost:1337/uploads/video_More2_6106767343.webp"
+                      }
+                      alt="video"
+                    />
+                  </div>
+                  <div className={m.video__wrapper}>
+                    <img
+                      src={
+                        "http://localhost:1337/uploads/video_More3_e0e9300cfd.webp"
+                      }
+                      alt="video"
+                    />
+                  </div>
+                </SwiperSlide>
+              </Swiper>
             </div>
-         {/* //------------------------------------------------------------------------ */}
-            
-            {/* //item5--------------------------------------------------------------- */}
-            <div className={m.item + " " + m.itemMenu}>
-              <div className={m.video__wrapper}>
-                <img src={VideoUserArray[1]} alt="video" />
-              </div>
-              <div className={m.video__description}>
-                <ColumnTemplate
-                  row1={
-                    isMobile ? (
-                      <Text14500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="16px"
-                      />
-                    ) : (
-                      <Text16500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="18px"
-                      />
-                    )
-                  }
-                  row2={
-                    <Avatext
-                      img={AvaArray[6]}
-                      text1={
-                        <Text14400
-                          text="Savannah Nguyen"
-                          color="rgba(153, 153, 153, 1)"
-                        />
+            {isMobile ? (
+              <h3 className={m.title}>
+                <Text18500 text="Video List" />
+              </h3>
+            ) : (
+              <h3 className={m.title}>
+                <Text24500 text="Video List" />
+              </h3>
+            )}
+            {/* //item4--------------------------------------------------------------- */}
+            {currentComponent === "home" && (
+              <div className={m.videos__body}>
+                <div
+                  className={m.item + " " + m.itemMenu}
+                  onClick={() => {
+                    toggleMenuDots();
+                  }}
+                  onMouseOver={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <div className={m.video__wrapper}>
+                    <img src={VideoUserArray[0]} alt="video" />
+                  </div>
+                  <div className={m.video__description}>
+                    <ColumnTemplate
+                      row1={
+                        isMobile ? (
+                          <Text14500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="16px"
+                          />
+                        ) : (
+                          <Text16500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="18px"
+                          />
+                        )
                       }
-                      text2={
-                        <Text14400
-                          text="3h ago"
-                          color="rgba(153, 153, 153, 1)"
-                        />
-                      }
-                    />
-                  }
-                />
-              </div>
-              <div className={m.dotsMenu}>
-                <img src={More} alt="menu" onClick={() => toggleMenuDots()}/>
-              </div>
-              {menuDots && <MenuDots />}
-             </div>
-            {/* //item6--------------------------------------------------------------- */}
-            <div className={m.item}>
-              <div className={m.video__wrapper}>
-                <img src={VideoUserArray[2]} alt="video" />
-              </div>
-              <div className={m.video__description}>
-                <ColumnTemplate
-                  row1={
-                    isMobile ? (
-                      <Text14500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="16px"
-                      />
-                    ) : (
-                      <Text16500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="18px"
-                      />
-                    )
-                  }
-                  row2={
-                    <Avatext
-                      img={AvaArray[4]}
-                      text1={
-                        <Text14400
-                          text="Theresa Webb"
-                          color="rgba(153, 153, 153, 1)"
-                        />
-                      }
-                      text2={
-                        <Text14400
-                          text="3h ago"
-                          color="rgba(153, 153, 153, 1)"
+                      row2={
+                        <Avatext
+                          img={AvaArray[0]}
+                          text1={
+                            <Text14400
+                              text="Adan Lauzon"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                          text2={
+                            <Text14400
+                              text="3h ago"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
                         />
                       }
                     />
-                  }
-                />
-              </div>
-            </div>
-            {/* //item7--------------------------------------------------------------- */}
-            <div className={m.item}>
-              <div className={m.video__wrapper}>
-                <img src={VideoUserArray[3]} alt="video" />
-              </div>
-              <div className={m.video__description}>
-                <ColumnTemplate
-                  row1={
-                    isMobile ? (
-                      <Text14500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="16px"
+                  </div>
+                  {isMenuVisible && (
+                    <div className={m.dotsMenu}>
+                      <img
+                        src={More}
+                        alt="menu"
+                        onClick={() => {
+                          toggleMenuDots();
+                        }}
                       />
-                    ) : (
-                      <Text16500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="18px"
-                      />
-                    )
-                  }
-                  row2={
-                    <Avatext
-                      img={AvaArray[1]}
-                      text1={
-                        <Text14400
-                          text="Kristin Watson"
-                          color="rgba(153, 153, 153, 1)"
-                        />
+                    </div>
+                  )}
+                  {isMenuVisible && <MenuDots />}
+                </div>
+                {/* //------------------------------------------------------------------------ */}
+
+                {/* //item5--------------------------------------------------------------- */}
+                <div
+                  className={m.item + " " + m.itemMenu}
+                  onClick={() => {
+                    toggleMenuDots2();
+                  }}
+                  onMouseOver={handleMouseEnter2}
+                  onMouseLeave={handleMouseLeave2}
+                >
+                  <div className={m.video__wrapper}>
+                    <img src={VideoUserArray[1]} alt="video" />
+                  </div>
+                  <div className={m.video__description}>
+                    <ColumnTemplate
+                      row1={
+                        isMobile ? (
+                          <Text14500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="16px"
+                          />
+                        ) : (
+                          <Text16500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="18px"
+                          />
+                        )
                       }
-                      text2={
-                        <Text14400
-                          text="3h ago"
-                          color="rgba(153, 153, 153, 1)"
-                        />
-                      }
-                    />
-                  }
-                />
-              </div>
-            </div>
-            {/* //item8--------------------------------------------------------------- */}
-            <div className={m.item}>
-              <div className={m.video__wrapper}>
-                <img src={VideoUserArray[4]} alt="video" />
-              </div>
-              <div className={m.video__description}>
-                <ColumnTemplate
-                  row1={
-                    isMobile ? (
-                      <Text14500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="16px"
-                      />
-                    ) : (
-                      <Text16500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="18px"
-                      />
-                    )
-                  }
-                  row2={
-                    <Avatext
-                      img={AvaArray[6]}
-                      text1={
-                        <Text14400
-                          text="Jenny Wilson"
-                          color="rgba(153, 153, 153, 1)"
-                        />
-                      }
-                      text2={
-                        <Text14400
-                          text="3h ago"
-                          color="rgba(153, 153, 153, 1)"
+                      row2={
+                        <Avatext
+                          img={AvaArray[6]}
+                          text1={
+                            <Text14400
+                              text="Savannah Nguyen"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                          text2={
+                            <Text14400
+                              text="3h ago"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
                         />
                       }
                     />
-                  }
-                />
-              </div>
-            </div>
-            {/* //item9--------------------------------------------------------------- */}
-            <div className={m.item}>
-              <div className={m.video__wrapper}>
-                <img src={VideoUserArray[5]} alt="video" />
-              </div>
-              <div className={m.video__description}>
-                <ColumnTemplate
-                  row1={
-                    isMobile ? (
-                      <Text14500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="16px"
+                  </div>
+                  {isMenuVisible2 && (
+                    <div className={m.dotsMenu}>
+                      <img
+                        src={More}
+                        alt="menu"
+                        onClick={() => {
+                          toggleMenuDots2();
+                        }}
                       />
-                    ) : (
-                      <Text16500
-                        text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                        lineHeight="18px"
-                      />
-                    )
-                  }
-                  row2={
-                    <Avatext
-                      img={AvaArray[8]}
-                      text1={
-                        <Text14400
-                          text="Darlene Robertson"
-                          color="rgba(153, 153, 153, 1)"
-                        />
+                    </div>
+                  )}
+                  {isMenuVisible2 && <MenuDots />}
+                </div>
+                {/* //item6--------------------------------------------------------------- */}
+                <div
+                  className={m.item + " " + m.itemMenu}
+                  onClick={() => {
+                    toggleMenuDots3();
+                  }}
+                  onMouseOver={handleMouseEnter3}
+                  onMouseLeave={handleMouseLeave3}
+                >
+                  <div className={m.video__wrapper}>
+                    <img src={VideoUserArray[2]} alt="video" />
+                  </div>
+                  <div className={m.video__description}>
+                    <ColumnTemplate
+                      row1={
+                        isMobile ? (
+                          <Text14500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="16px"
+                          />
+                        ) : (
+                          <Text16500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="18px"
+                          />
+                        )
                       }
-                      text2={
-                        <Text14400
-                          text="3h ago"
-                          color="rgba(153, 153, 153, 1)"
+                      row2={
+                        <Avatext
+                          img={AvaArray[4]}
+                          text1={
+                            <Text14400
+                              text="Theresa Webb"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                          text2={
+                            <Text14400
+                              text="3h ago"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
                         />
                       }
                     />
-                  }
-                />
+                  </div>
+                  {isMenuVisible3 && (
+                    <div className={m.dotsMenu}>
+                      <img
+                        src={More}
+                        alt="menu"
+                        onClick={() => {
+                          toggleMenuDots3();
+                        }}
+                      />
+                    </div>
+                  )}
+                  {isMenuVisible3 && <MenuDots />}
+                </div>
+                {/* //item7--------------------------------------------------------------- */}
+                <div
+                  className={m.item + " " + m.itemMenu}
+                  onClick={() => {
+                    toggleMenuDots4();
+                  }}
+                  onMouseOver={handleMouseEnter4}
+                  onMouseLeave={handleMouseLeave4}
+                >
+                  <div className={m.video__wrapper}>
+                    <img src={VideoUserArray[3]} alt="video" />
+                  </div>
+                  <div className={m.video__description}>
+                    <ColumnTemplate
+                      row1={
+                        isMobile ? (
+                          <Text14500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="16px"
+                          />
+                        ) : (
+                          <Text16500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="18px"
+                          />
+                        )
+                      }
+                      row2={
+                        <Avatext
+                          img={AvaArray[1]}
+                          text1={
+                            <Text14400
+                              text="Kristin Watson"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                          text2={
+                            <Text14400
+                              text="3h ago"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                        />
+                      }
+                    />
+                  </div>
+                  {isMenuVisible4 && (
+                    <div className={m.dotsMenu}>
+                      <img
+                        src={More}
+                        alt="menu"
+                        onClick={() => {
+                          toggleMenuDots4();
+                        }}
+                      />
+                    </div>
+                  )}
+                  {isMenuVisible4 && <MenuDots />}
+                </div>
+                {/* //item8--------------------------------------------------------------- */}
+                <div
+                  className={m.item + " " + m.itemMenu}
+                  onClick={() => {
+                    toggleMenuDots5();
+                  }}
+                  onMouseOver={handleMouseEnter5}
+                  onMouseLeave={handleMouseLeave5}
+                >
+                  <div className={m.video__wrapper}>
+                    <img src={VideoUserArray[4]} alt="video" />
+                  </div>
+                  <div className={m.video__description}>
+                    <ColumnTemplate
+                      row1={
+                        isMobile ? (
+                          <Text14500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="16px"
+                          />
+                        ) : (
+                          <Text16500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="18px"
+                          />
+                        )
+                      }
+                      row2={
+                        <Avatext
+                          img={AvaArray[6]}
+                          text1={
+                            <Text14400
+                              text="Jenny Wilson"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                          text2={
+                            <Text14400
+                              text="3h ago"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                        />
+                      }
+                    />
+                  </div>
+                  {isMenuVisible5 && (
+                    <div className={m.dotsMenu}>
+                      <img
+                        src={More}
+                        alt="menu"
+                        onClick={() => {
+                          toggleMenuDots5();
+                        }}
+                      />
+                    </div>
+                  )}
+                  {isMenuVisible5 && <MenuDots />}
+                </div>
+                {/* //item9--------------------------------------------------------------- */}
+                <div
+                  className={m.item + " " + m.itemMenu}
+                  onClick={() => {
+                    toggleMenuDots6();
+                  }}
+                  onMouseOver={handleMouseEnter6}
+                  onMouseLeave={handleMouseLeave6}
+                >
+                  <div className={m.video__wrapper}>
+                    <img src={VideoUserArray[5]} alt="video" />
+                  </div>
+                  <div className={m.video__description}>
+                    <ColumnTemplate
+                      row1={
+                        isMobile ? (
+                          <Text14500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="16px"
+                          />
+                        ) : (
+                          <Text16500
+                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            lineHeight="18px"
+                          />
+                        )
+                      }
+                      row2={
+                        <Avatext
+                          img={AvaArray[8]}
+                          text1={
+                            <Text14400
+                              text="Darlene Robertson"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                          text2={
+                            <Text14400
+                              text="3h ago"
+                              color="rgba(153, 153, 153, 1)"
+                            />
+                          }
+                        />
+                      }
+                    />
+                  </div>
+                  {isMenuVisible6 && (
+                    <div className={m.dotsMenu}>
+                      <img
+                        src={More}
+                        alt="menu"
+                        onClick={() => {
+                          toggleMenuDots6();
+                        }}
+                      />
+                    </div>
+                  )}
+                  {isMenuVisible6 && <MenuDots />}
+                </div>
               </div>
-            </div>
+            )}
+            {/* //item--------------------------------------------------------------- */}
           </div>
-}
-          {/* //item--------------------------------------------------------------- */}
-        </div>
-          }
-          {currentComponent === 'latest' && <UserLatest />}
-          {currentComponent === 'viewLater' && <ViewLater />}
-          {currentComponent === 'subscribe' && <SubscribeUser />}
+        )}
+        {currentComponent === "latest" && <UserLatest />}
+        {currentComponent === "viewLater" && <ViewLater />}
+        {currentComponent === "subscribe" && <SubscribeUser />}
         {/* //------------------------------------------------------------------------------------- */}
       </div>
     </div>

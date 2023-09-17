@@ -1,0 +1,15 @@
+@media (min-width: 1025px) {
+    .playlist__wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+    .playlist__container {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+@media (min-width: 280px) and (max-width: 1024px) {
+}

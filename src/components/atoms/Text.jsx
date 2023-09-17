@@ -82,7 +82,8 @@ export const Text14400 = (props) => {
         color: props.color,
         textAlign: props.textAlign,
         maxWidth: props.maxWidth,
-        marginBottom: props.marginBottom
+        marginBottom: props.marginBottom,
+        lineHeight: props.lineHeight
     }
     return (
         <div className={t.text14400__wrapper} style={styled}>
@@ -93,7 +94,8 @@ export const Text14400 = (props) => {
 export const Text12400 = (props) => {
     const styled = {
         color: props.color,
-        underline: props.underline
+        underline: props.underline,
+        lineHeight: props.lineHeight
     }
     return (
         <div className={t.text12400__wrapper} style={styled}>
@@ -168,6 +170,26 @@ export const Text24600 = (props) => {
     }
     return (
         <div className={t.text24600__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
+export const Text18600 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text18600__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}
+export const Text20600 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text20600__wrapper} style={styled}>
             {props.text}
         </div>
     )

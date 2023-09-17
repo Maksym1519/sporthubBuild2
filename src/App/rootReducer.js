@@ -5,7 +5,9 @@ import screenWidthReducer from '../features/headerSlice';
 import inputTypESliceReducer from "../features/inputTypeSlice";
 import videoUserReducer from '../features/videoUserSlice';
 import videoSwitcherReducer from '../features/videoSwitcherSlice';
-import subscribeButtonReducer from '../features/subscribeButtonSlice'
+import subscribeButtonReducer from '../features/subscribeButtonSlice';
+import menuDotsReducer from '../features/menuDotsSlice';
+import playlistSlice from "../features/playlistSlice";
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -14,7 +16,9 @@ const rootReducer = combineReducers({
   inputType: inputTypESliceReducer,
   videoUser: videoUserReducer,
   videoSwitcher: videoSwitcherReducer,
-  subscribeButton: subscribeButtonReducer
+  subscribeButton: subscribeButtonReducer,
+  menuDots: menuDotsReducer,
+  playlistSlice: playlistSlice
 });
 
 export default rootReducer;

@@ -9,7 +9,7 @@ const videoSwitcherSlice = createSlice({
     initialState,
     reducers: {
         showVideo:(state) => {
-            state.currentComponent = 'home'
+            state.currentComponent = 'video'
         },
         showBio:(state) => {
             state.currentComponent = 'bio'
