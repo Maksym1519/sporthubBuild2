@@ -1,0 +1,16 @@
+@media (min-width: 1025px) {
+    .videoSlider__wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        background: var(--9, #222);
+        & .title {
+            margin-bottom: 22.5px;
+        }
+    }
+}
+
+
+@media (min-width: 280px) and (max-width: 1024px) {
+}

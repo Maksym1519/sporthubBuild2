@@ -1,51 +1,95 @@
-import p from './playlist.module.scss';
-import { useDispatch } from 'react-redux';
-import { UseSelector } from 'react-redux/es/hooks/useSelector';
-import { showMind, showMind, showSoul } from '../../features/playlistSlice';
-import { Text16500 } from '../atoms/Text';
-import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-
+import p from "./playlist.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../App/hooks";
+import { showMind, showBody, showSoul } from "../../features/playlistSlice";
+import { AvaArray, VideoUserArray } from "../../Data";
+import Video from '../molecules/Video';
+import { Text16500 } from "../atoms/Text";
+import { Text20600 } from "../atoms/Text";
+import { Text16600 } from "../atoms/Text";
+import { useEffect, useState } from "react";
+import More from '../../images/more.svg'
 
 const Playlist = () => {
-    //redux-playlist----------------------------------------
-    const dispatch = useDispatch();
-    const currentComponent = useSelector((state) => state.playlist.currentComponent)
-    //activeIndex-------------------------------------------
-    const [activeIndex, setActiveIndex] = useState(true);
-    useEffect(() => {
-        setActiveIndex(0)
-    },[])
-    const handleSwitcher = (index) => {
-       setActiveIndex(index)
-    }
-    return (
-        <div className={p.playlist__wrapper}>
-          <div className={p.playlist__container}>
-            <div className={p.state__switcher}>
-            {currentComponent === 'mind' &&    
-              <div className={`${p.state__item} ${activeIndex === 1 ? p.active : ''}`} onClick={handleSwitcher()}>
-                Mind
-              </div>
-                }
-            </div>
-            <div className={p.state__switcher}>
-            {currentComponent === 'body' &&    
-              <div className={`${p.state__item} ${activeIndex === 2 ? p.active : ''}`} onClick={handleSwitcher()}>
-                Mind
-              </div>
-                }
-            </div>
-            <div className={p.state__switcher}>
-            {currentComponent === 'soul' &&    
-              <div className={`${p.state__item} ${activeIndex === 3 ? p.active : ''}`} onClick={handleSwitcher()}>
-                Mind
-              </div>
-                }
-            </div>
+  //redux-playlist----------------------------------------
+  const dispatch = useAppDispatch();
+  const currentComponent = useSelector(
+    (state) => state.playlistSlice.currentComponent
+  );
+  const handleMindClick = () => {
+    dispatch(showMind());
+  };
+  const handleSoulClick = () => {
+    dispatch(showSoul());
+  };
+  const handleBodyClick = () => {
+    dispatch(showBody());
+  };
+  //activeIndex-------------------------------------------
+  const [activeIndex, setActiveIndex] = useState(true);
+  useEffect(() => {
+    setActiveIndex(1);
+  }, []);
+  const handleSwitcher = (index) => {
+    setActiveIndex(index);
+  };
+  //viewAll--------------------------------------------------
+  const [viewAll, setViewAll] = useState(false)
+  const toggleViewAll = () => {
+    setViewAll(!viewAll)
+  }
+  return (
+    <div className={p.playlist__wrapper}>
+      <div className={p.playlist__container}>
+        <div className={p.state__switcher}>
+          <div
+            className={`${p.state__item} ${activeIndex === 1 ? p.active : ""}`}
+            onClick={() => handleSwitcher(1)}
+          >
+            Mind
+          </div>
+          <div
+            className={`${p.state__item} ${activeIndex === 2 ? p.active : ""}`}
+            onClick={() => handleSwitcher(2)}
+          >
+            Body
+          </div>
+          <div
+            className={`${p.state__item} ${activeIndex === 3 ? p.active : ""}`}
+            onClick={() => handleSwitcher(3)}
+          >
+            Soul
           </div>
         </div>
-    )
-}
+        <div className={p.video__header}>
+          <span className={p.title}>
+            <Text20600 text="Fitness training" />
+          </span>
+          <span className={p.link} onClick={() => toggleViewAll()}>
+            {viewAll ? (<Text16600 text="Hide all" color="rgba(173, 121, 85, 1)" />) : (<Text16600 text="View all" color="rgba(173, 121, 85, 1)" />)}
+          </span>
+        </div>
+        {/* //videos----------------------------------------------------------------------------------------- */}
+        <div className={p.videos__body}>
+          <Video img={VideoUserArray[0]}/>
+          <Video img={VideoUserArray[1]}/>
+          <Video img={VideoUserArray[2]}/>
+          {viewAll && 
+           <Video img={VideoUserArray[3]}/>
+          }
+          {viewAll && 
+           <Video img={VideoUserArray[4]}/>
+          }
+          {viewAll && 
+           <Video img={VideoUserArray[1]}/>
+          }
+           
+          
+         </div>
+        {/* //-------------------------------------------------------------------------------------------------------- */}
+      </div>
+    </div>
+  );
+};
 
 export default Playlist;

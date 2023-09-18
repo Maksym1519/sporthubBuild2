@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "avatars",
+  "collectionName": "big_videos",
   "info": {
-    "singularName": "avatar",
-    "pluralName": "avatars",
-    "displayName": "avatar",
+    "singularName": "big-video",
+    "pluralName": "big-videos",
+    "displayName": "BigVideo",
     "description": ""
   },
   "options": {
@@ -12,10 +12,11 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "avatar": {
+    "BigVideo": {
       "type": "media",
-      "multiple": false,
-      "required": false,
+      "multiple": true,
+      "required": true,
+      "private": true,
       "allowedTypes": [
         "images",
         "files",
@@ -24,7 +25,9 @@
       ]
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "unique": true,
+      "required": true
     }
   }
 }

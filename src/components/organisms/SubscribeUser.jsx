@@ -2,14 +2,8 @@ import ut from './subscribeUser.module.scss';
 import SubscribeBg from '../../images/subscribe-bg.webp'
 import { useState, useEffect, useRef } from "react";
 import {useAppDispatch, useAppSelector} from '../../App/hooks';
-import { increment, incrementByAmount } from '../../features/counter/counterSlice';
-import { updateScreenWidth } from '../../features/headerSlice';
 import { Text14400 } from "../atoms/Text";
-import { Text16400 } from "../atoms/Text";
-import { Text12600 } from "../atoms/Text";
 import { Text16500 } from "../atoms/Text";
-import { Text24500 } from "../atoms/Text";
-import { Text18500 } from "../atoms/Text";
 import { Text14500 } from "../atoms/Text";
 import { Text32600 } from '../atoms/Text';
 import { Text24600 } from '../atoms/Text';
@@ -26,6 +20,7 @@ import { AvaArray } from "../../Data";
 import { VideoUserArray } from "../../Data";
 import { showVideo, showBio, showStore, showPlaylist } from '../../features/videoSwitcherSlice';
 import { subscribe, unsubscribe } from '../../features/subscribeButtonSlice';
+import VideoUser from '../molecules/VideoUser';
 import People from '../../images/people-icon.svg';
 import Camera from '../../images/camera.svg';
 import Eye from '../../images/eye-icon.svg'
@@ -135,357 +130,26 @@ const SubscribeUser = (props) => {
          <div className={ut.videos__body}>
          {/* //item2--------------------------------------------------------------- */}
          {props.selected &&
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[0]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-              <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[0]}
-                    text1={
-                      <Text14400
-                        text="Adan Lauzon"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
+            <VideoUser img={VideoUserArray[0]}/>
           }
-          {/* //item3--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[1]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[6]}
-                    text1={
-                      <Text14400
-                        text="Savannah Nguyen"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item4--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[2]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[4]}
-                    text1={
-                      <Text14400
-                        text="Theresa Webb"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item5--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[3]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[1]}
-                    text1={
-                      <Text14400
-                        text="Kristin Watson"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item6--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[4]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[6]}
-                    text1={
-                      <Text14400
-                        text="Jenny Wilson"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item7--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[5]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[8]}
-                    text1={
-                      <Text14400
-                        text="Darlene Robertson"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item8--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[6]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[8]}
-                    text1={
-                      <Text14400
-                        text="Darlene Robertson"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item9--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[7]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[8]}
-                    text1={
-                      <Text14400
-                        text="Darlene Robertson"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[8]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[8]}
-                    text1={
-                      <Text14400
-                        text="Darlene Robertson"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item--------------------------------------------------------------- */}
-          <div className={ut.item}>
-            <div className={ut.video__wrapper}>
-              <img src={VideoUserArray[8]} alt="video" />
-            </div>
-            <div className={ut.video__description}>
-            <ColumnTemplate
-                    row1={
-                    isMobile ? (
-                   <Text14500
-                    text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                    lineHeight="16px"
-                  />
-                   ) : <Text16500
-                   text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                   lineHeight="18px"
-                 />
-                }
-                row2={
-                  <Avatext
-                    img={AvaArray[8]}
-                    text1={
-                      <Text14400
-                        text="Darlene Robertson"
-                        color="rgba(153, 153, 153, 1)"
-                      />
-                    }
-                    text2={
-                      <Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />
-                    }
-                  />
-                }
-              />
-            </div>
-          </div>
-          {/* //item--------------------------------------------------------------- */}
+          {/* //items--------------------------------------------------------------- */}
+          <VideoUser img={VideoUserArray[0]} ava={AvaArray[0]}/>
+          <VideoUser img={VideoUserArray[1]} ava={AvaArray[1]}/>
+          <VideoUser img={VideoUserArray[2]} ava={AvaArray[2]}/>
+          <VideoUser img={VideoUserArray[3]} ava={AvaArray[3]}/>
+          <VideoUser img={VideoUserArray[4]} ava={AvaArray[4]}/>
+          <VideoUser img={VideoUserArray[5]} ava={AvaArray[5]}/>
+          <VideoUser img={VideoUserArray[2]} ava={AvaArray[6]}/>
+          <VideoUser img={VideoUserArray[1]} ava={AvaArray[7]}/>
+          <VideoUser img={VideoUserArray[0]} ava={AvaArray[8]}/>
+          
+         
+         
+         
+         
+         
+         
+         
           </div>
         </div>
           }

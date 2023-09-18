@@ -226,3 +226,13 @@ export const Text12300 = (props) => {
         </div>
     )
 }
+export const Text16300 = (props) => {
+    const styled = {
+        color: props.color
+    }
+    return (
+        <div className={t.text16300__wrapper} style={styled}>
+            {props.text}
+        </div>
+    )
+}

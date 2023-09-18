@@ -13,6 +13,7 @@ const ForgotPasswordLazy = React.lazy(() => import("./components/pages/ForgotPas
 const CheckInboxLazy = React.lazy(() => import("./components/pages/CheckInbox/CheckInbox"));
 const RestorePasswordLazy = React.lazy(() => import("./components/pages/RestorePassword/RestorePassword"));
 const SubscribeUserLazy = React.lazy(() => import("./components/pages/Subscribe/Subscribe"));
+const UserVideoPlayerLazy = React.lazy(() => import("./components/pages/UserVideoPlayer/UserVideoPlayer"));
 //---------------------------------------------------------
 import { updateScreenWidth } from './features/headerSlice';
 import TestStrapi from "./components/pages/Test/Test";
@@ -36,6 +37,7 @@ const App = () => {
         <Link to="/RestorePassword">RestorePassword</Link>
         <Link to="/Test">Test</Link>
         <Link to="/Subscribe">Subscribe</Link>
+        <Link to="/UserVideoPlayer">UserVideoPlayer</Link>
         
          </nav>
       <Routes>
@@ -100,6 +102,14 @@ const App = () => {
           element={
             <React.Suspense>
               <SubscribeUserLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/UserVideoPlayer"
+          element={
+            <React.Suspense>
+              <UserVideoPlayerLazy />
             </React.Suspense>
           }
         ></Route>
