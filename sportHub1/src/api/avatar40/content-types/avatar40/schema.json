@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "avatar40s",
+  "info": {
+    "singularName": "avatar40",
+    "pluralName": "avatar40s",
+    "displayName": "avatar40"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "avatar40": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}

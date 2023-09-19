@@ -8,6 +8,8 @@ import videoSwitcherReducer from '../features/videoSwitcherSlice';
 import subscribeButtonReducer from '../features/subscribeButtonSlice';
 import menuDotsReducer from '../features/menuDotsSlice';
 import playlistSlice from "../features/playlistSlice";
+import videoPlayerSlice from '../features/videoPlayerSlice';
+import videoDescriptionChatReducer from '../features/videoDescriptionChatSlice'
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -18,7 +20,9 @@ const rootReducer = combineReducers({
   videoSwitcher: videoSwitcherReducer,
   subscribeButton: subscribeButtonReducer,
   menuDots: menuDotsReducer,
-  playlistSlice: playlistSlice
+  playlistSlice: playlistSlice,
+  videoPlayer: videoPlayerSlice, //use on page Subscribe when click on video and play it on videoplayer
+  videoDescriptionChat: videoDescriptionChatReducer
 });
 
 export default rootReducer;

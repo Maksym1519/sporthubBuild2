@@ -44,7 +44,8 @@ export const EleonaraPena = {
     "http://localhost:1337/uploads/video9_main_52dd68251b.webp",
   ],
   ava: "http://localhost:1337/uploads/ava24_2_662290c107.svg",
-  bigVideo: 'http://localhost:1337/uploads/video_player_5c0bce28e8.webp'
+  bigVideo: 'http://localhost:1337/uploads/video_player_5c0bce28e8.webp',
+  ava40: 'http://localhost:1337/uploads/ava40_eleonara_Pena_6d740e724c.svg'
 }
 
 export const RobertFox = {

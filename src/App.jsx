@@ -35,6 +35,7 @@ const App = () => {
         <Link to="/ForgotPassword">ForgotPassword</Link>
         <Link to="/CheckInbox">CheckInbox</Link>
         <Link to="/RestorePassword">RestorePassword</Link>
+        <br></br>
         <Link to="/Test">Test</Link>
         <Link to="/Subscribe">Subscribe</Link>
         <Link to="/UserVideoPlayer">UserVideoPlayer</Link>

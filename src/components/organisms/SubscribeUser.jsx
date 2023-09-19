@@ -1,4 +1,5 @@
 import ut from './subscribeUser.module.scss';
+import { Link } from 'react-router-dom';
 import SubscribeBg from '../../images/subscribe-bg.webp'
 import { useState, useEffect, useRef } from "react";
 import {useAppDispatch, useAppSelector} from '../../App/hooks';
@@ -21,6 +22,7 @@ import { VideoUserArray } from "../../Data";
 import { showVideo, showBio, showStore, showPlaylist } from '../../features/videoSwitcherSlice';
 import { subscribe, unsubscribe } from '../../features/subscribeButtonSlice';
 import VideoUser from '../molecules/VideoUser';
+import UserVideoPlayer from '../pages/UserVideoPlayer/UserVideoPlayer';
 import People from '../../images/people-icon.svg';
 import Camera from '../../images/camera.svg';
 import Eye from '../../images/eye-icon.svg'
@@ -65,6 +67,11 @@ const SubscribeUser = (props) => {
    }
    const handleUnSubscribeClick = () => {
     dispatch(unsubscribe())
+   }
+   //selectVideo---------------------------------------------------
+   const [selectedVideoImage, setSelectedVideoImage] = useState(false);
+   const chooseVideo = () => {
+    setSelectedVideoImage(true)
    }
  
     return (
@@ -142,14 +149,6 @@ const SubscribeUser = (props) => {
           <VideoUser img={VideoUserArray[2]} ava={AvaArray[6]}/>
           <VideoUser img={VideoUserArray[1]} ava={AvaArray[7]}/>
           <VideoUser img={VideoUserArray[0]} ava={AvaArray[8]}/>
-          
-         
-         
-         
-         
-         
-         
-         
           </div>
         </div>
           }
@@ -158,7 +157,7 @@ const SubscribeUser = (props) => {
           {currentComponent === 'playlist' && <Playlist />}
       </div>
     </div>
-       </div>
+   </div>
     )
 }
 

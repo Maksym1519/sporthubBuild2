@@ -88,6 +88,7 @@ export const Text14400 = (props) => {
     return (
         <div className={t.text14400__wrapper} style={styled}>
             {props.text}
+            {props.text2}
         </div>
     )
 }
