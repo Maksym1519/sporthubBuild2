@@ -1,0 +1,81 @@
+{
+  "kind": "collectionType",
+  "collectionName": "profiles",
+  "info": {
+    "singularName": "profile",
+    "pluralName": "profiles",
+    "displayName": "Profile",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Profile": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "private": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "FirstName": {
+      "type": "string"
+    },
+    "LastName": {
+      "type": "string"
+    },
+    "Address": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "string"
+    },
+    "VimeoAccount": {
+      "type": "string"
+    },
+    "FacebookAccount": {
+      "type": "string"
+    },
+    "Gender": {
+      "type": "string"
+    },
+    "DateOfBirthday": {
+      "type": "float"
+    },
+    "LLC": {
+      "type": "string"
+    },
+    "InstagramAccount": {
+      "type": "string"
+    },
+    "TwitterAccount": {
+      "type": "string"
+    },
+    "Avatar": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "Cover": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

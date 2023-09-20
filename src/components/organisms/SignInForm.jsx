@@ -16,6 +16,9 @@ import { Text32500 } from "../atoms/Text";
 import Eye from "../../images/eye.svg";
 
 const SignInForm = (props) => {
+  const styled = {
+    height: props.height
+  }
   //signin---------------------------------------------------------
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
@@ -57,7 +60,8 @@ const SignInForm = (props) => {
   const isMobile = screenWidth <= 1024;
 
   return (
-    <div className={s.signInForm__wrapper}>
+    <div className={s.signInForm__wrapper} style={styled}>
+      {props.img ? (<img src={props.img} className={s.logo}/>) : " " }
       {isMobile ? (
         <h3 className={s.title}>
           <Text32500 text="Sign in" />
@@ -68,7 +72,7 @@ const SignInForm = (props) => {
         </h3>
       )}
       {error && <p>{error}</p>}
-      <form className={s.signIn__form} onSubmit={handleSubmit}>
+      <form className={s.signIn__form} onSubmit={handleSubmit}> 
         <div className={s.inputs__wrapper}>
           <div className={s.input__wrapper}>
             <span className={s.label}>

@@ -9,15 +9,32 @@ import "./style.scss";
 const MainLazy = React.lazy(() => import("./components/pages/Main/Main"));
 const SignInLazy = React.lazy(() => import("./components/pages/SignIn/SignIn"));
 const SignUpLazy = React.lazy(() => import("./components/pages/SignUp/SignUp"));
-const ForgotPasswordLazy = React.lazy(() => import("./components/pages/ForgotPassword/ForgotPassword"));
-const CheckInboxLazy = React.lazy(() => import("./components/pages/CheckInbox/CheckInbox"));
-const RestorePasswordLazy = React.lazy(() => import("./components/pages/RestorePassword/RestorePassword"));
-const SubscribeUserLazy = React.lazy(() => import("./components/pages/Subscribe/Subscribe"));
-const UserVideoPlayerLazy = React.lazy(() => import("./components/pages/UserVideoPlayer/UserVideoPlayer"));
+const ForgotPasswordLazy = React.lazy(() =>
+  import("./components/pages/ForgotPassword/ForgotPassword")
+);
+const CheckInboxLazy = React.lazy(() =>
+  import("./components/pages/CheckInbox/CheckInbox")
+);
+const RestorePasswordLazy = React.lazy(() =>
+  import("./components/pages/RestorePassword/RestorePassword")
+);
+const SubscribeUserLazy = React.lazy(() =>
+  import("./components/pages/Subscribe/Subscribe")
+);
+const UserVideoPlayerLazy = React.lazy(() =>
+  import("./components/pages/UserVideoPlayer/UserVideoPlayer")
+);
+const SignInCreatorLazy = React.lazy(() =>
+  import("./components/pages/SignInCreator/SignInCreator")
+);
+const ProfileCreatorLazy = React.lazy(() =>
+  import("./components/pages/ProfileCreator/ProfileCreator")
+);
 //---------------------------------------------------------
-import { updateScreenWidth } from './features/headerSlice';
+import { updateScreenWidth } from "./features/headerSlice";
 import TestStrapi from "./components/pages/Test/Test";
-window.addEventListener('resize', () => {
+import Navigation from "./Navigation";
+window.addEventListener("resize", () => {
   const newScreenWidth = window.innerWidth;
   store.dispatch(updateScreenWidth(newScreenWidth));
 });
@@ -27,10 +44,11 @@ window.addEventListener('resize', () => {
 const App = () => {
   return (
     <>
-      <nav>
+      {/* <nav>
         <Link to="/">Home</Link>
         <Link to="/SignIn">SignIn</Link>
         <Link to="/SignUp">SignUp</Link>
+        <Link to="/SignInCreator">SignUpCreator</Link>
         <br></br>
         <Link to="/ForgotPassword">ForgotPassword</Link>
         <Link to="/CheckInbox">CheckInbox</Link>
@@ -40,8 +58,22 @@ const App = () => {
         <Link to="/Subscribe">Subscribe</Link>
         <Link to="/UserVideoPlayer">UserVideoPlayer</Link>
         
-         </nav>
+         </nav> */}
+      {
+        <nav>
+          <Link to="/Navigation">Navigation</Link>
+        </nav>
+      }
       <Routes>
+        <Route
+          path="/Navigation"
+          element={
+            <React.Suspense>
+              <Navigation />
+            </React.Suspense>
+          }
+        ></Route>
+
         <Route
           path="/"
           element={
@@ -50,7 +82,7 @@ const App = () => {
             </React.Suspense>
           }
         ></Route>
-         <Route
+        <Route
           path="/SignIn"
           element={
             <React.Suspense>
@@ -114,9 +146,23 @@ const App = () => {
             </React.Suspense>
           }
         ></Route>
-
-       
-       </Routes>
+        <Route
+          path="/SignInCreator"
+          element={
+            <React.Suspense>
+              <SignInCreatorLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/ProfileCreator"
+          element={
+            <React.Suspense>
+              <ProfileCreatorLazy />
+            </React.Suspense>
+          }
+        ></Route>
+      </Routes>
     </>
   );
 };

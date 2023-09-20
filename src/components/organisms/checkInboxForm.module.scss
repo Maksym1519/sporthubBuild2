@@ -64,7 +64,9 @@
                 line-height: 22px; 
                }
         }
-        
+        .logo {
+            margin-bottom: 268px;
+        }
        
     }
     
@@ -168,7 +170,7 @@
                 width: 100%;
                 text-align: center;
                 position: absolute;
-                bottom: 50px;
+                bottom: 24px;
                 left: 50%;
                 transform: translateX(-50%);
                 color: var(--7, #777);
@@ -176,5 +178,8 @@
                 font-size: 12px;
                 line-height: 16px; 
                }
+        }
+        .logo {
+            margin-bottom: 251px;
         }
 }

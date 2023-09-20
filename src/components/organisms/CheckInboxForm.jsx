@@ -17,12 +17,19 @@ import { Text14700 } from "../atoms/Text";
 import Eye from "../../images/eye.svg";
 
 const CheckInboxForm = (props) => {
+  const styled = {
+    height: props.height
+  }
+  const displayed = {
+    display: props.display
+  }
   //isMobile-----------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
 
   return (
-    <div className={s.signInForm__wrapper}>
+    <div className={s.signInForm__wrapper} style={styled}>
+      {props.img ? (<img src={props.img} className={s.logo}/>) : " "}
       <form className={s.forgotPassword__form}>
       {isMobile ? (
         <h3 className={s.title}>
@@ -58,7 +65,7 @@ const CheckInboxForm = (props) => {
         </div>
        
       </form>
-      <div className={s.terms}>
+      <div className={s.terms} style={displayed}>
         By proceeding, you agree to our{" "}
         <span className={s.underline}>Terms of Use</span> and{" "}
         <span className={s.underline}>Privacy Policy</span>

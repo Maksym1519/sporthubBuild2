@@ -85,7 +85,7 @@ console.log(currentComponent)
         </div>)
         }
        {/* //forms--------------------------------------------------------------------------- */}
-         {currentComponent === 'signUp' && <SignUpForm click={handleSignInClick} />}
+         {currentComponent === 'signUp' && <SignUpForm click={handleSignInClick} url='http://localhost:1337/api/signups'/>}
          {currentComponent === 'signIn' && <SignInForm click={handleSignUpClick} forgotPassword={handleForgotPasswordClick}/>}
          {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick}/>}
          {currentComponent === 'checkInbox' && <CheckInboxForm />}

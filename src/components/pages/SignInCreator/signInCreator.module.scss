@@ -1,0 +1,213 @@
+@media (min-width: 1025px) {
+  .signUpCreator__wrapper {
+    width: 100%;
+    height: 100%;
+    background: var(--10, #111);
+    overflow: hidden;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    .blur {
+      animation: moveBlur 3s ease-in-out infinite; /* Длительность 3 секунды, повторять бесконечно */
+      transform-origin: center; /* Центральная точка для трансформации (по умолчанию) */
+    }
+
+    & .blur1 {
+      width: 349px;
+      height: 349px;
+      position: absolute;
+      top: 0%;
+      right: 0%;
+      //border-radius: 291px;
+      background: var(--middle, #8f5334);
+      filter: blur(250px);
+    }
+    & .blur2 {
+      width: 349px;
+      height: 349px;
+      position: absolute;
+      top: 50%;
+      left: 13%;
+      transform: translateY(-50%);
+      border-radius: 349px;
+      opacity: 0.8;
+      background: var(--light, #ad7955);
+      filter: blur(300px);
+    }
+  }
+  .signUpCreator__container {
+    margin-left: 158px;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 59px;
+    justify-content: flex-start;
+  }
+  .leftSlider {
+    display: flex;
+    align-items: flex-start;
+    max-height: 800px;
+    max-width: 280px;
+  }
+  .swiperSlide {
+    width: 280px !important;
+    height: 340px !important;
+    margin-bottom: 32px;
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 32px;
+    }
+  }
+  .rightSlider {
+    display: flex;
+    align-items: flex-start;
+    max-height: 800px;
+    max-width: 280px;
+    .swiperSlide {
+      width: 220px !important;
+      height: 280px !important;
+      margin-bottom: 32px;
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 32px;
+      }
+    }
+  }
+  .signInForm__wrapper {
+    max-height: 800px;
+    max-width: 100%;
+  }
+
+  @keyframes moveBlur {
+    0% {
+      transform: translateY(0); /* Начальное положение (ноль смещения) */
+    }
+    50% {
+      transform: translateY(150px); /* Смещение в середине анимации */
+    }
+    100% {
+      transform: translateY(300px); /* Возвращение к начальному положению */
+    }
+    0% {
+      transform: translateX(100px); /* Начальное положение (ноль смещения) */
+    }
+    50% {
+      transform: translateX(250px); /* Смещение в середине анимации */
+    }
+    100% {
+      transform: translateX(300px); /* Возвращение к начальному положению */
+    }
+  }
+}
+
+@media (min-width: 280px) and (max-width: 1024px) {
+  .signUpCreator__wrapper {
+    width: 100%;
+    height: 100%;
+    background: var(--10, #111);
+    overflow: hidden;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    padding-top: 24px;
+    .blur {
+      animation: moveBlur 3s ease-in-out infinite; /* Длительность 3 секунды, повторять бесконечно */
+      transform-origin: center; /* Центральная точка для трансформации (по умолчанию) */
+    }
+
+    & .blur1 {
+      width: 349px;
+      height: 349px;
+      position: absolute;
+      top: 0%;
+      right: 0%;
+      //border-radius: 291px;
+      background: var(--middle, #8f5334);
+      filter: blur(250px);
+      display: none;
+    }
+    & .blur2 {
+      width: 349px;
+      height: 349px;
+      position: absolute;
+      top: 50%;
+      left: 13%;
+      transform: translateY(-50%);
+      border-radius: 349px;
+      opacity: 0.8;
+      background: var(--light, #ad7955);
+      filter: blur(300px);
+      display: none;
+    }
+  }
+  .signUpCreator__container {
+    margin-left: 158px;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 59px;
+    justify-content: flex-start;
+    display: none;
+  }
+  .leftSlider {
+    display: flex;
+    align-items: flex-start;
+    max-height: 800px;
+    max-width: 280px;
+  }
+  .swiperSlide {
+    width: 280px !important;
+    height: 340px !important;
+    margin-bottom: 32px;
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 32px;
+    }
+  }
+  .rightSlider {
+    display: flex;
+    align-items: flex-start;
+    max-height: 800px;
+    max-width: 280px;
+    .swiperSlide {
+      width: 220px !important;
+      height: 280px !important;
+      margin-bottom: 32px;
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 32px;
+      }
+    }
+  }
+  .signInForm__wrapper {
+    min-height: 100vh;
+    max-width: 100%;
+  }
+
+  @keyframes moveBlur {
+    0% {
+      transform: translateY(0); /* Начальное положение (ноль смещения) */
+    }
+    50% {
+      transform: translateY(150px); /* Смещение в середине анимации */
+    }
+    100% {
+      transform: translateY(300px); /* Возвращение к начальному положению */
+    }
+    0% {
+      transform: translateX(100px); /* Начальное положение (ноль смещения) */
+    }
+    50% {
+      transform: translateX(250px); /* Смещение в середине анимации */
+    }
+    100% {
+      transform: translateX(300px); /* Возвращение к начальному положению */
+    }
+  }
+}

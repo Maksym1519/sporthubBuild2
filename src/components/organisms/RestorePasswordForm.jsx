@@ -14,9 +14,16 @@ import { Text16500 } from "../atoms/Text";
 import { Text32500 } from "../atoms/Text";
 import Eye from "../../images/eye.svg";
 
-const RestorePasswordForm = () => {
+const RestorePasswordForm = (props) => {
+  const styled = {
+    height: props.height
+  }
+  const displayed = {
+    display: props.display
+  }
   return (
-    <div className={s.signInForm__wrapper}>
+    <div className={s.signInForm__wrapper} style={styled}>
+      {props.img ? (<img src={props.img} className={s.logo}/>) : " "}
       <form className={s.forgotPassword__form}>
         <h3 className={s.title}>
           <Text36500 text="Restore password" />
@@ -58,7 +65,7 @@ const RestorePasswordForm = () => {
           </Link>
         </div>
       </form>
-      <div className={s.terms}>
+      <div className={s.terms} style={displayed}>
         By proceeding, you agree to our{" "}
         <span className={s.underline}>Terms of Use</span> and{" "}
         <span className={s.underline}>Privacy Policy</span>

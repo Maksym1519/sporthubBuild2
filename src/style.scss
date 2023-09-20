@@ -47,4 +47,23 @@ ul {
 	padding: 0;
 	margin: 0;
 }
-   
+@keyframes moveBlur {
+	0% {
+	  transform: translateY(0); /* Начальное положение (ноль смещения) */
+	}
+	50% {
+	  transform: translateY(10px); /* Смещение в середине анимации */
+	}
+	100% {
+	  transform: translateY(0); /* Возвращение к начальному положению */
+	}
+  }
+  .navLinks__wrapper {
+	display: flex;
+  }
+  .navLink {
+	border: 1px solid lightslategrey;
+	padding: 8px;
+	margin-right: 10px;
+  }
+	 

@@ -46,9 +46,7 @@ const SignUpForm = (props) => {
         },
       };
 
-      const response = await axios.post(
-        "http://localhost:1337/api/signups",
-        requestData,
+      const response = await axios.post(props.url, requestData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -93,6 +91,7 @@ const SignUpForm = (props) => {
   };
     return (
         <div className={s.signUpForm__wrapper}>
+          {props.img ? (<img src={props.img}  className={s.logo}/>) : " "}
           {isMobile ? (
         <h3 className={s.title}>
           <Text32500 text="Sign up" />
