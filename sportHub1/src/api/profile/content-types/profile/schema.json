@@ -12,11 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Profile": {
+    "profile": {
       "type": "media",
       "multiple": true,
-      "required": true,
-      "private": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
@@ -24,58 +23,60 @@
         "audios"
       ]
     },
-    "FirstName": {
+    "firstName": {
       "type": "string"
     },
-    "LastName": {
+    "lastName": {
       "type": "string"
     },
-    "Address": {
+    "address": {
       "type": "string"
     },
-    "Description": {
+    "description": {
       "type": "string"
     },
-    "VimeoAccount": {
+    "vimeoAccount": {
       "type": "string"
     },
-    "FacebookAccount": {
+    "facebookAccount": {
       "type": "string"
     },
-    "Gender": {
+    "gender": {
       "type": "string"
     },
-    "DateOfBirthday": {
+    "dateOfBirthday": {
       "type": "float"
     },
     "LLC": {
       "type": "string"
     },
-    "InstagramAccount": {
+    "instagramAccount": {
       "type": "string"
     },
-    "TwitterAccount": {
+    "twitterAccount": {
       "type": "string"
     },
-    "Avatar": {
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
-    "Cover": {
+    "cover": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     }
   }
 }
