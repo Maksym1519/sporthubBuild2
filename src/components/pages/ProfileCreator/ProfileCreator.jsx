@@ -24,16 +24,18 @@ import Radio from '../../../images/Radiobutton.svg';
 import RadioActive from '../../../images/Radiobutton-active.svg'
 
 const ProfileCreator = () => {
+  //strapi-post-images--------------------------------------------------  
 const [image, setImage] = useState('');
 const handleImage = (e) => {
    setImage(e.target.files[0]);
    console.log(image)
   }
  const handleApi = async () => {
-  const formDataServer = new FormData();
-  formDataServer.append('avatar', image)
   try {
-    await axios.post("http://localhost:1337/api/profiles", formDataServer, {
+  const formDataServer = new FormData();
+  formDataServer.append('test', image)
+    await axios.post("http://localhost:1337/api/profiles",  {
+      data: formDataServer,
       headers: {
         "Content-Type": "multipart/form-data",
          },
@@ -43,6 +45,8 @@ const handleImage = (e) => {
     console.error("Ошибка загрузки изображения:", error);
   }
  }
+
+
   //redux-gender---- ------------------------------------------
   const dispatch = useAppDispatch();
   const currentComponent = useSelector((state) => state.genderSlice.currentComponent);
@@ -177,7 +181,7 @@ const handleImage = (e) => {
           </div>
           <div className={p.profile__wrapper}>
             <div className={p.item__wrapper}>
-            <input type="file" className={p.filepeaker}  name="file" onChange={handleImage}/>
+            <input type="file" className={p.filepeaker}  name="test" onChange={handleImage}/>
              <img src={AvaFrame} alt="ava" />
               <ColumnTemplate
                 row1={<Text16400 text="Information about adding photo" />}
