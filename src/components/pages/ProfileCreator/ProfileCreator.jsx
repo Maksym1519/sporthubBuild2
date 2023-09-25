@@ -55,7 +55,7 @@ const ProfileCreator = () => {
     genderFemale: null,
     genderNone: null,
     lastName: null,
-    dateOfBirthaday: null,
+    dateOfBirthday: null,
     address: null,
     LLC: null,
     description: null,
@@ -70,7 +70,7 @@ const ProfileCreator = () => {
     genderFemale: "Female",
     genderNone: "None",
     lastName: "Your Last Name",
-    dateOfBirthaday: "MM.DD.YYYY",
+    dateOfBirthday: "MM.DD.YYYY",
     address: "Address",
     LLC: "Your LLC",
     description: "Description",
@@ -107,7 +107,7 @@ const ProfileCreator = () => {
             firstName: formData.firstName,
             gender: "male",
             lastName: formData.lastName,
-            dateOfBirthaday: formData.dateOfBirthaday,
+            dateOfBirthday: formData.dateOfBirthday,
             address: formData.address,
             LLC: formData.LLC,
             description: formData.description,
@@ -130,7 +130,7 @@ const ProfileCreator = () => {
             genderFemale: "",
             genderNone: "",
             lastName: "",
-            dateOfBirthaday: "",
+            dateOfBirthday: "",
             address: "",
             LLC: "",
             description: "",
@@ -147,7 +147,7 @@ const ProfileCreator = () => {
             genderFemale: "Female",
             genderNone: "None",
             lastName: "Your Last Name",
-            dateOfBirthaday: "MM.DD.YYYY",
+            dateOfBirthday: "MM.DD.YYYY",
             address: "Address",
             LLC: "Your LLC",
             description: "Description",
@@ -343,9 +343,9 @@ const ProfileCreator = () => {
                 <input
                   type="text"
                   className={p.input}
-                  placeholder={placeholderData.dateOfBirthaday}
+                  placeholder={placeholderData.dateOfBirthday}
                   name="dateOfBirthday"
-                  value={formData.dateOfBirthaday}
+                  value={formData.dateOfBirthday}
                   onChange={handleUploadAndSubmit}
                 />
               </div>
@@ -357,7 +357,7 @@ const ProfileCreator = () => {
                 <input
                   type="text"
                   className={p.input}
-                  placeholder={placeholderData.lastname}
+                  placeholder={placeholderData.address}
                   name="address"
                   value={formData.address}
                   onChange={handleUploadAndSubmit}
