@@ -62,3 +62,8 @@ export const RobertFox = {
   ],
   ava: "http://localhost:1337/uploads/ava24_3_3212ec06f0.svg",
 }
+
+export const Icones = {
+  greenBird: "http://localhost:1337/uploads/green_bird_f79abeef99.svg",
+  bucket: "http://localhost:1337/uploads/Trash_1e26f8015b.svg"
+}

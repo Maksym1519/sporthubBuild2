@@ -30,6 +30,9 @@ const SignInCreatorLazy = React.lazy(() =>
 const ProfileCreatorLazy = React.lazy(() =>
   import("./components/pages/ProfileCreator/ProfileCreator")
 );
+const ProfileCreatorFilledLazy = React.lazy(() =>
+  import("./components/pages/ProfileCreatorFilled/ProfileCreatorFilled")
+);
 //---------------------------------------------------------
 import { updateScreenWidth } from "./features/headerSlice";
 import TestStrapi from "./components/pages/Test/Test";
@@ -159,6 +162,14 @@ const App = () => {
           element={
             <React.Suspense>
               <ProfileCreatorLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/ProfileCreatorFilled"
+          element={
+            <React.Suspense>
+              <ProfileCreatorFilledLazy />
             </React.Suspense>
           }
         ></Route>

@@ -1,8 +1,6 @@
-import p from "./profileCreator.module.scss";
+import p from "./profileCreatorFilled.module.scss";
 import { useState } from "react";
 import axios from "axios";
-import { FilePicker } from "react-file-picker";
-import { ImagePicker } from "react-file-picker";
 //redux------------------------------------------
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +10,8 @@ import Header from "../../organisms/Header";
 import { Button18044 } from "../../atoms/Buttons";
 import { Button10644 } from "../../atoms/Buttons";
 import ColumnTemplate from "../../molecules/ColumnTemplate";
+import Avatext from '../../molecules/Avatext';
+import { Icones } from "../../../Data";
 //text-----------------------------------------
 import { Text24500 } from "../../atoms/Text";
 import { Text16600 } from "../../atoms/Text";
@@ -25,30 +25,51 @@ import CoverFrame from "../../../images/coverFrame.svg";
 import Radio from "../../../images/Radiobutton.svg";
 import RadioActive from "../../../images/Radiobutton-active.svg";
 
-const ProfileCreator = () => {
-   //redux-gender---- ------------------------------------------
+const ProfileCreatorFilled = () => {
+  const [files, setFiles] = useState();
+  const uploadImage = async (e) => {
+    e.preventDefault();
+    const formDataServer = new FormData();
+    formDataServer.append("files", files[0]);
+
+    axios
+      .post("http://localhost:1337/api/upload", formDataServer)
+      .then((response) => {
+        const imageId = response.data[0].id;
+        console.log(imageId);
+
+        axios
+          .post("http://localhost:1337/api/profiles", { avatar: imageId })
+          .then((response) => {
+            //handle success
+          })
+          .catch((error) => {
+            //handle error
+          });
+      })
+      .catch((error) => {
+        //handle error
+      });
+  };
+  //redux-gender---- ------------------------------------------
   const dispatch = useAppDispatch();
   const currentComponent = useSelector(
     (state) => state.genderSlice.currentComponent
   );
   const maleClick = () => {
     dispatch(showMale());
-    };
+  };
   const femaleClick = () => {
     dispatch(showFemale());
-    
   };
   const noneClick = () => {
     dispatch(showNone());
-    
   };
   //redux-isMobile---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
 
   //form-data--------------------------------------------------
-  const [avatar, setAvatar] = useState();
-  const [cover, setCover] = useState();
   const [formData, setFormData] = useState({
     firstName: null,
     genderMale: null,
@@ -79,111 +100,93 @@ const ProfileCreator = () => {
     facebookAccount: "Add your Facebook account",
     twitterAccount: "Add your Twitter account",
   });
-  const handleUploadAndSubmit = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const formDataServer1 = new FormData();
-      const formDataServer2 = new FormData();
-      formDataServer1.append("files", avatar[0]);
-      formDataServer2.append("files", cover[0]);
-           
-      const responseAvatar = await axios.post("http://localhost:1337/api/upload", formDataServer1);
-      const responseCover = await axios.post("http://localhost:1337/api/upload", formDataServer2);
-      
-      if (responseAvatar.status === 200) {
-        // If the image upload is successful, get the image ID
-        const imageAvatar = responseAvatar.data[0].id;
-        const imageCover = responseCover.data[0].id;
-        console.log(imageAvatar);
-  
-        // Now, you can send the rest of the data to the server
-        const requestData = {
-          data: {
-            firstName: formData.firstName,
-            gender: "male",
-            lastName: formData.lastName,
-            dateOfBirthaday: formData.dateOfBirthaday,
-            address: formData.address,
-            LLC: formData.LLC,
-            description: formData.description,
-            vimeoAccount: formData.vimeoAccount,
-            instagramAccount: formData.instagramAccount,
-            facebookAccount: formData.facebookAccount,
-            twitterAccount: formData.twitterAccount,
-            avatar: imageAvatar, // Add the image ID to the requestData
-            cover: imageCover,  // Add the image ID as cover as well, if needed
+      const requestData = {
+        data: {
+          firstName: formData.firstName,
+          genderMale: formData.genderMale,
+          genderFemale: formData.genderFemale,
+          genderNone: formData.genderNone,
+          lastName: formData.lastName,
+          dateOfBirthaday: formData.dateOfBirthaday,
+          address: formData.address,
+          LLC: formData.LLC,
+          description: formData.description,
+          vimeoAccount: formData.vimeoAccount,
+          instagramAccount: formData.instagramAccount,
+          facebookAccount: formData.facebookAccount,
+          twitterAccount: formData.twitterAccount,
+        },
+      };
+
+      const response = await axios.post(
+        "http://localhost:1337/api/profiles",
+        requestData,
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-        };
-  
-        // Now, send the requestData to the server
-        const profileResponse = await axios.post("http://localhost:1337/api/profiles", requestData);
-  
-        if (profileResponse.status === 200) {
-          setFormData({
-            firstName: "",
-            genderMale: "",
-            genderFemale: "",
-            genderNone: "",
-            lastName: "",
-            dateOfBirthaday: "",
-            address: "",
-            LLC: "",
-            description: "",
-            vimeoAccount: "",
-            instagramAccount: "",
-            facebookAccount: "",
-            twitterAccount: "",
-            avatar: "",
-          });
-          
-          setPlaceholderData({
-            firstName: "Your First Name",
-            genderMale: "Male",
-            genderFemale: "Female",
-            genderNone: "None",
-            lastName: "Your Last Name",
-            dateOfBirthaday: "MM.DD.YYYY",
-            address: "Address",
-            LLC: "Your LLC",
-            description: "Description",
-            vimeoAccount: "Add your Vimeo account",
-            instagramAccount: "Add your Instagram account",
-            facebookAccount: "Add your Facebook account",
-            twitterAccount: "Add your Twitter account",
-          });
-          console.log("Registration successful");
-          // You can also reset your form data and placeholders here if needed
-        } else {
-          // Handle any errors from the profile creation
-          console.error("Profile creation failed");
         }
+      );
+
+      if (response.status === 200) {
+        setFormData({
+          firstName: "",
+          genderMale: "",
+          genderFemale: "",
+          genderNone: "",
+          lastName: "",
+          dateOfBirthaday: "",
+          address: "",
+          LLC: "",
+          description: "",
+          vimeoAccount: "",
+          instagramAccount: "",
+          facebookAccount: "",
+          twitterAccount: "",
+          avatar: "",
+        });
+        setPlaceholderData({
+          firstName: "Your First Name",
+          genderMale: "Male",
+          genderFemale: "Female",
+          genderNone: "None",
+          lastName: "Your Last Name",
+          dateOfBirthaday: "MM.DD.YYYY",
+          address: "Address",
+          LLC: "Your LLC",
+          description: "Description",
+          vimeoAccount: "Add your Vimeo account",
+          instagramAccount: "Add your Instagram account",
+          facebookAccount: "Add your Facebook account",
+          twitterAccount: "Add your Twitter account",
+        });
+
+        console.log("Registration successful");
       } else {
-        // Handle any errors from the image upload
-        console.error("Image upload failed");
+        console.error("Registration failed");
       }
     } catch (error) {
-      // Handle any other errors
       console.error("Error registering user:", error);
     }
   };
-  
-  // ...
-  
+
   return (
     <div className={p.profileCreator__wrapper}>
       <Header />
       <div className={p.container}>
         <div className={p.main}>
           <form
-            // onSubmit={(e) => {
-            //   uploadImage(e), handleSubmit(e);
-            // }}
-            onSubmit={handleSubmit}
+            onSubmit={(e) => {
+              uploadImage(e), handleSubmit(e);
+            }}
             className={p.form__wrapper}
           >
             <div className={p.main__header}>
@@ -216,31 +219,35 @@ const ProfileCreator = () => {
                 <input
                   type="file"
                   className={p.filepeaker}
-                  onChange={(e) => setAvatar(e.target.files)}
+                  onChange={(e) => setFiles(e.target.files)}
                 />
                 <img src={AvaFrame} alt="ava" />
                 <ColumnTemplate
-                  row1={<Text16400 text="Information about adding photo" />}
+                  row1={<Avatext img={Icones.greenBird} text1={<Text16600 text={'File_name.jpeg'} lineHeight="normal"/>}/>}
                   row2={
-                    <Text12400
-                      text="Information about adding photo. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit"
-                      color="rgba(153, 153, 153, 1)"
+                    <Text14400
+                      text="Change file"
+                      color="rgba(173, 121, 85, 1)"
+                      underline={true}
                     />
                   }
                 />
+                <img src={Icones.bucket} alt="bucket" className={p.bucket}/>
               </div>
               <div className={p.item__wrapper}>
-                <input type="file" className={p.filepeaker} onChange={(e) => setCover(e.target.files)}/>
+                <input type="file" className={p.filepeaker} />
                 <img src={CoverFrame} alt="ava" />
                 <ColumnTemplate
-                  row1={<Text16400 text="Information about adding cover" />}
+                  row1={<Avatext img={Icones.greenBird} text1={<Text16600 text={'File_name.jpeg'} lineHeight="normal"/>}/>}
                   row2={
-                    <Text12400
-                      text="Information about adding photo. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. "
-                      color="rgba(153, 153, 153, 1)"
+                    <Text14400
+                      text="Change file"
+                      color="rgba(173, 121, 85, 1)"
+                      underline={true}
                     />
                   }
                 />
+                <img src={Icones.bucket} alt="bucket" className={p.bucket}/>
               </div>
             </div>
 
@@ -256,7 +263,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.firstName}
                   name="firstName"
                   value={formData.firstName}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -279,7 +286,7 @@ const ProfileCreator = () => {
                       placeholder={placeholderData.genderMale}
                       name="genderMale"
                       value={formData.genderMale}
-                      onChange={handleUploadAndSubmit}
+                      onChange={handleChange}
                     />
                   </div>
                   <div
@@ -296,7 +303,7 @@ const ProfileCreator = () => {
                       placeholder={placeholderData.genderFemale}
                       name="genderFemale"
                       value={formData.genderFemale}
-                      onChange={handleUploadAndSubmit}
+                      onChange={handleChange}
                     />
                   </div>
                   <div
@@ -313,7 +320,7 @@ const ProfileCreator = () => {
                       placeholder={placeholderData.genderNone}
                       name="genderNone"
                       value={formData.genderNone}
-                      onChange={handleUploadAndSubmit}
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -329,7 +336,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.lastName}
                   name="lastName"
                   value={formData.lastName}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -346,7 +353,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.dateOfBirthaday}
                   name="dateOfBirthday"
                   value={formData.dateOfBirthaday}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -360,7 +367,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.lastname}
                   name="address"
                   value={formData.address}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -374,7 +381,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.LLC}
                   name="LLC"
                   value={formData.LLC}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -391,7 +398,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.description}
                   name="description"
                   value={formData.description}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -408,7 +415,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.vimeoAccount}
                   name="vimeoAccount"
                   value={formData.vimeoAccount}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -425,7 +432,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.instagramAccount}
                   name="instagramAccount"
                   value={formData.instagramAccount}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -442,7 +449,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.facebookAccount}
                   name="facebookAccount"
                   value={formData.facebookAccount}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -459,7 +466,7 @@ const ProfileCreator = () => {
                   placeholder={placeholderData.twitterAccount}
                   name="twitterAccount"
                   value={formData.twitterAccount}
-                  onChange={handleUploadAndSubmit}
+                  onChange={handleChange}
                 />
               </div>
               {/* //input-------------------------------------------------------------------------*/}
@@ -473,4 +480,4 @@ const ProfileCreator = () => {
   );
 };
 
-export default ProfileCreator;
+export default ProfileCreatorFilled;

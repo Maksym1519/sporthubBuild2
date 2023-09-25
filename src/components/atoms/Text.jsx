@@ -83,7 +83,8 @@ export const Text14400 = (props) => {
         textAlign: props.textAlign,
         maxWidth: props.maxWidth,
         marginBottom: props.marginBottom,
-        lineHeight: props.lineHeight
+        lineHeight: props.lineHeight,
+        textDecoration: props.underline ? "underline": ""
     }
     return (
         <div className={t.text14400__wrapper} style={styled}>
@@ -127,7 +128,8 @@ export const Text16400R = (props) => {
 //---------------------------------------------------------------------
 export const Text16600 = (props) => {
     const styled = {
-        color: props.color
+        color: props.color,
+        lineHeight: props.lineHeight
     }
     return (
         <div className={t.text16600__wrapper} style={styled}>

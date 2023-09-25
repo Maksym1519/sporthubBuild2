@@ -126,7 +126,7 @@ const SignUpCreator = () => {
         </div>
       </div>
       <div className={sc.signInForm__wrapper}>
-        {currentComponent === 'signIn' && <SignInForm img={Logo} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} height='100%'/>}
+        {currentComponent === 'signIn' && <SignInForm img={Logo} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} height='800px'/>}
         {currentComponent === 'signUp' && <SignUpForm img={Logo} click={handleSignInClick}/>}
         {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick} img={Logo} height='100%' display='none'/>}
         {currentComponent === 'checkInbox' && <CheckInboxForm img={Logo} height='100%' display='none'/>}

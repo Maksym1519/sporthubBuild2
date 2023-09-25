@@ -23,3 +23,15 @@ export const Button18044 = (props) => {
         </button>
     )
 }
+export const Button10644 = (props) => {
+    const styled = {
+        background: props.bg,
+        borderRadius: props.borderRadius,
+        border: props.border
+    }
+    return (
+        <button className={b.wrapper__10644} style={styled} >
+           {props.text}
+        </button>
+    )
+}

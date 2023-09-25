@@ -52,6 +52,8 @@ const Navigation = () => {
         <div class='navLink'><Link to="/Subscribe">Subscribe</Link></div>
         <div class='navLink'><Link to="/UserVideoPlayer">UserVideoPlayer</Link></div>
         <div class='navLink'><Link to="/ProfileCreator">ProfileCreator</Link></div>
+        <div class='navLink'><Link to="/ProfileCreatorFilled">ProfileCreatorFilled</Link></div>
+        <div class='navLink'><Link to="/SignInCreator">SignInCreator</Link></div>
       </nav>
        </>
   );
