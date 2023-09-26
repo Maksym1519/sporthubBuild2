@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_soul_souls",
+  "info": {
+    "displayName": "soul"
+  },
+  "options": {},
+  "attributes": {
+    "soulVideo": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

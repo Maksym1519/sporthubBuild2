@@ -63,7 +63,8 @@ const ProfileCreatorFilled = () => {
      instagramAccount: null,
      facebookAccount: null,
      twitterAccount: null,
-     avatar: null
+     avatar: null,
+     cover: null
    });
    const [placeholderData, setPlaceholderData] = useState({
      firstName: "",
@@ -143,6 +144,7 @@ const ProfileCreatorFilled = () => {
              facebookAccount: "",
              twitterAccount: "",
              avatar: "",
+             cover: "",
            });
            
            setPlaceholderData({
@@ -188,19 +190,21 @@ const ProfileCreatorFilled = () => {
           console.log(profileData[0])
           // Заполните форму данными с сервера
           setFormData({
-            firstName: profileData[0].attributes.firstName,
-            lastName: profileData[0].attributes.lastName,
-            gender: profileData[0].attributes.gender,
-            dateOfBirthday: profileData[0].attributes.dateOfBirthday,
-            address: profileData[0].attributes.address,
-            LLC: profileData[0].attributes.LLC,
-            description: profileData[0].attributes.description,
-            vimeoAccount: profileData[0].attributes.vimeoAccount,
-            instagramAccount: profileData[0].attributes.instagramAccount,
-            facebookAccount: profileData[0].attributes.facebookAccount,
-            twitterAccount: profileData[0].attributes.twitterAccount,
-            avatar: profileData[0].attributes.avatar.data.attributes.url,
-      
+            firstName: profileData[profileData.length - 1].attributes.firstName,
+            lastName: profileData[profileData.length - 1].attributes.lastName,
+            gender: profileData[profileData.length - 1].attributes.gender,
+            dateOfBirthday: profileData[profileData.length - 1].attributes.dateOfBirthday,
+            address: profileData[profileData.length - 1].attributes.address,
+            LLC: profileData[profileData.length - 1].attributes.LLC,
+            description: profileData[profileData.length - 1].attributes.description,
+            vimeoAccount: profileData[profileData.length - 1].attributes.vimeoAccount,
+            instagramAccount: profileData[profileData.length - 1].attributes.instagramAccount,
+            facebookAccount: profileData[profileData.length - 1].attributes.facebookAccount,
+            twitterAccount: profileData[profileData.length - 1].attributes.twitterAccount,
+            avatar: profileData[profileData.length - 1].attributes.avatar.data.attributes.url,
+            cover: profileData[profileData.length - 1].attributes.cover.data.attributes.url,
+            imgCoverName: profileData[profileData.length - 1].attributes.cover.data.attributes.name,
+            imgAvatarName: profileData[profileData.length - 1].attributes.avatar.data.attributes.name
             // ... и так далее для остальных полей
           });
           console.log(formData.avatar)
@@ -262,7 +266,7 @@ const ProfileCreatorFilled = () => {
                 />
                 <img src={"http://localhost:1337" + formData.avatar} alt="ava" />
                 <ColumnTemplate
-                  row1={<Avatext img={Icones.greenBird} text1={<Text16600 text={'File_name.jpeg'} lineHeight="normal"/>}/>}
+                  row1={<Avatext img={Icones.greenBird} text1={<Text16600 text={formData.imgAvatarName} lineHeight="normal"/>}/>}
                   row2={
                     <Text14400
                       text="Change file"
@@ -275,9 +279,9 @@ const ProfileCreatorFilled = () => {
               </div>
               <div className={p.item__wrapper}>
                 <input type="file" className={p.filepeaker} onChange={(e) => setCover(e.target.files)}/>
-                <img src={CoverFrame} alt="ava" />
+                <img src={"http://localhost:1337" + formData.cover} alt="ava" />
                 <ColumnTemplate
-                  row1={<Avatext img={Icones.greenBird} text1={<Text16600 text={'File_name.jpeg'} lineHeight="normal"/>}/>}
+                  row1={<Avatext img={Icones.greenBird} text1={<Text16600 text={formData.imgCoverName} lineHeight="normal"/>}/>}
                   row2={
                     <Text14400
                       text="Change file"

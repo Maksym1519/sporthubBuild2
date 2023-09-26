@@ -15,10 +15,12 @@ export const Button18044 = (props) => {
     const styled = {
         background: props.bg,
         borderRadius: props.borderRadius,
-        border: props.border
+        border: props.border,
+        columnGap: props.columnGap
     }
     return (
         <button className={b.wrapper__18044} style={styled} >
+           <img src={props.img} />
            {props.text}
         </button>
     )

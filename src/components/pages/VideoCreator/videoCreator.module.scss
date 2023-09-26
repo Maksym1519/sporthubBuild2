@@ -1,0 +1,99 @@
+@media (min-width: 1025px) {
+  .videoCreator__wrapper {
+    width: 100%;
+    height: 100vh;
+    background: var(--10, #111);
+    padding-bottom: 24px;
+  }
+  .videoCreator__container {
+    width: 100%;
+    max-width: 1392px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .videoNavigation__wrapper {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    margin-bottom: 31px;
+    & .videoSwitcher__wrapper {
+      display: flex;
+      align-items: center;
+      & .item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 168px;
+        height: 59px;
+        color: var(--3, #fff);
+        font-family: "Uto-500";
+        font-size: 24px;
+        line-height: normal;
+      }
+      & .active {
+        border-radius: 8px;
+        background: var(--9, #222);
+      }
+    }
+  }
+  .video__navigation {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid var(--9, #222);
+    margin-bottom: 24px;
+    & .videoSwitcher__wrapper {
+      display: flex;
+      align-items: center;
+      & .active {
+        color: #fff !important;
+        border-bottom: 1px solid var(--light, #ad7955);
+      }
+      & .switcher__item {
+        padding: 10px 24px;
+        color: var(--7, #777);
+        text-align: center;
+        font-family: "Uto-600";
+        font-size: 16px;
+        line-height: 24px;
+      }
+      & .switcher__item:hover {
+        border-bottom: 1px solid var(--light, #ad7955);
+      }
+    }
+  }
+  .videos__body {
+    width: 100%;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 24px;
+    row-gap: 24px;
+    overflow: hidden;
+  }
+  .button__wrapper {
+    position: relative;
+    & .addVideo {
+      position: absolute;
+      top: 0%;
+      left: -50%;
+      transform: translate(-50%);
+      opacity: 1;
+    }
+    & .buttonSubmit {
+      position: absolute;
+      top: 0%;
+      left: -150%;
+      transform: translate(-50%);
+      opacity: 1;
+      color: #fff
+    }
+  }
+}
+
+@media (min-width: 280px) and (max-width: 1024px) {
+}

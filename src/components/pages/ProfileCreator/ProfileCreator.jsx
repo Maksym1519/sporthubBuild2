@@ -1,4 +1,6 @@
 import p from "./profileCreator.module.scss";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { FilePicker } from "react-file-picker";
@@ -24,6 +26,7 @@ import AvaFrame from "../../../images/avaFrame.svg";
 import CoverFrame from "../../../images/coverFrame.svg";
 import Radio from "../../../images/Radiobutton.svg";
 import RadioActive from "../../../images/Radiobutton-active.svg";
+ 
 
 const ProfileCreator = () => {
    //redux-gender---- ------------------------------------------
@@ -33,20 +36,19 @@ const ProfileCreator = () => {
   );
   const maleClick = () => {
     dispatch(showMale());
-    };
+  };
   const femaleClick = () => {
     dispatch(showFemale());
-    
   };
   const noneClick = () => {
     dispatch(showNone());
-    
   };
   //redux-isMobile---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
 
   //form-data--------------------------------------------------
+  const navigate = useNavigate();
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
   const [formData, setFormData] = useState({
@@ -66,7 +68,7 @@ const ProfileCreator = () => {
   });
   const [placeholderData, setPlaceholderData] = useState({
     firstName: "Your First Name",
-    genderMale: 'Male',
+    genderMale: "Male",
     genderFemale: "Female",
     genderNone: "None",
     lastName: "Your Last Name",
@@ -83,26 +85,31 @@ const ProfileCreator = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+    //e.preventDefault();
+
     try {
       const formDataServer1 = new FormData();
       const formDataServer2 = new FormData();
       formDataServer1.append("files", avatar[0]);
       formDataServer2.append("files", cover[0]);
-           
-      const responseAvatar = await axios.post("http://localhost:1337/api/upload", formDataServer1);
-      const responseCover = await axios.post("http://localhost:1337/api/upload", formDataServer2);
-      
+
+      const responseAvatar = await axios.post(
+        "http://localhost:1337/api/upload",
+        formDataServer1
+      );
+      const responseCover = await axios.post(
+        "http://localhost:1337/api/upload",
+        formDataServer2
+      );
+
       if (responseAvatar.status === 200) {
-        // If the image upload is successful, get the image ID
         const imageAvatar = responseAvatar.data[0].id;
         const imageCover = responseCover.data[0].id;
         console.log(imageAvatar);
-  
-        // Now, you can send the rest of the data to the server
-        const requestData = {
+
+         const requestData = {
           data: {
             firstName: formData.firstName,
             gender: "male",
@@ -115,14 +122,17 @@ const ProfileCreator = () => {
             instagramAccount: formData.instagramAccount,
             facebookAccount: formData.facebookAccount,
             twitterAccount: formData.twitterAccount,
-            avatar: imageAvatar, // Add the image ID to the requestData
-            cover: imageCover,  // Add the image ID as cover as well, if needed
+            avatar: imageAvatar, 
+            cover: imageCover, 
           },
         };
-  
+
         // Now, send the requestData to the server
-        const profileResponse = await axios.post("http://localhost:1337/api/profiles", requestData);
-  
+        const profileResponse = await axios.post(
+          "http://localhost:1337/api/profiles",
+          requestData
+        );
+
         if (profileResponse.status === 200) {
           setFormData({
             firstName: "",
@@ -140,7 +150,7 @@ const ProfileCreator = () => {
             twitterAccount: "",
             avatar: "",
           });
-          
+
           setPlaceholderData({
             firstName: "Your First Name",
             genderMale: "Male",
@@ -157,23 +167,35 @@ const ProfileCreator = () => {
             twitterAccount: "Add your Twitter account",
           });
           console.log("Registration successful");
-          // You can also reset your form data and placeholders here if needed
+          
         } else {
-          // Handle any errors from the profile creation
           console.error("Profile creation failed");
         }
       } else {
-        // Handle any errors from the image upload
         console.error("Image upload failed");
       }
     } catch (error) {
-      // Handle any other errors
       console.error("Error registering user:", error);
     }
   };
-  
-  // ...
-  
+//directTo-------------------------------------------
+// function directTo () {
+//   handleSubmit().then(() => {
+//     setTimeout(() => {
+//       navigate("/ProfileCreatorFilled");
+//     }, 2000); // 1000 миллисекунд = 1 секунда
+//   });
+// }
+const directTo = async (e) => {
+  e.preventDefault(); // Остановить стандартное поведение формы
+  try {
+    await handleSubmit();
+    navigate("/ProfileCreatorFilled");
+  } catch (error) {
+    // Обработка ошибок, если отправка данных не удалась
+    console.error("Произошла ошибка при отправке данных:", error);
+  }
+};
   return (
     <div className={p.profileCreator__wrapper}>
       <Header />
@@ -197,6 +219,7 @@ const ProfileCreator = () => {
                 className={p.button__wrapper}
                 type="submit"
                 value="Submit"
+                onClick={directTo}
               >
                 {isMobile ? (
                   <Button10644
@@ -230,7 +253,11 @@ const ProfileCreator = () => {
                 />
               </div>
               <div className={p.item__wrapper}>
-                <input type="file" className={p.filepeaker} onChange={(e) => setCover(e.target.files)}/>
+                <input
+                  type="file"
+                  className={p.filepeaker}
+                  onChange={(e) => setCover(e.target.files)}
+                />
                 <img src={CoverFrame} alt="ava" />
                 <ColumnTemplate
                   row1={<Text16400 text="Information about adding cover" />}

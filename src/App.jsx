@@ -33,6 +33,9 @@ const ProfileCreatorLazy = React.lazy(() =>
 const ProfileCreatorFilledLazy = React.lazy(() =>
   import("./components/pages/ProfileCreatorFilled/ProfileCreatorFilled")
 );
+const VideoCreatorLazy = React.lazy(() =>
+  import("./components/pages/VideoCreator/VideoCreator")
+);
 //---------------------------------------------------------
 import { updateScreenWidth } from "./features/headerSlice";
 import TestStrapi from "./components/pages/Test/Test";
@@ -170,6 +173,14 @@ const App = () => {
           element={
             <React.Suspense>
               <ProfileCreatorFilledLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/VideoCreator"
+          element={
+            <React.Suspense>
+              <VideoCreatorLazy />
             </React.Suspense>
           }
         ></Route>

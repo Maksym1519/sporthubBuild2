@@ -5,15 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../App/hooks";
 import Avatext from "../molecules/Avatext";
 import ColumnTemplate from "../molecules/ColumnTemplate";
 import MenuDots from "../molecules/MenuDots";
-import { VideoUserArray } from '../../Data';
-import { AvaArray } from '../../Data';
-import { getShowMore } from '../functions/getShowMore';
 import { Text14400 } from "../atoms/Text";
-import { Text16400 } from "../atoms/Text";
-import { Text12600 } from "../atoms/Text";
 import { Text16500 } from "../atoms/Text";
-import { Text24500 } from "../atoms/Text";
-import { Text18500 } from "../atoms/Text";
 import { Text14500 } from "../atoms/Text";
 import More from "../../images/more.svg";
 import Play from '../../images/play-btn.svg'
