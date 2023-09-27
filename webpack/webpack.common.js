@@ -29,9 +29,10 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
         {
-        test: /\.(?:ico|gif|png|jpg|jpeg|svg|webp)$/i,
+        test: /\.(?:ico|gif|png|jpg|jpeg|svg|webp|mp4)$/i,
         type: 'asset/resource',
       },
+      { test: /\.mp4$/, type: "asset/source" },
       // {
       //   test: /\.(png|jpg|webp|gif|svg)$/,
       //   use: [
@@ -41,7 +42,7 @@ module.exports = {
       //   ],
       // },
       {
-        test: /\.(woff(2)?|eot|ttf|otf|svg)$/,
+        test: /\.(woff(2)?|eot|ttf|otf|svg|mp4)$/,
         type: 'asset/inline',
       },
     ],

@@ -32,7 +32,7 @@ const HeaderCreator = () => {
             </div>
           </Link>
           <div className={hc.functions__wrapper}>
-            <img src={Search} alt="icon" />
+            <img src={SearchSmall} alt="icon" />
           </div>
         </div>
       ) : (

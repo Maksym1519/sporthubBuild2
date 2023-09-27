@@ -38,7 +38,7 @@ const VideoCreator = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       if (!formData) {
         // Проверка наличия выбранного файла
@@ -70,6 +70,70 @@ const VideoCreator = () => {
       console.error("error");
     }
   };
+  //data-get-------------------------------------------------------------------
+  // const [videos, setVideos] = useState("");
+  // const [link, setLink] = useState();
+  // const [link2, setLink2] = useState();
+  const [link, setVideoLinks] = useState([])
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://localhost:1337/api/Maksyms?populate=*"
+  //       );
+
+  //       if (response.status === 200) {
+  //         const videosData = response.data.data;
+  //         const url =  "http://localhost:1337" + videosData[0].attributes.videos.data[0].attributes.url
+  //         const url2 =  "http://localhost:1337" + videosData[0].attributes.videos.data[1].attributes.url
+  //         setLink(url)
+  //         setLink2(url2)
+  //         console.log(link)
+  //       } else {
+  //         console.error("Failed to fetch video data");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching video data:", error);
+  //     }
+  //   }
+
+  //   fetchData();
+  // }, []);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "http://localhost:1337/api/Maksyms?populate=*"
+        );
+  
+        if (response.status === 200) {
+          const videosData = response.data.data;
+          const allLinks = [];
+  
+          videosData.forEach((video) => {
+            if (
+              video.attributes.videos &&
+              video.attributes.videos.data.length > 0
+            ) {
+              const links = video.attributes.videos.data.map((videoData) => {
+                return "http://localhost:1337" + videoData.attributes.url;
+              });
+              allLinks.push(...links);
+            }
+          });
+  
+          setVideoLinks(allLinks);
+        } else {
+          console.error("Failed to fetch video data");
+        }
+      } catch (error) {
+        console.error("Error fetching video data:", error);
+      }
+    }
+  
+    fetchData();
+  }, []);
+  
   //----------------------------------------------------------------------------
   return (
     <div className={vc.videoCreator__wrapper}>
@@ -98,9 +162,15 @@ const VideoCreator = () => {
                 text={<Text16600 text="Add new video" />}
                 columnGap="10px"
                 borderRadius="8px"
-                />
-              <input type="file" onChange={(e) => setFormData(e.target.files)} className={vc.addVideo}/>
-              <button type="submit" value="Submit" className={vc.buttonSubmit}>send</button>
+              />
+              {/* <input
+                type="file"
+                onChange={(e) => setFormData(e.target.files)}
+                className={vc.addVideo}
+              />
+              <button type="submit" value="Submit" className={vc.buttonSubmit}>
+                send
+              </button> */}
             </div>
           </div>
         </form>
@@ -141,7 +211,11 @@ const VideoCreator = () => {
         </div>
         {/* //--------------------------------------------------------------------- */}
         <div className={vc.videos__body}>
-          <Video img={VideoUserArray[0]} ava={AvaArray[0]} />
+          {/* {link ? <Video videoUrl={link}/> : ""}
+          {link2 ? <Video videoUrl={link}/> : ""} */}
+           {link.map((link, index) => (
+    <Video key={index} videoUrl={link} />
+  ))}
         </div>
       </div>
     </div>

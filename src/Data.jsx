@@ -1,10 +1,7 @@
 import React from "react";
 
-function LoadingInfo() {
-  return <h2>Loading...</h2>;
-}
 
-export default LoadingInfo;
+
 
 export const AvaArray = [
   "http://localhost:1337/uploads/ava24_1_aab4edc594.svg",
@@ -67,3 +64,47 @@ export const Icones = {
   greenBird: "http://localhost:1337/uploads/green_bird_f79abeef99.svg",
   bucket: "http://localhost:1337/uploads/Trash_1e26f8015b.svg"
 }
+
+
+// export const postVideoDefault = () => {
+//   const videoArray = [Video1,Video2,Video3,Video4,Video5,Video6,Video7,Video8]
+//   //data-request---------------------------------------------------------------
+//   const [formData, setFormData] = useState(null);
+  
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       for (const video of videoArray) {
+//         const formDataServer = new FormData();
+//         formDataServer.append("files", video);
+
+//         const response = await axios.post(
+//           "http://localhost:1337/api/upload",
+//           formDataServer
+//         );
+
+//         if (response.status === 200) {
+//           const videoItem = response.data[0].id;
+//           console.log(videoItem);
+
+//           const requestData = {
+//             data: {
+//               videos: videoItem,
+//             },
+//           };
+
+//           const profileResponse = await axios.post(
+//             "http://localhost:1337/api/Maksyms",
+//             requestData
+//           );
+//         } else {
+//           console.error("Upload video failed");
+//         }
+//       }
+//     } catch (error) {
+//       console.error("Error:", error);
+//     }
+//   };
+//   handleSubmit()
+// }
