@@ -62,7 +62,16 @@ export const RobertFox = {
 
 export const Icones = {
   greenBird: "http://localhost:1337/uploads/green_bird_f79abeef99.svg",
-  bucket: "http://localhost:1337/uploads/Trash_1e26f8015b.svg"
+  bucket: "http://localhost:1337/uploads/Trash_1e26f8015b.svg",
+  dots: "http://localhost:1337/uploads/dots_a29bc83356.svg",
+  orangeDots: "http://localhost:1337/uploads/orange_dots_5ed11d0a15.svg",
+  uploadLogo: "http://localhost:1337/uploads/upload_logo_5ce3b34e53.svg",
+  addFile: "http://localhost:1337/uploads/add_File_85c60d717f.svg",
+  arrowDown: "http://localhost:1337/uploads/Arrow_down_66cfb82a8d.svg",
+  question: "http://localhost:1337/uploads/question_d479bc24a3.svg"
+}
+export const Preview = {
+  previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"
 }
 
 

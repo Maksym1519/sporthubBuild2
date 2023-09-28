@@ -4,7 +4,8 @@
   "info": {
     "singularName": "image",
     "pluralName": "images",
-    "displayName": "image"
+    "displayName": "image",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,6 +13,17 @@
   "pluginOptions": {},
   "attributes": {
     "videouser1": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "previiewPlayer": {
       "allowedTypes": [
         "images",
         "files",
@@ -19,7 +31,7 @@
         "audios"
       ],
       "type": "media",
-      "multiple": true
+      "multiple": false
     }
   }
 }

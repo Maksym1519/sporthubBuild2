@@ -2,7 +2,8 @@ import t from './text.module.scss';
 
 export const Text36500 = (props) => {
     const styled = {
-        color: props.color
+        color: props.color,
+        lineHeight: props.lineHeight
     }
     return (
         <div className={t.text36500__wrapper} style={styled}>

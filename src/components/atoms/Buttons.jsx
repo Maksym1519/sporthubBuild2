@@ -16,7 +16,8 @@ export const Button18044 = (props) => {
         background: props.bg,
         borderRadius: props.borderRadius,
         border: props.border,
-        columnGap: props.columnGap
+        columnGap: props.columnGap,
+        width: props.width
     }
     return (
         <button className={b.wrapper__18044} style={styled} >

@@ -4,6 +4,7 @@
     min-height: 100vh;
     background: var(--10, #111);
     padding-bottom: 24px;
+    overflow: hidden;
   }
   .videoCreator__container {
     width: 100%;
@@ -77,19 +78,19 @@
   }
   .button__wrapper {
     position: relative;
+    width: 180px;
     & .addVideo {
       position: absolute;
-      top: 0%;
-      left: -50%;
-      transform: translate(-50%);
-      opacity: 1;
+      top: 25%;
+      left: 25%;
+      opacity: 0;
     }
     & .buttonSubmit {
       position: absolute;
       top: 0%;
       left: -150%;
       transform: translate(-50%);
-      opacity: 1;
+      opacity: 0;
       color: #fff
     }
   }
@@ -295,6 +296,7 @@
     min-height: 100vh;
     background: var(--10, #111);
     padding-bottom: 24px;
+    overflow: hidden;
   }
   .videoCreator__container {
     width: 100%;
@@ -304,6 +306,9 @@
     flex-direction: column;
     padding: 0 16px;
   }
+  .submitForm__wrapper {
+    max-width: 100%;
+  }
   .videoNavigation__wrapper {
     max-width: 100%;
     display: flex;
@@ -311,6 +316,7 @@
     justify-content: space-between;
     margin-top: 24px;
     margin-bottom: 31px;
+    padding-right: 16px;
     & .videoSwitcher__wrapper {
       display: flex;
       align-items: center;
@@ -318,11 +324,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 168px;
-        height: 59px;
+        width: 112px;
+        height: 45px;
         color: var(--3, #fff);
         font-family: "Uto-500";
-        font-size: 24px;
+        font-size: 16px;
         line-height: normal;
       }
       & .active {
@@ -369,6 +375,7 @@
   }
   .button__wrapper {
     position: relative;
+    max-width: 35px;
     & .addVideo {
       position: absolute;
       top: 0%;
