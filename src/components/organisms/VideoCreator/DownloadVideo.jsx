@@ -1,4 +1,6 @@
 import dv from "./downloadVideo.module.scss";
+import { useState, useEffect } from "react";
+import axios from "axios";
 //components----------------------------------
 import { Button18044 } from "../../atoms/Buttons";
 import { Text24500 } from "../../atoms/Text";
@@ -10,25 +12,80 @@ import { Text18500 } from "../../atoms/Text";
 import { Text12400 } from "../../atoms/Text";
 import { Icones } from "../../../Data";
 import { Preview } from "../../../Data";
-import { useState } from "react";
+
 
 const DownloadVideo = () => {
   const [category, setCategory] = useState(false);
   const toggleCategory = () => {
     setCategory(!category);
   };
+  //get-data-------------------------------------------------------------
+  const [fileName,setFileName] = useState('')
+  useEffect(() => {
+    async function fetchData () {
+      try {
+        const response = await axios.get("http://localhost:1337/api/Maksyms?populate=*")
+        if (response.status === 200) {
+          const profileData = response.data.data
+          console.log(profileData)
+          setFileName({
+            fileVideoName: profileData[profileData.length - 1].attributes.videos.data[0].attributes.name
+          })
+          console.log(fileName.fileVideoName)
+        }
+        else {
+          console.error("Failed to fetch profile data");
+        }
+      } catch(error) {
+         console.error("fetch data failed")
+      }
+    }
+    fetchData()
+  },[])
+   useEffect(() => {
+    // Этот блок кода выполнится после изменения fileName
+    console.log(fileName?.fileVideoName);
+  }, [fileName]); 
+  //post-inputValues----------------------------------------------------------------------
+   const [formData,setFormData] = useState({
+    title: '',
+    category: '',
+    description: '',
+    addShopifyLink: ''
+   })
+   const [placeholderData,setPlaceholderData] = useState({
+    title: '',
+    category: '',
+    description: '',
+    addShopifyLink: ''
+   })
+   const handleUploadAndSubmit = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  try {
+    const requestData = {
+      data: {
+        title: formData.title,
+        category: formData.category,
+        description: formData.description,
+        addShopifyLink: formData.addShopifyLink
+      }
+    }
+  } catch(error) {
+    console.error("data fetch failed")
+  }
+}
+
   return (
     <div className={dv.container}>
       <div className={dv.functions__wrapper}>
         <Text24500 text="Adding a new video" />
         <div className={dv.buttons__wrapper}>
-          <Button18044
-            text={<Text16600 text="Publish" color="#fff" />}
-            width="180px"
-            bg="#AD7955"
-            borderRadius="8px"
-          />
-          <img src={Icones.orangeDots} alt="dots" />
+           <img src={Icones.orangeDots} alt="dots" />
+          <button type="button" className={dv.buttonSubmit}>Publish</button>
         </div>
       </div>
       <div className={dv.preview__wrapper}>
@@ -36,7 +93,7 @@ const DownloadVideo = () => {
         <div className={dv.previewVimeo__info}>
           <Text36500 text="Processing will begin shortly" lineHeight="42px" />
           <span>
-            <Text18500 text="File_Name.mp4" />
+            <Text18500 text={fileName.fileVideoName} />
           </span>
         </div>
       </div>

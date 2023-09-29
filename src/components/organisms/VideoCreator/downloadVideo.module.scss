@@ -17,6 +17,16 @@
       display: flex;
       align-items: center;
       column-gap: 10px;
+      & .buttonSubmit {
+        width: 180px;
+        height: 44px;
+        border-radius: 8px;
+        background: var(--light, #AD7955);
+        color: var(--3, #FFF);
+        text-align: center;
+        font-family: 'Uto-600';
+        font-size: 16px;
+        }
     }
   }
   .preview__wrapper {

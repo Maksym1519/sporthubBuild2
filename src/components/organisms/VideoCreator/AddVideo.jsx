@@ -14,6 +14,7 @@ import Input from "../../atoms/Input";
 //images----------------------------------------
 import Dots from "../../../images/Dots.svg";
 import e from "cors";
+import axios from "axios";
 
 const AddVideo = (props) => {
   //isMobile--------------------------------------------------------------
@@ -27,14 +28,40 @@ const AddVideo = (props) => {
 //post-data-------------------------------------------------------------------
 const [formData, setFormData] = useState(null)
 const handleSubmit = async (e) => {
-  e.preventDefault()
-  if (!formData) {
-    console.error("Please select file")
-    return
+  //e.preventDefault();
+  try {
+    if (!formData) {
+      // Проверка наличия выбранного файла
+      console.error("Please select a file.");
+      return;
+    }
+    const formDataServer = new FormData();
+    formDataServer.append("files", formData[0]);
+    console.log(formData);
+
+    const response = await axios.post(
+      "http://localhost:1337/api/upload",
+      formDataServer
+    );
+    if (response.status === 200) {
+      const videoItem = response.data[0].id;
+      console.log(videoItem);
+      const requestData = {
+        data: {
+          videos: videoItem,
+        },
+      };
+      const profileResponse = await axios.post(
+        "http://localhost:1337/api/Maksyms",
+        requestData
+      );
+    } else {
+      ("upload video failed");
+    }
+  } catch (error) {
+    console.error("error");
   }
-  const formDataServer = new FormData()
-  formDataServer.append("files",formData[0])
-}
+};
 
 
   return (
@@ -74,7 +101,7 @@ const handleSubmit = async (e) => {
         )}
       </div>
       {isModal && (
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={av.modal__wrapper}>
             <div className={av.modal__container}>
               <div className={av.header}>
@@ -90,7 +117,7 @@ const handleSubmit = async (e) => {
                   <Text14400 text="Store link" />
                 </label>
                 <div className={av.input__body}>
-                  <input type="file" name="addVideo" className={av.input} onChange={(e) => setFormData(e.target.files[0])}/>
+                  <input type="file"  className={av.input} onChange={(e) => setFormData(e.target.files)}/>
                   <div className={av.placeholder__wrapper}>
                     <img src={Icones.addFile} alt="icon" />
                     <Text16400
@@ -101,8 +128,12 @@ const handleSubmit = async (e) => {
                 </div>
               </div>
               <div className={av.buttons__wrapper}>
-                <button className={av.button}>Cancel</button>
-                <button className={av.button} onClick={props.click}>
+                <button className={av.button} type="button" onClick={props.clickBack}>Cancel</button>
+                <button className={av.button}  type="submit" value="Submit" onClick={async (e) => {
+                  e.preventDefault()
+                  await handleSubmit()
+                  props.clickNext()
+                }}>
                   Upload
                 </button>
               </div>

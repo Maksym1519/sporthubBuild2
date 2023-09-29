@@ -64,7 +64,7 @@ const VideoCreator = () => {
   const switchSubVideo = (index) => {
     setActiveSubIndex(index);
   };
-  //data-request---------------------------------------------------------------
+  // data-request---------------------------------------------------------------
   const [formData, setFormData] = useState(null);
   const handleFileChange = (e) => {
     // Обработка выбора файла
@@ -150,8 +150,7 @@ const VideoCreator = () => {
         {/* //video-Menu-------------------------------------------------------------------------- */}
         {currentComponent === "yourVideo" && (
           <div>
-            <form onSubmit={handleSubmit} className={vc.submitForm__wrapper}>
-              <div className={vc.videoNavigation__wrapper}>
+             <div className={vc.videoNavigation__wrapper}>
                 <div className={vc.videoSwitcher__wrapper}>
                   <div
                     className={`${vc.item} ${
@@ -202,7 +201,6 @@ const VideoCreator = () => {
                    
                 </div>
               </div>
-            </form>
             {/* //video-subMenu-------------------------------------------------------------------------- */}
             <div className={vc.video__navigation}>
               <div className={vc.videoSwitcher__wrapper}>
@@ -246,7 +244,7 @@ const VideoCreator = () => {
             </div>
           </div>
         )}
-        {currentComponent === "addVideo" && <AddVideo click={clickDownloading}/>}
+        {currentComponent === "addVideo" && <AddVideo click={clickDownloading} clickBack={clickYourVideo} clickNext={clickDownloading}/>}
         {currentComponent === "downloading" && <DownloadVideo />}
       </div>
     </div>
