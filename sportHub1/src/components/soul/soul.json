@@ -1,19 +1,33 @@
 {
   "collectionName": "components_soul_souls",
   "info": {
-    "displayName": "soul"
+    "displayName": "soul",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "soulVideo": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "categorySoul": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "addShopifyLink": {
+      "type": "string"
     }
   }
 }

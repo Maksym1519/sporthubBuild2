@@ -65,45 +65,45 @@ const VideoCreator = () => {
     setActiveSubIndex(index);
   };
   // data-request---------------------------------------------------------------
-  const [formData, setFormData] = useState(null);
-  const handleFileChange = (e) => {
-    // Обработка выбора файла
-    setFormData(e.target.files[0]);
-  };
+  // const [formData, setFormData] = useState(null);
+  // const handleFileChange = (e) => {
+  //   // Обработка выбора файла
+  //   setFormData(e.target.files[0]);
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (!formData) {
-        // Проверка наличия выбранного файла
-        console.error("Please select a file.");
-        return;
-      }
-      const formDataServer = new FormData();
-      formDataServer.append("files", formData[0]);
-      const response = await axios.post(
-        "http://localhost:1337/api/upload",
-        formDataServer
-      );
-      if (response.status === 200) {
-        const videoItem = response.data[0].id;
-        console.log(videoItem);
-        const requestData = {
-          data: {
-            videos: videoItem,
-          },
-        };
-        const profileResponse = await axios.post(
-          "http://localhost:1337/api/Maksyms",
-          requestData
-        );
-      } else {
-        ("upload video failed");
-      }
-    } catch (error) {
-      console.error("error");
-    }
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     if (!formData) {
+  //       // Проверка наличия выбранного файла
+  //       console.error("Please select a file.");
+  //       return;
+  //     }
+  //     const formDataServer = new FormData();
+  //     formDataServer.append("files", formData[0]);
+  //     const response = await axios.post(
+  //       "http://localhost:1337/api/upload",
+  //       formDataServer
+  //     );
+  //     if (response.status === 200) {
+  //       const videoItem = response.data[0].id;
+  //       console.log(videoItem);
+  //       const requestData = {
+  //         data: {
+  //           videos: videoItem,
+  //         },
+  //       };
+  //       const profileResponse = await axios.post(
+  //         "http://localhost:1337/api/Maksyms",
+  //         requestData
+  //       );
+  //     } else {
+  //       ("upload video failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("error");
+  //   }
+  // };
   //data-get-------------------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
 
@@ -187,19 +187,7 @@ const VideoCreator = () => {
                       width='180px'
                     />
                   )}
-                  {/* <input
-                    type="file"
-                    onChange={(e) => setFormData(e.target.files)}
-                    className={vc.addVideo}
-                  />
-                  <button
-                    type="submit"
-                    value="Submit"
-                    className={vc.buttonSubmit}
-                  >
-                   </button> */}
-                   
-                </div>
+                 </div>
               </div>
             {/* //video-subMenu-------------------------------------------------------------------------- */}
             <div className={vc.video__navigation}>
@@ -241,7 +229,7 @@ const VideoCreator = () => {
               {link.map((link, index) => (
                 <Video key={index} videoUrl={link} />
               ))}
-            </div>
+               </div>
           </div>
         )}
         {currentComponent === "addVideo" && <AddVideo click={clickDownloading} clickBack={clickYourVideo} clickNext={clickDownloading}/>}

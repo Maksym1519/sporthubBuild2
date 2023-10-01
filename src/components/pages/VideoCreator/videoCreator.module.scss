@@ -4,15 +4,15 @@
     min-height: 100vh;
     background: var(--10, #111);
     padding-bottom: 24px;
-    overflow: hidden;
-  }
+    //overflow: hidden;
+     }
   .videoCreator__container {
     width: 100%;
     max-width: 1392px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-  }
+     }
   .videoNavigation__wrapper {
     max-width: 100%;
     display: flex;
