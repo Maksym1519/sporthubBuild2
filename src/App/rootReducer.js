@@ -12,6 +12,7 @@ import videoPlayerSlice from '../features/videoPlayerSlice';
 import videoDescriptionChatReducer from '../features/videoDescriptionChatSlice';
 import genderReducer from "../features/genderSlice";
 import addVideoCreatorReducer from '../features/addVideoCreator'
+import videoStyleReducer from '../features/videoStyleSlice'
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   videoPlayer: videoPlayerSlice, //use on page Subscribe when click on video and play it on videoplayer
   videoDescriptionChat: videoDescriptionChatReducer,
   genderSlice: genderReducer,
-  addVideoSlice: addVideoCreatorReducer
+  addVideoSlice: addVideoCreatorReducer,
+  videoStyleSlice: videoStyleReducer
 });
 
 export default rootReducer;

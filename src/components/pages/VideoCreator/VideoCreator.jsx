@@ -64,47 +64,7 @@ const VideoCreator = () => {
   const switchSubVideo = (index) => {
     setActiveSubIndex(index);
   };
-  // data-request---------------------------------------------------------------
-  // const [formData, setFormData] = useState(null);
-  // const handleFileChange = (e) => {
-  //   // Обработка выбора файла
-  //   setFormData(e.target.files[0]);
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     if (!formData) {
-  //       // Проверка наличия выбранного файла
-  //       console.error("Please select a file.");
-  //       return;
-  //     }
-  //     const formDataServer = new FormData();
-  //     formDataServer.append("files", formData[0]);
-  //     const response = await axios.post(
-  //       "http://localhost:1337/api/upload",
-  //       formDataServer
-  //     );
-  //     if (response.status === 200) {
-  //       const videoItem = response.data[0].id;
-  //       console.log(videoItem);
-  //       const requestData = {
-  //         data: {
-  //           videos: videoItem,
-  //         },
-  //       };
-  //       const profileResponse = await axios.post(
-  //         "http://localhost:1337/api/Maksyms",
-  //         requestData
-  //       );
-  //     } else {
-  //       ("upload video failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("error");
-  //   }
-  // };
-  //data-get-------------------------------------------------------------------
+   //data-get-------------------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
 
   useEffect(() => {
@@ -200,7 +160,7 @@ const VideoCreator = () => {
                     switchSubVideo(1);
                   }}
                 >
-                  Mind
+                  All
                 </div>
                 <div
                   className={`${vc.switcher__item} ${
@@ -210,7 +170,7 @@ const VideoCreator = () => {
                     switchSubVideo(2);
                   }}
                 >
-                  Body
+                  Mind
                 </div>
                 <div
                   className={`${vc.switcher__item} ${
@@ -218,6 +178,16 @@ const VideoCreator = () => {
                   }`}
                   onClick={() => {
                     switchSubVideo(3);
+                  }}
+                >
+                  Body
+                </div>
+                <div
+                  className={`${vc.switcher__item} ${
+                    activeSubIndex === 4 ? vc.active : ""
+                  }`}
+                  onClick={() => {
+                    switchSubVideo(4);
                   }}
                 >
                   Soul

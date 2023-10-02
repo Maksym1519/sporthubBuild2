@@ -139,7 +139,11 @@ const AddVideo = (props) => {
     // Этот блок кода выполнится после изменения fileName
     console.log(fileName?.fileVideoName);
   }, [fileName]);
-
+//fill-category-input---------------------------------------
+const [selectedCategory,setSelectedCategory] = useState("")
+const chooseCategory = (value) => {
+setSelectedCategory(value)
+}
   return (
     <div className={av.container}>
       <div className={av.functions__wrapper}>
@@ -151,7 +155,7 @@ const AddVideo = (props) => {
             bg="#777"
             borderRadius="8px"
           />
-          <img src={Icones.dots} alt="dots" />
+          <img src={Icones.dots} alt="dots"/>
         </div>
       </div>
       <div className={av.uploadForm__wrapper}>
@@ -159,7 +163,7 @@ const AddVideo = (props) => {
           <div className={av.uploadForm__body}>
             <img src={Icones.uploadLogo} alt="logo" className={av.logo} />
             {isMobile ? (
-              <Text36500 text="New video" lineHeight="42px" />
+              <Text24500 text="New video" lineHeight="42px" />
             ) : (
               <Text36500
                 text="Drag and drop videos to upload"
@@ -183,7 +187,7 @@ const AddVideo = (props) => {
               <div className={av.header}>
                 <Text24500 text="New video" />
                 {isMobile ? (
-                  ""
+                  <Text14400 text="Add a link on the video for upload" />
                 ) : (
                   <Text14400 text="Add a link on the video for upload" />
                 )}
@@ -242,6 +246,7 @@ const AddVideo = (props) => {
                 <span>
                   <Text14400 text="Title" />
                 </span>
+                <img src={Icones.question} alt="icon" />
               </div>
               <div className={dv.input__body}>
                 <input
@@ -265,7 +270,7 @@ const AddVideo = (props) => {
                 <input
                   type="text"
                   className={dv.input}
-                  placeholder="Select category"
+                  placeholder= {selectedCategory || "Select category"}
                   name="category"
                 />
                 <img
@@ -282,9 +287,9 @@ const AddVideo = (props) => {
                     placeholder="Mind"
                     name="category"
                     value="mind"
-                    onChange={handleUploadAndSubmit}
+                    onChange={() => handleUploadAndSubmit}
                     type="text"
-                    onClick={() => handleCategoryClick("mind")}
+                    onClick={() => {handleCategoryClick("mind");chooseCategory('mind')}}
                   />
                   <input
                     className={dv.item + " " + dv.input}
@@ -293,7 +298,7 @@ const AddVideo = (props) => {
                     value="body"
                     onChange={handleUploadAndSubmit}
                     type="text"
-                    onClick={() => handleCategoryClick("body")}
+                    onClick={() => {handleCategoryClick("body");chooseCategory('body')}}
                   />
                   <input
                     className={dv.item + " " + dv.input}
@@ -302,7 +307,7 @@ const AddVideo = (props) => {
                     value="soul"
                     onChange={handleUploadAndSubmit}
                     type="text"
-                    onClick={() => handleCategoryClick("soul")}
+                    onClick={() => {handleCategoryClick("soul");chooseCategory('soul')}}
                   />
                 </div>
               )}
@@ -346,13 +351,13 @@ const AddVideo = (props) => {
             </div>
             {/* //input-------------------------------------------------------- */}
           </div>
-          <div className={dv.filepeaker__wrapper}>
+          <div className={av.filepeaker__wrapper}>
             <img src={Icones.uploadLogo} alt="logo" />
             <Text16400 text="Drag and drop photo to upload" />
             <Text12400 text="Information about adding photo. Amet minim mollit non deserunt ullamco est sit " />
             <input
               type="file"
-              className={dv.addPreview}
+              className={av.addPreview}
               onChange={(e) => setPreview(e.target.files)}
             />
           </div>
