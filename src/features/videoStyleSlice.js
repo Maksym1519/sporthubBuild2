@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    currentComponent: 'all'
+    currentStyle: 'all'
 }
 
 const videoStyleSlice = createSlice({
@@ -9,16 +9,16 @@ const videoStyleSlice = createSlice({
     initialState,
     reducers: {
         showAll:(state) => {
-            state.currentComponent = 'all'
+            state.currentStyle = 'all'
         },
         showMind:(state) => {
-            state.currentComponent = 'mind'
+            state.currentStyle = 'mind'
         },
         showBody:(state) => {
-            state.currentComponent = 'body'
+            state.currentStyle = 'body'
         },
         showSoul:(state) => {
-            state.currentComponent = 'soul'
+            state.currentStyle = 'soul'
         },
     }
 })

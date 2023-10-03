@@ -1,7 +1,9 @@
 import vc from "./videoCreator.module.scss";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 //components--------------------------------------
 import HeaderCreator from "../../organisms//HeaderCreator";
 import { Button18044 } from "../../atoms/Buttons";
@@ -18,11 +20,17 @@ import {
 } from "../../../features/addVideoCreator";
 import AddVideo from "../../organisms/VideoCreator/AddVideo";
 import DownloadVideo from "../../organisms/VideoCreator/DownloadVideo";
+import {
+  showAll,
+  showMind,
+  showBody,
+  showSoul,
+} from "../../../features/videoStyleSlice";
+import Mind from "../../organisms/Mind/Mind";
+import Body from "../../organisms/Body/Body";
 //images-------------------------------------------
 import Plus from "../../../images/Plus.svg";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 
 const VideoCreator = () => {
   //isMobile--------------------------------------------------------------
@@ -48,6 +56,22 @@ const VideoCreator = () => {
   const clickPlayer = () => {
     dispatch(showPlayer());
   };
+  //redux-video-style----------------------------------------------------
+  const currentStyle = useSelector(
+    (state) => state.videoStyleSlice.currentStyle
+  );
+  const clickAll = () => {
+    dispatch(showAll());
+  };
+  const clickMind = () => {
+    dispatch(showMind());
+  };
+  const clickBody = () => {
+    dispatch(showBody());
+  };
+  const clickSoul = () => {
+    dispatch(showSoul());
+  };
   //video-switcher---------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
@@ -64,7 +88,7 @@ const VideoCreator = () => {
   const switchSubVideo = (index) => {
     setActiveSubIndex(index);
   };
-   //data-get-------------------------------------------------------------------
+  //data-get-------------------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
 
   useEffect(() => {
@@ -110,45 +134,41 @@ const VideoCreator = () => {
         {/* //video-Menu-------------------------------------------------------------------------- */}
         {currentComponent === "yourVideo" && (
           <div>
-             <div className={vc.videoNavigation__wrapper}>
-                <div className={vc.videoSwitcher__wrapper}>
-                  <div
-                    className={`${vc.item} ${
-                      activeIndex === 1 ? vc.active : ""
-                    }`}
-                    onClick={() => switchVideo(1)}
-                  >
-                    Your video
-                  </div>
-                  <div
-                    className={`${vc.item} ${
-                      activeIndex === 2 ? vc.active : ""
-                    }`}
-                    onClick={() => switchVideo(2)}
-                  >
-                    Playlists
-                  </div>
+            <div className={vc.videoNavigation__wrapper}>
+              <div className={vc.videoSwitcher__wrapper}>
+                <div
+                  className={`${vc.item} ${activeIndex === 1 ? vc.active : ""}`}
+                  onClick={() => switchVideo(1)}
+                >
+                  Your video
                 </div>
-                <div onClick={clickAddVideo} className={vc.button__wrapper}>
-                  {isMobile ? (
-                    <Button18044
-                      img={Plus}
-                      text={<Text16600 text="" />}
-                      columnGap="0px"
-                      borderRadius="8px"
-                      width="54px"
-                    />
-                  ) : (
-                    <Button18044
-                      img={Plus}
-                      text={<Text16600 text="Add new video" />}
-                      columnGap="10px"
-                      borderRadius="8px"
-                      width='180px'
-                    />
-                  )}
-                 </div>
+                <div
+                  className={`${vc.item} ${activeIndex === 2 ? vc.active : ""}`}
+                  onClick={() => switchVideo(2)}
+                >
+                  Playlists
+                </div>
               </div>
+              <div onClick={clickAddVideo} className={vc.button__wrapper}>
+                {isMobile ? (
+                  <Button18044
+                    img={Plus}
+                    text={<Text16600 text="" />}
+                    columnGap="0px"
+                    borderRadius="8px"
+                    width="54px"
+                  />
+                ) : (
+                  <Button18044
+                    img={Plus}
+                    text={<Text16600 text="Add new video" />}
+                    columnGap="10px"
+                    borderRadius="8px"
+                    width="180px"
+                  />
+                )}
+              </div>
+            </div>
             {/* //video-subMenu-------------------------------------------------------------------------- */}
             <div className={vc.video__navigation}>
               <div className={vc.videoSwitcher__wrapper}>
@@ -157,7 +177,7 @@ const VideoCreator = () => {
                     activeSubIndex === 1 ? vc.active : ""
                   }`}
                   onClick={() => {
-                    switchSubVideo(1);
+                    switchSubVideo(1);clickAll()
                   }}
                 >
                   All
@@ -168,6 +188,7 @@ const VideoCreator = () => {
                   }`}
                   onClick={() => {
                     switchSubVideo(2);
+                    clickMind();
                   }}
                 >
                   Mind
@@ -177,7 +198,7 @@ const VideoCreator = () => {
                     activeSubIndex === 3 ? vc.active : ""
                   }`}
                   onClick={() => {
-                    switchSubVideo(3);
+                    switchSubVideo(3);clickBody()
                   }}
                 >
                   Body
@@ -195,15 +216,26 @@ const VideoCreator = () => {
               </div>
             </div>
             {/* //--------------------------------------------------------------------- */}
-            <div className={vc.videos__body}>
-              {link.map((link, index) => (
-                <Video key={index} videoUrl={link} />
-              ))}
-               </div>
+            {currentStyle === "all" && (
+              <div className={vc.videos__body}>
+                {link.map((link, index) => (
+                  <Video key={index} videoUrl={link} />
+                ))}
+              </div>
+            )}
+             {currentStyle === "mind" && <Mind />}
+             {currentStyle === "body" && <Body />}
           </div>
         )}
-        {currentComponent === "addVideo" && <AddVideo click={clickDownloading} clickBack={clickYourVideo} clickNext={clickDownloading}/>}
+        {currentComponent === "addVideo" && (
+          <AddVideo
+            click={clickDownloading}
+            clickBack={clickYourVideo}
+            clickNext={clickDownloading}
+          />
+        )}
         {currentComponent === "downloading" && <DownloadVideo />}
+       
       </div>
     </div>
   );
