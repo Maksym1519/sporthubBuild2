@@ -13,6 +13,7 @@ const Mind = () => {
          const response = await axios.get("http://localhost:1337/api/Maksyms?populate=*");
          if(response.status === 200) {
             const videosData = response.data.data;
+            console.log(videosData)
             const filteredLinks = [];
             videosData.forEach((video) => {
                 if(video.attributes.videos &&

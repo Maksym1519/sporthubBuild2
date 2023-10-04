@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    currentStyle: 'all'
+    currentStyle: 'all',
 }
 
 const videoStyleSlice = createSlice({
@@ -20,7 +20,7 @@ const videoStyleSlice = createSlice({
         showSoul:(state) => {
             state.currentStyle = 'soul'
         },
-    }
+        }
 })
 
 export const {

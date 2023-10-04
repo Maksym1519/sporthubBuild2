@@ -1,11 +1,11 @@
-import b from "./body.module.scss";
+import s from "./soul.module.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
 //components---------------------------------------------
 import Video from "../../molecules/Video";
 
 const Body = () => {
-  //get-mindStyle-data-----------------------------------------------
+  //get-soulData--------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
   useEffect(() => {
     async function fetchData() {
@@ -15,37 +15,36 @@ const Body = () => {
         );
         if (response.status === 200) {
           const videosData = response.data.data;
-          console.log(videosData);
           const filteredLinks = [];
           videosData.forEach((video) => {
             if (
               video.attributes.videos &&
               video.attributes.videos.data.length > 0 &&
-              video.attributes.category === "body"
+              video.attributes.category === "soul"
             ) {
-              const links = video.attributes.videos.data.map((videoData) => {
-                return "http://localhost:1337" + videoData.attributes.url;
-              });
-              filteredLinks.push(...links);
+                const links = video.attributes.videos.data.map((videoData) => {
+                  return "http://localhost:1337" + videoData.attributes.url
+                })
+                filteredLinks.push(...links)
             }
-          });
-          setVideoLinks(filteredLinks);
+        });
+        setVideoLinks(filteredLinks)
         } else {
-          console.error("Failed to fetch video data");
+            console.error("Failed to fetch video data");
         }
       } catch (error) {
-        console.error("failed request");
+        console.error("fetchdata failed");
       }
     }
-    fetchData();
+    fetchData()
   }, []);
 
   return (
-    <div className={b.body__wrapper}>
-      <div className={b.videos__body}>
+    <div className={s.body__wrapper}>
+      <div className={s.videos__body}>
         {link.map((item, index) => (
-          <Video key={index} videoUrl={item} />
-        ))}
+            <Video key={index} videoUrl={item} />
+          ))}
       </div>
     </div>
   );

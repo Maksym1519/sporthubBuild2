@@ -69,7 +69,8 @@ export const Icones = {
   addFile: "http://localhost:1337/uploads/add_File_85c60d717f.svg",
   arrowDown: "http://localhost:1337/uploads/Arrow_down_66cfb82a8d.svg",
   question: "http://localhost:1337/uploads/question_d479bc24a3.svg",
-  success: "http://localhost:1337/uploads/success_dcdd469bce.svg"
+  success: "http://localhost:1337/uploads/success_dcdd469bce.svg",
+  search: "http://localhost:1337/uploads/Search_input_0ef97368b8.svg"
 }
 export const Preview = {
   previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"

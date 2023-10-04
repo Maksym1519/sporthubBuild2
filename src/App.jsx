@@ -36,6 +36,9 @@ const ProfileCreatorFilledLazy = React.lazy(() =>
 const VideoCreatorLazy = React.lazy(() =>
   import("./components/pages/VideoCreator/VideoCreator")
 );
+const PlaylistLazy = React.lazy(() =>
+  import("./components/pages/Playlist/Playlist")
+);
 //---------------------------------------------------------
 import { updateScreenWidth } from "./features/headerSlice";
 import TestStrapi from "./components/pages/Test/Test";
@@ -181,6 +184,14 @@ const App = () => {
           element={
             <React.Suspense>
               <VideoCreatorLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/Playlist"
+          element={
+            <React.Suspense>
+              <PlaylistLazy />
             </React.Suspense>
           }
         ></Route>

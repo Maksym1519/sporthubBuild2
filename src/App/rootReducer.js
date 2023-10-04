@@ -11,8 +11,10 @@ import playlistSlice from "../features/playlistSlice";
 import videoPlayerSlice from '../features/videoPlayerSlice';
 import videoDescriptionChatReducer from '../features/videoDescriptionChatSlice';
 import genderReducer from "../features/genderSlice";
-import addVideoCreatorReducer from '../features/addVideoCreator'
-import videoStyleReducer from '../features/videoStyleSlice'
+import addVideoCreatorReducer from '../features/addVideoCreator';
+import videoStyleReducer from '../features/videoStyleSlice';
+import videoPlaylistReducer from '../features/videoPlaylistSlice';
+import createPlaylistReducer from '../features/createPlaylistSlice'
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -28,7 +30,9 @@ const rootReducer = combineReducers({
   videoDescriptionChat: videoDescriptionChatReducer,
   genderSlice: genderReducer,
   addVideoSlice: addVideoCreatorReducer,
-  videoStyleSlice: videoStyleReducer
+  videoStyleSlice: videoStyleReducer,
+  videoPlaylistSlice: videoPlaylistReducer,
+  createPlaylistSlice: createPlaylistReducer
 });
 
 export default rootReducer;

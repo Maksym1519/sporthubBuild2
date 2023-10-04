@@ -22,8 +22,8 @@ const addVideoSlice = createSlice({
         },
         showPlayer:(state) => {
             state.currentComponent = 'player'
-        }
-    }
+        },
+      }
 })
 
 export const {
@@ -31,7 +31,7 @@ export const {
     showAddVideo,
     showNewVideo,
     showDowloading,
-    showPlayer
-} = addVideoSlice.actions;
+    showPlayer,
+    } = addVideoSlice.actions;
 
 export default addVideoSlice.reducer
