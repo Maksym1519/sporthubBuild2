@@ -9,34 +9,32 @@ import { Text16500 } from "../atoms/Text";
 import { Text14500 } from "../atoms/Text";
 import More from "../../images/more.svg";
 import Play from "../../images/play-btn.svg";
+import { Icones } from "../../Data";
 
-
-const Video = (props) => {
-   //redux-menu-Dots------------------------------------------------
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const toggleMenuDots = () => {
-    setIsMenuVisible(!isMenuVisible);
-  };
-  const handleMouseEnter = () => {
-    setIsMenuVisible(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsMenuVisible(false);
-  };
-  //redux---------------------------------------------------------
+const VideoFrame = (props) => {
+  //mobile--------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
-
+  //toggle-menu-dots---------------------------------------------------
+  const [menu, setMenu] = useState(false);
+  const clickMenu = () => {
+    setMenu(!menu);
+  };
+  //choose-------------------------------------------------------------
+  const [choose, setChoose] = useState(false);
+  const chooseFile = () => {
+    setChoose(true);
+  };
+  const deleteFile = () => {
+    setChoose(false);
+  };
+  //deleteMenu----------------------------------------------
+  const [addFile, setAddFile] = useState(false);
+  const deleteMenu = () => {
+    setAddFile(true);
+  };
   return (
-    <div
-      className={vs.item + " " + vs.itemMenu}
-      onClick={() => {
-        toggleMenuDots();
-      }}
-      onMouseOver={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className={vs.item + " " + vs.itemMenu}>
       <div className={vs.video__wrapper}>
         <video controls className={vs.video}>
           <source src={props.videoUrl} type="video/mp4" />
@@ -61,20 +59,33 @@ const Video = (props) => {
           row2={<Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />}
         />
       </div>
-      {isMenuVisible && (
-        <div className={vs.dotsMenu}>
+      <div className={vs.dotsMenu}>
+        {!choose && (
           <img
             src={More}
             alt="menu"
             onClick={() => {
-              toggleMenuDots();
+              clickMenu();
             }}
           />
+        )}
+        {choose  && <img src={Icones.approved} alt="choose" />}
+      </div>
+
+      {(menu || addFile) && (
+        <div
+          className={vs.addToPlaylist__wrapper}
+          onClick={() => {
+            props.onVideoClick();
+            chooseFile();
+            clickMenu();
+          }}
+        >
+          Add to playlist
         </div>
       )}
-      {isMenuVisible && <MenuDots />}
     </div>
   );
 };
 
-export default Video;
+export default VideoFrame;

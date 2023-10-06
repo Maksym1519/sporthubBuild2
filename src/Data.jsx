@@ -70,7 +70,9 @@ export const Icones = {
   arrowDown: "http://localhost:1337/uploads/Arrow_down_66cfb82a8d.svg",
   question: "http://localhost:1337/uploads/question_d479bc24a3.svg",
   success: "http://localhost:1337/uploads/success_dcdd469bce.svg",
-  search: "http://localhost:1337/uploads/Search_input_0ef97368b8.svg"
+  search: "http://localhost:1337/uploads/Search_input_0ef97368b8.svg",
+  close: "http://localhost:1337/uploads/Close_5533c351fb.svg",
+  approved: "http://localhost:1337/uploads/aproved_8769dabf9f.svg"
 }
 export const Preview = {
   previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"
