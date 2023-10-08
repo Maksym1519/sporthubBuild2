@@ -31,6 +31,7 @@ import Mind from "../../organisms/Mind/Mind";
 import Body from "../../organisms/Body/Body";
 import Soul from "../../organisms/Soul/Soul";
 import PlaylistEdit from "../../organisms/PlaylistEdit/PlaylistEdit";
+import PlaylistResult from "../../organisms/PlaylistResult/PlaylistResult";
 //images-------------------------------------------
 import Plus from "../../../images/Plus.svg";
 import axios from "axios";
@@ -273,8 +274,8 @@ const Playlist = () => {
             {currentStyle === "soul" && <Soul />})
           </div>
         )}
-         {currentStep=== "edit" && <PlaylistEdit />}
-         {currentStep === "result"}
+         {currentStep=== "edit" && <PlaylistEdit clickResult={clickResultPlaylist}/>}
+         {currentStep === "result" && <PlaylistResult />}
       </div>
     </div>
   );

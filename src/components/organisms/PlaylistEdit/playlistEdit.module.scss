@@ -5,8 +5,8 @@
     margin: 0 auto;
     min-height: 100vh;
     background: var(--10, #111);
-    padding: 24px 0px;
-    overflow: hidden;
+    padding: 24px 0px 50px 0px;
+    //overflow: hidden;
   }
   .functions__wrapper {
     width: 100%;
@@ -140,8 +140,9 @@
   }
   .sliderPlaylist {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    max-height: 100vh;
+    max-height: 100%;
     max-width: 100%;
   }
   .swiperSlide {

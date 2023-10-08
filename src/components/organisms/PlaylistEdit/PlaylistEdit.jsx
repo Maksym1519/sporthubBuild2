@@ -1,5 +1,6 @@
 import p from "./playlistEdit.module.scss";
 import { useEffect, useState } from "react";
+import { useRef } from "react";
 import axios from "axios";
 //components-----------------------------------------------------
 import { Text16600 } from "../../atoms/Text";
@@ -25,7 +26,8 @@ import "swiper/swiper-bundle.css";
 import e from "cors";
 register();
 
-const PlaylistEdit = () => {
+const PlaylistEdit = (props) => {
+  const formRef = useRef(null);
   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
@@ -39,11 +41,50 @@ const PlaylistEdit = () => {
   const chooseCategory = (value) => {
     setSelectedCategory(value);
   };
+
+
+   //selectedFileNames-------------------------------------------------------
+   const [selectedVideoNames, setSelectedVideoNames] = useState([]);
+   const handleVideoClick = (videoIndex) => {
+     const videoName = selectedFile[videoIndex] || "";
+     setSelectedVideoNames((prevNames) => [...prevNames, videoName]);
+   };
+   console.log(selectedVideoNames)
+   //selectedUrls-------------------------------------------------------------
+   const [clickedUrls,setClickedUrls] = useState([]);
+   const handleUrlClick = (urlIndex) => {
+     const videoUrl = selectedUrls[urlIndex] || "";
+     setClickedUrls((prevUrls) => [...prevUrls, videoUrl])
+   }
+   console.log(clickedUrls)
+   //delete-choosen-file-------------------------------------------------------
+   const handleDeleteClick = (index) => {
+     const updatedNames = [...selectedVideoNames];
+     updatedNames.splice(index, 1);
+     setSelectedVideoNames(updatedNames);
+     };
+    const uniqueNames = selectedVideoNames.filter((value,index,self) => {
+      return self.indexOf(value) === index;
+    })
+    console.log(uniqueNames)
+    //delete-choosen-url--------------------------------------------------------
+   const handleDeleteUrl = (index) => {
+    const updatedUrls = [...clickedUrls];
+    updatedUrls.splice(index,1)
+    setClickedUrls(updatedUrls)
+   }
+    const uniqueUrls = clickedUrls.filter((value,index,self) => {
+     return self.indexOf(value) === index;
+    })
+    console.log(uniqueUrls)
+
+
   //post-data--------------------------------------------------------
   const [formData, setFormData] = useState({
     playlistName: "",
     description: "",
     category: "",
+    //selected: []
   });
   const handleUploadAndSubmit = (e) => {
     const { name, value } = e.target;
@@ -57,15 +98,17 @@ const PlaylistEdit = () => {
     toggleCategory();
   };
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     try {
-      const requestData = {
+      const jsonUrls = JSON.stringify(uniqueUrls)
+       const requestData = {
         data: {
           playlistName: formData.playlistName,
           description: formData.description,
           category: formData.category,
           publishedBy: "Maksym",
-        },
+          selected: jsonUrls
+        }
       };
       console.log(requestData);
       const playlistResponse = await axios.post(
@@ -76,9 +119,12 @@ const PlaylistEdit = () => {
       console.error("datapost failed");
     }
   };
+
+
   //get-data------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
   const [selectedFile, setSelectedFiles] = useState([]);
+  const [selectedUrls,setSelectedUrls] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -91,6 +137,7 @@ const PlaylistEdit = () => {
           const videosData = response.data.data;
           const allLinks = [];
           const allNames = [];
+          const allUrls = [];
           videosData.forEach((video) => {
             if (
               video.attributes.videos &&
@@ -104,11 +151,16 @@ const PlaylistEdit = () => {
                 return namesData.attributes.name;
               });
               allNames.push(...names);
+              const urls = video.attributes.videos.data.map((urlsData) => {
+                return urlsData.attributes.url
+              })
+              allUrls.push(urls)
             }
           });
           setVideoLinks(allLinks);
           setSelectedFiles(allNames);
-          console.log(selectedFile);
+          setSelectedUrls(allUrls)
+          console.log(selectedUrls);
         } else {
           console.error("Failed to fetch video data");
         }
@@ -118,23 +170,10 @@ const PlaylistEdit = () => {
     }
 
     fetchData();
-  }, []);
-  //selectedFileNames-------------------------------------------------------
-  const [selectedVideoNames, setSelectedVideoNames] = useState([]);
-  const handleVideoClick = (videoIndex) => {
-    const videoName = selectedFile[videoIndex] || "";
-    setSelectedVideoNames((prevNames) => [...prevNames, videoName]);
-  };
-  //delete-choosen-file-------------------------------------------------------
-  const handleDeleteClick = (index) => {
-    const updatedNames = [...selectedVideoNames];
-    updatedNames.splice(index, 1);
-    setSelectedVideoNames(updatedNames);
-    };
-    
-   
+   }, []);
+  
   return (
-    <form onSubmit={handleSubmit}>
+    <form ref={formRef} onSubmit={handleSubmit}>
       <div className={p.playlistEdit__container}>
         <div className={p.functions__wrapper}>
           {isMobile ? (
@@ -143,7 +182,11 @@ const PlaylistEdit = () => {
             <Text24500 text="Create new playlist" />
           )}
           <div className={p.buttons__wrapper}>
-            <button type="submit" className={p.saveButton}>
+            <button type="submit" className={p.saveButton}  onClick={async (e) => {
+                    e.preventDefault();
+                    await handleSubmit();
+                    props.clickResult();
+                  }}>
               Save
             </button>
             <img src={Icones.orangeDots} alt="dots" className={p.menuDots} />
@@ -255,24 +298,13 @@ const PlaylistEdit = () => {
                 <span>
                   <Text14400 text="Selected" />
                 </span>
-                <span>0</span>
+                <span>{uniqueNames.length}</span>
               </div>
-              {/* <div className={p.input__body}>
-                <input
-                  type="text"
-                  className={p.input}
-                  placeholder={""}
-                  name="description"
-                  value={formData.description}
-                  onChange={handleUploadAndSubmit}
-                />
-              </div>
-              */}
-                <div className={p.videoSelected__wrapper}>
-                {selectedVideoNames.map((name, index) => (
+              <div className={p.videoSelected__wrapper}>
+                {uniqueNames.map((name, index) => (
                   <div key={index} className={p.selectedFiles__wrapper}>
                   {name}
-                  <img src={Icones.close} alt="close" className={p.close} onClick={handleDeleteClick}/>
+                  <img src={Icones.close} alt="close" className={p.close} onClick={() => {handleDeleteClick();handleDeleteUrl()}}/>
                   </div>
                   ))}
                  
@@ -290,26 +322,19 @@ const PlaylistEdit = () => {
               Select video
             </button>
             {/* //slider----------------------------------------------------------- */}
-            <Swiper
-              slidesPerView={1}
-              speed={500}
-              loop={true}
-              direction={"vertical"}
-              initialSlide={1}
-              className={p.sliderPlaylist}
-            >
+            <div className={p.sliderPlaylist}>
               {link.map((link, index) => (
-                <SwiperSlide
+                <div
                   className={p.swiperSlide + " " + p.firstSlide}
                   key={index}
                 >
                   <VideoFrame
                     videoUrl={link}
-                    onVideoClick={() => {handleVideoClick(index);}}
-                    />
-                </SwiperSlide>
+                    onVideoClick={() => {handleVideoClick(index);{handleUrlClick(index)}}}
+                     />
+                </div>
               ))}
-            </Swiper>
+            </div>
             {/* //slider----------------------------------------------------------------- */}
           </div>
         </div>

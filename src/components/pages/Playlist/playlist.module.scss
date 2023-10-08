@@ -8,10 +8,11 @@
        }
     .videoCreator__container {
       width: 100%;
-      max-width: 1392px;
+      max-width: 100%;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
+      padding: 0 24px;
        }
     .videoNavigation__wrapper {
       max-width: 100%;

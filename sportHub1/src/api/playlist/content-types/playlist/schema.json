@@ -32,19 +32,11 @@
     "category": {
       "type": "string"
     },
-    "selected": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "publishedBy": {
       "type": "string"
+    },
+    "selected": {
+      "type": "json"
     }
   }
 }

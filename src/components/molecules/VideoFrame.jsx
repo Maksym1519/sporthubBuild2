@@ -23,7 +23,8 @@ const VideoFrame = (props) => {
   //choose-------------------------------------------------------------
   const [choose, setChoose] = useState(false);
   const chooseFile = () => {
-    setChoose(true);
+    setChoose(!choose);
+    setBorder(!border)
   };
   const deleteFile = () => {
     setChoose(false);
@@ -33,8 +34,10 @@ const VideoFrame = (props) => {
   const deleteMenu = () => {
     setAddFile(true);
   };
-  return (
-    <div className={vs.item + " " + vs.itemMenu}>
+  //add-border------------------------------------------
+  const [border,setBorder] = useState(false);
+   return (
+    <div className={`${vs.item} ${vs.itemMenu} ${choose && border ? (vs.clickBorder) : ("")}`}>
       <div className={vs.video__wrapper}>
         <video controls className={vs.video}>
           <source src={props.videoUrl} type="video/mp4" />
@@ -69,7 +72,7 @@ const VideoFrame = (props) => {
             }}
           />
         )}
-        {choose  && <img src={Icones.approved} alt="choose" />}
+        {choose  && <img src={Icones.approved} alt="choose" onClick={chooseFile}/>}
       </div>
 
       {(menu || addFile) && (
@@ -79,7 +82,7 @@ const VideoFrame = (props) => {
             props.onVideoClick();
             chooseFile();
             clickMenu();
-          }}
+            }}
         >
           Add to playlist
         </div>
