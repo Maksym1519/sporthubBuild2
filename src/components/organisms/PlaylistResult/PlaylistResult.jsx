@@ -17,6 +17,7 @@ const PlaylistResult = () => {
     description: "",
     category: "",
     selected: [],
+    published: ""
   });
   useEffect(() => {
     async function fetchData() {
@@ -34,10 +35,11 @@ const PlaylistResult = () => {
             playlistName: playlistsData.attributes.playlistName,
             description: playlistsData.attributes.description,
             //selected: playlistsData.attributes.selected
-            selected: parsedLinks
+            selected: parsedLinks,
+            published: playlistsData.attributes.publishedAt
           })
          
-         // console.log(playlistInfo.selected)
+          console.log(playlistInfo.published)
         } else {
           console.error("Failed to fetch video data");
         }
@@ -50,7 +52,43 @@ const PlaylistResult = () => {
   useEffect(() => {
     console.log(playlistInfo);
   }, [playlistInfo]);
-
+  //set-Time------------------------------------------------------------------
+  const TimeAgo = ({ published }) => {
+    const [timeAgo, setTimeAgo] = useState("");
+  
+    useEffect(() => {
+      const calculateTimeAgo = () => {
+        const currentDate = new Date();
+        const publishDate = new Date(published);
+        const timeDifference = currentDate - publishDate;
+  
+        const seconds = Math.floor(timeDifference / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+  
+        if (days > 0) {
+          setTimeAgo(`${days}day ago`);
+        } else if (hours > 0) {
+          setTimeAgo(`${hours}hour(s) ago`);
+        } else if (minutes > 0) {
+          setTimeAgo(`${minutes}minutes ago`);
+        } else {
+          setTimeAgo(`${seconds}second ago`);
+        }
+      };
+  
+      calculateTimeAgo();
+  
+      // Устанавливаем интервал обновления каждые 60 секунд
+      const intervalId = setInterval(calculateTimeAgo, 60000);
+  
+      // Очищаем интервал при размонтировании компонента
+      return () => clearInterval(intervalId);
+    }, [published]);
+  
+    return <div className={pr.time}>{timeAgo}</div>;
+  };
 
   return (
     <>
@@ -62,7 +100,7 @@ const PlaylistResult = () => {
           <img src={Icones.orangeDots} alt="menu" />
         </div>
         <div className={pr.statistics__wrapper}>
-          <Text16500 text="6 videos" />
+          <Text16500 text={playlistInfo.selected.length + " " + "videos"} />
           <div className={pr.statistics__viewsTime}>
             <div className={pr.views}>
               <span>
@@ -74,10 +112,11 @@ const PlaylistResult = () => {
             </div>
             <div className={pr.time}>
               <span>
-                <Text16300 text="0" color="rgba(187, 187, 187, 1)" />
+                <Text16300 text={ <TimeAgo published={playlistInfo.published} />} color="rgba(187, 187, 187, 1)" />
+               
               </span>
               <span>
-                <Text16300 text="ago" color="rgba(187, 187, 187, 1)" />
+                {/* <Text16300 text="ago" color="rgba(187, 187, 187, 1)" /> */}
               </span>
             </div>
           </div>
@@ -87,6 +126,14 @@ const PlaylistResult = () => {
             {playlistInfo.description}
           </span>
           <span className={pr.showMore__text}>Show more</span>
+        </div>
+        <div className={pr.dotsMenu__wrapper}>
+           <div className={pr.item}>
+Edit
+           </div>
+           <div className={pr.item}>
+Delete
+           </div>
         </div>
        </div>
        <div className={pr.videos__body}>

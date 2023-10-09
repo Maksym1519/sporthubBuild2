@@ -26,6 +26,8 @@ import "swiper/swiper-bundle.css";
 import e from "cors";
 register();
 
+
+
 const PlaylistEdit = (props) => {
   const formRef = useRef(null);
   //isMobile--------------------------------------------------------------
@@ -42,42 +44,40 @@ const PlaylistEdit = (props) => {
     setSelectedCategory(value);
   };
 
-
-   //selectedFileNames-------------------------------------------------------
-   const [selectedVideoNames, setSelectedVideoNames] = useState([]);
-   const handleVideoClick = (videoIndex) => {
-     const videoName = selectedFile[videoIndex] || "";
-     setSelectedVideoNames((prevNames) => [...prevNames, videoName]);
-   };
-   console.log(selectedVideoNames)
-   //selectedUrls-------------------------------------------------------------
-   const [clickedUrls,setClickedUrls] = useState([]);
-   const handleUrlClick = (urlIndex) => {
-     const videoUrl = selectedUrls[urlIndex] || "";
-     setClickedUrls((prevUrls) => [...prevUrls, videoUrl])
-   }
-   console.log(clickedUrls)
-   //delete-choosen-file-------------------------------------------------------
-   const handleDeleteClick = (index) => {
-     const updatedNames = [...selectedVideoNames];
-     updatedNames.splice(index, 1);
-     setSelectedVideoNames(updatedNames);
-     };
-    const uniqueNames = selectedVideoNames.filter((value,index,self) => {
-      return self.indexOf(value) === index;
-    })
-    console.log(uniqueNames)
-    //delete-choosen-url--------------------------------------------------------
-   const handleDeleteUrl = (index) => {
+  //selectedFileNames-------------------------------------------------------
+  const [selectedVideoNames, setSelectedVideoNames] = useState([]);
+  const handleVideoClick = (videoIndex) => {
+    const videoName = selectedFile[videoIndex] || "";
+    setSelectedVideoNames((prevNames) => [...prevNames, videoName]);
+  };
+  console.log(selectedVideoNames);
+  //selectedUrls-------------------------------------------------------------
+  const [clickedUrls, setClickedUrls] = useState([]);
+  const handleUrlClick = (urlIndex) => {
+    const videoUrl = selectedUrls[urlIndex] || "";
+    setClickedUrls((prevUrls) => [...prevUrls, videoUrl]);
+  };
+  console.log(clickedUrls);
+  //delete-choosen-file-------------------------------------------------------
+  const handleDeleteClick = (index) => {
+    const updatedNames = [...selectedVideoNames];
+    updatedNames.splice(index, 1);
+    setSelectedVideoNames(updatedNames);
+  };
+  const uniqueNames = selectedVideoNames.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
+  console.log(uniqueNames);
+  //delete-choosen-url--------------------------------------------------------
+  const handleDeleteUrl = (index) => {
     const updatedUrls = [...clickedUrls];
-    updatedUrls.splice(index,1)
-    setClickedUrls(updatedUrls)
-   }
-    const uniqueUrls = clickedUrls.filter((value,index,self) => {
-     return self.indexOf(value) === index;
-    })
-    console.log(uniqueUrls)
-
+    updatedUrls.splice(index, 1);
+    setClickedUrls(updatedUrls);
+  };
+  const uniqueUrls = clickedUrls.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
+  console.log(uniqueUrls);
 
   //post-data--------------------------------------------------------
   const [formData, setFormData] = useState({
@@ -86,7 +86,7 @@ const PlaylistEdit = (props) => {
     category: "",
     //selected: []
   });
-  const handleUploadAndSubmit = (e) => {
+   const handleUploadAndSubmit = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -100,31 +100,47 @@ const PlaylistEdit = (props) => {
   const handleSubmit = async (e) => {
     //e.preventDefault();
     try {
-      const jsonUrls = JSON.stringify(uniqueUrls)
-       const requestData = {
+      const jsonUrls = JSON.stringify(uniqueUrls);
+      const requestData = {
         data: {
           playlistName: formData.playlistName,
           description: formData.description,
           category: formData.category,
           publishedBy: "Maksym",
-          selected: jsonUrls
-        }
+          selected: jsonUrls,
+        },
       };
       console.log(requestData);
-      const playlistResponse = await axios.post(
+       const playlistResponse = await axios.post(
         "http://localhost:1337/api/Playlists",
         requestData
       );
-    } catch (error) {
+     } catch (error) {
       console.error("datapost failed");
     }
   };
+//----------------------------------------------------------------
+const handleSubmitWithValidation = async () => {
+  if (formData.playlistName === "" || formData.description === "" || formData.category === "") {
+    const confirmation = window.confirm("Одно из полей пусто. Продолжить?");
+    if (!confirmation) {
+      return;
+    }
+  }
 
-
+  try {
+    await handleSubmit();
+    // Выполнять дополнительные действия только после успешной отправки
+    props.clickResult();
+  } catch (error) {
+    console.error("datapost failed");
+    // Можно добавить обработку ошибок, если это необходимо
+  }
+};
   //get-data------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
   const [selectedFile, setSelectedFiles] = useState([]);
-  const [selectedUrls,setSelectedUrls] = useState([]);
+  const [selectedUrls, setSelectedUrls] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -152,14 +168,14 @@ const PlaylistEdit = (props) => {
               });
               allNames.push(...names);
               const urls = video.attributes.videos.data.map((urlsData) => {
-                return urlsData.attributes.url
-              })
-              allUrls.push(urls)
+                return urlsData.attributes.url;
+              });
+              allUrls.push(urls);
             }
           });
           setVideoLinks(allLinks);
           setSelectedFiles(allNames);
-          setSelectedUrls(allUrls)
+          setSelectedUrls(allUrls);
           console.log(selectedUrls);
         } else {
           console.error("Failed to fetch video data");
@@ -170,8 +186,13 @@ const PlaylistEdit = (props) => {
     }
 
     fetchData();
-   }, []);
-  
+  }, []);
+  //searching-files----------------------------------------------------------
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredNames = selectedFile.filter((fileName) => {
+    fileName.includes(searchTerm);
+  });
+
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className={p.playlistEdit__container}>
@@ -182,11 +203,14 @@ const PlaylistEdit = (props) => {
             <Text24500 text="Create new playlist" />
           )}
           <div className={p.buttons__wrapper}>
-            <button type="submit" className={p.saveButton}  onClick={async (e) => {
-                    e.preventDefault();
-                    await handleSubmit();
-                    props.clickResult();
-                  }}>
+            <button
+              type="submit"
+              className={p.saveButton}
+              onClick={async (e) => {
+                e.preventDefault();
+                await handleSubmitWithValidation()
+               }}
+            >
               Save
             </button>
             <img src={Icones.orangeDots} alt="dots" className={p.menuDots} />
@@ -303,37 +327,56 @@ const PlaylistEdit = (props) => {
               <div className={p.videoSelected__wrapper}>
                 {uniqueNames.map((name, index) => (
                   <div key={index} className={p.selectedFiles__wrapper}>
-                  {name}
-                  <img src={Icones.close} alt="close" className={p.close} onClick={() => {handleDeleteClick();handleDeleteUrl()}}/>
+                    {name}
+                    <img
+                      src={Icones.close}
+                      alt="close"
+                      className={p.close}
+                      onClick={() => {
+                        handleDeleteClick();
+                        handleDeleteUrl();
+                      }}
+                    />
                   </div>
-                  ))}
-                 
-                </div>
-             
+                ))}
+              </div>
             </div>
           </div>
           {/* //playlist-videos---------------------------------------------- */}
           <div className={p.videos__wrapper}>
             <div className={p.search__wrapper}>
-              <input type="search" />
+              <input
+                type="search"
+                name="q"
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                }}
+              />
               <img src={Icones.search} alt="search" />
+              <button className={p.buttonSearch}></button>
             </div>
             <button type="button" className={p.selectVideo__button}>
               Select video
             </button>
             {/* //slider----------------------------------------------------------- */}
             <div className={p.sliderPlaylist}>
-              {link.map((link, index) => (
-                <div
-                  className={p.swiperSlide + " " + p.firstSlide}
-                  key={index}
-                >
-                  <VideoFrame
-                    videoUrl={link}
-                    onVideoClick={() => {handleVideoClick(index);{handleUrlClick(index)}}}
-                     />
-                </div>
-              ))}
+            {link
+  .filter((videoLink, index) =>
+    selectedFile[index] && selectedFile[index].toLowerCase().includes(searchTerm.toLowerCase())
+  )
+  .map((filteredLink, index) => (
+    <div className={p.swiperSlide + " " + p.firstSlide} key={index}>
+      <VideoFrame
+        videoUrl={filteredLink}
+        onVideoClick={() => {
+          handleVideoClick(index);
+          handleUrlClick(index);
+        }}
+      />
+    </div>
+  ))}
+
+
             </div>
             {/* //slider----------------------------------------------------------------- */}
           </div>

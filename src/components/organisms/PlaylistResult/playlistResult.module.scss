@@ -11,6 +11,7 @@
     flex-direction: column;
     row-gap: 27.5px;
     margin-bottom: 32px;
+    position: relative;
     & .functions {
       width: 100%;
       display: flex;
@@ -66,5 +67,28 @@
     column-gap: 24px;
     row-gap: 15px;
     overflow: hidden;
+    }
+    .dotsMenu__wrapper {
+      width: 240px;
+      height: 76px;
+      border-radius: 8px;
+      background: var(--9, #222);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 10px;
+      row-gap: 17px;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      & .item {
+        color: var(--5, #BBB);
+        font-family: 'Uto-400';
+        font-size: 16px;
+        }
+        & .item:hover {
+          color: #fff;
+        }
     }
 }
