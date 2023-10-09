@@ -91,4 +91,29 @@
           color: #fff;
         }
     }
+    .successBanner {
+      width: 388px;
+      height: 56px;
+      border-radius: 16px;
+      background: var(--dark, #653012);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 50px;
+      right: 50%;
+      transform: translateX(50%);
+      padding: 0 24px;
+      opacity: 0; /* Начальная прозрачность */
+      animation: fadeAndHide 2s linear forwards;
+    }
+    @keyframes fadeAndHide {
+      from {
+        opacity: 0;
+      }
+    
+      to {
+        opacity: 1;
+      }
+    }
 }

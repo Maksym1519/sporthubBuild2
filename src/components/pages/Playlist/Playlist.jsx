@@ -26,12 +26,13 @@ import {
   showBody,
   showSoul,
 } from "../../../features/videoStyleSlice";
-import { showPlaylist,showEditPlaylist,showResultPlaylist } from "../../../features/createPlaylistSlice";
+import { showPlaylist,showEditPlaylist,showResultPlaylist,showEditResultPlaylist } from "../../../features/createPlaylistSlice";
 import Mind from "../../organisms/Mind/Mind";
 import Body from "../../organisms/Body/Body";
 import Soul from "../../organisms/Soul/Soul";
 import PlaylistEdit from "../../organisms/PlaylistEdit/PlaylistEdit";
 import PlaylistResult from "../../organisms/PlaylistResult/PlaylistResult";
+import PlaylistEditResult from "../../organisms/PlaylistEditResult/PlaylistEditResult";
 //images-------------------------------------------
 import Plus from "../../../images/Plus.svg";
 import axios from "axios";
@@ -93,6 +94,9 @@ const Playlist = () => {
   }
   const clickResultPlaylist = () => {
     dispatch(showResultPlaylist())
+  }
+  const clickEditResultPlaylist = () => {
+    dispatch(showEditResultPlaylist())
   }
   //video-switcher---------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(true);
@@ -275,7 +279,8 @@ const Playlist = () => {
           </div>
         )}
          {currentStep=== "edit" && <PlaylistEdit clickResult={clickResultPlaylist}/>}
-         {currentStep === "result" && <PlaylistResult />}
+         {currentStep === "result" && <PlaylistResult clickEditResult={clickEditResultPlaylist}/>}
+         {currentStep === "editResult" && <PlaylistEditResult />}
       </div>
     </div>
   );

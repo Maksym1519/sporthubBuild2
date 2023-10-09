@@ -1,4 +1,4 @@
-import p from "./playlistEdit.module.scss";
+import p from "./playlistEditResult.module.scss";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import axios from "axios";
@@ -11,8 +11,7 @@ import VideoFrame from "../../molecules/VideoFrame";
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
 
 
-
-const PlaylistEdit = (props) => {
+const PlaylistEditResult = (props) => {
   const formRef = useRef(null);
   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
@@ -370,4 +369,4 @@ const handleSubmitWithValidation = async () => {
   );
 };
 
-export default PlaylistEdit;
+export default PlaylistEditResult;

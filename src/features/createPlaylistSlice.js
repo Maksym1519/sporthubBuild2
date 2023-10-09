@@ -17,13 +17,17 @@ const createPlaylistSlice = createSlice({
         showResultPlaylist:(state) => {
             state.currentStep = 'result'
         },
+        showEditResultPlaylist:(state) => {
+            state.currentStep = 'editResult'
+        },
     }
 })
 
 export const {
     showPlaylist,
     showEditPlaylist,
-    showResultPlaylist
+    showResultPlaylist,
+    showEditResultPlaylist
  } = createPlaylistSlice.actions;
 
 export default createPlaylistSlice.reducer
