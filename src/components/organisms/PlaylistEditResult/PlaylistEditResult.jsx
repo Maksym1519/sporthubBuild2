@@ -27,7 +27,7 @@ const PlaylistEditResult = (props) => {
     setSelectedCategory(value);
   };
 
-  //selectedFileNames-------------------------------------------------------
+  //selectedFileNames-----(select videos from all videos)------------------
   const [selectedVideoNames, setSelectedVideoNames] = useState([]);
   const handleVideoClick = (videoIndex) => {
     const videoName = selectedFile[videoIndex] || "";
@@ -61,14 +61,73 @@ const PlaylistEditResult = (props) => {
     return self.indexOf(value) === index;
   });
   console.log(uniqueUrls);
+   //get-data------------------------------------------------------
+   const [link, setVideoLinks] = useState([]);
+   const [selectedFile, setSelectedFiles] = useState([]);
+   const [selectedUrls, setSelectedUrls] = useState([]);
+   const [dataInputs,setDataInputs] = useState({
+    playlistName: "",
+    description: "",
+    category: ""
+   })
+ 
+   useEffect(() => {
+     async function fetchData() {
+       try {
+         const response = await axios.get(
+           "http://localhost:1337/api/Maksyms?populate=*"
+         );
+ 
+         if (response.status === 200) {
+           const videosData = response.data.data;
+           const allLinks = [];
+           const allNames = [];
+           const allUrls = [];
+           videosData.forEach((video) => {
+             if (
+               video.attributes.videos &&
+               video.attributes.videos.data.length > 0
+             ) {
+               const links = video.attributes.videos.data.map((videoData) => {
+                 return "http://localhost:1337" + videoData.attributes.url;
+               });
+               allLinks.push(...links);
+               const names = video.attributes.videos.data.map((namesData) => {
+                 return namesData.attributes.name;
+               });
+               allNames.push(...names);
+               const urls = video.attributes.videos.data.map((urlsData) => {
+                 return urlsData.attributes.url;
+               });
+               allUrls.push(urls);
+             }
+           });
+           setVideoLinks(allLinks);
+           setSelectedFiles(allNames);
+           setSelectedUrls(allUrls);
+           console.log(selectedUrls);
+         } else {
+           console.error("Failed to fetch video data");
+         }
+       } catch (error) {
+         console.error("Error fetching video data:", error);
+       }
+     }
+ 
+     fetchData();
+   }, []);
+  //searching-files----------------------------------------------------------
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredNames = selectedFile.filter((fileName) => {
+    fileName.includes(searchTerm);
+  });
 
   //post-data--------------------------------------------------------
   const [formData, setFormData] = useState({
     playlistName: "",
     description: "",
     category: "",
-    //selected: []
-  });
+    });
    const handleUploadAndSubmit = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -120,70 +179,15 @@ const handleSubmitWithValidation = async () => {
     // Можно добавить обработку ошибок, если это необходимо
   }
 };
-  //get-data------------------------------------------------------
-  const [link, setVideoLinks] = useState([]);
-  const [selectedFile, setSelectedFiles] = useState([]);
-  const [selectedUrls, setSelectedUrls] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
-        );
-
-        if (response.status === 200) {
-          const videosData = response.data.data;
-          const allLinks = [];
-          const allNames = [];
-          const allUrls = [];
-          videosData.forEach((video) => {
-            if (
-              video.attributes.videos &&
-              video.attributes.videos.data.length > 0
-            ) {
-              const links = video.attributes.videos.data.map((videoData) => {
-                return "http://localhost:1337" + videoData.attributes.url;
-              });
-              allLinks.push(...links);
-              const names = video.attributes.videos.data.map((namesData) => {
-                return namesData.attributes.name;
-              });
-              allNames.push(...names);
-              const urls = video.attributes.videos.data.map((urlsData) => {
-                return urlsData.attributes.url;
-              });
-              allUrls.push(urls);
-            }
-          });
-          setVideoLinks(allLinks);
-          setSelectedFiles(allNames);
-          setSelectedUrls(allUrls);
-          console.log(selectedUrls);
-        } else {
-          console.error("Failed to fetch video data");
-        }
-      } catch (error) {
-        console.error("Error fetching video data:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
-  //searching-files----------------------------------------------------------
-  const [searchTerm, setSearchTerm] = useState("");
-  const filteredNames = selectedFile.filter((fileName) => {
-    fileName.includes(searchTerm);
-  });
-
+  
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className={p.playlistEdit__container}>
         <div className={p.functions__wrapper}>
           {isMobile ? (
-            <Text18500 text="Create new playlist" />
+            <Text18500 text="Edit playlist" />
           ) : (
-            <Text24500 text="Create new playlist" />
+            <Text24500 text="Edit playlist" />
           )}
           <div className={p.buttons__wrapper}>
             <button
@@ -212,7 +216,7 @@ const handleSubmitWithValidation = async () => {
                 <input
                   type="text"
                   className={p.input}
-                  placeholder={"Enter playlist name"}
+                  placeholder={dataInputs.playlistName}
                   name="playlistName"
                   value={formData.playlistName}
                   onChange={handleUploadAndSubmit}
@@ -230,7 +234,7 @@ const handleSubmitWithValidation = async () => {
                 <input
                   type="text"
                   className={p.input}
-                  placeholder={"Enter playlist name"}
+                  placeholder={dataInputs.description}
                   name="description"
                   value={formData.description}
                   onChange={handleUploadAndSubmit}
@@ -248,8 +252,9 @@ const handleSubmitWithValidation = async () => {
                 <input
                   type="text"
                   className={p.input}
-                  placeholder={selectedCategory || "Select category"}
+                  placeholder={selectedCategory || dataInputs.category}
                   name="category"
+                  //onChange={(e) => setSelectedCategory(e.target.value)}
                 />
                 <img
                   src={Icones.arrowDown}
@@ -344,7 +349,7 @@ const handleSubmitWithValidation = async () => {
             {/* //slider----------------------------------------------------------- */}
             <div className={p.sliderPlaylist}>
             {link
-  .filter((videoLink, index) =>
+      .filter((videoLink, index) =>
     selectedFile[index] && selectedFile[index].toLowerCase().includes(searchTerm.toLowerCase())
   )
   .map((filteredLink, index) => (
