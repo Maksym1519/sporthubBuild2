@@ -68,7 +68,8 @@ const PlaylistEditResult = (props) => {
    const [dataInputs,setDataInputs] = useState({
     playlistName: "",
     description: "",
-    category: ""
+    category: "",
+    selected: []
    })
  
    useEffect(() => {
@@ -77,7 +78,18 @@ const PlaylistEditResult = (props) => {
          const response = await axios.get(
            "http://localhost:1337/api/Maksyms?populate=*"
          );
- 
+         const responseServerInputs = await axios.get("http://localhost:1337/api/Playlists?populate=*")
+         const dataFormInputs = responseServerInputs.data.data[responseServerInputs.data.data.length -1]
+         const getLinks = dataFormInputs.attributes.selected;
+         const parsedLinks = JSON.parse(getLinks);
+       
+         console.log(parsedLinks)
+             setDataInputs({
+             playlistName: dataFormInputs.attributes.playlistName,
+             description: dataFormInputs.attributes.description,
+             category: dataFormInputs.attributes.category,
+             selected: parsedLinks
+           })
          if (response.status === 200) {
            const videosData = response.data.data;
            const allLinks = [];
@@ -105,8 +117,7 @@ const PlaylistEditResult = (props) => {
            setVideoLinks(allLinks);
            setSelectedFiles(allNames);
            setSelectedUrls(allUrls);
-           console.log(selectedUrls);
-         } else {
+          } else {
            console.error("Failed to fetch video data");
          }
        } catch (error) {
@@ -123,7 +134,21 @@ const PlaylistEditResult = (props) => {
   });
 
   //post-data--------------------------------------------------------
-  const [formData, setFormData] = useState({
+  // useEffect(() => {
+  //   const putInfo = async () =>  await axios
+  //    .put("http://localhost:1337/api/Playlists/580", {
+  //        playlistName: "newName",
+  //       })
+  //    .then((res) => {
+  //        console.log(res);
+  //    })
+  //    .catch((e) => {
+  //        alert(e.message);
+  //        console.log(e.message);
+  //    });
+  //  putInfo()
+  //   },[])
+    const [formData, setFormData] = useState({
     playlistName: "",
     description: "",
     category: "",

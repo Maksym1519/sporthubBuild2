@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "maksyms",
+  "collectionName": "jhons",
   "info": {
-    "singularName": "maksym",
-    "pluralName": "maksyms",
-    "displayName": "Maksym",
+    "singularName": "jhon",
+    "pluralName": "jhons",
+    "displayName": "Jhon",
     "description": ""
   },
   "options": {
@@ -23,18 +23,6 @@
         "audios"
       ]
     },
-    "soul": {
-      "displayName": "soul",
-      "type": "component",
-      "repeatable": false,
-      "component": "soul.soul"
-    },
-    "mind": {
-      "displayName": "mind",
-      "type": "component",
-      "repeatable": false,
-      "component": "mind.mind"
-    },
     "title": {
       "type": "string"
     },
@@ -48,15 +36,14 @@
       "type": "string"
     },
     "preview": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ]
+      ],
+      "type": "media",
+      "multiple": false
     },
     "ava": {
       "allowedTypes": [

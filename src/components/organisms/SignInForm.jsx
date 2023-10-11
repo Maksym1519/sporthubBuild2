@@ -46,12 +46,12 @@ const SignInForm = (props) => {
 
       if (user) {
         // Пароль совпадает, пользователь вошел успешно
-        window.location.href = "/"; // Замените на ваш путь к главной странице
+        window.location.href = props.link; // Замените на ваш путь к главной странице
       } else {
-        setError("Неверная электронная почта или пароль");
+        setError(<Text16500 text='Неверная электронная почта или пароль'/>);
       }
     } catch (error) {
-      setError("Произошла ошибка при входе");
+      setError(<Text16500 text='Произошла ошибка при входе'/>);
     }
     console.log(formData);
   };

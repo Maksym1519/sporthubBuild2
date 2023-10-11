@@ -1,7 +1,9 @@
 import React from "react";
 
 
-
+export const Maksym = {
+  
+}
 
 export const AvaArray = [
   "http://localhost:1337/uploads/ava24_1_aab4edc594.svg",
@@ -72,7 +74,10 @@ export const Icones = {
   success: "http://localhost:1337/uploads/success_dcdd469bce.svg",
   search: "http://localhost:1337/uploads/Search_input_0ef97368b8.svg",
   close: "http://localhost:1337/uploads/Close_5533c351fb.svg",
-  approved: "http://localhost:1337/uploads/aproved_8769dabf9f.svg"
+  approved: "http://localhost:1337/uploads/aproved_8769dabf9f.svg",
+  edit: "http://localhost:1337/uploads/Edit_20x20_ec3decd7af.svg",
+  diamond: "http://localhost:1337/uploads/Diamond_20x20_8ce22f2803.svg",
+  logOut: "http://localhost:1337/uploads/Log_out_20x20_ff1ba3ce09.svg"
 }
 export const Preview = {
   previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"

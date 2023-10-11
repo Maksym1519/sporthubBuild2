@@ -14,6 +14,23 @@ import AvaText from "../../molecules/Avatext";
 
 const PlaylistResult = (props) => {
   //get-playlist-info--------------------------------------------------
+  useEffect(() => {
+    const putInfo = async () =>  await axios
+     .put("http://localhost:1337/api/Playlists/572", {
+         playlistName: "newName",
+         email: "",
+         phone: "",
+     })
+     .then((res) => {
+         console.log(res);
+     })
+     .catch((e) => {
+         alert(e.message);
+         console.log(e.message);
+     });
+   putInfo()
+    },[])
+      
   const [playlistInfo, setPlaylistInfo] = useState({
     playlistName: "",
     description: "",
