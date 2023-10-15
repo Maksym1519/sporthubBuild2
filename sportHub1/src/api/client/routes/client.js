@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * jhon router
+ * client router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::jhon.jhon');
+module.exports = createCoreRouter('api::client.client');

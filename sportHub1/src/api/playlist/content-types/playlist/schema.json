@@ -37,6 +37,24 @@
     },
     "selected": {
       "type": "json"
+    },
+    "signup": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::signup.signup",
+      "inversedBy": "playlists"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "playlists"
+    },
+    "client": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::client.client",
+      "inversedBy": "playlists"
     }
   }
 }

@@ -16,7 +16,7 @@ const PlaylistResult = (props) => {
   //get-playlist-info--------------------------------------------------
   useEffect(() => {
     const putInfo = async () =>  await axios
-     .put("http://localhost:1337/api/Playlists/572", {
+     .put("http://localhost:1337/api/Playlists", {
          playlistName: "newName",
          email: "",
          phone: "",

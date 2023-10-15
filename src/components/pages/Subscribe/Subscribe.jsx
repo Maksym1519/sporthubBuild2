@@ -1,10 +1,10 @@
-import React from "react";
+import React,{ useState, useEffect, useRef} from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import m from "./subscribe.module.scss";
-import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
 import {
   increment,
@@ -51,12 +51,11 @@ const Subscribe = () => {
   const toggleMenuDots = () => {
     setMenuDots(!menuDots)
   }
- 
-//-----------------------------------------------------------------------
+ //-----------------------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
     setActiveIndex(0);
-  }, []);
+   }, []);
   const handleSwitcher = (index) => {
     setActiveIndex(index);
   };

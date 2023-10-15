@@ -27,6 +27,7 @@ const SignUpForm = (props) => {
     lastname: "Your Last Name",
     email: "Your Email",
     password: "Your password",
+    identifier: ""
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +44,7 @@ const SignUpForm = (props) => {
           lastname: formData.lastname,
           email: formData.email,
           password: formData.password,
+          identifier: formData.email
         },
       };
 

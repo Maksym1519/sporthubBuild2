@@ -134,20 +134,6 @@ const PlaylistEditResult = (props) => {
   });
 
   //post-data--------------------------------------------------------
-  // useEffect(() => {
-  //   const putInfo = async () =>  await axios
-  //    .put("http://localhost:1337/api/Playlists/580", {
-  //        playlistName: "newName",
-  //       })
-  //    .then((res) => {
-  //        console.log(res);
-  //    })
-  //    .catch((e) => {
-  //        alert(e.message);
-  //        console.log(e.message);
-  //    });
-  //  putInfo()
-  //   },[])
     const [formData, setFormData] = useState({
     playlistName: "",
     description: "",

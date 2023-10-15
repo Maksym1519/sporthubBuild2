@@ -126,8 +126,8 @@ const SignUpCreator = () => {
         </div>
       </div>
       <div className={sc.signInForm__wrapper}>
-        {currentComponent === 'signIn' && <SignInForm img={Logo} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} link="#/VideoCreator" height='800px'/>}
-        {currentComponent === 'signUp' && <SignUpForm img={Logo} click={handleSignInClick} url="http://localhost:1337/api/Signups"/>}
+        {currentComponent === 'signIn' && <SignInForm img={Logo} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} link="/" height='800px'/>}
+        {currentComponent === 'signUp' && <SignUpForm img={Logo} click={handleSignInClick} url="http://localhost:1337/api/clients"/>}
         {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick} img={Logo} height='100%' display='none'/>}
         {currentComponent === 'checkInbox' && <CheckInboxForm img={Logo} height='100%' display='none'/>}
         {currentComponent === 'restorePassword' && <RestorePasswordForm img={Logo} height='100%' display='none'/>} 

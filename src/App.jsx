@@ -140,7 +140,7 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/Subscribe"
+          path="/Subscribe/*"
           element={
             <React.Suspense>
               <SubscribeUserLazy />

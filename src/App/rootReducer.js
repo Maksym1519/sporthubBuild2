@@ -14,7 +14,9 @@ import genderReducer from "../features/genderSlice";
 import addVideoCreatorReducer from '../features/addVideoCreator';
 import videoStyleReducer from '../features/videoStyleSlice';
 import videoPlaylistReducer from '../features/videoPlaylistSlice';
-import createPlaylistReducer from '../features/createPlaylistSlice'
+import createPlaylistReducer from '../features/createPlaylistSlice';
+import headerStateReducer from '../features/headerStateSlice';
+import getIdReducer from '../features/getIdSlice'
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -32,7 +34,9 @@ const rootReducer = combineReducers({
   addVideoSlice: addVideoCreatorReducer,
   videoStyleSlice: videoStyleReducer,
   videoPlaylistSlice: videoPlaylistReducer,
-  createPlaylistSlice: createPlaylistReducer
+  createPlaylistSlice: createPlaylistReducer,
+  headerStateSlice: headerStateReducer,
+  loginId: getIdReducer
 });
 
 export default rootReducer;

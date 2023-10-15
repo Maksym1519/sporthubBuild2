@@ -1,10 +1,11 @@
 import s from "./signInForm.module.scss";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../App/hooks";
+import { useDispatch } from "react-redux";
+import { getId } from "../../features/getIdSlice";
 import { Link, useHistory } from "react-router-dom";
 import InputForm from "../../components/organisms/InputForm";
-//import SignInFunction from "../../functions/signInFunction";
 import { Button18044 } from "../atoms/Buttons";
 import { Text36500 } from "../atoms/Text";
 import { Text14400 } from "../atoms/Text";
@@ -27,26 +28,21 @@ const SignInForm = (props) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
+      };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Отправить запрос на сервер для получения списка всех пользователей
-      const response = await axios.get("http://localhost:1337/api/signups");
-
-      // Получить данные о пользователях из ответа
-      const usersData = response.data.data; // Обратите внимание, что мы берем usersData.data
-
-      // Проверить введенные данные с данными всех пользователей
-      const user = usersData.find(
+     const response = await axios.get("http://localhost:1337/api/clients");
+     const usersData = response.data.data; 
+     const user = usersData.find(
         (u) =>
           u.attributes.email === formData.email &&
           u.attributes.password === formData.password
       );
-
       if (user) {
         // Пароль совпадает, пользователь вошел успешно
-        window.location.href = props.link; // Замените на ваш путь к главной странице
+        clickGetId()
+        window.location.href = props.link; 
       } else {
         setError(<Text16500 text='Неверная электронная почта или пароль'/>);
       }
@@ -55,6 +51,18 @@ const SignInForm = (props) => {
     }
     console.log(formData);
   };
+  // post-request-with-data-for-authentification---------------------------
+  const [id,setId] = useState('')
+  useEffect(() => {
+   localStorage.setItem("id",id)
+   console.log(id)
+  },[id])
+  //set-global-state-for-avatar-----------------------------------------
+const dispatch = useDispatch();
+const clickGetId = () => {
+  console.log(id)
+   dispatch(getId(id))
+}
   //isMobile-----------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
@@ -83,8 +91,9 @@ const SignInForm = (props) => {
               className={s.input}
               placeholder={"Your Email"}
               name="email"
-              onChange={handleChange}
-            />
+              value={id}
+              onChange={(e) => {handleChange(e); setId(e.target.value)}}
+              />
           </div>
           <div className={s.input__wrapper}>
             <div className={s.forgotPassword__wrapper}>

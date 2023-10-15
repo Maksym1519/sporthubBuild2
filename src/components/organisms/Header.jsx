@@ -39,7 +39,7 @@ const Header = () => {
           <div className={h.functions__wrapper}>
            <img src={Search} alt="icon" />
            <img src={Notification} alt="icon" />
-           <Link to='/SignIn'>
+           <Link to='/SignInCreator'>
            <Button13040 text={<Text14600 text='Sign in'/>} borderRadius='8px'/>
            </Link>
           </div>

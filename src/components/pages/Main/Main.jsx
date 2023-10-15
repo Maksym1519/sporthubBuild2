@@ -13,6 +13,7 @@ import { Text24500 } from "../../atoms/Text";
 import { Text18500 } from "../../atoms/Text";
 import Avatext from "../../molecules/Avatext";
 import Header from "../../organisms/Header";
+import HeaderCreator from '../../organisms/HeaderCreator';
 import SubscribeUser from "../../organisms/SubscribeUser";
 import VideoUser from "../../molecules/VideoUser";
 import {
@@ -111,7 +112,7 @@ const Main = () => {
 
   return (
     <div className={m.main__wrapper}>
-      <Header />
+      <HeaderCreator />
       <div className={m.container}>
         <div className={m.sidebar__wrapper}>
           <div className={m.switcher__wrapper}>
@@ -181,105 +182,7 @@ const Main = () => {
                 />
                 <div className={m.messages}></div>
               </div>
-              {/* //item3-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[2]}
-                  text1={
-                    <Text14400
-                      text="Robert Fox"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-              </div>
-              {/* //item4-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[3]}
-                  text1={
-                    <Text14400
-                      text="Savannah Nguyen"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-              </div>
-              {/* //item5-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[4]}
-                  text1={
-                    <Text14400
-                      text="Jenny Wilson"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-                <div className={m.messages}></div>
-              </div>
-              {/* //item6-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[5]}
-                  text1={
-                    <Text14400
-                      text="Guy Hawkins"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-              </div>
-              {/* //item7-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[6]}
-                  text1={
-                    <Text14400
-                      text="Annette Black"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-              </div>
-              {/* //item8-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[7]}
-                  text1={
-                    <Text14400
-                      text="Darrell Steward"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-                <div className={m.messages}></div>
-              </div>
-              {/* //item9-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[8]}
-                  text1={
-                    <Text14400
-                      text="Ralph Edwards"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-              </div>
-              {/* //item10-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[9]}
-                  text1={
-                    <Text14400
-                      text="Floyd Miles"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-              </div>
-              {/* //item-------------------------------------------------------------- */}
+             {/* //item-------------------------------------------------------------- */}
             </div>
             <div className={m.showMore__wrapper}>
               <div className={m.showMore__button} onClick={toggleMessages}>
