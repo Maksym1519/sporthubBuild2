@@ -33,7 +33,7 @@ const rootReducer = combineReducers({
   genderSlice: genderReducer,
   addVideoSlice: addVideoCreatorReducer,
   videoStyleSlice: videoStyleReducer,
-  videoPlaylistSlice: videoPlaylistReducer,
+  //videoPlaylistSlice: videoPlaylistReducer,
   createPlaylistSlice: createPlaylistReducer,
   headerStateSlice: headerStateReducer,
   loginId: getIdReducer

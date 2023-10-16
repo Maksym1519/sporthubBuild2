@@ -109,10 +109,10 @@ const Main = () => {
     return <p>Ошибка: {error}</p>;
   }
   //video-menu-----------------------------------------------
-
+const num = 555
   return (
     <div className={m.main__wrapper}>
-      <HeaderCreator />
+      <HeaderCreator num={num}/>
       <div className={m.container}>
         <div className={m.sidebar__wrapper}>
           <div className={m.switcher__wrapper}>

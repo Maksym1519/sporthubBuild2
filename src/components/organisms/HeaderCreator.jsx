@@ -15,8 +15,7 @@ import Notification from "../../images/notification.svg";
 import { useEffect, useState } from "react";
 import { EleonaraPena } from "../../Data";
 
-
-const HeaderCreator = () => {
+const HeaderCreator = (props) => {
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
   //video-switcher--------------------------------------------
@@ -27,7 +26,7 @@ const HeaderCreator = () => {
   const switchVideo = (index) => {
     setActiveIndex(index);
   };
- 
+
   //profileMenu------------------------------------------------
   const [menu, setMenu] = useState(false);
   const toggleMenu = () => {
@@ -45,30 +44,40 @@ const HeaderCreator = () => {
     dispatch(showLogOut());
   };
   //get-global-state-for-avatar--------------------------------
-const data = useSelector(selectData)
-console.log(data)
-//post-request-for-avatar-----------------------------------------------
-const [userData,setUserData] = useState([])
-useEffect(() => {
-const fetchData = async () => {
-  try {
-      const response = await axios.get("http://localhost:1337/api/clients?populate=*");
-      const usersData = response.data.data;
-      const allUsers = [];
-      usersData.forEach((user) => {
-        return allUsers.push(user)
-      })
-      const filteredData = allUsers.filter((client) => {
-       client.identifier === id
-      })
-      console.log(allUsers)
 
-  } catch(error) {
-   console.error("fetchData failed",error)
-  }
-}
-fetchData()
-},[])
+  //post-request-for-avatar-----------------------------------------------
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:1337/api/clients?populate=*"
+        );
+        const usersData = response.data.data;
+        const matchingUser = usersData.find(
+          (user) => user.attributes.identifier === dataStorage
+        );
+        console.log(matchingUser.attributes.avatars.data);
+        if (matchingUser) {
+          console.log("Matching user found:", matchingUser.attributes.identifier);
+          const avatarResponse = await axios.get(
+            "http://localhost:1337/api/clients?populate[0]=avatars"
+          );
+          console.log(avatarResponse);
+          // const avatarUrl = avatarResponse.data.attributes.name;
+          console.log("Avatar URL:", avatarResponse);
+        } else {
+          console.log("Matching user not found.");
+        }
+      } catch (error) {
+        console.error("fetchData failed", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  //data-storage------------------------------------------------------------------
+  const dataStorage = localStorage.getItem("id");
 
   return (
     <>
@@ -119,7 +128,7 @@ fetchData()
                   </div>
                 </div>
                 <div className={hc.profile__wrapper} onClick={toggleMenu}>
-                  <img src={EleonaraPena.ava} alt="ava" />
+                  <img src={Icones.avaEmpty} alt="ava" className={hc.ava} />
                   <Text16400 text="Profile" color="rgba(187, 187, 187, 1)" />
                 </div>
               </div>
