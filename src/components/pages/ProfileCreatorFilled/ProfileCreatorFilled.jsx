@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showMale, showFemale, showNone } from "../../../features/genderSlice";
 //components------------------------------------
 import Header from "../../organisms/Header";
+import HeaderCreator from "../../organisms/HeaderCreator";
 import { Button18044 } from "../../atoms/Buttons";
 import { Button10644 } from "../../atoms/Buttons";
 import ColumnTemplate from "../../molecules/ColumnTemplate";
@@ -85,110 +86,17 @@ const ProfileCreatorFilled = () => {
      const { name, value } = e.target;
      setFormData({ ...formData, [name]: value });
    };
-   const handleSubmit = async (e) => {
-     e.preventDefault();
-     
-     try {
-       const formDataServer1 = new FormData();
-       const formDataServer2 = new FormData();
-       formDataServer1.append("files", avatar[0]);
-       formDataServer2.append("files", cover[0]);
-       
-       
-       const responseAvatar = await axios.post("http://localhost:1337/api/upload", formDataServer1);
-       const responseCover = await axios.post("http://localhost:1337/api/upload", formDataServer2);
-       
-
-
-       if (responseAvatar.status === 200) {
-         // If the image upload is successful, get the image ID
-         const imageAvatar = responseAvatar.data[0].id;
-         const imageCover = responseCover.data[0].id;
-         console.log(imageAvatar);
    
-         // Now, you can send the rest of the data to the server
-         const requestData = {
-           data: {
-             firstName: formData.firstName,
-             gender: "male",
-             lastName: formData.lastName,
-             dateOfBirthday: formData.dateOfBirthday,
-             address: formData.address,
-             LLC: formData.LLC,
-             description: formData.description,
-             vimeoAccount: formData.vimeoAccount,
-             instagramAccount: formData.instagramAccount,
-             facebookAccount: formData.facebookAccount,
-             twitterAccount: formData.twitterAccount,
-             avatar: imageAvatar, // Add the image ID to the requestData
-             cover: imageCover,  // Add the image ID as cover as well, if needed
-           },
-         };
-   
-         // Now, send the requestData to the server
-         const profileResponse = await axios.post("http://localhost:1337/api/profiles", requestData);
-   
-         if (profileResponse.status === 200) {
-           setFormData({
-             firstName: "",
-             genderMale: "",
-             genderFemale: "",
-             genderNone: "",
-             lastName: "",
-             dateOfBirthday: "",
-             address: "",
-             LLC: "",
-             description: "",
-             vimeoAccount: "",
-             instagramAccount: "",
-             facebookAccount: "",
-             twitterAccount: "",
-             avatar: "",
-             cover: "",
-           });
-           
-           setPlaceholderData({
-             firstName: "Your First Name",
-             genderMale: "Male",
-             genderFemale: "Female",
-             genderNone: "None",
-             lastName: "Your Last Name",
-             dateOfBirthday: "MM.DD.YYYY",
-             address: "Address",
-             LLC: "Your LLC",
-             description: "Description",
-             vimeoAccount: "Add your Vimeo account",
-             instagramAccount: "Add your Instagram account",
-             facebookAccount: "Add your Facebook account",
-             twitterAccount: "Add your Twitter account",
-           });
-           console.log("Registration successful");
-           // You can also reset your form data and placeholders here if needed
-         } else {
-           // Handle any errors from the profile creation
-           console.error("Profile creation failed");
-         }
-       } else {
-         // Handle any errors from the image upload
-         console.error("Image upload failed");
-       }
-     } catch (error) {
-       // Handle any other errors
-       console.error("Error registering user:", error);
-     }
-   };
    //get-values----------------------------------------------------
-   //get-values---------------------------------------------------
-   useEffect(() => {
-    // Выполняйте GET-запрос на сервер при загрузке страницы
-    async function fetchData() {
+    useEffect(() => {
+     async function fetchData() {
       try {
         const response = await axios.get("http://localhost:1337/api/profiles?populate=*");
         
         if (response.status === 200) {
-          const profileData = response.data.data; // Полученные данные с сервера
+          const profileData = response.data.data; 
           console.log(profileData[0])
-          // Заполните форму данными с сервера
+          // Заполнение формы данными с сервера
           setFormData({
             firstName: profileData[profileData.length - 1].attributes.firstName,
             lastName: profileData[profileData.length - 1].attributes.lastName,
@@ -205,11 +113,9 @@ const ProfileCreatorFilled = () => {
             cover: profileData[profileData.length - 1].attributes.cover.data.attributes.url,
             imgCoverName: profileData[profileData.length - 1].attributes.cover.data.attributes.name,
             imgAvatarName: profileData[profileData.length - 1].attributes.avatar.data.attributes.name
-            // ... и так далее для остальных полей
-          });
+            });
           console.log(formData.avatar)
-          //Можете также обновить данные placeholderData, если это необходимо
-          setPlaceholderData({
+           setPlaceholderData({
             //firstName: profileData[0].id.attributes.firstName,
             });
         } else {
@@ -220,16 +126,36 @@ const ProfileCreatorFilled = () => {
       }
     }
     
-    fetchData(); // Вызывайте функцию для выполнения GET-запроса при загрузке компонента
+    fetchData(); 
   }, []);
-   //-------------------------------------------------------------- ...
+  //data-patch------------------------------------------------------------------
+ 
+  const changeData = async () => {
+    const firstName = 'new'
+    const requestData = {
+      data : {
+        firstName: "super",
+     
+      }
+    }
+    try {
+      const patchResponse = await axios.put("http://localhost:1337/api/profiles/323",requestData)
+    } catch (error) {
+      console.error("patch data failed")
+    }
+    
+  }
+   
+
+   
+
   return (
     <div className={p.profileCreator__wrapper}>
-      <Header />
+      <HeaderCreator />
       <div className={p.container}>
         <div className={p.main}>
           <form
-            onSubmit={handleSubmit}
+           onSubmit={changeData}
             className={p.form__wrapper}
           >
             <div className={p.main__header}>
@@ -243,6 +169,7 @@ const ProfileCreatorFilled = () => {
                 className={p.button__wrapper}
                 type="submit"
                 value="Submit"
+                onClick={changeData}
               >
                 {isMobile ? (
                   <Button10644
@@ -253,6 +180,7 @@ const ProfileCreatorFilled = () => {
                   <Button18044
                     text={<Text16600 text="Save" />}
                     borderRadius="8px"
+                    width='180px'
                   />
                 )}
               </button>
@@ -305,7 +233,7 @@ const ProfileCreatorFilled = () => {
                   className={p.input}
                   placeholder={placeholderData.firstName}
                   name="firstName"
-                  value={formData.firstName}
+                  value={formData.firstName || ""}
                   onChange={handleUploadAndSubmit}
                 />
               </div>

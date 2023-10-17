@@ -135,6 +135,7 @@ const HeaderCreator = (props) => {
             </div>
             {menu && (
               <div className={hc.headerProfile__wrapper}>
+<Link to='ProfileCreator'>
                 <div className={hc.item}>
                   <Avatext
                     img={Icones.edit}
@@ -146,6 +147,7 @@ const HeaderCreator = (props) => {
                     }
                   />
                 </div>
+</Link>
                 <div className={hc.item}>
                   <Avatext
                     img={Icones.diamond}

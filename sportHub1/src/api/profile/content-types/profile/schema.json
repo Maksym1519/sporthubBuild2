@@ -44,9 +44,6 @@
     "gender": {
       "type": "string"
     },
-    "dateOfBirthday": {
-      "type": "float"
-    },
     "LLC": {
       "type": "string"
     },
@@ -77,6 +74,9 @@
         "videos",
         "audios"
       ]
+    },
+    "dateOfBirthday": {
+      "type": "string"
     }
   }
 }

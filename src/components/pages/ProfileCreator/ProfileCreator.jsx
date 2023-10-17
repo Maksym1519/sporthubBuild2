@@ -1,7 +1,7 @@
 import p from "./profileCreator.module.scss";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { FilePicker } from "react-file-picker";
 import { ImagePicker } from "react-file-picker";
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showMale, showFemale, showNone } from "../../../features/genderSlice";
 //components------------------------------------
 import Header from "../../organisms/Header";
+import HeaderCreator from "../../organisms/HeaderCreator";
 import { Button18044 } from "../../atoms/Buttons";
 import { Button10644 } from "../../atoms/Buttons";
 import ColumnTemplate from "../../molecules/ColumnTemplate";
@@ -104,7 +105,7 @@ const ProfileCreator = () => {
         formDataServer2
       );
 
-      if (responseAvatar.status === 200) {
+     
         const imageAvatar = responseAvatar.data[0].id;
         const imageCover = responseCover.data[0].id;
         console.log(imageAvatar);
@@ -171,9 +172,7 @@ const ProfileCreator = () => {
         } else {
           console.error("Profile creation failed");
         }
-      } else {
-        console.error("Image upload failed");
-      }
+    
     } catch (error) {
       console.error("Error registering user:", error);
     }
@@ -186,19 +185,23 @@ const ProfileCreator = () => {
 //     }, 2000); // 1000 миллисекунд = 1 секунда
 //   });
 // }
-const directTo = async (e) => {
-  e.preventDefault(); // Остановить стандартное поведение формы
-  try {
-    await handleSubmit();
-    navigate("/ProfileCreatorFilled");
-  } catch (error) {
-    // Обработка ошибок, если отправка данных не удалась
-    console.error("Произошла ошибка при отправке данных:", error);
-  }
-};
+
+  const directTo = async (e) => {
+    e.preventDefault(); // Остановить стандартное поведение формы
+    try {
+      await handleSubmit();
+      navigate("/ProfileCreatorFilled");
+    } catch (error) {
+      // Обработка ошибок, если отправка данных не удалась
+      console.error("Произошла ошибка при отправке данных:", error);
+    }
+  };
+
+
+
   return (
     <div className={p.profileCreator__wrapper}>
-      <Header />
+      <HeaderCreator />
       <div className={p.container}>
         <div className={p.main}>
           <form
@@ -230,7 +233,8 @@ const directTo = async (e) => {
                   <Button18044
                     text={<Text16600 text="Save" />}
                     borderRadius="8px"
-                  />
+                    width='180px'
+                   />
                 )}
               </button>
             </div>
