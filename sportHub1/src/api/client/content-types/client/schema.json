@@ -33,11 +33,15 @@
     "identifier": {
       "type": "string"
     },
-    "avatars": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::avatar.avatar",
-      "mappedBy": "client"
+    "avatar": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

@@ -50,22 +50,22 @@ const ProfileCreatorFilled = () => {
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
   const [formData, setFormData] = useState({
-    firstName: null,
-    genderMale: null,
-    genderFemale: null,
-    genderNone: null,
-    lastName: null,
-    dateOfBirthday: null,
-    address: null,
-    LLC: null,
-    description: null,
-    vimeoAccount: null,
-    instagramAccount: null,
-    facebookAccount: null,
-    twitterAccount: null,
-    avatar: null,
-    cover: null,
-    identifier: null,
+    firstName: "",
+    genderMale: "",
+    genderFemale: "",
+    genderNone: "",
+    lastName: "",
+    dateOfBirthday: "",
+    address: "",
+    LLC: "",
+    description: "",
+    vimeoAccount: "",
+    instagramAccount: "",
+    facebookAccount: "",
+    twitterAccount: "",
+    avatar: "",
+    cover: "",
+    identifier: "",
     id: null
   });
   const [placeholderData, setPlaceholderData] = useState({
@@ -136,7 +136,7 @@ const ProfileCreatorFilled = () => {
                 .attributes.name,
                 id: matchingUser.id
           });
-          console.log(formData.id);
+          console.log(formData.firstName);
           setPlaceholderData({
             //firstName: profileData[0].id.attributes.firstName,
           });
@@ -154,9 +154,8 @@ const ProfileCreatorFilled = () => {
       const changeData = async () => {
       const avatarData = new FormData()
       avatarData.append("files",avatar[0])
-      const responseAvatar = await axios.post("http://localhost:1337/api/upload",avatarData)
-      const imageAvatar = responseAvatar.data[0].id;
-      console.log(imageAvatar)
+      // const responseAvatar = await axios.post("http://localhost:1337/api/upload",avatarData)
+      // const imageAvatar = responseAvatar.data[0].id;
       const requestData = {
       data: {
         firstName: formData.firstName,
@@ -170,7 +169,7 @@ const ProfileCreatorFilled = () => {
         instagramAccount: formData.instagramAccount,
         facebookAccount: formData.facebookAccount,
         twitterAccount: formData.twitterAccount,
-        avatar: imageAvatar
+        //avatar: imageAvatar 
       },
     };
     try {
@@ -182,6 +181,7 @@ const ProfileCreatorFilled = () => {
       console.error("patch data failed");
     }
   };
+ 
 //directTo-------------------------------------------
 const navigate = useNavigate()
 const directTo = async (e) => {
@@ -193,6 +193,7 @@ const directTo = async (e) => {
     console.error("Произошла ошибка при отправке данных:", error);
   }
 };
+
 
   return (
     <div className={p.profileCreator__wrapper}>
@@ -323,7 +324,7 @@ const directTo = async (e) => {
                     <input
                       type="text"
                       className={p.input + " " + p.inputGender}
-                      placeholder={placeholderData.genderMale}
+                      placeholder="Male"
                       name="genderMale"
                       value={formData.genderMale}
                       onChange={handleUploadAndSubmit}
@@ -340,7 +341,7 @@ const directTo = async (e) => {
                     <input
                       type="text"
                       className={p.input + " " + p.inputGender}
-                      placeholder={placeholderData.genderFemale}
+                      placeholder="Female"
                       name="genderFemale"
                       value={formData.genderFemale}
                       onChange={handleUploadAndSubmit}
@@ -357,7 +358,7 @@ const directTo = async (e) => {
                     <input
                       type="text"
                       className={p.input + " " + p.inputGender}
-                      placeholder={placeholderData.genderNone}
+                      placeholder="None"
                       name="genderNone"
                       value={formData.genderNone}
                       onChange={handleUploadAndSubmit}
