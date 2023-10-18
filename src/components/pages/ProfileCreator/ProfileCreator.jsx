@@ -30,7 +30,7 @@ import RadioActive from "../../../images/Radiobutton-active.svg";
  
 
 const ProfileCreator = () => {
-   //redux-gender---- ------------------------------------------
+  //redux-gender---- ------------------------------------------
   const dispatch = useAppDispatch();
   const currentComponent = useSelector(
     (state) => state.genderSlice.currentComponent
@@ -47,7 +47,29 @@ const ProfileCreator = () => {
   //redux-isMobile---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
-
+  //get-data-storage--------------------------------------------
+  const dataStorage = localStorage.getItem('id')
+  //get-data-from-profiles-------------------------------------
+  useEffect(() => {
+    async function requestToProfiles () {
+      try {
+        const dataFromProfiles = await axios.get("http://localhost:1337/api/profiles?populate=*")
+        if (dataFromProfiles.status === 200) {
+          const responseData = dataFromProfiles.data.data
+          const matchingData = responseData.find((data) => data.attributes.identifier === dataStorage)
+          console.log(matchingData)
+          if (matchingData) {
+           alert('User with such identifier already created please proceed to edit your profile')
+          } else {
+            console.log("there is no profile with such identifier")
+          }
+        }
+      } catch(error) {
+        console.error("dataFromProfiles is failed")
+      }
+    }
+    requestToProfiles()
+   },[])
   //form-data--------------------------------------------------
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState();
@@ -125,6 +147,7 @@ const ProfileCreator = () => {
             twitterAccount: formData.twitterAccount,
             avatar: imageAvatar, 
             cover: imageCover, 
+            identifier: dataStorage
           },
         };
 
@@ -178,14 +201,6 @@ const ProfileCreator = () => {
     }
   };
 //directTo-------------------------------------------
-// function directTo () {
-//   handleSubmit().then(() => {
-//     setTimeout(() => {
-//       navigate("/ProfileCreatorFilled");
-//     }, 2000); // 1000 миллисекунд = 1 секунда
-//   });
-// }
-
   const directTo = async (e) => {
     e.preventDefault(); // Остановить стандартное поведение формы
     try {
@@ -213,9 +228,9 @@ const ProfileCreator = () => {
           >
             <div className={p.main__header}>
               {isMobile ? (
-                <Text18500 text="Edit profile" />
+                <Text18500 text="Create profile" />
               ) : (
-                <Text24500 text="Edit profile" />
+                <Text24500 text="Create profile" />
               )}
 
               <button

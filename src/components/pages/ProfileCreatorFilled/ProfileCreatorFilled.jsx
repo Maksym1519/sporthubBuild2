@@ -1,5 +1,6 @@
 import p from "./profileCreatorFilled.module.scss";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 //redux------------------------------------------
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
@@ -11,7 +12,7 @@ import HeaderCreator from "../../organisms/HeaderCreator";
 import { Button18044 } from "../../atoms/Buttons";
 import { Button10644 } from "../../atoms/Buttons";
 import ColumnTemplate from "../../molecules/ColumnTemplate";
-import Avatext from '../../molecules/Avatext';
+import Avatext from "../../molecules/Avatext";
 import { Icones } from "../../../Data";
 //text-----------------------------------------
 import { Text24500 } from "../../atoms/Text";
@@ -27,97 +28,118 @@ import Radio from "../../../images/Radiobutton.svg";
 import RadioActive from "../../../images/Radiobutton-active.svg";
 
 const ProfileCreatorFilled = () => {
-   //redux-gender---- ------------------------------------------
-   const dispatch = useAppDispatch();
-   const currentComponent = useSelector(
-     (state) => state.genderSlice.currentComponent
-   );
-   const maleClick = () => {
-     dispatch(showMale());
-     };
-   const femaleClick = () => {
-     dispatch(showFemale());
-     
-   };
-   const noneClick = () => {
-     dispatch(showNone());
-     
-   };
-   //redux-isMobile---------------------------------------------------------
-   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
-   const isMobile = screenWidth <= 1024;
- 
-   //form-data--------------------------------------------------
-   const [avatar, setAvatar] = useState();
-   const [cover, setCover] = useState();
-   const [formData, setFormData] = useState({
-     firstName: null,
-     genderMale: null,
-     genderFemale: null,
-     genderNone: null,
-     lastName: null,
-     dateOfBirthday: null,
-     address: null,
-     LLC: null,
-     description: null,
-     vimeoAccount: null,
-     instagramAccount: null,
-     facebookAccount: null,
-     twitterAccount: null,
-     avatar: null,
-     cover: null
-   });
-   const [placeholderData, setPlaceholderData] = useState({
-     firstName: "",
-     genderMale: '',
-     genderFemale: "",
-     genderNone: "",
-     lastName: "",
-     dateOfBirthday: "",
-     address: "",
-     LLC: "",
-     description: "",
-     vimeoAccount: "",
-     instagramAccount: "",
-     facebookAccount: "",
-     twitterAccount: "",
-   });
+  //redux-gender---- ------------------------------------------
+  const dispatch = useAppDispatch();
+  const currentComponent = useSelector(
+    (state) => state.genderSlice.currentComponent
+  );
+  const maleClick = () => {
+    dispatch(showMale());
+  };
+  const femaleClick = () => {
+    dispatch(showFemale());
+  };
+  const noneClick = () => {
+    dispatch(showNone());
+  };
+  //redux-isMobile---------------------------------------------------------
+  const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
+  const isMobile = screenWidth <= 1024;
+
+  //form-data--------------------------------------------------
+  const [avatar, setAvatar] = useState();
+  const [cover, setCover] = useState();
+  const [formData, setFormData] = useState({
+    firstName: null,
+    genderMale: null,
+    genderFemale: null,
+    genderNone: null,
+    lastName: null,
+    dateOfBirthday: null,
+    address: null,
+    LLC: null,
+    description: null,
+    vimeoAccount: null,
+    instagramAccount: null,
+    facebookAccount: null,
+    twitterAccount: null,
+    avatar: null,
+    cover: null,
+    identifier: null,
+    id: null
+  });
+  const [placeholderData, setPlaceholderData] = useState({
+    firstName: "",
+    genderMale: "",
+    genderFemale: "",
+    genderNone: "",
+    lastName: "",
+    dateOfBirthday: "",
+    address: "",
+    LLC: "",
+    description: "",
+    vimeoAccount: "",
+    instagramAccount: "",
+    facebookAccount: "",
+    twitterAccount: "",
+  });
+   //get-value-from-inputes--------------------------------------------
    const handleUploadAndSubmit = (e) => {
-     const { name, value } = e.target;
-     setFormData({ ...formData, [name]: value });
-   };
-   
-   //get-values----------------------------------------------------
-    useEffect(() => {
-     async function fetchData() {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+  
+ //get-data-storage----------------------------------------------
+ const dataStorage = localStorage.getItem('id')
+  //get-values----------------------------------------------------
+  useEffect(() => {
+    async function fetchData() {
       try {
-        const response = await axios.get("http://localhost:1337/api/profiles?populate=*");
-        
-        if (response.status === 200) {
-          const profileData = response.data.data; 
-          console.log(profileData[0])
+        const response = await axios.get(
+          "http://localhost:1337/api/profiles?populate=*"
+        );
+          if (response.status === 200) {
+          const profileData = response.data.data;
+          const matchingUser = profileData.find((user) =>
+            user.attributes.identifier === dataStorage)
+          console.log(matchingUser);
           // Заполнение формы данными с сервера
           setFormData({
-            firstName: profileData[profileData.length - 1].attributes.firstName,
-            lastName: profileData[profileData.length - 1].attributes.lastName,
-            gender: profileData[profileData.length - 1].attributes.gender,
-            dateOfBirthday: profileData[profileData.length - 1].attributes.dateOfBirthday,
-            address: profileData[profileData.length - 1].attributes.address,
-            LLC: profileData[profileData.length - 1].attributes.LLC,
-            description: profileData[profileData.length - 1].attributes.description,
-            vimeoAccount: profileData[profileData.length - 1].attributes.vimeoAccount,
-            instagramAccount: profileData[profileData.length - 1].attributes.instagramAccount,
-            facebookAccount: profileData[profileData.length - 1].attributes.facebookAccount,
-            twitterAccount: profileData[profileData.length - 1].attributes.twitterAccount,
-            avatar: profileData[profileData.length - 1].attributes.avatar.data.attributes.url,
-            cover: profileData[profileData.length - 1].attributes.cover.data.attributes.url,
-            imgCoverName: profileData[profileData.length - 1].attributes.cover.data.attributes.name,
-            imgAvatarName: profileData[profileData.length - 1].attributes.avatar.data.attributes.name
-            });
-          console.log(formData.avatar)
-           setPlaceholderData({
+            firstName: matchingUser.attributes.firstName,
+            lastName: matchingUser.attributes.lastName,
+            gender: matchingUser.attributes.gender,
+            dateOfBirthday:
+              matchingUser.attributes.dateOfBirthday,
+            address: matchingUser.attributes.address,
+            LLC: matchingUser.attributes.LLC,
+            description:
+              matchingUser.attributes.description,
+            vimeoAccount:
+              matchingUser.attributes.vimeoAccount,
+            instagramAccount:
+              matchingUser.attributes.instagramAccount,
+            facebookAccount:
+              matchingUser.attributes.facebookAccount,
+            twitterAccount:
+              matchingUser.attributes.twitterAccount,
+            avatar:
+              matchingUser.attributes.avatar.data
+                .attributes.url,
+            cover:
+              matchingUser.attributes.cover.data
+                .attributes.url,
+            imgCoverName:
+              matchingUser.attributes.cover.data
+                .attributes.name,
+            imgAvatarName:
+              matchingUser.attributes.avatar.data
+                .attributes.name,
+                id: matchingUser.id
+          });
+          console.log(formData.id);
+          setPlaceholderData({
             //firstName: profileData[0].id.attributes.firstName,
-            });
+          });
         } else {
           console.error("Failed to fetch profile data");
         }
@@ -125,39 +147,59 @@ const ProfileCreatorFilled = () => {
         console.error("Error fetching profile data:", error);
       }
     }
-    
-    fetchData(); 
+
+    fetchData();
   }, []);
   //data-patch------------------------------------------------------------------
- 
-  const changeData = async () => {
-    const firstName = 'new'
-    const requestData = {
-      data : {
-        firstName: "super",
-     
-      }
-    }
+      const changeData = async () => {
+      const avatarData = new FormData()
+      avatarData.append("files",avatar[0])
+      const responseAvatar = await axios.post("http://localhost:1337/api/upload",avatarData)
+      const imageAvatar = responseAvatar.data[0].id;
+      console.log(imageAvatar)
+      const requestData = {
+      data: {
+        firstName: formData.firstName,
+        gender: formData.gender,
+        lastName: formData.lastName,
+        dateOfBirthday: formData.dateOfBirthday,
+        address: formData.address,
+        LLC: formData.LLC,
+        description: formData.description,
+        vimeoAccount: formData.vimeoAccount,
+        instagramAccount: formData.instagramAccount,
+        facebookAccount: formData.facebookAccount,
+        twitterAccount: formData.twitterAccount,
+        avatar: imageAvatar
+      },
+    };
     try {
-      const patchResponse = await axios.put("http://localhost:1337/api/profiles/323",requestData)
+      const patchResponse = await axios.put(
+        `http://localhost:1337/api/profiles/${formData.id}`,
+        requestData
+      );
     } catch (error) {
-      console.error("patch data failed")
+      console.error("patch data failed");
     }
-    
+  };
+//directTo-------------------------------------------
+const navigate = useNavigate()
+const directTo = async (e) => {
+  e.preventDefault();
+  try {
+    await changeData();
+    navigate("/");
+  } catch (error) {
+    console.error("Произошла ошибка при отправке данных:", error);
   }
-   
-
-   
+};
 
   return (
     <div className={p.profileCreator__wrapper}>
       <HeaderCreator />
       <div className={p.container}>
         <div className={p.main}>
-          <form
-           onSubmit={changeData}
-            className={p.form__wrapper}
-          >
+          <form onSubmit={changeData} className={p.form__wrapper}>
             <div className={p.main__header}>
               {isMobile ? (
                 <Text18500 text="Edit profile" />
@@ -169,7 +211,7 @@ const ProfileCreatorFilled = () => {
                 className={p.button__wrapper}
                 type="submit"
                 value="Submit"
-                onClick={changeData}
+                onClick={directTo}
               >
                 {isMobile ? (
                   <Button10644
@@ -180,7 +222,7 @@ const ProfileCreatorFilled = () => {
                   <Button18044
                     text={<Text16600 text="Save" />}
                     borderRadius="8px"
-                    width='180px'
+                    width="180px"
                   />
                 )}
               </button>
@@ -192,9 +234,22 @@ const ProfileCreatorFilled = () => {
                   className={p.filepeaker}
                   onChange={(e) => setAvatar(e.target.files)}
                 />
-                <img src={"http://localhost:1337" + formData.avatar} alt="ava" />
+                <img
+                  src={"http://localhost:1337" + formData.avatar}
+                  alt="ava"
+                />
                 <ColumnTemplate
-                  row1={<Avatext img={Icones.greenBird} text1={<Text16600 text={formData.imgAvatarName} lineHeight="normal"/>}/>}
+                  row1={
+                    <Avatext
+                      img={Icones.greenBird}
+                      text1={
+                        <Text16600
+                          text={formData.imgAvatarName}
+                          lineHeight="normal"
+                        />
+                      }
+                    />
+                  }
                   row2={
                     <Text14400
                       text="Change file"
@@ -203,13 +258,27 @@ const ProfileCreatorFilled = () => {
                     />
                   }
                 />
-                <img src={Icones.bucket} alt="bucket" className={p.bucket}/>
+                <img src={Icones.bucket} alt="bucket" className={p.bucket} />
               </div>
               <div className={p.item__wrapper}>
-                <input type="file" className={p.filepeaker} onChange={(e) => setCover(e.target.files)}/>
+                <input
+                  type="file"
+                  className={p.filepeaker}
+                  onChange={(e) => setCover(e.target.files)}
+                />
                 <img src={"http://localhost:1337" + formData.cover} alt="ava" />
                 <ColumnTemplate
-                  row1={<Avatext img={Icones.greenBird} text1={<Text16600 text={formData.imgCoverName} lineHeight="normal"/>}/>}
+                  row1={
+                    <Avatext
+                      img={Icones.greenBird}
+                      text1={
+                        <Text16600
+                          text={formData.imgCoverName}
+                          lineHeight="normal"
+                        />
+                      }
+                    />
+                  }
                   row2={
                     <Text14400
                       text="Change file"
@@ -218,7 +287,7 @@ const ProfileCreatorFilled = () => {
                     />
                   }
                 />
-                <img src={Icones.bucket} alt="bucket" className={p.bucket}/>
+                <img src={Icones.bucket} alt="bucket" className={p.bucket} />
               </div>
             </div>
 
