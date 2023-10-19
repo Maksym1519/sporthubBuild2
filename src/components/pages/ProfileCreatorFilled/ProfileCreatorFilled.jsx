@@ -1,6 +1,5 @@
 import p from "./profileCreatorFilled.module.scss";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 //redux------------------------------------------
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
@@ -17,13 +16,9 @@ import { Icones } from "../../../Data";
 //text-----------------------------------------
 import { Text24500 } from "../../atoms/Text";
 import { Text16600 } from "../../atoms/Text";
-import { Text16400 } from "../../atoms/Text";
-import { Text12400 } from "../../atoms/Text";
 import { Text14400 } from "../../atoms/Text";
 import { Text18500 } from "../../atoms/Text";
 //images---------------------------------------
-import AvaFrame from "../../../images/avaFrame.svg";
-import CoverFrame from "../../../images/coverFrame.svg";
 import Radio from "../../../images/Radiobutton.svg";
 import RadioActive from "../../../images/Radiobutton-active.svg";
 
@@ -64,9 +59,10 @@ const ProfileCreatorFilled = () => {
     facebookAccount: "",
     twitterAccount: "",
     avatar: "",
+    imgAvatarName: "",
     cover: "",
     identifier: "",
-    id: null
+    id: null,
   });
   const [placeholderData, setPlaceholderData] = useState({
     firstName: "",
@@ -83,60 +79,59 @@ const ProfileCreatorFilled = () => {
     facebookAccount: "",
     twitterAccount: "",
   });
-   //get-value-from-inputes--------------------------------------------
-   const handleUploadAndSubmit = (e) => {
+  //get-value-from-inputes--------------------------------------------
+  const handleUploadAndSubmit = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
-  
- //get-data-storage----------------------------------------------
- const dataStorage = localStorage.getItem('id')
+
+  //get-data-storage----------------------------------------------
+  const dataStorage = localStorage.getItem("id");
   //get-values----------------------------------------------------
   useEffect(() => {
-    async function fetchData() {
+     async function fetchData() {
       try {
         const response = await axios.get(
           "http://localhost:1337/api/profiles?populate=*"
         );
-          if (response.status === 200) {
+        if (response.status === 200) {
           const profileData = response.data.data;
-          const matchingUser = profileData.find((user) =>
-            user.attributes.identifier === dataStorage)
-          console.log(matchingUser);
+          const matchingUser = profileData.find(
+            (user) => user.attributes.identifier === dataStorage
+          );
+           console.log(matchingUser);
           // Заполнение формы данными с сервера
           setFormData({
-            firstName: matchingUser.attributes.firstName,
-            lastName: matchingUser.attributes.lastName,
-            gender: matchingUser.attributes.gender,
-            dateOfBirthday:
-              matchingUser.attributes.dateOfBirthday,
-            address: matchingUser.attributes.address,
-            LLC: matchingUser.attributes.LLC,
-            description:
-              matchingUser.attributes.description,
-            vimeoAccount:
-              matchingUser.attributes.vimeoAccount,
-            instagramAccount:
-              matchingUser.attributes.instagramAccount,
-            facebookAccount:
-              matchingUser.attributes.facebookAccount,
-            twitterAccount:
-              matchingUser.attributes.twitterAccount,
-            avatar:
-              matchingUser.attributes.avatar.data
-                .attributes.url,
-            cover:
-              matchingUser.attributes.cover.data
-                .attributes.url,
-            imgCoverName:
-              matchingUser.attributes.cover.data
-                .attributes.name,
-            imgAvatarName:
-              matchingUser.attributes.avatar.data
-                .attributes.name,
-                id: matchingUser.id
+            firstName: matchingUser && matchingUser.attributes && matchingUser.attributes.firstName || "",
+            lastName: matchingUser && matchingUser.attributes && matchingUser.attributes.lastName || "",
+            genderMale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderMale || "",
+            genderFemale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderFemale || "",
+            genderNone: matchingUser && matchingUser.attributes && matchingUser.attributes.genderNone || "",
+            dateOfBirthday: matchingUser && matchingUser.attributes && matchingUser.attributes.dateOfBirthday || "",
+            address: matchingUser && matchingUser.attributes && matchingUser.attributes.address || "",
+            LLC: matchingUser && matchingUser.attributes && matchingUser.attributes.LLC || "",
+            description: matchingUser && matchingUser.attributes && matchingUser.attributes.description || "",
+            vimeoAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.vimeoAccount || "",
+            instagramAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.instagramAccount || "",
+            facebookAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.facebookAccount || "",
+            twitterAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.twitterAccount || "",
+            avatar: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
+              ? matchingUser.attributes.avatar.data.attributes.url || ""
+              : "",
+            cover: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
+              ? matchingUser.attributes.cover.data.attributes.url || ""
+              : "",
+            imgCoverName: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
+              ? matchingUser.attributes.cover.data.attributes.name || ""
+              : "",
+            imgAvatarName: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
+              ? matchingUser.attributes.avatar.data.attributes.name || ""
+              : "",
+            id: matchingUser && matchingUser.id || "",
           });
-          console.log(formData.firstName);
+          
+          
+          console.log(formData.genderNone);
           setPlaceholderData({
             //firstName: profileData[0].id.attributes.firstName,
           });
@@ -151,12 +146,46 @@ const ProfileCreatorFilled = () => {
     fetchData();
   }, []);
   //data-patch------------------------------------------------------------------
-      const changeData = async () => {
-      const avatarData = new FormData()
-      avatarData.append("files",avatar[0])
-      // const responseAvatar = await axios.post("http://localhost:1337/api/upload",avatarData)
-      // const imageAvatar = responseAvatar.data[0].id;
-      const requestData = {
+  const changeData = async () => {
+        if (avatar) {
+        const avatarData = new FormData();
+        avatarData.append("files", avatar[0]);
+        const responseAvatar = await axios.post(
+          "http://localhost:1337/api/upload",
+          avatarData
+        );
+        const imageAvatar = responseAvatar.data[0].id;
+      
+        const avatarRequestData = {
+          data: {
+            avatar: imageAvatar,
+          },
+        };
+        await axios.put(
+          `http://localhost:1337/api/profiles/${formData.id}`,
+          avatarRequestData
+        );
+      }
+      if (cover) {
+        const coverData = new FormData();
+        coverData.append("files", cover[0]);
+        const responseCover = await axios.post(
+          "http://localhost:1337/api/upload",
+          coverData
+        );
+        const imageCover = responseCover.data[0].id;
+  
+        const coverRequestData = {
+          data: {
+            cover: imageCover,
+          },
+        };
+        await axios.put(
+          `http://localhost:1337/api/profiles/${formData.id}`,
+          coverRequestData
+        );
+      }
+    const requestData = {
       data: {
         firstName: formData.firstName,
         gender: formData.gender,
@@ -169,8 +198,7 @@ const ProfileCreatorFilled = () => {
         instagramAccount: formData.instagramAccount,
         facebookAccount: formData.facebookAccount,
         twitterAccount: formData.twitterAccount,
-        //avatar: imageAvatar 
-      },
+        },
     };
     try {
       const patchResponse = await axios.put(
@@ -180,19 +208,127 @@ const ProfileCreatorFilled = () => {
     } catch (error) {
       console.error("patch data failed");
     }
+    alert("Profile data has been changed successfuly !")
   };
- 
-//directTo-------------------------------------------
-const navigate = useNavigate()
-const directTo = async (e) => {
-  e.preventDefault();
+
+  //directTo-------------------------------------------
+   const directTo = async (e) => {
+    e.preventDefault();
+    try {
+      await changeData();
+      window.location.reload();
+    } catch (error) {
+      console.error("Произошла ошибка при отправке данных:", error);
+    }
+  };
+//delete-images----------------------------------------------------------
+async function deleteAvatar() {
   try {
-    await changeData();
-    navigate("/");
+    const response = await axios.get("http://localhost:1337/api/profiles?populate=*");
+    if (response.status === 200) {
+      const profileData = response.data.data;
+      const matchingUser = profileData.find(
+        (user) => user.attributes.identifier === dataStorage
+      );
+      if (matchingUser && matchingUser.attributes.avatar && matchingUser.attributes.avatar.data) {
+        const avatarId = matchingUser.attributes.avatar.data.id;
+         setFormData({
+          firstName: matchingUser && matchingUser.attributes && matchingUser.attributes.firstName || "",
+            lastName: matchingUser && matchingUser.attributes && matchingUser.attributes.lastName || "",
+            genderMale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderMale || "",
+            genderFemale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderFemale || "",
+            genderNone: matchingUser && matchingUser.attributes && matchingUser.attributes.genderNone || "",
+            dateOfBirthday: matchingUser && matchingUser.attributes && matchingUser.attributes.dateOfBirthday || "",
+            address: matchingUser && matchingUser.attributes && matchingUser.attributes.address || "",
+            LLC: matchingUser && matchingUser.attributes && matchingUser.attributes.LLC || "",
+            description: matchingUser && matchingUser.attributes && matchingUser.attributes.description || "",
+            vimeoAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.vimeoAccount || "",
+            instagramAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.instagramAccount || "",
+            facebookAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.facebookAccount || "",
+            twitterAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.twitterAccount || "",
+            avatar: "",
+            cover: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
+              ? matchingUser.attributes.cover.data.attributes.url || ""
+              : "",
+            imgCoverName: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
+              ? matchingUser.attributes.cover.data.attributes.name || ""
+              : "",
+            imgAvatarName: "",
+            id: matchingUser && matchingUser.id || "",
+        })
+        const updateProfileResponse = await axios.put(
+          `http://localhost:1337/api/profiles/${matchingUser.id}`,
+          avatarRequestData
+        );
+        if (updateProfileResponse.status === 200) {
+          console.log("Avatar deleted successfully");
+          // Добавь вызов window.location.reload() здесь
+          window.location.reload();
+        } else {
+          console.error("Failed to delete avatar");
+        }
+      } else {
+        console.error("User or avatar data not found");
+      }
+    }
   } catch (error) {
-    console.error("Произошла ошибка при отправке данных:", error);
+    console.error("delete avatar failed", error);
   }
-};
+}
+//delete-cover---------------------------------------------------------------
+async function deleteCover() {
+  try {
+    const response = await axios.get("http://localhost:1337/api/profiles?populate=*");
+    if (response.status === 200) {
+      const profileData = response.data.data;
+      const matchingUser = profileData.find(
+        (user) => user.attributes.identifier === dataStorage
+      );
+      if (matchingUser && matchingUser.attributes.cover && matchingUser.attributes.cover.data) {
+        const avatarId = matchingUser.attributes.cover.data.id;
+         setFormData({
+          firstName: matchingUser && matchingUser.attributes && matchingUser.attributes.firstName || "",
+            lastName: matchingUser && matchingUser.attributes && matchingUser.attributes.lastName || "",
+            genderMale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderMale || "",
+            genderFemale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderFemale || "",
+            genderNone: matchingUser && matchingUser.attributes && matchingUser.attributes.genderNone || "",
+            dateOfBirthday: matchingUser && matchingUser.attributes && matchingUser.attributes.dateOfBirthday || "",
+            address: matchingUser && matchingUser.attributes && matchingUser.attributes.address || "",
+            LLC: matchingUser && matchingUser.attributes && matchingUser.attributes.LLC || "",
+            description: matchingUser && matchingUser.attributes && matchingUser.attributes.description || "",
+            vimeoAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.vimeoAccount || "",
+            instagramAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.instagramAccount || "",
+            facebookAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.facebookAccount || "",
+            twitterAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.twitterAccount || "",
+             avatar: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
+              ? matchingUser.attributes.avatar.data.attributes.url || ""
+              : "",
+            cover: "",
+            imgCoverName: "",
+              imgAvatarName: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
+              ? matchingUser.attributes.avatar.data.attributes.name || ""
+              : "",
+            id: matchingUser && matchingUser.id || "",
+        })
+        const updateProfileResponse = await axios.put(
+          `http://localhost:1337/api/profiles/${matchingUser.id}`,
+          avatarRequestData
+        );
+        if (updateProfileResponse.status === 200) {
+          console.log("Avatar deleted successfully");
+          // Добавь вызов window.location.reload() здесь
+          window.location.reload();
+        } else {
+          console.error("Failed to delete avatar");
+        }
+      } else {
+        console.error("User or avatar data not found");
+      }
+    }
+  } catch (error) {
+    console.error("delete avatar failed", error);
+  }
+}
 
 
   return (
@@ -259,7 +395,7 @@ const directTo = async (e) => {
                     />
                   }
                 />
-                <img src={Icones.bucket} alt="bucket" className={p.bucket} />
+                <img src={Icones.bucket} alt="bucket" className={p.bucket} onClick={deleteAvatar}/>
               </div>
               <div className={p.item__wrapper}>
                 <input
@@ -288,7 +424,7 @@ const directTo = async (e) => {
                     />
                   }
                 />
-                <img src={Icones.bucket} alt="bucket" className={p.bucket} />
+                <img src={Icones.bucket} alt="bucket" className={p.bucket} onClick={deleteCover}/>
               </div>
             </div>
 

@@ -37,12 +37,21 @@ const ProfileCreator = () => {
   );
   const maleClick = () => {
     dispatch(showMale());
+    setFormData({
+      genderMale: "male"
+    })
   };
   const femaleClick = () => {
     dispatch(showFemale());
+    setFormData({
+      genderFemale: "female"
+    })
   };
   const noneClick = () => {
     dispatch(showNone());
+    setFormData({
+      genderNone: "none"
+    })
   };
   //redux-isMobile---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
@@ -135,7 +144,9 @@ const ProfileCreator = () => {
          const requestData = {
           data: {
             firstName: formData.firstName,
-            gender: "male",
+            genderMale: formData.genderMale,
+            genderFemale: formData.genderFemale,
+            genderNone: formData.genderNone,
             lastName: formData.lastName,
             dateOfBirthday: formData.dateOfBirthday,
             address: formData.address,

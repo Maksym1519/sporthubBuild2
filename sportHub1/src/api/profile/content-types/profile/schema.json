@@ -80,6 +80,15 @@
     },
     "identifier": {
       "type": "string"
+    },
+    "genderMale": {
+      "type": "string"
+    },
+    "genderFemale": {
+      "type": "string"
+    },
+    "genderNone": {
+      "type": "string"
     }
   }
 }

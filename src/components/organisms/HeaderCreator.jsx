@@ -47,7 +47,7 @@ const HeaderCreator = (props) => {
 
   //post-request-for-avatar-----------------------------------------------
   const [userData, setUserData] = useState({
-    avatar: ""
+    avatar: "",
   });
   useEffect(() => {
     const fetchData = async () => {
@@ -60,10 +60,15 @@ const HeaderCreator = (props) => {
           (user) => user.attributes.identifier === dataStorage
         );
         console.log(matchingUser);
-        const avaFromProfile = "http://localhost:1337" + matchingUser.attributes.avatar.data.attributes.url
+        const avaFromProfile =
+          "http://localhost:1337" +
+          matchingUser.attributes.avatar.data.attributes.url;
         if (matchingUser) {
-          setUserData(avaFromProfile) 
-          console.log("Matching user found:", matchingUser.attributes.identifier);
+          setUserData(avaFromProfile);
+          console.log(
+            "Matching user found:",
+            matchingUser.attributes.identifier
+          );
           const avatarResponse = await axios.get(
             "http://localhost:1337/api/clients?populate[0]=avatars"
           );
@@ -139,32 +144,32 @@ const HeaderCreator = (props) => {
             </div>
             {menu && (
               <div className={hc.headerProfile__wrapper}>
-<Link to='ProfileCreator'>
-                <div className={hc.item}>
-                  <Avatext
-                    img={Icones.edit}
-                    text1={
-                      <Text16400
-                        text="Create profile"
-                        color="rgba(187, 187, 187, 1)"
-                      />
-                    }
-                  />
-                </div>
-</Link>
-<Link to='ProfileCreatorFilled'>
-                <div className={hc.item}>
-                  <Avatext
-                    img={Icones.edit}
-                    text1={
-                      <Text16400
-                        text="Edit profile"
-                        color="rgba(187, 187, 187, 1)"
-                      />
-                    }
-                  />
-                </div>
-</Link>
+                <Link to="/ProfileCreator">
+                  <div className={hc.item}>
+                    <Avatext
+                      img={Icones.edit}
+                      text1={
+                        <Text16400
+                          text="Create profile"
+                          color="rgba(187, 187, 187, 1)"
+                        />
+                      }
+                    />
+                  </div>
+                </Link>
+                <Link to="/ProfileCreatorFilled">
+                  <div className={hc.item}>
+                    <Avatext
+                      img={Icones.edit}
+                      text1={
+                        <Text16400
+                          text="Edit profile"
+                          color="rgba(187, 187, 187, 1)"
+                        />
+                      }
+                    />
+                  </div>
+                </Link>
                 <div className={hc.item}>
                   <Avatext
                     img={Icones.diamond}
