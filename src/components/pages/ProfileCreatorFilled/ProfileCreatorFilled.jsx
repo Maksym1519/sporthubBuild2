@@ -445,63 +445,64 @@ async function deleteCover() {
               </div>
               {/* //input-------------------------------------------------------------------------*/}
               <div className={p.input__wrapper}>
-                <span className={p.label}>
-                  <Text14400 text="Gender" color="rgba(153, 153, 153, 1)" />
-                </span>
-                <div className={p.inputGender__wrapper}>
-                  <div
-                    className={p.inputRadio__wrapper}
-                    onClick={() => maleClick()}
-                  >
-                    <img src={Radio} alt="radio" className={p.radioButton} />
-                    {currentComponent === "male" && (
-                      <img src={RadioActive} className={p.radioButton} />
-                    )}
-                    <input
-                      type="text"
-                      className={p.input + " " + p.inputGender}
-                      placeholder="Male"
-                      name="genderMale"
-                      value={formData.genderMale}
-                      onChange={handleUploadAndSubmit}
-                    />
-                  </div>
-                  <div
-                    className={p.inputRadio__wrapper}
-                    onClick={() => femaleClick()}
-                  >
-                    <img src={Radio} alt="radio" className={p.radioButton} />
-                    {currentComponent === "female" && (
-                      <img src={RadioActive} className={p.radioButton} />
-                    )}
-                    <input
-                      type="text"
-                      className={p.input + " " + p.inputGender}
-                      placeholder="Female"
-                      name="genderFemale"
-                      value={formData.genderFemale}
-                      onChange={handleUploadAndSubmit}
-                    />
-                  </div>
-                  <div
-                    className={p.inputRadio__wrapper}
-                    onClick={() => noneClick()}
-                  >
-                    <img src={Radio} alt="radio" className={p.radioButton} />
-                    {currentComponent === "none" && (
-                      <img src={RadioActive} className={p.radioButton} />
-                    )}
-                    <input
-                      type="text"
-                      className={p.input + " " + p.inputGender}
-                      placeholder="None"
-                      name="genderNone"
-                      value={formData.genderNone}
-                      onChange={handleUploadAndSubmit}
-                    />
-                  </div>
-                </div>
-              </div>
+  <span className={p.label}>
+    <Text14400 text="Gender" color="rgba(153, 153, 153, 1)" />
+  </span>
+  <div className={p.inputGender__wrapper}>
+    <div
+      className={p.inputRadio__wrapper}
+      onClick={() => maleClick()}
+    >
+      <img src={Radio} alt="radio" className={p.radioButton} />
+      {formData.genderMale && (
+        <img src={RadioActive} className={p.radioButton} />
+      )}
+      <input
+        type="text"
+        className={p.input + " " + p.inputGender}
+        placeholder="Male"
+        name="genderMale"
+        value={formData.genderMale}
+        onChange={handleUploadAndSubmit}
+      />
+    </div>
+    <div
+      className={p.inputRadio__wrapper}
+      onClick={() => femaleClick()}
+    >
+      <img src={Radio} alt="radio" className={p.radioButton} />
+      {formData.genderFemale && (
+        <img src={RadioActive} className={p.radioButton} />
+      )}
+      <input
+        type="text"
+        className={p.input + " " + p.inputGender}
+        placeholder="Female"
+        name="genderFemale"
+        value={formData.genderFemale}
+        onChange={handleUploadAndSubmit}
+      />
+    </div>
+    <div
+      className={p.inputRadio__wrapper}
+      onClick={() => noneClick()}
+    >
+      <img src={Radio} alt="radio" className={p.radioButton} />
+      {formData.genderNone && (
+        <img src={RadioActive} className={p.radioButton} />
+      )}
+      <input
+        type="text"
+        className={p.input + " " + p.inputGender}
+        placeholder="None"
+        name="genderNone"
+        value={formData.genderNone}
+        onChange={handleUploadAndSubmit}
+      />
+    </div>
+  </div>
+</div>
+
               {/* //input-------------------------------------------------------------------------*/}
               <div className={p.input__wrapper}>
                 <span className={p.label}>

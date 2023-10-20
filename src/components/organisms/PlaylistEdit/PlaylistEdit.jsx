@@ -62,7 +62,9 @@ const PlaylistEdit = (props) => {
     return self.indexOf(value) === index;
   });
   console.log(uniqueUrls);
-
+//get-data-storage-----------------------------------------------------
+const dataStorage = localStorage.getItem("id")
+console.log(dataStorage)
   //post-data--------------------------------------------------------
   const [formData, setFormData] = useState({
     playlistName: "",
@@ -90,7 +92,7 @@ const PlaylistEdit = (props) => {
           playlistName: formData.playlistName,
           description: formData.description,
           category: formData.category,
-          publishedBy: "Maksym",
+          publishedBy: dataStorage,
           selected: jsonUrls,
         },
       };

@@ -159,12 +159,12 @@ const PlaylistEditResult = (props) => {
           playlistName: formData.playlistName,
           description: formData.description,
           category: formData.category,
-          publishedBy: "Maksym",
+          publishedBy: dataStorage,
           selected: jsonUrls,
         },
       };
       console.log(requestData);
-       const playlistResponse = await axios.post(
+       const playlistResponse = await axios.put(
         "http://localhost:1337/api/Playlists",
         requestData
       );
@@ -190,7 +190,10 @@ const handleSubmitWithValidation = async () => {
     // Можно добавить обработку ошибок, если это необходимо
   }
 };
-  
+//get-data-storage-----------------------------------------------------
+const dataStorage = localStorage.getItem("id")
+console.log(dataStorage)
+ 
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className={p.playlistEdit__container}>

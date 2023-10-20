@@ -46,9 +46,7 @@ const HeaderCreator = (props) => {
   //get-global-state-for-avatar--------------------------------
 
   //post-request-for-avatar-----------------------------------------------
-  const [userData, setUserData] = useState({
-    avatar: "",
-  });
+  const [userData, setUserData] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -137,7 +135,9 @@ const HeaderCreator = (props) => {
                   </div>
                 </div>
                 <div className={hc.profile__wrapper} onClick={toggleMenu}>
-                  <img src={userData} alt="ava" className={hc.ava} />
+                <img src={userData ? userData : Icones.avaEmpty} alt="ava" className={hc.ava} />
+
+
                   <Text16400 text="Profile" color="rgba(187, 187, 187, 1)" />
                 </div>
               </div>
@@ -182,7 +182,7 @@ const HeaderCreator = (props) => {
                   />
                 </div>
                 <div
-                  onClck={clickShowLogIn}
+                  onClick={clickShowLogIn}
                   className={hc.item + " " + hc.lastItem}
                 >
                   <Avatext
