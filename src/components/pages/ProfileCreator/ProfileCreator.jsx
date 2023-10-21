@@ -37,22 +37,31 @@ const ProfileCreator = () => {
   );
   const maleClick = () => {
     dispatch(showMale());
-    setFormData({
-      genderMale: "male"
-    })
+    setFormData((prevData) => ({
+      ...prevData,
+      genderMale: "male",
+      firstName: prevData.firstName, // Сохраняем текущее значение firstName
+    }));
   };
+  
   const femaleClick = () => {
     dispatch(showFemale());
-    setFormData({
-      genderFemale: "female"
-    })
+    setFormData((prevData) => ({
+      ...prevData,
+      genderFemale: "female",
+      firstName: prevData.firstName,
+    }));
   };
+  
   const noneClick = () => {
     dispatch(showNone());
-    setFormData({
-      genderNone: "none"
-    })
+    setFormData((prevData) => ({
+      ...prevData,
+      genderNone: "none",
+      firstName: prevData.firstName,
+    }));
   };
+  
   //redux-isMobile---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
@@ -115,8 +124,9 @@ const ProfileCreator = () => {
   });
   const handleUploadAndSubmit = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+  
   
   const handleSubmit = async (e) => {
     //e.preventDefault();
@@ -144,9 +154,6 @@ const ProfileCreator = () => {
          const requestData = {
           data: {
             firstName: formData.firstName,
-            genderMale: formData.genderMale,
-            genderFemale: formData.genderFemale,
-            genderNone: formData.genderNone,
             lastName: formData.lastName,
             dateOfBirthday: formData.dateOfBirthday,
             address: formData.address,
@@ -158,7 +165,10 @@ const ProfileCreator = () => {
             twitterAccount: formData.twitterAccount,
             avatar: imageAvatar, 
             cover: imageCover, 
-            identifier: dataStorage
+            identifier: dataStorage,
+            genderMale: formData.genderMale,
+            genderFemale: formData.genderFemale,
+            genderNone: formData.genderNone,
           },
         };
 
@@ -171,9 +181,6 @@ const ProfileCreator = () => {
         if (profileResponse.status === 200) {
           setFormData({
             firstName: "",
-            genderMale: "",
-            genderFemale: "",
-            genderNone: "",
             lastName: "",
             dateOfBirthday: "",
             address: "",
@@ -184,6 +191,9 @@ const ProfileCreator = () => {
             facebookAccount: "",
             twitterAccount: "",
             avatar: "",
+            genderMale: "",
+            genderFemale: "",
+            genderNone: "",
           });
 
           setPlaceholderData({

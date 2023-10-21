@@ -89,7 +89,7 @@ const ProfileCreatorFilled = () => {
   const dataStorage = localStorage.getItem("id");
   //get-values----------------------------------------------------
   useEffect(() => {
-     async function fetchData() {
+    async function fetchData() {
       try {
         const response = await axios.get(
           "http://localhost:1337/api/profiles?populate=*"
@@ -99,38 +99,101 @@ const ProfileCreatorFilled = () => {
           const matchingUser = profileData.find(
             (user) => user.attributes.identifier === dataStorage
           );
-           console.log(matchingUser);
+          console.log(matchingUser);
           // Заполнение формы данными с сервера
           setFormData({
-            firstName: matchingUser && matchingUser.attributes && matchingUser.attributes.firstName || "",
-            lastName: matchingUser && matchingUser.attributes && matchingUser.attributes.lastName || "",
-            genderMale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderMale || "",
-            genderFemale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderFemale || "",
-            genderNone: matchingUser && matchingUser.attributes && matchingUser.attributes.genderNone || "",
-            dateOfBirthday: matchingUser && matchingUser.attributes && matchingUser.attributes.dateOfBirthday || "",
-            address: matchingUser && matchingUser.attributes && matchingUser.attributes.address || "",
-            LLC: matchingUser && matchingUser.attributes && matchingUser.attributes.LLC || "",
-            description: matchingUser && matchingUser.attributes && matchingUser.attributes.description || "",
-            vimeoAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.vimeoAccount || "",
-            instagramAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.instagramAccount || "",
-            facebookAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.facebookAccount || "",
-            twitterAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.twitterAccount || "",
-            avatar: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
-              ? matchingUser.attributes.avatar.data.attributes.url || ""
-              : "",
-            cover: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
-              ? matchingUser.attributes.cover.data.attributes.url || ""
-              : "",
-            imgCoverName: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
-              ? matchingUser.attributes.cover.data.attributes.name || ""
-              : "",
-            imgAvatarName: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
-              ? matchingUser.attributes.avatar.data.attributes.name || ""
-              : "",
-            id: matchingUser && matchingUser.id || "",
+            firstName:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.firstName) ||
+              "",
+            lastName:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.lastName) ||
+              "",
+            genderMale:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderMale) ||
+              "",
+            genderFemale:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderFemale) ||
+              "",
+            genderNone:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderNone) ||
+              "",
+            dateOfBirthday:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.dateOfBirthday) ||
+              "",
+            address:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.address) ||
+              "",
+            LLC:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.LLC) ||
+              "",
+            description:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.description) ||
+              "",
+            vimeoAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.vimeoAccount) ||
+              "",
+            instagramAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.instagramAccount) ||
+              "",
+            facebookAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.facebookAccount) ||
+              "",
+            twitterAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.twitterAccount) ||
+              "",
+            avatar:
+              matchingUser &&
+              matchingUser.attributes &&
+              matchingUser.attributes.avatar
+                ? matchingUser.attributes.avatar.data.attributes.url || ""
+                : "",
+            cover:
+              matchingUser &&
+              matchingUser.attributes &&
+              matchingUser.attributes.cover
+                ? matchingUser.attributes.cover.data.attributes.url || ""
+                : "",
+            imgCoverName:
+              matchingUser &&
+              matchingUser.attributes &&
+              matchingUser.attributes.cover
+                ? matchingUser.attributes.cover.data.attributes.name || ""
+                : "",
+            imgAvatarName:
+              matchingUser &&
+              matchingUser.attributes &&
+              matchingUser.attributes.avatar
+                ? matchingUser.attributes.avatar.data.attributes.name || ""
+                : "",
+            id: (matchingUser && matchingUser.id) || "",
           });
-          
-          
+
           console.log(formData.genderNone);
           setPlaceholderData({
             //firstName: profileData[0].id.attributes.firstName,
@@ -147,44 +210,44 @@ const ProfileCreatorFilled = () => {
   }, []);
   //data-patch------------------------------------------------------------------
   const changeData = async () => {
-        if (avatar) {
-        const avatarData = new FormData();
-        avatarData.append("files", avatar[0]);
-        const responseAvatar = await axios.post(
-          "http://localhost:1337/api/upload",
-          avatarData
-        );
-        const imageAvatar = responseAvatar.data[0].id;
-      
-        const avatarRequestData = {
-          data: {
-            avatar: imageAvatar,
-          },
-        };
-        await axios.put(
-          `http://localhost:1337/api/profiles/${formData.id}`,
-          avatarRequestData
-        );
-      }
-      if (cover) {
-        const coverData = new FormData();
-        coverData.append("files", cover[0]);
-        const responseCover = await axios.post(
-          "http://localhost:1337/api/upload",
-          coverData
-        );
-        const imageCover = responseCover.data[0].id;
-  
-        const coverRequestData = {
-          data: {
-            cover: imageCover,
-          },
-        };
-        await axios.put(
-          `http://localhost:1337/api/profiles/${formData.id}`,
-          coverRequestData
-        );
-      }
+    if (avatar) {
+      const avatarData = new FormData();
+      avatarData.append("files", avatar[0]);
+      const responseAvatar = await axios.post(
+        "http://localhost:1337/api/upload",
+        avatarData
+      );
+      const imageAvatar = responseAvatar.data[0].id;
+
+      const avatarRequestData = {
+        data: {
+          avatar: imageAvatar,
+        },
+      };
+      await axios.put(
+        `http://localhost:1337/api/profiles/${formData.id}`,
+        avatarRequestData
+      );
+    }
+    if (cover) {
+      const coverData = new FormData();
+      coverData.append("files", cover[0]);
+      const responseCover = await axios.post(
+        "http://localhost:1337/api/upload",
+        coverData
+      );
+      const imageCover = responseCover.data[0].id;
+
+      const coverRequestData = {
+        data: {
+          cover: imageCover,
+        },
+      };
+      await axios.put(
+        `http://localhost:1337/api/profiles/${formData.id}`,
+        coverRequestData
+      );
+    }
     const requestData = {
       data: {
         firstName: formData.firstName,
@@ -198,7 +261,7 @@ const ProfileCreatorFilled = () => {
         instagramAccount: formData.instagramAccount,
         facebookAccount: formData.facebookAccount,
         twitterAccount: formData.twitterAccount,
-        },
+      },
     };
     try {
       const patchResponse = await axios.put(
@@ -208,11 +271,11 @@ const ProfileCreatorFilled = () => {
     } catch (error) {
       console.error("patch data failed");
     }
-    alert("Profile data has been changed successfuly !")
+    alert("Profile data has been changed successfuly !");
   };
 
   //directTo-------------------------------------------
-   const directTo = async (e) => {
+  const directTo = async (e) => {
     e.preventDefault();
     try {
       await changeData();
@@ -221,31 +284,89 @@ const ProfileCreatorFilled = () => {
       console.error("Произошла ошибка при отправке данных:", error);
     }
   };
-//delete-images----------------------------------------------------------
-async function deleteAvatar() {
-  try {
-    const response = await axios.get("http://localhost:1337/api/profiles?populate=*");
-    if (response.status === 200) {
-      const profileData = response.data.data;
-      const matchingUser = profileData.find(
-        (user) => user.attributes.identifier === dataStorage
+  //delete-images----------------------------------------------------------
+  async function deleteAvatar() {
+    try {
+      const response = await axios.get(
+        "http://localhost:1337/api/profiles?populate=*"
       );
-      if (matchingUser && matchingUser.attributes.avatar && matchingUser.attributes.avatar.data) {
-        const avatarId = matchingUser.attributes.avatar.data.id;
-         setFormData({
-          firstName: matchingUser && matchingUser.attributes && matchingUser.attributes.firstName || "",
-            lastName: matchingUser && matchingUser.attributes && matchingUser.attributes.lastName || "",
-            genderMale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderMale || "",
-            genderFemale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderFemale || "",
-            genderNone: matchingUser && matchingUser.attributes && matchingUser.attributes.genderNone || "",
-            dateOfBirthday: matchingUser && matchingUser.attributes && matchingUser.attributes.dateOfBirthday || "",
-            address: matchingUser && matchingUser.attributes && matchingUser.attributes.address || "",
-            LLC: matchingUser && matchingUser.attributes && matchingUser.attributes.LLC || "",
-            description: matchingUser && matchingUser.attributes && matchingUser.attributes.description || "",
-            vimeoAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.vimeoAccount || "",
-            instagramAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.instagramAccount || "",
-            facebookAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.facebookAccount || "",
-            twitterAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.twitterAccount || "",
+      if (response.status === 200) {
+        const profileData = response.data.data;
+        const matchingUser = profileData.find(
+          (user) => user.attributes.identifier === dataStorage
+        );
+        if (
+          matchingUser &&
+          matchingUser.attributes.avatar &&
+          matchingUser.attributes.avatar.data
+        ) {
+          const avatarId = matchingUser.attributes.avatar.data.id;
+          setFormData({
+            firstName:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.firstName) ||
+              "",
+            lastName:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.lastName) ||
+              "",
+            genderMale:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderMale) ||
+              "",
+            genderFemale:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderFemale) ||
+              "",
+            genderNone:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderNone) ||
+              "",
+            dateOfBirthday:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.dateOfBirthday) ||
+              "",
+            address:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.address) ||
+              "",
+            LLC:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.LLC) ||
+              "",
+            description:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.description) ||
+              "",
+            vimeoAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.vimeoAccount) ||
+              "",
+            instagramAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.instagramAccount) ||
+              "",
+            facebookAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.facebookAccount) ||
+              "",
+            twitterAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.twitterAccount) ||
+              "",
             avatar: "",
             cover: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
               ? matchingUser.attributes.cover.data.attributes.url || ""
@@ -254,52 +375,110 @@ async function deleteAvatar() {
               ? matchingUser.attributes.cover.data.attributes.name || ""
               : "",
             imgAvatarName: "",
-            id: matchingUser && matchingUser.id || "",
-        })
-        const updateProfileResponse = await axios.put(
-          `http://localhost:1337/api/profiles/${matchingUser.id}`,
-          avatarRequestData
-        );
-        if (updateProfileResponse.status === 200) {
-          console.log("Avatar deleted successfully");
-          // Добавь вызов window.location.reload() здесь
-          window.location.reload();
+            id: (matchingUser && matchingUser.id) || "",
+          });
+          const updateProfileResponse = await axios.put(
+            `http://localhost:1337/api/profiles/${matchingUser.id}`,
+            avatarRequestData
+          );
+          if (updateProfileResponse.status === 200) {
+            console.log("Avatar deleted successfully");
+            // Добавь вызов window.location.reload() здесь
+            window.location.reload();
+          } else {
+            console.error("Failed to delete avatar");
+          }
         } else {
-          console.error("Failed to delete avatar");
+          console.error("User or avatar data not found");
         }
-      } else {
-        console.error("User or avatar data not found");
       }
+    } catch (error) {
+      console.error("delete avatar failed", error);
     }
-  } catch (error) {
-    console.error("delete avatar failed", error);
   }
-}
-//delete-cover---------------------------------------------------------------
-async function deleteCover() {
-  try {
-    const response = await axios.get("http://localhost:1337/api/profiles?populate=*");
-    if (response.status === 200) {
-      const profileData = response.data.data;
-      const matchingUser = profileData.find(
-        (user) => user.attributes.identifier === dataStorage
+  //delete-cover---------------------------------------------------------------
+  async function deleteCover() {
+    try {
+      const response = await axios.get(
+        "http://localhost:1337/api/profiles?populate=*"
       );
-      if (matchingUser && matchingUser.attributes.cover && matchingUser.attributes.cover.data) {
-        const avatarId = matchingUser.attributes.cover.data.id;
-         setFormData({
-          firstName: matchingUser && matchingUser.attributes && matchingUser.attributes.firstName || "",
-            lastName: matchingUser && matchingUser.attributes && matchingUser.attributes.lastName || "",
-            genderMale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderMale || "",
-            genderFemale: matchingUser && matchingUser.attributes && matchingUser.attributes.genderFemale || "",
-            genderNone: matchingUser && matchingUser.attributes && matchingUser.attributes.genderNone || "",
-            dateOfBirthday: matchingUser && matchingUser.attributes && matchingUser.attributes.dateOfBirthday || "",
-            address: matchingUser && matchingUser.attributes && matchingUser.attributes.address || "",
-            LLC: matchingUser && matchingUser.attributes && matchingUser.attributes.LLC || "",
-            description: matchingUser && matchingUser.attributes && matchingUser.attributes.description || "",
-            vimeoAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.vimeoAccount || "",
-            instagramAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.instagramAccount || "",
-            facebookAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.facebookAccount || "",
-            twitterAccount: matchingUser && matchingUser.attributes && matchingUser.attributes.twitterAccount || "",
+      if (response.status === 200) {
+        const profileData = response.data.data;
+        const matchingUser = profileData.find(
+          (user) => user.attributes.identifier === dataStorage
+        );
+        if (
+          matchingUser &&
+          matchingUser.attributes.cover &&
+          matchingUser.attributes.cover.data
+        ) {
+          const avatarId = matchingUser.attributes.cover.data.id;
+          setFormData({
+            firstName:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.firstName) ||
+              "",
+            lastName:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.lastName) ||
+              "",
+            genderMale:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderMale) ||
+              "",
+            genderFemale:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderFemale) ||
+              "",
+            genderNone:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.genderNone) ||
+              "",
+            dateOfBirthday:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.dateOfBirthday) ||
+              "",
+            address:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.address) ||
+              "",
+            LLC:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.LLC) ||
+              "",
+            description:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.description) ||
+              "",
+            vimeoAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.vimeoAccount) ||
+              "",
+            instagramAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.instagramAccount) ||
+              "",
+            facebookAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.facebookAccount) ||
+              "",
+            twitterAccount:
+              (matchingUser &&
+                matchingUser.attributes &&
+                matchingUser.attributes.twitterAccount) ||
+              "",
              avatar: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
               ? matchingUser.attributes.avatar.data.attributes.url || ""
               : "",
@@ -308,28 +487,27 @@ async function deleteCover() {
               imgAvatarName: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
               ? matchingUser.attributes.avatar.data.attributes.name || ""
               : "",
-            id: matchingUser && matchingUser.id || "",
-        })
-        const updateProfileResponse = await axios.put(
-          `http://localhost:1337/api/profiles/${matchingUser.id}`,
-          avatarRequestData
-        );
-        if (updateProfileResponse.status === 200) {
-          console.log("Avatar deleted successfully");
-          // Добавь вызов window.location.reload() здесь
-          window.location.reload();
+            id: (matchingUser && matchingUser.id) || "",
+          });
+          const updateProfileResponse = await axios.put(
+            `http://localhost:1337/api/profiles/${matchingUser.id}`,
+            avatarRequestData
+          );
+          if (updateProfileResponse.status === 200) {
+            console.log("Avatar deleted successfully");
+            // Добавь вызов window.location.reload() здесь
+            window.location.reload();
+          } else {
+            console.error("Failed to delete avatar");
+          }
         } else {
-          console.error("Failed to delete avatar");
+          console.error("User or avatar data not found");
         }
-      } else {
-        console.error("User or avatar data not found");
       }
+    } catch (error) {
+      console.error("delete avatar failed", error);
     }
-  } catch (error) {
-    console.error("delete avatar failed", error);
   }
-}
-
 
   return (
     <div className={p.profileCreator__wrapper}>
@@ -395,7 +573,12 @@ async function deleteCover() {
                     />
                   }
                 />
-                <img src={Icones.bucket} alt="bucket" className={p.bucket} onClick={deleteAvatar}/>
+                <img
+                  src={Icones.bucket}
+                  alt="bucket"
+                  className={p.bucket}
+                  onClick={deleteAvatar}
+                />
               </div>
               <div className={p.item__wrapper}>
                 <input
@@ -424,7 +607,12 @@ async function deleteCover() {
                     />
                   }
                 />
-                <img src={Icones.bucket} alt="bucket" className={p.bucket} onClick={deleteCover}/>
+                <img
+                  src={Icones.bucket}
+                  alt="bucket"
+                  className={p.bucket}
+                  onClick={deleteCover}
+                />
               </div>
             </div>
 
@@ -445,63 +633,63 @@ async function deleteCover() {
               </div>
               {/* //input-------------------------------------------------------------------------*/}
               <div className={p.input__wrapper}>
-  <span className={p.label}>
-    <Text14400 text="Gender" color="rgba(153, 153, 153, 1)" />
-  </span>
-  <div className={p.inputGender__wrapper}>
-    <div
-      className={p.inputRadio__wrapper}
-      onClick={() => maleClick()}
-    >
-      <img src={Radio} alt="radio" className={p.radioButton} />
-      {formData.genderMale && (
-        <img src={RadioActive} className={p.radioButton} />
-      )}
-      <input
-        type="text"
-        className={p.input + " " + p.inputGender}
-        placeholder="Male"
-        name="genderMale"
-        value={formData.genderMale}
-        onChange={handleUploadAndSubmit}
-      />
-    </div>
-    <div
-      className={p.inputRadio__wrapper}
-      onClick={() => femaleClick()}
-    >
-      <img src={Radio} alt="radio" className={p.radioButton} />
-      {formData.genderFemale && (
-        <img src={RadioActive} className={p.radioButton} />
-      )}
-      <input
-        type="text"
-        className={p.input + " " + p.inputGender}
-        placeholder="Female"
-        name="genderFemale"
-        value={formData.genderFemale}
-        onChange={handleUploadAndSubmit}
-      />
-    </div>
-    <div
-      className={p.inputRadio__wrapper}
-      onClick={() => noneClick()}
-    >
-      <img src={Radio} alt="radio" className={p.radioButton} />
-      {formData.genderNone && (
-        <img src={RadioActive} className={p.radioButton} />
-      )}
-      <input
-        type="text"
-        className={p.input + " " + p.inputGender}
-        placeholder="None"
-        name="genderNone"
-        value={formData.genderNone}
-        onChange={handleUploadAndSubmit}
-      />
-    </div>
-  </div>
-</div>
+                <span className={p.label}>
+                  <Text14400 text="Gender" color="rgba(153, 153, 153, 1)" />
+                </span>
+                <div className={p.inputGender__wrapper}>
+                  <div
+                    className={p.inputRadio__wrapper}
+                    onClick={() => maleClick()}
+                  >
+                    <img src={Radio} alt="radio" className={p.radioButton} />
+                    {formData.genderMale && (
+                      <img src={RadioActive} className={p.radioButton} />
+                    )}
+                    <input
+                      type="text"
+                      className={p.input + " " + p.inputGender}
+                      placeholder="Male"
+                      name="genderMale"
+                      value={formData.genderMale}
+                      onChange={handleUploadAndSubmit}
+                    />
+                  </div>
+                  <div
+                    className={p.inputRadio__wrapper}
+                    onClick={() => femaleClick()}
+                  >
+                    <img src={Radio} alt="radio" className={p.radioButton} />
+                    {formData.genderFemale && (
+                      <img src={RadioActive} className={p.radioButton} />
+                    )}
+                    <input
+                      type="text"
+                      className={p.input + " " + p.inputGender}
+                      placeholder="Female"
+                      name="genderFemale"
+                      value={formData.genderFemale}
+                      onChange={handleUploadAndSubmit}
+                    />
+                  </div>
+                  <div
+                    className={p.inputRadio__wrapper}
+                    onClick={() => noneClick()}
+                  >
+                    <img src={Radio} alt="radio" className={p.radioButton} />
+                    {formData.genderNone && (
+                      <img src={RadioActive} className={p.radioButton} />
+                    )}
+                    <input
+                      type="text"
+                      className={p.input + " " + p.inputGender}
+                      placeholder="None"
+                      name="genderNone"
+                      value={formData.genderNone}
+                      onChange={handleUploadAndSubmit}
+                    />
+                  </div>
+                </div>
+              </div>
 
               {/* //input-------------------------------------------------------------------------*/}
               <div className={p.input__wrapper}>

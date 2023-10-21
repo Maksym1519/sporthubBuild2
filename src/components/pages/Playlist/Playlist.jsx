@@ -114,6 +114,8 @@ const Playlist = () => {
   const switchSubVideo = (index) => {
     setActiveSubIndex(index);
   };
+  //data-storage--------------------------------------------------------------
+  const dataStorage = localStorage.getItem("id")
   //data-get-------------------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
 
@@ -121,14 +123,14 @@ const Playlist = () => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
-        );
-
-        if (response.status === 200) {
-          const videosData = response.data.data;
+          "http://localhost:1337/api/playlists?populate=*"
+           );
+           if (response.status === 200) {
+          const playlistsData = response.data.data;
+          const matchingUser = playlistsData.find((user) => user.attributes.publishedBy === dataStorage)
+          console.log(matchingUser)
           const allLinks = [];
-
-          videosData.forEach((video) => {
+          playlistsData.forEach((video) => {
             if (
               video.attributes.videos &&
               video.attributes.videos.data.length > 0
