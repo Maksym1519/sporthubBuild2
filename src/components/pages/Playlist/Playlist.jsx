@@ -26,7 +26,12 @@ import {
   showBody,
   showSoul,
 } from "../../../features/videoStyleSlice";
-import { showPlaylist,showEditPlaylist,showResultPlaylist,showEditResultPlaylist } from "../../../features/createPlaylistSlice";
+import {
+  showPlaylist,
+  showEditPlaylist,
+  showResultPlaylist,
+  showEditResultPlaylist,
+} from "../../../features/createPlaylistSlice";
 import Mind from "../../organisms/Mind/Mind";
 import Body from "../../organisms/Body/Body";
 import Soul from "../../organisms/Soul/Soul";
@@ -87,17 +92,17 @@ const Playlist = () => {
     (state) => state.createPlaylistSlice.currentStep
   );
   const clickPlaylist = () => {
-    dispatch(showPlaylist())
-  }
+    dispatch(showPlaylist());
+  };
   const clickEditPlaylist = () => {
-    dispatch(showEditPlaylist())
-  }
+    dispatch(showEditPlaylist());
+  };
   const clickResultPlaylist = () => {
-    dispatch(showResultPlaylist())
-  }
+    dispatch(showResultPlaylist());
+  };
   const clickEditResultPlaylist = () => {
-    dispatch(showEditResultPlaylist())
-  }
+    dispatch(showEditResultPlaylist());
+  };
   //video-switcher---------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
@@ -115,45 +120,67 @@ const Playlist = () => {
     setActiveSubIndex(index);
   };
   //data-storage--------------------------------------------------------------
-  const dataStorage = localStorage.getItem("id")
-  //data-get-------------------------------------------------------------------
-  const [link, setVideoLinks] = useState([]);
+  const dataStorage = localStorage.getItem("id");
+  const [playlistLinks, setPlaylistLinks] = useState([]);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const response = await axios.get("http://localhost:1337/api/Playlists");
+  //       const responseData = response.data.data;
+  //       const filteredData = responseData.filter(
+  //         (user) => user.attributes.publishedBy === dataStorage
+  //       );
+
+  //       const allPlaylistsLinks = [];
+
+  //       filteredData.forEach((playlist) => {
+  //         if (playlist.attributes.selected) {
+  //           const selectedArray = JSON.parse(playlist.attributes.selected);
+  //           const links = selectedArray.flat().map((videoData) => {
+  //             return "http://localhost:1337" + videoData;
+  //           });
+  //           setPlaylistLinks((prevLinks) => [...prevLinks, ...links]);
+  //         }
+  //       });
+  //     } catch (error) {
+  //       console.error("fetch data is failed", error);
+  //     }
+  //   }
+
+  //   fetchData();
+  // }, []);
+  const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(
-          "http://localhost:1337/api/playlists?populate=*"
-           );
-           if (response.status === 200) {
-          const playlistsData = response.data.data;
-          const matchingUser = playlistsData.find((user) => user.attributes.publishedBy === dataStorage)
-          console.log(matchingUser)
-          const allLinks = [];
-          playlistsData.forEach((video) => {
-            if (
-              video.attributes.videos &&
-              video.attributes.videos.data.length > 0
-            ) {
-              const links = video.attributes.videos.data.map((videoData) => {
-                return "http://localhost:1337" + videoData.attributes.url;
-              });
-              allLinks.push(...links);
-            }
+        const response = await axios.get("http://localhost:1337/api/Playlists");
+        const responseData = response.data.data;
+        const filteredData = responseData.filter((user) => user.attributes.publishedBy === dataStorage);
+  
+        const allPlaylists = filteredData.map((playlist) => {
+          const selectedArray = JSON.parse(playlist.attributes.selected);
+          const links = selectedArray.flat().map((videoData) => {
+            return "http://localhost:1337" + videoData;
           });
-
-          setVideoLinks(allLinks);
-        } else {
-          console.error("Failed to fetch video data");
-        }
+  
+          return {
+            id: playlist.id,
+            playlistName: playlist.attributes.playlistName,
+            links: links,
+          };
+        });
+  
+        setPlaylists(allPlaylists);
       } catch (error) {
-        console.error("Error fetching video data:", error);
+        console.error("fetch data is failed", error);
       }
     }
-
+  
     fetchData();
-  }, []);
-
+  }, [dataStorage]);
+  
   //----------------------------------------------------------------------------
   return (
     <div className={p.videoCreator__wrapper}>
@@ -173,7 +200,8 @@ const Playlist = () => {
                 <div
                   className={`${p.item} ${activeIndex === 1 ? p.active : ""}`}
                   onClick={() => {
-                    switchVideo(1);clickPlaylist();
+                    switchVideo(1);
+                    clickPlaylist();
                   }}
                 >
                   Playlists
@@ -181,23 +209,26 @@ const Playlist = () => {
               </div>
               <div onClick={clickAddVideo} className={p.button__wrapper}>
                 {isMobile ? (
-                 <div  onClick={clickEditPlaylist}> 
-                  <Button18044
-                    img={Plus}
-                    text={<Text16600 text="" />}
-                    columnGap="0px"
-                    borderRadius="8px"
-                    width="54px"
-                  />
-                </div>) : (<div onClick={clickEditPlaylist}>
-                  <Button18044
-                    img={Plus}
-                    text={<Text16600 text="Create new playlist" />}
-                    columnGap="10px"
-                    borderRadius="8px"
-                    width="217px"
+                  <div onClick={clickEditPlaylist}>
+                    <Button18044
+                      img={Plus}
+                      text={<Text16600 text="" />}
+                      columnGap="0px"
+                      borderRadius="8px"
+                      width="54px"
                     />
-                </div>)}
+                  </div>
+                ) : (
+                  <div onClick={clickEditPlaylist}>
+                    <Button18044
+                      img={Plus}
+                      text={<Text16600 text="Create new playlist" />}
+                      columnGap="10px"
+                      borderRadius="8px"
+                      width="217px"
+                    />
+                  </div>
+                )}
               </div>
             </div>
             {/* //video-subMenu-------------------------------------------------------------------------- */}
@@ -267,22 +298,30 @@ const Playlist = () => {
               )}
             </div>
             {/* //--------------------------------------------------------------------- */}
-            (
-            {currentStyle === "all" && (
-              <div className={p.videos__body}>
-                {link.map((link, index) => (
-                  <Video key={index} videoUrl={link} />
-                ))}
-              </div>
-            )}
+          {currentStyle === "all" && (
+  <div className={p.videos__body}>
+    {playlists.map((playlist) => (
+      <div key={playlist.id} className={p.playlistContainer}>
+        {playlist.links.map((link, index) => (
+          <Video key={index} videoUrl={link} />
+        ))}
+      </div>
+    ))}
+  </div>
+)}
+
             {currentStyle === "mind" && <Mind />}
             {currentStyle === "body" && <Body />}
             {currentStyle === "soul" && <Soul />})
           </div>
         )}
-         {currentStep=== "edit" && <PlaylistEdit clickResult={clickResultPlaylist}/>}
-         {currentStep === "result" && <PlaylistResult clickEditResult={clickEditResultPlaylist}/>}
-         {currentStep === "editResult" && <PlaylistEditResult />}
+        {currentStep === "edit" && (
+          <PlaylistEdit clickResult={clickResultPlaylist} />
+        )}
+        {currentStep === "result" && (
+          <PlaylistResult clickEditResult={clickEditResultPlaylist} />
+        )}
+        {currentStep === "editResult" && <PlaylistEditResult />}
       </div>
     </div>
   );
