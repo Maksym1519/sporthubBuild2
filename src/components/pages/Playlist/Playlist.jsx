@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
+import { Link } from "react-router-dom";
 //components--------------------------------------
 import HeaderCreator from "../../organisms/HeaderCreator";
 import { Button18044 } from "../../atoms/Buttons";
@@ -157,30 +157,32 @@ const Playlist = () => {
       try {
         const response = await axios.get("http://localhost:1337/api/Playlists");
         const responseData = response.data.data;
-        const filteredData = responseData.filter((user) => user.attributes.publishedBy === dataStorage);
-  
+        const filteredData = responseData.filter(
+          (user) => user.attributes.publishedBy === dataStorage
+        );
+
         const allPlaylists = filteredData.map((playlist) => {
           const selectedArray = JSON.parse(playlist.attributes.selected);
           const links = selectedArray.flat().map((videoData) => {
             return "http://localhost:1337" + videoData;
           });
-  
+
           return {
             id: playlist.id,
             playlistName: playlist.attributes.playlistName,
             links: links,
           };
         });
-  
+
         setPlaylists(allPlaylists);
       } catch (error) {
         console.error("fetch data is failed", error);
       }
     }
-  
+
     fetchData();
   }, [dataStorage]);
-  
+
   //----------------------------------------------------------------------------
   return (
     <div className={p.videoCreator__wrapper}>
@@ -191,12 +193,14 @@ const Playlist = () => {
           <div>
             <div className={p.videoNavigation__wrapper}>
               <div className={p.videoSwitcher__wrapper}>
-                <div
-                  className={`${p.item} ${activeIndex === 2 ? p.active : ""}`}
-                  onClick={() => switchVideo(2)}
-                >
-                  Your video
-                </div>
+                <Link to="/VideoCreator">
+                  <div
+                    className={`${p.item} ${activeIndex === 2 ? p.active : ""}`}
+                    onClick={() => switchVideo(2)}
+                  >
+                    Your video
+                  </div>
+                </Link>
                 <div
                   className={`${p.item} ${activeIndex === 1 ? p.active : ""}`}
                   onClick={() => {
@@ -298,21 +302,21 @@ const Playlist = () => {
               )}
             </div>
             {/* //--------------------------------------------------------------------- */}
-          {currentStyle === "all" && (
-  <div className={p.videos__body}>
-    {playlists.map((playlist) => (
-      <div key={playlist.id} className={p.playlistContainer}>
-        {playlist.links.map((link, index) => (
-          <Video key={index} videoUrl={link} />
-        ))}
-      </div>
-    ))}
-  </div>
-)}
+            {currentStyle === "all" && (
+              <div className={p.videos__body}>
+                {playlists.map((playlist) => (
+                  <div key={playlist.id} className={p.playlistContainer}>
+                    {playlist.links.map((link, index) => (
+                      <Video key={index} videoUrl={link} />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
 
             {currentStyle === "mind" && <Mind />}
             {currentStyle === "body" && <Body />}
-            {currentStyle === "soul" && <Soul />})
+            {currentStyle === "soul" && <Soul />}
           </div>
         )}
         {currentStep === "edit" && (

@@ -17,7 +17,7 @@ import {
   showNewVideo,
   showDowloading,
   showPlayer,
- } from "../../../features/addVideoCreator";
+} from "../../../features/addVideoCreator";
 import AddVideo from "../../organisms/VideoCreator/AddVideo";
 import DownloadVideo from "../../organisms/VideoCreator/DownloadVideo";
 import {
@@ -25,7 +25,7 @@ import {
   showMind,
   showBody,
   showSoul,
-  } from "../../../features/videoStyleSlice";
+} from "../../../features/videoStyleSlice";
 //import { showVideo,showPlaylist } from "../../../features/videoPlaylistSlice";
 import Mind from "../../organisms/Mind/Mind";
 import Body from "../../organisms/Body/Body";
@@ -34,6 +34,7 @@ import Playlist from "../Playlist/Playlist";
 //images-------------------------------------------
 import Plus from "../../../images/Plus.svg";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const VideoCreator = () => {
   //isMobile--------------------------------------------------------------
@@ -75,7 +76,7 @@ const VideoCreator = () => {
   const clickSoul = () => {
     dispatch(showSoul());
   };
-  
+
   //video-switcher---------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
@@ -94,6 +95,7 @@ const VideoCreator = () => {
   };
   //data-get-------------------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
+  const [time, setTime] = useState([])
 
   useEffect(() => {
     async function fetchData() {
@@ -101,23 +103,33 @@ const VideoCreator = () => {
         const response = await axios.get(
           "http://localhost:1337/api/Maksyms?populate=*"
         );
-
+  
         if (response.status === 200) {
           const videosData = response.data.data;
           const allLinks = [];
-
+          setTime(videosData);
+          console.log(videosData);
+  
           videosData.forEach((video) => {
             if (
+              video.attributes &&
               video.attributes.videos &&
-              video.attributes.videos.data.length > 0
+              video.attributes.videos.data &&
+              Array.isArray(video.attributes.videos.data)
             ) {
               const links = video.attributes.videos.data.map((videoData) => {
-                return "http://localhost:1337" + videoData.attributes.url;
+                if (
+                  videoData.attributes &&
+                  videoData.attributes.url
+                ) {
+                  return "http://localhost:1337" + videoData.attributes.url;
+                }
+                return null;
               });
-              allLinks.push(...links);
+              allLinks.push(...links.filter(link => link !== null));
             }
           });
-
+  
           setVideoLinks(allLinks);
         } else {
           console.error("Failed to fetch video data");
@@ -126,10 +138,32 @@ const VideoCreator = () => {
         console.error("Error fetching video data:", error);
       }
     }
-
+  
     fetchData();
   }, []);
-
+  
+//get-time---------------------------------------------------------------------
+const [propsTime,setPropsTime] = useState([])
+useEffect(() => {
+  function findLastUpdated(time) {
+    if (Object.keys(time).length === 0) {
+      return null;
+    }
+     if ('updatedAt' in time) {
+      return time.updatedAt
+    }
+     for (const key in time) {
+      const result = findLastUpdated(time[key]);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
+  }
+  const lastUpdatedValues = time.map(item => findLastUpdated(item));
+  setPropsTime(lastUpdatedValues)
+  console.log(lastUpdatedValues);
+  },[time])
   //----------------------------------------------------------------------------
   return (
     <div className={vc.videoCreator__wrapper}>
@@ -146,12 +180,18 @@ const VideoCreator = () => {
                 >
                   Your video
                 </div>
-                <div
-                  className={`${vc.item} ${activeIndex === 2 ? vc.active : ""}`}
-                  onClick={() => {switchVideo(2)}}
-                >
-                  Playlists
-                </div>
+                <Link to="/Playlist">
+                  <div
+                    className={`${vc.item} ${
+                      activeIndex === 2 ? vc.active : ""
+                    }`}
+                    onClick={() => {
+                      switchVideo(2);
+                    }}
+                  >
+                    Playlists
+                  </div>
+                </Link>
               </div>
               <div onClick={clickAddVideo} className={vc.button__wrapper}>
                 {isMobile ? (
@@ -222,18 +262,19 @@ const VideoCreator = () => {
                 </div>
               </div>
             </div>
-             {/* //--------------------------------------------------------------------- */}
-            ({currentStyle === "all" && (
+            {/* //--------------------------------------------------------------------- */}
+            (
+            {currentStyle === "all" && (
               <div className={vc.videos__body}>
                 {link.map((link, index) => (
-                  <Video key={index} videoUrl={link} />
+                  <Video key={index} videoUrl={link} update={propsTime} index={index}/>
                 ))}
               </div>
             )}
             {currentStyle === "mind" && <Mind />}
             {currentStyle === "body" && <Body />}
             {currentStyle === "soul" && <Soul />})
-            </div>
+          </div>
         )}
         {currentComponent === "addVideo" && (
           <AddVideo

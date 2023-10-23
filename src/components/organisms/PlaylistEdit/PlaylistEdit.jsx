@@ -199,7 +199,7 @@ const handleSubmitWithValidation = async () => {
             >
               Save
             </button>
-            <img src={Icones.orangeDots} alt="dots" className={p.menuDots} />
+            {/* <img src={Icones.orangeDots} alt="dots" className={p.menuDots} /> */}
           </div>
         </div>
         <div className={p.playlistEdit__body}>

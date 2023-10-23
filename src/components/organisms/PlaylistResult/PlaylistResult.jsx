@@ -198,7 +198,7 @@ const PlaylistResult = (props) => {
           )}
         </div>
       </div>
-    </>
+     </>
   );
 };
 

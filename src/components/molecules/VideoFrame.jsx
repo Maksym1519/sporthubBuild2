@@ -36,6 +36,7 @@ const VideoFrame = (props) => {
   };
   //add-border------------------------------------------
   const [border,setBorder] = useState(false);
+
    return (
     <div className={`${vs.item} ${vs.itemMenu} ${choose && border ? (vs.clickBorder) : ("")}`}>
       <div className={vs.video__wrapper}>
