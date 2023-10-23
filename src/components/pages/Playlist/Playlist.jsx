@@ -122,67 +122,59 @@ const Playlist = () => {
   //data-storage--------------------------------------------------------------
   const dataStorage = localStorage.getItem("id");
   const [playlistLinks, setPlaylistLinks] = useState([]);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const response = await axios.get("http://localhost:1337/api/Playlists");
-  //       const responseData = response.data.data;
-  //       const filteredData = responseData.filter(
-  //         (user) => user.attributes.publishedBy === dataStorage
-  //       );
-
-  //       const allPlaylistsLinks = [];
-
-  //       filteredData.forEach((playlist) => {
-  //         if (playlist.attributes.selected) {
-  //           const selectedArray = JSON.parse(playlist.attributes.selected);
-  //           const links = selectedArray.flat().map((videoData) => {
-  //             return "http://localhost:1337" + videoData;
-  //           });
-  //           setPlaylistLinks((prevLinks) => [...prevLinks, ...links]);
-  //         }
-  //       });
-  //     } catch (error) {
-  //       console.error("fetch data is failed", error);
-  //     }
-  //   }
-
-  //   fetchData();
-  // }, []);
   const [playlists, setPlaylists] = useState([]);
-
+  
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get("http://localhost:1337/api/Playlists");
         const responseData = response.data.data;
+        setTime(responseData)
         const filteredData = responseData.filter(
           (user) => user.attributes.publishedBy === dataStorage
         );
-
         const allPlaylists = filteredData.map((playlist) => {
           const selectedArray = JSON.parse(playlist.attributes.selected);
           const links = selectedArray.flat().map((videoData) => {
-            return "http://localhost:1337" + videoData;
+           return "http://localhost:1337" + videoData;
           });
-
           return {
             id: playlist.id,
             playlistName: playlist.attributes.playlistName,
             links: links,
           };
         });
-
         setPlaylists(allPlaylists);
-      } catch (error) {
+         } catch (error) {
         console.error("fetch data is failed", error);
       }
     }
-
     fetchData();
   }, [dataStorage]);
+//get-time---------------------------------------------------------------------
+const [propsTime,setPropsTime] = useState([])
+const [time, setTime] = useState([])
 
+useEffect(() => {
+  function findLastUpdated(time) {
+    if (Object.keys(time).length === 0) {
+      return null;
+    }
+     if ('updatedAt' in time) {
+      return time.updatedAt
+    }
+     for (const key in time) {
+      const result = findLastUpdated(time[key]);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
+  }
+  const lastUpdatedValues = time.map(item => findLastUpdated(item));
+  setPropsTime(lastUpdatedValues)
+  console.log(lastUpdatedValues);
+  },[time])
   //----------------------------------------------------------------------------
   return (
     <div className={p.videoCreator__wrapper}>
@@ -307,7 +299,7 @@ const Playlist = () => {
                 {playlists.map((playlist) => (
                   <div key={playlist.id} className={p.playlistContainer}>
                     {playlist.links.map((link, index) => (
-                      <Video key={index} videoUrl={link} />
+                      <Video key={index} videoUrl={link} index={index} update={propsTime}/>
                     ))}
                   </div>
                 ))}

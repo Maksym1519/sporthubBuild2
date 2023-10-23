@@ -28,13 +28,7 @@ const Video = (props) => {
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
 //-------------------------------------------------------------------
-console.log(props.update)
-function setTime(a) {
- for (let i of a ) {
-  console.log(i)
- }
- }
-setTime(props.update)
+
 //set-Time------------------------------------------------------------------
 const getTimeDifference = (updateTime) => {
   const currentDate = new Date();
@@ -93,6 +87,7 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
             )
           }
         row2={<Text14400 text={timeDifferences[props.index]} color="rgba(153, 153, 153, 1)" />}
+        //row2={<Text14400 text={'frcrfrfrf'} color="rgba(153, 153, 153, 1)" />}
         />
       </div>
       {isMenuVisible && (
