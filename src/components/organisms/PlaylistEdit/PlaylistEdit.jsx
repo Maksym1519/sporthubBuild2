@@ -8,9 +8,8 @@ import { Text14400 } from "../../atoms/Text";
 import { Text18500 } from "../../atoms/Text";
 import { Icones } from "../../../Data";
 import VideoFrame from "../../molecules/VideoFrame";
+import Video from "../../molecules/Video";
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
-
-
 
 const PlaylistEdit = (props) => {
   const formRef = useRef(null);
@@ -62,9 +61,9 @@ const PlaylistEdit = (props) => {
     return self.indexOf(value) === index;
   });
   console.log(uniqueUrls);
-//get-data-storage-----------------------------------------------------
-const dataStorage = localStorage.getItem("id")
-console.log(dataStorage)
+  //get-data-storage-----------------------------------------------------
+  const dataStorage = localStorage.getItem("id");
+  console.log(dataStorage);
   //post-data--------------------------------------------------------
   const [formData, setFormData] = useState({
     playlistName: "",
@@ -72,7 +71,7 @@ console.log(dataStorage)
     category: "",
     //selected: []
   });
-   const handleUploadAndSubmit = (e) => {
+  const handleUploadAndSubmit = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -97,36 +96,41 @@ console.log(dataStorage)
         },
       };
       console.log(requestData);
-       const playlistResponse = await axios.post(
+      const playlistResponse = await axios.post(
         "http://localhost:1337/api/Playlists",
         requestData
       );
-     } catch (error) {
+    } catch (error) {
       console.error("datapost failed");
     }
   };
-//----------------------------------------------------------------
-const handleSubmitWithValidation = async () => {
-  if (formData.playlistName === "" || formData.description === "" || formData.category === "") {
-    const confirmation = window.confirm("Одно из полей пусто. Продолжить?");
-    if (!confirmation) {
-      return;
+  //----------------------------------------------------------------
+  const handleSubmitWithValidation = async () => {
+    if (
+      formData.playlistName === "" ||
+      formData.description === "" ||
+      formData.category === ""
+    ) {
+      const confirmation = window.confirm("Одно из полей пусто. Продолжить?");
+      if (!confirmation) {
+        return;
+      }
     }
-  }
 
-  try {
-    await handleSubmit();
-    // Выполнять дополнительные действия только после успешной отправки
-    props.clickResult();
-  } catch (error) {
-    console.error("datapost failed");
-    // Можно добавить обработку ошибок, если это необходимо
-  }
-};
+    try {
+      await handleSubmit();
+      // Выполнять дополнительные действия только после успешной отправки
+      props.clickResult();
+    } catch (error) {
+      console.error("datapost failed");
+      // Можно добавить обработку ошибок, если это необходимо
+    }
+  };
   //get-data------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
   const [selectedFile, setSelectedFiles] = useState([]);
   const [selectedUrls, setSelectedUrls] = useState([]);
+  const [time, setTime] = useState([])
 
   useEffect(() => {
     async function fetchData() {
@@ -137,6 +141,7 @@ const handleSubmitWithValidation = async () => {
 
         if (response.status === 200) {
           const videosData = response.data.data;
+          setTime(videosData)
           const allLinks = [];
           const allNames = [];
           const allUrls = [];
@@ -178,7 +183,29 @@ const handleSubmitWithValidation = async () => {
   const filteredNames = selectedFile.filter((fileName) => {
     fileName.includes(searchTerm);
   });
+//get-time---------------------------------------------------------------------
+const [propsTime,setPropsTime] = useState([])
+useEffect(() => {
+  function findLastUpdated(time) {
+    if (Object.keys(time).length === 0) {
+      return null;
+    }
+     if ('updatedAt' in time) {
+      return time.updatedAt
+    }
+     for (const key in time) {
+      const result = findLastUpdated(time[key]);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
+  }
+  const lastUpdatedValues = time ? time.map(item => findLastUpdated(item)) : [];
 
+  setPropsTime(lastUpdatedValues)
+  console.log(propsTime);
+  },[time])
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className={p.playlistEdit__container}>
@@ -194,8 +221,8 @@ const handleSubmitWithValidation = async () => {
               className={p.saveButton}
               onClick={async (e) => {
                 e.preventDefault();
-                await handleSubmitWithValidation()
-               }}
+                await handleSubmitWithValidation();
+              }}
             >
               Save
             </button>
@@ -346,23 +373,30 @@ const handleSubmitWithValidation = async () => {
             </button>
             {/* //slider----------------------------------------------------------- */}
             <div className={p.sliderPlaylist}>
-            {link
-  .filter((videoLink, index) =>
-    selectedFile[index] && selectedFile[index].toLowerCase().includes(searchTerm.toLowerCase())
-  )
-  .map((filteredLink, index) => (
-    <div className={p.swiperSlide + " " + p.firstSlide} key={index}>
-      <VideoFrame
-        videoUrl={filteredLink}
-        onVideoClick={() => {
-          handleVideoClick(index);
-          handleUrlClick(index);
-        }}
-      />
-    </div>
-  ))}
-
-
+              {link
+                .filter(
+                  (videoLink, index) =>
+                    selectedFile[index] &&
+                    selectedFile[index]
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase())
+                )
+                .map((filteredLink, index) => (
+                  <div
+                    className={p.swiperSlide + " " + p.firstSlide}
+                    key={index}
+                  >
+                    <VideoFrame
+                      videoUrl={filteredLink}
+                      update={propsTime}
+                      index={index}
+                      onVideoClick={() => {
+                        handleVideoClick(index);
+                        handleUrlClick(index);
+                      }}
+                    />
+                  </div>
+                ))}
             </div>
             {/* //slider----------------------------------------------------------------- */}
           </div>

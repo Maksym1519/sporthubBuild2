@@ -109,8 +109,31 @@ const PlaylistResult = (props) => {
 
     return <div className={pr.time}>{timeAgo}</div>;
   };
+  //get-time---------------------------------------------------------------------
+const [propsTime,setPropsTime] = useState([])
+useEffect(() => {
+  function findLastUpdated(time) {
+    if (Object.keys(time).length === 0) {
+      return null;
+    }
+     if ('updatedAt' in time) {
+      return time.updatedAt
+    }
+     for (const key in time) {
+      const result = findLastUpdated(time[key]);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
+  }
+  const lastUpdatedValues = time.map(item => findLastUpdated(item));
+  setPropsTime(lastUpdatedValues)
+  console.log(lastUpdatedValues);
+  },[time])
   //dots-menu----------------------------------------------------------
   const [menu, setMenu] = useState(false);
+  const [time, setTime] = useState([])
   const toggleDotsMenu = () => {
     setMenu(!menu);
   };
@@ -122,6 +145,7 @@ const PlaylistResult = (props) => {
       );
       const profileData = response.data.data;
       const lastPlaylist = profileData[profileData.length - 1].id;
+      setTime(lastPlaylist)
       console.log(lastPlaylist)
       await axios.delete(`http://localhost:1337/api/Playlists/${lastPlaylist}`);
     } catch (error) {
@@ -191,7 +215,7 @@ const PlaylistResult = (props) => {
         <div className={pr.videos__body}>
           {Array.isArray(playlistInfo.selected) ? (
             playlistInfo.selected.map((link, index) => (
-              <Video key={index} videoUrl={`http://localhost:1337${link}`} />
+              <Video key={index} videoUrl={`http://localhost:1337${link}`} update={propsTime} index={index}/>
             ))
           ) : (
             <p>No videos available</p>

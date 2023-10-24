@@ -19,7 +19,9 @@ const Mind = () => {
           (user) => user.attributes.publishedBy === dataStorage
         );
         console.log(filteredData)
-        const allPlaylists = filteredData.map((playlist) => {
+        const mindFilteredData = filteredData.filter((mind) => mind.attributes.category === "mind")
+        console.log(mindFilteredData)
+        const allPlaylists = mindFilteredData.map((playlist) => {
           const selectedArray = JSON.parse(playlist.attributes.selected);
           const links = selectedArray.flat().map((videoData) => {
             return "http://localhost:1337" + videoData;

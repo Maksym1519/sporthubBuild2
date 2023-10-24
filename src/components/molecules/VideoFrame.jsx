@@ -36,7 +36,32 @@ const VideoFrame = (props) => {
   };
   //add-border------------------------------------------
   const [border,setBorder] = useState(false);
+//set-Time------------------------------------------------------------------
+const getTimeDifference = (updateTime) => {
+  const currentDate = new Date();
+  const latestUpdate = new Date(updateTime);
 
+  const timeDifference = currentDate - latestUpdate;
+
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days} day ago`;
+  } else if (hours > 0) {
+    return `${hours} hour(s) ago`;
+  } else if (minutes > 0) {
+    return `${minutes} minute(s) ago`;
+  } else {
+    return `${seconds} second ago`;
+  }
+};
+
+// Используем функцию для каждого элемента массива props.update
+const timeDifferences = props.update.map(updateTime => getTimeDifference(updateTime));
+console.log(props.update)
    return (
     <div className={`${vs.item} ${vs.itemMenu} ${choose && border ? (vs.clickBorder) : ("")}`}>
       <div className={vs.video__wrapper}>
@@ -60,7 +85,7 @@ const VideoFrame = (props) => {
               />
             )
           }
-          row2={<Text14400 text="3h ago" color="rgba(153, 153, 153, 1)" />}
+          row2={<Text14400 text={timeDifferences[props.index]} color="rgba(153, 153, 153, 1)" />}
         />
       </div>
       <div className={vs.dotsMenu}>

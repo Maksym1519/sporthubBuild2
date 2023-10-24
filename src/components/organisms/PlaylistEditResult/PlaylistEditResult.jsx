@@ -71,6 +71,7 @@ const PlaylistEditResult = (props) => {
   });
   console.log(uniqueUrls);
   //get-data------------------------------------------------------
+  const [time, setTime] = useState([])
   const [dataFromServer, setDataFromServer] = useState();
   const [link, setVideoLinks] = useState([]);
   const [selectedFile, setSelectedFiles] = useState([]);
@@ -81,7 +82,7 @@ const PlaylistEditResult = (props) => {
     category: "",
     selected: [],
   });
-
+ 
   useEffect(() => {
     async function fetchData() {
       try {
@@ -96,6 +97,11 @@ const PlaylistEditResult = (props) => {
             responseServerInputs.data.data.length - 1
           ];
         setDataFromServer(dataFormInputs);
+        const dataTime = response.data.data;
+        setTime(Array.isArray(dataTime) ? dataTime : [dataTime]);
+        
+        setTime(dataTime)
+        console.log(time)
         const getLinks = dataFormInputs.attributes.selected;
         const parsedLinks = JSON.parse(getLinks);
         console.log(parsedLinks);
@@ -212,7 +218,29 @@ const PlaylistEditResult = (props) => {
   //get-data-storage-----------------------------------------------------
   const dataStorage = localStorage.getItem("id");
   console.log(dataStorage);
+//get-time---------------------------------------------------------------------
+const [propsTime,setPropsTime] = useState([])
+useEffect(() => {
+  function findLastUpdated(time) {
+    if (Object.keys(time).length === 0) {
+      return null;
+    }
+     if ('updatedAt' in time) {
+      return time.updatedAt
+    }
+     for (const key in time) {
+      const result = findLastUpdated(time[key]);
+      if (result !== null) {
+        return result;
+      }
+    }
+    return null;
+  }
+  const lastUpdatedValues = time ? time.map(item => findLastUpdated(item)) : [];
 
+  setPropsTime(lastUpdatedValues)
+  console.log(lastUpdatedValues);
+  },[time])
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className={p.playlistEdit__container}>
@@ -397,6 +425,8 @@ const PlaylistEditResult = (props) => {
                   >
                     <VideoFrame
                       videoUrl={filteredLink}
+                      index={index}
+                      update={propsTime}
                       onVideoClick={() => {
                         handleVideoClick(index);
                         handleUrlClick(index);
