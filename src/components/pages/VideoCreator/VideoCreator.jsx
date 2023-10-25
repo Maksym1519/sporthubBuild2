@@ -35,7 +35,7 @@ import Soul from "../../organisms/Soul/Soul";
 import Plus from "../../../images/Plus.svg";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { isPartiallyEmittedExpression } from "typescript";
+//import { isPartiallyEmittedExpression } from "typescript";
 
 const VideoCreator = () => {
   //isMobile--------------------------------------------------------------
@@ -97,7 +97,7 @@ const VideoCreator = () => {
   //data-get-------------------------------------------------------------------
   const [link, setVideoLinks] = useState([]);
   const [time, setTime] = useState([]);
-  //const [foundVideo, setFoundVideo] = useState([]);
+  const [foundVideo, setFoundVideo] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -111,8 +111,10 @@ const VideoCreator = () => {
           const allLinks = [];
           setTime(videosData);
           console.log(videosData);
-          // const arrayFoundVideo = videosData.map(item => item.attributes.videos.name)
-          // console.log(arrayFoundVideo)
+          const arrayFound = videosData.map(item => item.attributes.videos.data)
+          console.log(arrayFound)
+          const arrayFoundNames = arrayFound.map(item => item[0].attributes.name)
+          setFoundVideo(arrayFoundNames)
           videosData.forEach((video) => {
             if (
               video.attributes &&

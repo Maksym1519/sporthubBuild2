@@ -82,7 +82,7 @@ const PlaylistEditResult = (props) => {
     category: "",
     selected: [],
   });
- 
+ console.log(dataInputs.selected)
   useEffect(() => {
     async function fetchData() {
       try {
@@ -177,14 +177,14 @@ const PlaylistEditResult = (props) => {
       const jsonUrls = JSON.stringify(uniqueUrls);
       const requestData = {
         data: {
-          playlistName: formData.playlistName,
-          description: formData.description,
-          category: formData.category,
-          publishedBy: dataStorage,
-          selected: jsonUrls,
+          playlistName: formData.playlistName || dataInputs.playlistName,
+          description: formData.description || dataInputs.description,
+          category: formData.category || dataInputs.category,
+          publishedBy: dataStorage || dataInputs.publishedBy,
+          selected: jsonUrls || JSON.stringify(dataInputs.selected),
         },
-      };
-      console.log(requestData);
+        };
+      console.log(requestData.selected);
       const playlistResponse = await axios.put(
         `http://localhost:1337/api/Playlists/${dataFromServer.id}`,
         requestData
@@ -195,25 +195,12 @@ const PlaylistEditResult = (props) => {
   };
   //----------------------------------------------------------------
   const handleSubmitWithValidation = async () => {
-    if (
-      formData.playlistName === "" ||
-      formData.description === "" ||
-      formData.category === ""
-    ) {
-      const confirmation = window.confirm("Одно из полей пусто. Продолжить?");
-      if (!confirmation) {
-        return;
-      }
-    }
-
-    try {
+      try {
       await handleSubmit();
-      // Выполнять дополнительные действия только после успешной отправки
       props.clickResult();
     } catch (error) {
       console.error("datapost failed");
-      // Можно добавить обработку ошибок, если это необходимо
-    }
+      }
   };
   //get-data-storage-----------------------------------------------------
   const dataStorage = localStorage.getItem("id");
@@ -241,6 +228,7 @@ useEffect(() => {
   setPropsTime(lastUpdatedValues)
   console.log(lastUpdatedValues);
   },[time])
+  
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className={p.playlistEdit__container}>
