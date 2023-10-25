@@ -202,10 +202,9 @@ useEffect(() => {
     return null;
   }
   const lastUpdatedValues = time ? time.map(item => findLastUpdated(item)) : [];
-
   setPropsTime(lastUpdatedValues)
   console.log(propsTime);
-  },[time])
+ },[time])
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
       <div className={p.playlistEdit__container}>

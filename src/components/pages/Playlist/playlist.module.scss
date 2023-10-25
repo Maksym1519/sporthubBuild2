@@ -73,9 +73,18 @@
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
     }
     .videos__body {
+      width: 100%;
+      max-width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      column-gap: 0px;
+      row-gap: 15px;
+      overflow: hidden;
+    }
+    .playlistContainer {
       width: 100%;
       max-width: 100%;
       display: grid;
@@ -83,6 +92,13 @@
       column-gap: 24px;
       row-gap: 15px;
       overflow: hidden;
+      & .title {
+        grid-column-start: 1;
+        grid-column-end: 5;
+        color: var(--3, #FFF);
+        font-family: 'Uto-600';
+        font-size: 20px;
+      }
     }
     .button__wrapper {
       position: relative;

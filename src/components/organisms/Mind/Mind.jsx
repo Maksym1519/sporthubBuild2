@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 //components---------------------------------------------
 import Video from "../../molecules/Video";
 
-const Mind = () => {
+const Mind = (props) => {
   const dataStorage = localStorage.getItem("id");
   const [playlistLinks, setPlaylistLinks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
+  const [playlistsName,setPlaylistsName] = useState([]);
 //data-storage--------------------------------------------------------------
   useEffect(() => {
     async function fetchData() {
@@ -18,9 +19,10 @@ const Mind = () => {
         const filteredData = responseData.filter(
           (user) => user.attributes.publishedBy === dataStorage
         );
-        console.log(filteredData)
         const mindFilteredData = filteredData.filter((mind) => mind.attributes.category === "mind")
         console.log(mindFilteredData)
+        const arrayPlaylistsName = mindFilteredData.map(item => item.attributes.playlistName)
+        setPlaylistsName(arrayPlaylistsName)
         const allPlaylists = mindFilteredData.map((playlist) => {
           const selectedArray = JSON.parse(playlist.attributes.selected);
           const links = selectedArray.flat().map((videoData) => {
@@ -67,20 +69,21 @@ useEffect(() => {
   },[time])
   return (
     <div className={m.mind__wrapper}>
-      <div className={m.videos__body}>
-        {playlists.map((playlist) => (
-          <div key={playlist.id} className={m.playlistContainer}>
-            {playlist.links.map((link, index) => (
-              <Video
-                key={index}
-                videoUrl={link}
-                index={index}
-                update={propsTime}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+     <div className={m.videos__body}>
+                {playlists.map((playlist, index) => (
+                  <div key={playlist.id} className={m.playlistContainer}>
+                    <h3 className={m.title}>{playlistsName[index]}</h3>
+                    {playlist.links.map((link, linkIndex) => (
+                      <Video
+                        key={linkIndex}
+                        videoUrl={link}
+                        index={index}
+                        update={propsTime}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
     </div>
   );
 };

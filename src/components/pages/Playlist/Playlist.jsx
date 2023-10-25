@@ -123,20 +123,20 @@ const Playlist = () => {
   const dataStorage = localStorage.getItem("id");
   const [playlistLinks, setPlaylistLinks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
-  
+
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get("http://localhost:1337/api/Playlists");
         const responseData = response.data.data;
-        setTime(responseData)
+        setTime(responseData);
         const filteredData = responseData.filter(
           (user) => user.attributes.publishedBy === dataStorage
         );
         const allPlaylists = filteredData.map((playlist) => {
           const selectedArray = JSON.parse(playlist.attributes.selected);
           const links = selectedArray.flat().map((videoData) => {
-           return "http://localhost:1337" + videoData;
+            return "http://localhost:1337" + videoData;
           });
           return {
             id: playlist.id,
@@ -145,36 +145,56 @@ const Playlist = () => {
           };
         });
         setPlaylists(allPlaylists);
-         } catch (error) {
+      } catch (error) {
         console.error("fetch data is failed", error);
       }
     }
     fetchData();
   }, [dataStorage]);
-//get-time---------------------------------------------------------------------
-const [propsTime,setPropsTime] = useState([])
-const [time, setTime] = useState([])
+  //get-time---------------------------------------------------------------------
+  const [propsTime, setPropsTime] = useState([]);
+  const [time, setTime] = useState([]);
 
-useEffect(() => {
-  function findLastUpdated(time) {
-    if (Object.keys(time).length === 0) {
+  useEffect(() => {
+    function findLastUpdated(time) {
+      if (Object.keys(time).length === 0) {
+        return null;
+      }
+      if ("updatedAt" in time) {
+        return time.updatedAt;
+      }
+      for (const key in time) {
+        const result = findLastUpdated(time[key]);
+        if (result !== null) {
+          return result;
+        }
+      }
       return null;
     }
-     if ('updatedAt' in time) {
-      return time.updatedAt
-    }
-     for (const key in time) {
-      const result = findLastUpdated(time[key]);
-      if (result !== null) {
-        return result;
+    const lastUpdatedValues = time.map((item) => findLastUpdated(item));
+    setPropsTime(lastUpdatedValues);
+    console.log(lastUpdatedValues);
+  }, [time]);
+  //get-playlistsName--------------------------------------------------------------
+  const [playlistsName, setPlaylistsName] = useState([]);
+  useEffect(() => {
+    async function getPlaylistsNames() {
+      try {
+        const response = await axios.get("http://localhost:1337/api/Playlists");
+        const dataResponse = response.data.data;
+        const arrayResponse = dataResponse.map(
+          (item) => item.attributes.playlistName
+        );
+        console.log(dataResponse);
+        console.log(arrayResponse);
+        setPlaylistsName(arrayResponse);
+        console.log(playlistsName);
+      } catch (error) {
+        console.error("get playlists names are failed");
       }
     }
-    return null;
-  }
-  const lastUpdatedValues = time.map(item => findLastUpdated(item));
-  setPropsTime(lastUpdatedValues)
-  console.log(lastUpdatedValues);
-  },[time])
+    getPlaylistsNames();
+  }, []);
   //----------------------------------------------------------------------------
   return (
     <div className={p.videoCreator__wrapper}>
@@ -278,8 +298,7 @@ useEffect(() => {
             </div>
             {/* //----------------------------------------------------------------------------- */}
             <div className={p.playlistItem__header}>
-              <Text20600 text="Fitness training" />
-              {showMore ? (
+                {showMore ? (
                 <div onClick={toggleVideos}>
                   <Text16600 text="View all" color="rgba(173, 121, 85, 1)" />
                 </div>
@@ -293,22 +312,27 @@ useEffect(() => {
                 </div>
               )}
             </div>
-            {/* //--------------------------------------------------------------------- */}
             {currentStyle === "all" && (
               <div className={p.videos__body}>
-                {playlists.map((playlist) => (
+                {playlists.map((playlist, index) => (
                   <div key={playlist.id} className={p.playlistContainer}>
-                    {playlist.links.map((link, index) => (
-                      <Video key={index} videoUrl={link} index={index} update={propsTime}/>
+                    <h3 className={p.title}>{playlistsName[index]}</h3>
+                    {playlist.links.map((link, linkIndex) => (
+                      <Video
+                        key={linkIndex}
+                        videoUrl={link}
+                        index={linkIndex}
+                        update={propsTime}
+                      />
                     ))}
                   </div>
                 ))}
               </div>
             )}
 
-            {currentStyle === "mind" && <Mind />}
-            {currentStyle === "body" && <Body />}
-            {currentStyle === "soul" && <Soul />}
+            {currentStyle === "mind" && <Mind playlistName={playlistsName}/>}
+            {currentStyle === "body" && <Body playlistName={playlistsName}/>}
+            {currentStyle === "soul" && <Soul playlistName={playlistsName}/>}
           </div>
         )}
         {currentStep === "edit" && (
