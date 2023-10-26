@@ -117,3 +117,122 @@
       }
     }
 }
+@media (min-width: 280px) and (max-width: 1024px) {
+  .playlistResult__wrapper {
+    min-width: 100%;
+    padding-top: 24px;
+  }
+  .playlistResult__info {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 27.5px;
+    margin-bottom: 32px;
+    position: relative;
+    & .functions {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    & .statistics__wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & .statistics__viewsTime {
+        display: flex;
+        align-items: center;
+        column-gap: 16px;
+        & .views {
+          display: flex;
+          align-items: center;
+          column-gap: 5px;
+        }
+        & .time {
+          display: flex;
+          align-items: center;
+          column-gap: 5px;
+        }
+      }
+    }
+    & .description__wrapper {
+        width: 100%;
+        & .text {
+            color: #EEE;
+            font-family: 'Uto-400';
+            font-size: 14px;
+            line-height: normal;
+        }
+        & .showMore__text {
+            color: rgba(173, 121, 85, 1);
+            font-family: 'Uto-400';
+            font-size: 14px;
+            line-height: normal;
+            text-decoration: underline;
+            padding-bottom: 3px;
+            margin-left: 3px;
+        }
+    }
+  }
+  .videos__body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 24px;
+    row-gap: 15px;
+    overflow: hidden;
+    }
+    .dotsMenu__wrapper {
+      width: 240px;
+      height: 76px;
+      border-radius: 8px;
+      background: var(--9, #222);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 10px;
+      row-gap: 17px;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      & .item {
+        color: var(--5, #BBB);
+        font-family: 'Uto-400';
+        font-size: 16px;
+        }
+        & .item:hover {
+          color: #fff;
+        }
+    }
+    .successBanner {
+      width: 388px;
+      height: 56px;
+      border-radius: 16px;
+      background: var(--dark, #653012);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 50px;
+      right: 50%;
+      transform: translateX(50%);
+      padding: 0 24px;
+      opacity: 0; /* Начальная прозрачность */
+      animation: fadeAndHide 2s linear forwards;
+    }
+    @keyframes fadeAndHide {
+      from {
+        opacity: 0;
+      }
+    
+      to {
+        opacity: 1;
+      }
+    }
+}

@@ -4,16 +4,19 @@ import { selectData } from "../../features/getIdSlice";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../App/hooks";
+//components---------------------------------------------------------------
 import { Text16400 } from "../atoms/Text";
 import Avatext from "../molecules/Avatext";
 import Header from "../organisms/Header";
+import MobileMenu from "../molecules/MobileMenu";
 import { showLogOut, showLogIn } from "../../features/headerStateSlice";
 import { Icones } from "../../Data";
+//images----------------------------------------------------
 import Logo from "../../images/logo.svg";
 import SearchSmall from "../../images/search-small.svg";
 import Notification from "../../images/notification.svg";
 import { useEffect, useState } from "react";
-import { EleonaraPena } from "../../Data";
+
 
 const HeaderCreator = (props) => {
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
@@ -43,10 +46,14 @@ const HeaderCreator = (props) => {
   const clickShowLogOut = () => {
     dispatch(showLogOut());
   };
-  //get-global-state-for-avatar--------------------------------
-
-  //post-request-for-avatar-----------------------------------------------
+   //post-request-for-avatar-----------------------------------------------
   const [userData, setUserData] = useState("");
+  //mobile-menu-show-----------------------------------------------------
+  const [mobileMenu,setMobileMenu] = useState(false)
+  const toggleMobileMenu = () => {
+    setMobileMenu(!mobileMenu)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -91,7 +98,7 @@ const HeaderCreator = (props) => {
       {currentComponent === "logout" &&
         (isMobile ? (
           <div className={hc.wrapper__mobile}>
-            <div className={hc.burger}>
+            <div className={mobileMenu ? hc.burger__close : hc.burger} onClick={toggleMobileMenu}>
               <span className={hc.burger__line}>-</span>
             </div>
             <Link to="/">
@@ -200,6 +207,9 @@ const HeaderCreator = (props) => {
           </div>
         ))}
       {currentComponent === "login" && <Header />}
+{mobileMenu &&
+      <MobileMenu userData={userData}/>
+}
     </>
   );
 };

@@ -19,7 +19,8 @@ const VideoFrame = (props) => {
   const [menu, setMenu] = useState(false);
   const clickMenu = () => {
     setMenu(!menu);
-  };
+   };
+  
   //choose-------------------------------------------------------------
   const [choose, setChoose] = useState(false);
   const chooseFile = () => {
