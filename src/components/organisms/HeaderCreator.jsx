@@ -11,6 +11,8 @@ import Header from "../organisms/Header";
 import MobileMenu from "../molecules/MobileMenu";
 import { showLogOut, showLogIn } from "../../features/headerStateSlice";
 import { Icones } from "../../Data";
+import AddVideo from "./VideoCreator/AddVideo";
+import VideoCreator from "../pages/VideoCreator/VideoCreator";
 //images----------------------------------------------------
 import Logo from "../../images/logo.svg";
 import SearchSmall from "../../images/search-small.svg";
@@ -70,7 +72,7 @@ const HeaderCreator = (props) => {
           matchingUser.attributes.avatar.data.attributes.url;
         if (matchingUser) {
           setUserData(avaFromProfile);
-          console.log(
+            console.log(
             "Matching user found:",
             matchingUser.attributes.identifier
           );
@@ -89,12 +91,12 @@ const HeaderCreator = (props) => {
     };
     fetchData();
   }, []);
-
+  console.log(userData)
   //data-storage------------------------------------------------------------------
   const dataStorage = localStorage.getItem("id");
-
   return (
-    <>
+    AddVideo({ avatar: userData }),
+      <>
       {currentComponent === "logout" &&
         (isMobile ? (
           <div className={hc.wrapper__mobile}>
@@ -212,6 +214,6 @@ const HeaderCreator = (props) => {
 }
     </>
   );
-};
+ };
 
 export default HeaderCreator;

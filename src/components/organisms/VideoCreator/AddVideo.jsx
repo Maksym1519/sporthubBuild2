@@ -18,6 +18,9 @@ import e from "cors";
 import axios from "axios";
 
 const AddVideo = (props) => {
+  console.log(props.avatar)
+  const avatar = props.avatar
+  console.log(avatar)
   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
@@ -26,6 +29,8 @@ const AddVideo = (props) => {
   const showModal = () => {
     setModal(!isModal);
   };
+  //data-storage---------------------------------------------------------------
+  const dataStorage = localStorage.getItem("id")
   //post-data-------------------------------------------------------------------
   const [formData, setFormData] = useState(null); //для видео
   const [preview, setPreview] = useState(null); //для preview
@@ -54,15 +59,13 @@ const AddVideo = (props) => {
       ...formData2,
       category: categoryValue,
     });
-    toggleCategory(); // Закрыть выпадающее меню после выбора категории, если необходимо
+    toggleCategory(); 
   };
   
   const handleSubmit = async (e) => {
-    //e.preventDefault();
-    try {
+      try {
       if (!formData) {
-        // Проверка наличия выбранного файла
-        console.error("Please select a file.");
+       console.error("Please select a file.");
         return;
       }
       const formDataServer = new FormData();
@@ -90,13 +93,16 @@ const AddVideo = (props) => {
             category: formData2.category,
             description: formData2.description,
             addShopifyLink: formData2.addShopifyLink,
-            preview: previewItem
+            preview: previewItem,
+            ava: props.avatar,
+            publishedBy: dataStorage
           },
         };
         const profileResponse = await axios.post(
           "http://localhost:1337/api/Maksyms",
           requestData
         );
+        console.log(requestData)
       } else {
         ("upload video failed");
       }
@@ -139,7 +145,7 @@ const AddVideo = (props) => {
     // Этот блок кода выполнится после изменения fileName
     console.log(fileName?.fileVideoName);
   }, [fileName]);
-//fill-category-input---------------------------------------
+ //fill-category-input---------------------------------------
 const [selectedCategory,setSelectedCategory] = useState("")
 const chooseCategory = (value) => {
 setSelectedCategory(value)

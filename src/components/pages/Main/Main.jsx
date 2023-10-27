@@ -13,7 +13,8 @@ import { Text24500 } from "../../atoms/Text";
 import { Text18500 } from "../../atoms/Text";
 import Avatext from "../../molecules/Avatext";
 import Header from "../../organisms/Header";
-import HeaderCreator from '../../organisms/HeaderCreator';
+import Video from "../../molecules/Video";
+import HeaderCreator from "../../organisms/HeaderCreator";
 import SubscribeUser from "../../organisms/SubscribeUser";
 import VideoUser from "../../molecules/VideoUser";
 import {
@@ -81,7 +82,7 @@ const Main = () => {
   };
 
   //redux-menu-Dots------------------------------------------------
-  
+
   //strapi-getShowMore---------------------------------------------
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -101,18 +102,109 @@ const Main = () => {
     getShowMoreFromApi();
   }, []);
 
-  if (loading) {
-    return <p>Загрузка...</p>;
-  }
-
-  if (error) {
-    return <p>Ошибка: {error}</p>;
-  }
   //video-menu-----------------------------------------------
-const num = 555
+  const num = 555;
+  //get-time---------------------------------------------------------------------
+  const [propsTime, setPropsTime] = useState([]);
+  console.log(propsTime)
+  useEffect(() => {
+    function findLastUpdated(time) {
+      if (Object.keys(time).length === 0) {
+        return null;
+      }
+      if ("updatedAt" in time) {
+        return time.updatedAt;
+      }
+      for (const key in time) {
+        const result = findLastUpdated(time[key]);
+        if (result !== null) {
+          return result;
+        }
+      }
+      return null;
+    }
+    const lastUpdatedValues = time.map((item) => findLastUpdated(item));
+    setPropsTime(lastUpdatedValues);
+    console.log(lastUpdatedValues);
+  }, []);
+  //data-storage-----------------------------------------------
+  const dataStorage = localStorage.getItem("id");
+  //get-videos-------------------------------------------------
+  const [link, setVideoLinks] = useState([]);
+  const [time, setTime] = useState([]);
+  const [foundVideo, setFoundVideo] = useState([]);
+  const [publishedBy,setPublishedBy] = useState([]);
+  const [avatar,setAvatar] = useState()
+   useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "http://localhost:1337/api/Maksyms?populate=*"
+        );
+        const responseClients = await axios.get(
+          "http://localhost:1337/api/clients?populate=*"
+        );
+         if (response.status === 200) {
+          const videosData = response.data.data;
+          const clientsData = responseClients.data.data;
+          const identifiers = clientsData.map((client) => client.attributes.identifier);
+          const allLinks = [];
+          setTime(videosData);
+           const arrayFound = videosData.map(
+            (item) => item.attributes.videos.data
+          );
+           const arrayFoundNames = arrayFound.map(
+            (item) => item[0].attributes.name
+          );
+          const arrayPublished = videosData.map(item => item.attributes.publishedBy)
+          setPublishedBy(arrayPublished)
+          setFoundVideo(arrayFoundNames);
+          const matchingClients = clientsData.filter((client) =>
+          arrayPublished.includes(client.attributes.identifier)
+        );
+        console.log(matchingClients)
+        matchingClients.forEach((client) => {
+          // Проверяем наличие avatar
+          if (client.attributes.avatar &&
+            client.attributes.avatar.data &&
+            client.attributes.avatar.data.attributes.url) {
+            const avatarUrl = "http://localhost:1337" + client.attributes.avatar.data.attributes.url;
+            console.log("Avatar URL:", avatarUrl);
+            // Устанавливаем URL в state
+            setAvatar(avatarUrl);
+          }
+        });
+            videosData.forEach((video) => {
+            if (
+              video.attributes &&
+              video.attributes.videos &&
+              video.attributes.videos.data &&
+              Array.isArray(video.attributes.videos.data)
+            ) {
+              const links = video.attributes.videos.data.map((videoData) => {
+                if (videoData.attributes && videoData.attributes.url) {
+                  return "http://localhost:1337" + videoData.attributes.url;
+                }
+                return null;
+              });
+              allLinks.push(...links.filter((link) => link !== null));
+            }
+          });
+          setVideoLinks(allLinks);
+        } else {
+          console.error("Failed to fetch video data");
+        }
+      } catch (error) {
+        console.error("Error fetching video data:", error);
+      }
+    }
+
+    fetchData();
+  }, [time]);
+
   return (
     <div className={m.main__wrapper}>
-      <HeaderCreator num={num}/>
+      <HeaderCreator num={num} />
       <div className={m.container}>
         <div className={m.sidebar__wrapper}>
           <div className={m.switcher__wrapper}>
@@ -182,7 +274,7 @@ const num = 555
                 />
                 <div className={m.messages}></div>
               </div>
-             {/* //item-------------------------------------------------------------- */}
+              {/* //item-------------------------------------------------------------- */}
             </div>
             <div className={m.showMore__wrapper}>
               <div className={m.showMore__button} onClick={toggleMessages}>
@@ -292,12 +384,14 @@ const num = 555
             {/* //item4--------------------------------------------------------------- */}
             {currentComponent === "home" && (
               <div className={m.videos__body}>
-             <VideoUser img={VideoUserArray[0]} ava={AvaArray[0]}/>
-             <VideoUser img={VideoUserArray[1]} ava={AvaArray[1]}/>
-             <VideoUser img={VideoUserArray[2]} ava={AvaArray[2]}/>
-             <VideoUser img={VideoUserArray[3]} ava={AvaArray[3]}/>
-             <VideoUser img={VideoUserArray[4]} ava={AvaArray[4]}/>
-             <VideoUser img={VideoUserArray[5]} ava={AvaArray[5]}/>
+                {link.map((link, index) => (
+                  <Video
+                    key={index}
+                    videoUrl={link}
+                    update={propsTime}
+                    index={index}
+                  />
+                ))}
               </div>
             )}
             {/* //item--------------------------------------------------------------- */}

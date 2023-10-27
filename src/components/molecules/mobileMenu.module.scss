@@ -64,6 +64,7 @@
         & .active {
           border-radius: 8px;
           background: var(--9, #222);
+          font-size: 32px;
         }
         & .item {
           width: 100%;
@@ -82,6 +83,13 @@
         }
         }
       }
+      .switcher__item {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 38px;
+        padding-left: 10px;
+       }
       .headerProfile__wrapper {
         width: 100%;
         height: 225px;
@@ -98,5 +106,10 @@
             padding-top: 17px;
             margin-top: 17px;
         }
+      }
+      .active {
+        border-radius: 8px;
+        background: linear-gradient(to right, #3d3b34, #0e0d0d);
+        font-size: 32px;
       }
 }

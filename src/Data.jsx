@@ -1,9 +1,6 @@
 import React from "react";
+import HeaderCreator from "./components/organisms/HeaderCreator";
 
-
-export const Maksym = {
-  
-}
 
 export const AvaArray = [
   "http://localhost:1337/uploads/ava24_1_aab4edc594.svg",
@@ -127,3 +124,4 @@ export const Preview = {
 //   };
 //   handleSubmit()
 // }
+

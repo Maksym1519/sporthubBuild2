@@ -1,7 +1,7 @@
 import mm from "./mobileMenu.module.scss";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAppDispatch,useAppSelector } from "../../App/hooks";
+import { useAppDispatch, useAppSelector } from "../../App/hooks";
 import { Link } from "react-router-dom";
 //components----------------------------------------------
 import { Text16400 } from "../atoms/Text";
@@ -11,13 +11,11 @@ import { Icones } from "../../Data";
 import { AvaArray } from "../../Data";
 import AvaText from "./Avatext";
 import {
-    showHome,
-    showLatest,
-    showViewLater,
-    showSubscribe,
-  } from "../../features/videoUserSlice";
-
-
+  showHome,
+  showLatest,
+  showViewLater,
+  showSubscribe,
+} from "../../features/videoUserSlice";
 
 const MobileMenu = (props) => {
   //profileMenu------------------------------------------------
@@ -33,26 +31,26 @@ const MobileMenu = (props) => {
   const handleSwitcher = (index) => {
     setActiveIndex(index);
   };
-   //redux-state-video-------------------------------------------
-   const dispatch = useAppDispatch();
-   const currentItem = useSelector(
-     (state) => state.videoUser.currentComponent
-   );
-   const handleHomeClick = () => {
-     dispatch(showHome());
-   };
-   const handleLatestClick = () => {
-     dispatch(showLatest());
-   };
-   const handleViewLaterClick = () => {
-     dispatch(showViewLater());
-   };
-   const handleSubscribeClick = () => {
-     dispatch(showSubscribe());
-   };
-    //redux-header-state------------------------------------------
-   const currentComponent = useSelector(
-    (state) => state.headerStateSlice.currentComponent
+  //redux-state-video-------------------------------------------
+  const dispatch = useAppDispatch();
+  const currentComponent = useSelector(
+    (state) => state.videoUser.currentComponent
+  );
+  const handleHomeClick = () => {
+    dispatch(showHome());
+  };
+  const handleLatestClick = () => {
+    dispatch(showLatest());
+  };
+  const handleViewLaterClick = () => {
+    dispatch(showViewLater());
+  };
+  const handleSubscribeClick = () => {
+    dispatch(showSubscribe());
+  };
+  //redux-header-state------------------------------------------
+  const currentItem = useSelector(
+    (state) => state.headerStateSlice.currentItem
   );
   const clickShowLogIn = () => {
     dispatch(showLogIn());
@@ -61,23 +59,54 @@ const MobileMenu = (props) => {
     dispatch(showLogOut());
   };
 
-
   return (
     <div className={mm.wrapper}>
       <div className={mm.navigation__wrapper}>
         <ul>
-          <li>
-            <Text16400 text="Home" color="rgba(187, 187, 187, 1)" />
-          </li>
-          <li>
+          <Link to="/">
+            <li
+              className={`${mm.switcher__item} ${
+                activeIndex === 0 ? mm.active : ""
+              }`}
+              onClick={() => {
+                handleSwitcher(0), handleHomeClick();
+              }}
+            >
+              <Text16400 text="Home" color="rgba(187, 187, 187, 1)" />
+            </li>
+          </Link>
+          <li
+            className={`${mm.switcher__item} ${
+              activeIndex === 1 ? mm.active : ""
+            }`}
+            onClick={() => {
+              handleSwitcher(1), handleLatestClick();
+            }}
+          >
             <Text16400 text="Latest" color="rgba(187, 187, 187, 1)" />
           </li>
-          <li>
+          <li
+            className={`${mm.switcher__item} ${
+              activeIndex === 2 ? mm.active : ""
+            }`}
+            onClick={() => {
+              handleSwitcher(2), handleViewLaterClick();
+            }}
+          >
             <Text16400 text="View Later" color="rgba(187, 187, 187, 1)" />
           </li>
-          <li>
-            <Text16400 text="Video" color="rgba(187, 187, 187, 1)" />
-          </li>
+          <Link to="/VideoCreator">
+            <li
+              className={`${mm.switcher__item} ${
+                activeIndex === 3 ? mm.active : ""
+              }`}
+              onClick={() => {
+                handleSwitcher(3);
+              }}
+            >
+              <Text16400 text="Video" color="rgba(187, 187, 187, 1)" />
+            </li>
+          </Link>
           <li>
             <Text16400 text="Store" color="rgba(187, 187, 187, 1)" />
           </li>
@@ -91,67 +120,67 @@ const MobileMenu = (props) => {
             className={mm.ava}
           />
           <Text16400 text="Profile" color="rgba(187, 187, 187, 1)" />
-          <img src={Icones.arrowDown} alt="arrow" className={menu ? mm.arrowClick : mm.arrow} />
+          <img
+            src={Icones.arrowDown}
+            alt="arrow"
+            className={menu ? mm.arrowClick : mm.arrow}
+          />
         </div>
-          {/* //profile-menu---------------------------------------------------------------------------------- */}
-       {menu && (
-              <div className={mm.headerProfile__wrapper}>
-                <Link to="/ProfileCreator">
-                  <div className={mm.item}>
-                    <AvaText
-                      img={Icones.edit}
-                      text1={
-                        <Text16400
-                          text="Create profile"
-                          color="rgba(187, 187, 187, 1)"
-                        />
-                      }
+        {/* //profile-menu---------------------------------------------------------------------------------- */}
+        {menu && (
+          <div className={mm.headerProfile__wrapper}>
+            <Link to="/ProfileCreator">
+              <div className={mm.item}>
+                <AvaText
+                  img={Icones.edit}
+                  text1={
+                    <Text16400
+                      text="Create profile"
+                      color="rgba(187, 187, 187, 1)"
                     />
-                  </div>
-                </Link>
-                <Link to="/ProfileCreatorFilled">
-                  <div className={mm.item}>
-                    <AvaText
-                      img={Icones.edit}
-                      text1={
-                        <Text16400
-                          text="Edit profile"
-                          color="rgba(187, 187, 187, 1)"
-                        />
-                      }
-                    />
-                  </div>
-                </Link>
-                <div className={mm.item}>
-                  <AvaText
-                    img={Icones.diamond}
-                    text1={
-                      <Text16400
-                        text="Switch to business account"
-                        color="rgba(187, 187, 187, 1)"
-                      />
-                    }
-                  />
-                </div>
-                <div
-                  onClick={clickShowLogIn}
-                  className={mm.item + " " + mm.lastItem}
-                >
-                  <AvaText
-                    img={Icones.logOut}
-                    text1={
-                      <Text16400
-                        text="Log out"
-                        color="rgba(187, 187, 187, 1)"
-                      />
-                    }
-                  />
-                </div>
+                  }
+                />
               </div>
-            )}
-      {/* //----------------------------------------------------------------------------------------------  */}
+            </Link>
+            <Link to="/ProfileCreatorFilled">
+              <div className={mm.item}>
+                <AvaText
+                  img={Icones.edit}
+                  text1={
+                    <Text16400
+                      text="Edit profile"
+                      color="rgba(187, 187, 187, 1)"
+                    />
+                  }
+                />
+              </div>
+            </Link>
+            <div className={mm.item}>
+              <AvaText
+                img={Icones.diamond}
+                text1={
+                  <Text16400
+                    text="Switch to business account"
+                    color="rgba(187, 187, 187, 1)"
+                  />
+                }
+              />
+            </div>
+            <div
+              onClick={clickShowLogIn}
+              className={mm.item + " " + mm.lastItem}
+            >
+              <AvaText
+                img={Icones.logOut}
+                text1={
+                  <Text16400 text="Log out" color="rgba(187, 187, 187, 1)" />
+                }
+              />
+            </div>
+          </div>
+        )}
+        {/* //----------------------------------------------------------------------------------------------  */}
       </div>
-
 
       <div className={mm.mySubscription__wrapper}>
         <div className={mm.title}>
@@ -170,7 +199,7 @@ const MobileMenu = (props) => {
                 <Text14400 text="Eleanor Pena" color="rgba(187, 187, 187, 1)" />
               }
             />
-           </div>
+          </div>
         </div>
       </div>
     </div>

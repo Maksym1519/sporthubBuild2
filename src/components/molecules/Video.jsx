@@ -72,6 +72,7 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
         <img src={Play} alt="play" className={vs.play} />
       </div>
       <div className={vs.video__description}>
+      <img src={props.ava}/> 
         <ColumnTemplate
           row1={
             isMobile ? (

@@ -20,7 +20,7 @@ const videoUserSlice = createSlice({
         showSubscribe:(state) => {
             state.currentComponent = 'subscribe'
         }
-    }
+        }
 })
 
 export const {

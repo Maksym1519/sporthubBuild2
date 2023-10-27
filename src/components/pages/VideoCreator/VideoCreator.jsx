@@ -26,18 +26,18 @@ import {
   showBody,
   showSoul,
 } from "../../../features/videoStyleSlice";
-//import { showVideo,showPlaylist } from "../../../features/videoPlaylistSlice";
 import Mind from "../../organisms/Mind/Mind";
 import Body from "../../organisms/Body/Body";
 import Soul from "../../organisms/Soul/Soul";
-//import Playlist from "../Playlist/Playlist";
+import Main from "../Main/Main";
 //images-------------------------------------------
 import Plus from "../../../images/Plus.svg";
 import axios from "axios";
 import { Link } from "react-router-dom";
 //import { isPartiallyEmittedExpression } from "typescript";
 
-const VideoCreator = () => {
+const VideoCreator = (props) => {
+  console.log(props.avatar)
   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
@@ -95,6 +95,7 @@ const VideoCreator = () => {
     setActiveSubIndex(index);
   };
   //data-get-------------------------------------------------------------------
+  const [videos, setVideos] = useState([])
   const [link, setVideoLinks] = useState([]);
   const [time, setTime] = useState([]);
   const [foundVideo, setFoundVideo] = useState([]);
@@ -134,8 +135,11 @@ const VideoCreator = () => {
               allLinks.push(...links.filter(link => link !== null));
             }
           });
-  
-          setVideoLinks(allLinks);
+           setVideoLinks(allLinks);
+           setVideos(allLinks.map((link, index) => (
+            <Video key={index} videoUrl={link} update={propsTime} index={index} />
+          )));
+          console.log(videos)
         } else {
           console.error("Failed to fetch video data");
         }
@@ -171,7 +175,8 @@ useEffect(() => {
   },[time])
   //----------------------------------------------------------------------------
   return (
-    <div className={vc.videoCreator__wrapper}>
+     <>
+     <div className={vc.videoCreator__wrapper}>
       <HeaderCreator />
       <div className={vc.videoCreator__container}>
         {/* //video-Menu-------------------------------------------------------------------------- */}
@@ -286,11 +291,12 @@ useEffect(() => {
             click={clickDownloading}
             clickBack={clickYourVideo}
             clickNext={clickDownloading}
-          />
+           />
         )}
         {currentComponent === "downloading" && <DownloadVideo />}
       </div>
-    </div>
+     </div>
+     </>
   );
 };
 
