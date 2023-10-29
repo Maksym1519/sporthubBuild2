@@ -101,7 +101,6 @@ const PlaylistEditResult = (props) => {
         setTime(Array.isArray(dataTime) ? dataTime : [dataTime]);
         
         setTime(dataTime)
-        console.log(time)
         const getLinks = dataFormInputs.attributes.selected;
         const parsedLinks = JSON.parse(getLinks);
         console.log(parsedLinks);

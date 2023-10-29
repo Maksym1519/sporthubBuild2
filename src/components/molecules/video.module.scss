@@ -80,6 +80,15 @@
     color: #fff;
     font-size: 18px;
   }
+  .avatar {
+    width: 24px;
+    height: 24px;
+  }
+  .avatar__wrapper {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 10px;
+  }
 }
 @media (min-width: 280px) and (max-width: 1024px) {
   .item {
@@ -160,5 +169,14 @@
   .clickBorder {
     border-radius: 8.957px;
     border: 2.239px solid var(--light, #ad7955);
+  }
+  .avatar {
+    width: 24px;
+    height: 24px;
+  }
+  .avatar__wrapper {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 10px;
   }
 }

@@ -16,7 +16,7 @@ import MenuDots from "../molecules/MenuDots";
 //images------------------------------------------------------------------------
 import More from "../../images/more.svg";
 
-const UserLatest = () => {
+const UserLatest = (props) => {
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
     setActiveIndex(0);
@@ -144,22 +144,18 @@ const UserLatest = () => {
         <div className={ul.videos__wrapper}>
           {/* //item1--------------------------------------------------------------- */}
           <div className={ul.videos__body}>
-            <VideoUser img={VideoUserArray[0]} ava={AvaArray[0]}/>
-            <VideoUser img={VideoUserArray[1]} ava={AvaArray[1]}/>
-            <VideoUser img={VideoUserArray[2]} ava={AvaArray[2]}/>
-            <VideoUser img={VideoUserArray[3]} ava={AvaArray[3]}/>
-            <VideoUser img={VideoUserArray[4]} ava={AvaArray[4]}/>
-            <VideoUser img={VideoUserArray[5]} ava={AvaArray[5]}/>
-            <VideoUser img={VideoUserArray[2]} ava={AvaArray[6]}/>
-            <VideoUser img={VideoUserArray[1]} ava={AvaArray[7]}/>
-            <VideoUser img={VideoUserArray[0]} ava={AvaArray[8]}/>
-         
-           
-            
-          
-     
-            {/* //item--------------------------------------------------------------- */}
-          </div>
+      {props.link.map((link, index) => (
+        <VideoUser
+          key={index}
+          videoUrl={link}
+          update={props.propsTime}
+          index={index}
+          avatar={props.avatars[index]}
+          fileName={props.fileNames[index]}
+          usersName={props.usersName[index]}
+        />
+      ))}
+    </div>
         </div>
       </div>
     </div>

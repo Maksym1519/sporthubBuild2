@@ -125,14 +125,12 @@ const AddVideo = (props) => {
         );
         if (response.status === 200) {
           const profileData = response.data.data;
-          console.log(profileData);
-          setFileName({
+           setFileName({
             fileVideoName:
               profileData[profileData.length - 1].attributes.videos.data[0]
                 .attributes.name,
           });
-          console.log(fileName.fileVideoName);
-        } else {
+         } else {
           console.error("Failed to fetch profile data");
         }
       } catch (error) {
@@ -142,9 +140,7 @@ const AddVideo = (props) => {
     fetchData();
   }, []);
   useEffect(() => {
-    // Этот блок кода выполнится после изменения fileName
-    console.log(fileName?.fileVideoName);
-  }, [fileName]);
+   }, [fileName]);
  //fill-category-input---------------------------------------
 const [selectedCategory,setSelectedCategory] = useState("")
 const chooseCategory = (value) => {

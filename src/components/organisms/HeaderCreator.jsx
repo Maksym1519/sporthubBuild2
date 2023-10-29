@@ -105,7 +105,7 @@ const HeaderCreator = (props) => {
             </div>
             <Link to="/">
               <div className={hc.logo__wrapper}>
-                <img src={Logo} alt="logo" />
+                <img src={Icones.logo} alt="logo" />
               </div>
             </Link>
             <div className={hc.functions__wrapper}>
@@ -116,7 +116,7 @@ const HeaderCreator = (props) => {
           <div className={hc.wrapper}>
             <Link to="/">
               <div className={hc.logo__wrapper}>
-                <img src={Logo} alt="logo" />
+                <img src={Icones.logo} alt="logo" />
               </div>
             </Link>
             <div className={hc.allFunctions__wrapper}>

@@ -3,26 +3,20 @@ import { Link } from 'react-router-dom';
 import SubscribeBg from '../../images/subscribe-bg.webp'
 import { useState, useEffect, useRef } from "react";
 import {useAppDispatch, useAppSelector} from '../../App/hooks';
-import { Text14400 } from "../atoms/Text";
-import { Text16500 } from "../atoms/Text";
-import { Text14500 } from "../atoms/Text";
 import { Text32600 } from '../atoms/Text';
 import { Text24600 } from '../atoms/Text';
 import { Text12300 } from '../atoms/Text';
 import { Text18700 } from '../atoms/Text';
 import { Text16600 } from '../atoms/Text';
 import { Button18044 } from '../atoms/Buttons';
-import Avatext from "../molecules/Avatext";
 import ColumnTemplate from '../molecules/ColumnTemplate';
 import Bio from './Bio';
 import Store from './Store';
 import Playlist from './Playlist';
-import { AvaArray } from "../../Data";
-import { VideoUserArray } from "../../Data";
+import HeaderCreator from './HeaderCreator';
 import { showVideo, showBio, showStore, showPlaylist } from '../../features/videoSwitcherSlice';
 import { subscribe, unsubscribe } from '../../features/subscribeButtonSlice';
 import VideoUser from '../molecules/VideoUser';
-import UserVideoPlayer from '../pages/UserVideoPlayer/UserVideoPlayer';
 import People from '../../images/people-icon.svg';
 import Camera from '../../images/camera.svg';
 import Eye from '../../images/eye-icon.svg'
@@ -76,7 +70,7 @@ const SubscribeUser = (props) => {
  
     return (
         <div className={ut.wrapper}>
-          <div className={ut.main}>
+           <div className={ut.main}>
             <div className={ut.bg__wrapper}>
                 <div className={ut.overlay}></div>
                 <div className={ut.gradient}></div>
@@ -135,20 +129,17 @@ const SubscribeUser = (props) => {
         {currentComponent === 'video' &&
         <div className={ut.videos__wrapper}>
          <div className={ut.videos__body}>
-         {/* //item2--------------------------------------------------------------- */}
-         {props.selected &&
-            <VideoUser img={VideoUserArray[0]}/>
-          }
-          {/* //items--------------------------------------------------------------- */}
-          <VideoUser img={VideoUserArray[0]} ava={AvaArray[0]}/>
-          <VideoUser img={VideoUserArray[1]} ava={AvaArray[1]}/>
-          <VideoUser img={VideoUserArray[2]} ava={AvaArray[2]}/>
-          <VideoUser img={VideoUserArray[3]} ava={AvaArray[3]}/>
-          <VideoUser img={VideoUserArray[4]} ava={AvaArray[4]}/>
-          <VideoUser img={VideoUserArray[5]} ava={AvaArray[5]}/>
-          <VideoUser img={VideoUserArray[2]} ava={AvaArray[6]}/>
-          <VideoUser img={VideoUserArray[1]} ava={AvaArray[7]}/>
-          <VideoUser img={VideoUserArray[0]} ava={AvaArray[8]}/>
+         {props.link && props.link.map((link, index) => (
+        <VideoUser
+          key={index}
+          videoUrl={link}
+          update={props.propsTime}
+          index={index}
+          avatar={props.avatars[index]}
+          fileName={props.fileNames[index]}
+          usersName={props.usersName[index]}
+        />
+      ))}
           </div>
         </div>
           }

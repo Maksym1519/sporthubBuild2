@@ -74,6 +74,9 @@
         }
         .button__wrapper {
           width: 180px;
+          & img {
+            display: none;
+          }
         }
         .video__navigation {
           width: 100%;

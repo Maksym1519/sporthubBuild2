@@ -11,6 +11,15 @@
     border-bottom: 1px solid var(--9, #222);
     background: var(--10, #111);
   }
+  .logo__wrapper {
+    width: 150px;
+    & img {
+      display: block;
+      width: 200%;
+      height: 100%;
+      object-fit: cover;
+     }
+  }
   .allFunctions__wrapper {
     display: flex;
     column-gap: 33px;

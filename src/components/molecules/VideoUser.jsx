@@ -34,18 +34,44 @@ const VideoUser = (props) => {
  //redux---------------------------------------------------------
  const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
  const isMobile = screenWidth <= 1024;
+//set-Time------------------------------------------------------------------
+const getTimeDifference = (updateTime) => {
+  const currentDate = new Date();
+  const latestUpdate = new Date(updateTime);
+
+  const timeDifference = currentDate - latestUpdate;
+
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days} day ago`;
+  } else if (hours > 0) {
+    return `${hours} hour(s) ago`;
+  } else if (minutes > 0) {
+    return `${minutes} minute(s) ago`;
+  } else {
+    return `${seconds} second ago`;
+  }
+};
+
+// Используем функцию для каждого элемента массива props.update
+const timeDifferences = props.update.map(updateTime => getTimeDifference(updateTime));
+
 
     return (
         <div
         className={vu.item + " " + vu.itemMenu}
-        onClick={() => {
-          toggleMenuDots();
-        }}
+        onClick={() => {toggleMenuDots(); props.clickToSubscriber();}}
         onMouseOver={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className={vu.video__wrapper}>
-          <img src={props.img} alt="video" className={vu.video}/>
+        <div className={vu.video__wrapper} onClick={props.clickToSubscriber}>
+        <video controls className={vu.video}>
+          <source src={props.videoUrl} type="video/mp4" />
+        </video>
           <img src={Play} alt="play" className={vu.play}/>
         </div>
         <div className={vu.video__description}>
@@ -53,31 +79,26 @@ const VideoUser = (props) => {
                       row1={
                         isMobile ? (
                           <Text14500
-                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            text={props.fileName}
                             lineHeight="16px"
                           />
                         ) : (
                           <Text16500
-                            text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                            text={props.fileName}
                             lineHeight="18px"
                           />
                         )
                       }
                       row2={
                         <Avatext
-                          img={props.ava}
+                          img={props.avatar}
                           text1={
                             <Text14400
-                              text="Adan Lauzon"
+                              text={props.usersName}
                               color="rgba(153, 153, 153, 1)"
                             />
                           }
-                          text2={
-                            <Text14400
-                              text="3h ago"
-                              color="rgba(153, 153, 153, 1)"
-                            />
-                          }
+                          text2={timeDifferences[props.index]}
                         />
                       }
                     />

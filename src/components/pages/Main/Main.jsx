@@ -16,6 +16,7 @@ import Header from "../../organisms/Header";
 import Video from "../../molecules/Video";
 import HeaderCreator from "../../organisms/HeaderCreator";
 import SubscribeUser from "../../organisms/SubscribeUser";
+import Subscribe from "../Subscribe/Subscribe";
 import VideoUser from "../../molecules/VideoUser";
 import {
   showHome,
@@ -41,6 +42,7 @@ import "swiper/scss/effect-fade";
 import "swiper/scss/effect-cards";
 import "swiper/css/effect-creative";
 import "swiper/swiper-bundle.css";
+import { Link } from "react-router-dom";
 register();
 //------------------------------------------------------------------------
 
@@ -104,9 +106,125 @@ const Main = () => {
 
   //video-menu-----------------------------------------------
   const num = 555;
+  //data-storage-----------------------------------------------
+  const dataStorage = localStorage.getItem("id");
+  //get-videos-------------------------------------------------
+  //get-videos-------------------------------------------------
+  //get-videos-------------------------------------------------
+  const [time, setTime] = useState([]);
+  const [link, setVideoLinks] = useState([]);
+  const [foundVideo, setFoundVideo] = useState([]);
+  const [publishedBy, setPublishedBy] = useState([]);
+  const [avatars, setAvatars] = useState([]);
+  const [fileNames, setFileNames] = useState([]);
+  const [usersName, setUsersName] = useState([]);
+  const allNamesArray = [];
+  console.log(avatars);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "http://localhost:1337/api/Maksyms?populate=*"
+        );
+        const responseProfiles = await axios.get(
+          "http://localhost:1337/api/Profiles?populate=*"
+        );
+
+        if (response.status === 200) {
+          const videosData = response.data.data;
+          const profilesData = responseProfiles.data.data;
+
+          const identifiers = profilesData.map(
+            (client) => client.attributes.identifier
+          );
+
+          const allLinks = [];
+          const avatarArray = [];
+          const allNames = [];
+          setTime(videosData);
+
+          const arrayFound = videosData.map(
+            (item) => item.attributes.videos.data
+          );
+
+          const arrayFoundNames = arrayFound.map(
+            (item) => item[0].attributes.name
+          );
+
+          const arrayPublished = videosData.map(
+            (item) => item.attributes.publishedBy
+          );
+
+          setPublishedBy(arrayPublished);
+          setFoundVideo(arrayFoundNames);
+
+          videosData.forEach((video) => {
+            if (
+              video.attributes &&
+              video.attributes.videos &&
+              video.attributes.videos.data &&
+              Array.isArray(video.attributes.videos.data)
+            ) {
+              const links = video.attributes.videos.data.map((videoData) => {
+                if (videoData.attributes && videoData.attributes.url) {
+                  return "http://localhost:1337" + videoData.attributes.url;
+                }
+                return null;
+              });
+              allLinks.push(...links.filter((link) => link !== null));
+              const names = video.attributes.videos.data.map((namesData) => {
+                return namesData.attributes.name;
+              });
+              allNames.push(...names);
+              setFileNames(allNames);
+            }
+
+            // Set avatar URL for each video based on matching identifier
+            const matchingClient = profilesData.find(
+              (client) =>
+                client.attributes.identifier === video.attributes.publishedBy
+            );
+            if (matchingClient) {
+              if (
+                matchingClient.attributes.avatar &&
+                matchingClient.attributes.avatar.data &&
+                matchingClient.attributes.avatar.data.attributes.url
+              ) {
+                const avatarUrl =
+                  "http://localhost:1337" +
+                  matchingClient.attributes.avatar.data.attributes.url;
+
+                // Сохраняем URL изображения в массив
+                avatarArray.push(avatarUrl);
+              }
+              const fullName =
+                matchingClient.attributes.firstName +
+                " " +
+                matchingClient.attributes.lastName;
+              allNamesArray.push(fullName);
+              setUsersName(allNamesArray);
+              console.log(allNamesArray);
+            }
+          });
+          setAvatars(avatarArray);
+          setVideoLinks(allLinks);
+        } else {
+          console.error("Не удалось загрузить данные о видео");
+        }
+      } catch (error) {
+        console.error("Ошибка при загрузке данных о видео:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  //...
+
   //get-time---------------------------------------------------------------------
   const [propsTime, setPropsTime] = useState([]);
-  console.log(propsTime)
+  console.log(propsTime);
   useEffect(() => {
     function findLastUpdated(time) {
       if (Object.keys(time).length === 0) {
@@ -125,83 +243,13 @@ const Main = () => {
     }
     const lastUpdatedValues = time.map((item) => findLastUpdated(item));
     setPropsTime(lastUpdatedValues);
-    console.log(lastUpdatedValues);
-  }, []);
-  //data-storage-----------------------------------------------
-  const dataStorage = localStorage.getItem("id");
-  //get-videos-------------------------------------------------
-  const [link, setVideoLinks] = useState([]);
-  const [time, setTime] = useState([]);
-  const [foundVideo, setFoundVideo] = useState([]);
-  const [publishedBy,setPublishedBy] = useState([]);
-  const [avatar,setAvatar] = useState()
-   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
-        );
-        const responseClients = await axios.get(
-          "http://localhost:1337/api/clients?populate=*"
-        );
-         if (response.status === 200) {
-          const videosData = response.data.data;
-          const clientsData = responseClients.data.data;
-          const identifiers = clientsData.map((client) => client.attributes.identifier);
-          const allLinks = [];
-          setTime(videosData);
-           const arrayFound = videosData.map(
-            (item) => item.attributes.videos.data
-          );
-           const arrayFoundNames = arrayFound.map(
-            (item) => item[0].attributes.name
-          );
-          const arrayPublished = videosData.map(item => item.attributes.publishedBy)
-          setPublishedBy(arrayPublished)
-          setFoundVideo(arrayFoundNames);
-          const matchingClients = clientsData.filter((client) =>
-          arrayPublished.includes(client.attributes.identifier)
-        );
-        console.log(matchingClients)
-        matchingClients.forEach((client) => {
-          // Проверяем наличие avatar
-          if (client.attributes.avatar &&
-            client.attributes.avatar.data &&
-            client.attributes.avatar.data.attributes.url) {
-            const avatarUrl = "http://localhost:1337" + client.attributes.avatar.data.attributes.url;
-            console.log("Avatar URL:", avatarUrl);
-            // Устанавливаем URL в state
-            setAvatar(avatarUrl);
-          }
-        });
-            videosData.forEach((video) => {
-            if (
-              video.attributes &&
-              video.attributes.videos &&
-              video.attributes.videos.data &&
-              Array.isArray(video.attributes.videos.data)
-            ) {
-              const links = video.attributes.videos.data.map((videoData) => {
-                if (videoData.attributes && videoData.attributes.url) {
-                  return "http://localhost:1337" + videoData.attributes.url;
-                }
-                return null;
-              });
-              allLinks.push(...links.filter((link) => link !== null));
-            }
-          });
-          setVideoLinks(allLinks);
-        } else {
-          console.error("Failed to fetch video data");
-        }
-      } catch (error) {
-        console.error("Error fetching video data:", error);
-      }
-    }
-
-    fetchData();
   }, [time]);
-
+  //----------------------------------------------------------
+  const handleVideoClick = () => {
+    handleSwitcher(4);
+    handleSubscribeClick();
+  };
+  
   return (
     <div className={m.main__wrapper}>
       <HeaderCreator num={num} />
@@ -383,23 +431,43 @@ const Main = () => {
             )}
             {/* //item4--------------------------------------------------------------- */}
             {currentComponent === "home" && (
-              <div className={m.videos__body}>
-                {link.map((link, index) => (
-                  <Video
-                    key={index}
-                    videoUrl={link}
-                    update={propsTime}
-                    index={index}
-                  />
-                ))}
-              </div>
-            )}
+                <div className={m.videos__body}> 
+                  {link.map((link, index) => (
+                    <VideoUser
+                      key={index}
+                      videoUrl={link}
+                      update={propsTime}
+                      index={index}
+                      avatar={avatars[index]}
+                      fileName={fileNames[index]}
+                      usersName={usersName[index]}
+                      clickToSubscriber={handleVideoClick}                     
+                    />
+                  ))}
+                </div>
+               )}
             {/* //item--------------------------------------------------------------- */}
           </div>
         )}
-        {currentComponent === "latest" && <UserLatest />}
+        {currentComponent === "latest" && (
+          <UserLatest
+            link={link}
+            propsTime={propsTime}
+            avatars={avatars}
+            fileNames={fileNames}
+            usersName={usersName}
+          />
+        )}
         {currentComponent === "viewLater" && <ViewLater />}
-        {currentComponent === "subscribe" && <SubscribeUser />}
+        {currentComponent === "subscribe" && (
+          <SubscribeUser
+            link={link}
+            propsTime={propsTime}
+            avatars={avatars}
+            fileNames={fileNames}
+            usersName={usersName}
+          />
+        )}
         {/* //------------------------------------------------------------------------------------- */}
       </div>
     </div>

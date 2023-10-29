@@ -1,9 +1,5 @@
 import React,{ useState, useEffect, useRef} from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { lazy, Suspense } from "react";
-import { Link } from "react-router-dom";
 import m from "./subscribe.module.scss";
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
 import {
@@ -22,7 +18,7 @@ import { Text14500 } from "../../atoms/Text";
 import Avatext from "../../molecules/Avatext";
 import ColumnTemplate from "../../molecules/ColumnTemplate";
 import MenuDots from "../../molecules/MenuDots";
-import Header from "../../organisms/Header";
+import HeaderCreator from "../../organisms/HeaderCreator";
 import SubscribeUser from "../../organisms/SubscribeUser";
 import { showHome, showLatest, showViewLater,showSubscribe } from "../../../features/videoUserSlice";
 import { AvaArray } from "../../../Data";
@@ -114,7 +110,7 @@ const Subscribe = () => {
   
   return (
     <div className={m.main__wrapper}>
-      <Header />
+      <HeaderCreator />
       <div className={m.container}>
         <div className={m.sidebar__wrapper}>
           <div className={m.switcher__wrapper}>

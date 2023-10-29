@@ -75,7 +75,8 @@ export const Icones = {
   edit: "http://localhost:1337/uploads/Edit_20x20_ec3decd7af.svg",
   diamond: "http://localhost:1337/uploads/Diamond_20x20_8ce22f2803.svg",
   logOut: "http://localhost:1337/uploads/Log_out_20x20_ff1ba3ce09.svg",
-  avaEmpty: "http://localhost:1337/uploads/ava_empty_5182dede9e.svg"
+  avaEmpty: "http://localhost:1337/uploads/ava_empty_5182dede9e.svg",
+  logo: "http://localhost:1337/uploads/logo_ef5f778a28.svg"
 }
 export const Preview = {
   previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"

@@ -72,7 +72,8 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
         <img src={Play} alt="play" className={vs.play} />
       </div>
       <div className={vs.video__description}>
-      <img src={props.ava}/> 
+   <div className={vs.avatar__wrapper}>
+      <img src={props.avatar} className={vs.avatar}/> 
         <ColumnTemplate
           row1={
             isMobile ? (
@@ -90,6 +91,7 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
         row2={<Text14400 text={timeDifferences[props.index]} color="rgba(153, 153, 153, 1)" />}
         //row2={<Text14400 text={'frcrfrfrf'} color="rgba(153, 153, 153, 1)" />}
         />
+</div>
       </div>
       {isMenuVisible && (
         <div className={vs.dotsMenu}>
