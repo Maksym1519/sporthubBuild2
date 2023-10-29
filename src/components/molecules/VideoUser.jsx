@@ -60,15 +60,14 @@ const getTimeDifference = (updateTime) => {
 // Используем функцию для каждого элемента массива props.update
 const timeDifferences = props.update.map(updateTime => getTimeDifference(updateTime));
 
-
     return (
         <div
         className={vu.item + " " + vu.itemMenu}
-        onClick={() => {toggleMenuDots(); props.clickToSubscriber();}}
+        onClick={() => {toggleMenuDots()}}
         onMouseOver={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className={vu.video__wrapper} onClick={props.clickToSubscriber}>
+        <div className={vu.video__wrapper} onClick={props.handleClick}>
         <video controls className={vu.video}>
           <source src={props.videoUrl} type="video/mp4" />
         </video>

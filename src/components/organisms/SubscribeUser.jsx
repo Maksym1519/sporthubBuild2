@@ -46,7 +46,7 @@ const SubscribeUser = (props) => {
    const currentSubscribeButton = useSelector((state) => state.subscribeButton.currentSubscribeButton)
    const handleVideoClick = () => {
     dispatch(showVideo())
-   }
+     }
    const handleBioClick = () => {
     dispatch(showBio())
    }
@@ -67,6 +67,7 @@ const SubscribeUser = (props) => {
    const chooseVideo = () => {
     setSelectedVideoImage(true)
    }
+ //------------------------------------------------------------------------
  
     return (
         <div className={ut.wrapper}>
@@ -138,7 +139,7 @@ const SubscribeUser = (props) => {
           avatar={props.avatars[index]}
           fileName={props.fileNames[index]}
           usersName={props.usersName[index]}
-        />
+         />
       ))}
           </div>
         </div>

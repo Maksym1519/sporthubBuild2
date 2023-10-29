@@ -249,7 +249,20 @@ const Main = () => {
     handleSwitcher(4);
     handleSubscribeClick();
   };
-  
+  //data-for-subscriber--------------------------------------------------------
+const handleClick = () => {
+  // Собираем данные для передачи
+  const videoData = {
+    videoUrl: props.videoUrl,
+    update: props.update,
+    index: props.index,
+    avatar: props.avatar,
+    fileName: props.fileName,
+    usersName: props.usersName,
+    };
+   console.log(videoData)
+}
+
   return (
     <div className={m.main__wrapper}>
       <HeaderCreator num={num} />
@@ -441,7 +454,8 @@ const Main = () => {
                       avatar={avatars[index]}
                       fileName={fileNames[index]}
                       usersName={usersName[index]}
-                      clickToSubscriber={handleVideoClick}                     
+                      clickToSubscriber={handleVideoClick}   
+                      handleClick={handleClick}                  
                     />
                   ))}
                 </div>
