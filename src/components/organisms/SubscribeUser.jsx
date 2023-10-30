@@ -1,4 +1,5 @@
 import ut from './subscribeUser.module.scss';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SubscribeBg from '../../images/subscribe-bg.webp'
 import { useState, useEffect, useRef } from "react";
@@ -84,23 +85,22 @@ const SubscribeUser = (props) => {
 //  console.log(subscriptionInfoText)
  //post-mySubscriptions------------------------------------------------------------
  const [mySubscriptions,setMySubscriptions] = useState([]);
- useEffect(() => {
-  async function postDataSubscriptions () {
+ const requestData = {
+  data: {
+    avatar: videoInfo.avatar,
+    name: videoInfo.userName
+  }
+ } 
+ console.log(requestData)
+   async function postDataSubscriptions () {
     try {
-      const requestData = {
-       data: {
-         avatar: videoInfo.avatar,
-         name: videoInfo.userName
-       }
-      } 
-      console.log(requestData)
-      const response = await axios.post("http://localhost:1337/api/subscriptions",requestData)
-     } catch (error) {
+       const response = await axios.post("http://localhost:1337/api/subscriptions", requestData)
+       } catch (error) {
        console.error("post data failed")
      }
+     console.log(requestData)
     }
- },[videoInfo])
- 
+  
     return (
       <>
          <div className={ut.wrapper}>
@@ -130,7 +130,7 @@ const SubscribeUser = (props) => {
                 </div>
               </div>
               {currentSubscribeButton === 'subscribe' &&
-              <div className={ut.button__wrapper}  onClick={() => {handleUnSubscribeClick();postDataSubscriptions();}}>
+              <div className={ut.button__wrapper}  onClick={() => {handleUnSubscribeClick();postDataSubscriptions()}}>
                <Button18044 text={<Text16600 text='Subscribe'/>} borderRadius='8px'/>
                </div>
               }

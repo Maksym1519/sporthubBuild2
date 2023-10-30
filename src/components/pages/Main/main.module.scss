@@ -54,18 +54,19 @@
   display: flex;
   flex-direction: column;
   row-gap: 4px;
-  border-bottom: 1px solid var(--9, #222);
   & .active {
     border-radius: 8px;
     background: var(--9, #222);
   }
   & .item {
     width: 100%;
-    height: 40px;
-    padding: 0 10px 0 8px;
+    height: auto;
+    padding: 10px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    row-gap: 16px;
       & .messages {
       width: 28px;
       height: 20px;
@@ -73,6 +74,10 @@
       background: var(--light, #AD7955);
 
     }
+  }
+  & .item:hover {
+    border-radius: 8px;
+    background: var(--9, #222);
   }
   }
 }

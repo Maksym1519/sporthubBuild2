@@ -121,7 +121,7 @@ const Main = (props) => {
   const [covers, setCovers] = useState([]);
   const arrayCovers = [];
   const allNamesArray = [];
-   useEffect(() => {
+  useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
@@ -183,16 +183,16 @@ const Main = (props) => {
                 video.attributes.preview.data &&
                 video.attributes.preview.data.attributes &&
                 video.attributes.preview.data.attributes.url;
-                const allCovers = videosData.map((video) => {
+              const allCovers = videosData.map((video) => {
                 const previewUrl =
                   video.attributes.preview &&
                   video.attributes.preview.data &&
                   video.attributes.preview.data.attributes &&
                   video.attributes.preview.data.attributes.url;
-                return  "http://localhost:1337" + previewUrl || null; 
+                return "http://localhost:1337" + previewUrl || null;
               });
               //arrayCovers.push(allCovers);
-              setCovers(allCovers)
+              setCovers(allCovers);
             }
 
             // Set avatar URL for each video based on matching identifier
@@ -236,7 +236,7 @@ const Main = (props) => {
   }, []);
   //get-time---------------------------------------------------------------------
   const [propsTime, setPropsTime] = useState([]);
-   useEffect(() => {
+  useEffect(() => {
     function findLastUpdated(time) {
       if (Object.keys(time).length === 0) {
         return null;
@@ -261,7 +261,29 @@ const Main = (props) => {
     handleSwitcher(4);
     handleSubscribeClick();
   };
-
+  //get-subscriptions----------------------------------------------------------------
+  const [subscriptions, setSubscriptions] = useState([]);
+  let arraySubscriptions = [];
+  useEffect(() => {
+    async function getSubscriptions() {
+      try {
+        const response = await axios.get(
+          "http://localhost:1337/api/subscriptions"
+        );
+        const responseData = response.data.data;
+        console.log(responseData);
+        arraySubscriptions = responseData.map((item) => ({
+          avatar: item.attributes.avatar,
+          name: item.attributes.name,
+        }));
+        setSubscriptions(arraySubscriptions);
+        console.log(subscriptions);
+      } catch (error) {
+        console.error("get subscriptions failed", error);
+      }
+    }
+    getSubscriptions();
+  }, []);
   return (
     <div className={m.main__wrapper}>
       <HeaderCreator num={num} />
@@ -304,24 +326,28 @@ const Main = (props) => {
               <Text12600 text="MY SUBSCRIPTION" color="rgba(173, 121, 85, 1)" />
             </div>
             <div className={m.items__wrapper}>
-             {/* //item1-------------------------------------------------------------- */}
+              {/* //item1-------------------------------------------------------------- */}
+              {subscriptions.map((item, index) => (
               <div
                 className={`${m.item} ${activeIndex === 4 ? m.active : ""}`}
-                onClick={() => {
-                  handleSwitcher(4), handleSubscribeClick();
-                }}
+                // onClick={() => {
+                //   handleSwitcher(4);
+                // }}
               >
-                <Avatext
-                  img={AvaArray[1]}
-                  text1={
-                    <Text14400
-                      text="Eleanor Pena"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-                <div className={m.messages}></div>
+              
+                  <Avatext
+                    key={index} 
+                    img={item.avatar}
+                    text1={
+                      <Text14400
+                        text={item.name}
+                        color="rgba(187, 187, 187, 1)"
+                      />
+                    }
+                  />
+               
               </div>
+               ))}
               {/* //item-------------------------------------------------------------- */}
             </div>
           </div>
