@@ -13,6 +13,7 @@ import ColumnTemplate from '../molecules/ColumnTemplate';
 import Bio from './Bio';
 import Store from './Store';
 import Playlist from './Playlist';
+import Main from '../pages/Main/Main';
 import HeaderCreator from './HeaderCreator';
 import { showVideo, showBio, showStore, showPlaylist } from '../../features/videoSwitcherSlice';
 import { subscribe, unsubscribe } from '../../features/subscribeButtonSlice';
@@ -22,6 +23,9 @@ import Camera from '../../images/camera.svg';
 import Eye from '../../images/eye-icon.svg'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { selectVideoInfo } from '../../features/videoInfoSlice';
+import { setSubscriptions } from '../../features/subscriptionSlice';
+
 
 
 const SubscribeUser = (props) => {
@@ -67,20 +71,49 @@ const SubscribeUser = (props) => {
    const chooseVideo = () => {
     setSelectedVideoImage(true)
    }
- //------------------------------------------------------------------------
+ //info-from-video-click------------------------------------------------------------------------
+ const videoInfo = useSelector(selectVideoInfo);
+ console.log(videoInfo)
+ //subscriptions-------------------------------------------------------------
+//  const handleSubscriptionClick = (subscriptionData) => {
+//   dispatch(setSubscriptions(subscriptionData));
+//   };
+  //--mySubscriptions--------------------------------------------------------
+// const subscriptionInfo = useSelector(setSubscriptions);
+// const subscriptionInfoText = subscriptionInfo.payload.videoInfoUser.videoInfo
+//  console.log(subscriptionInfoText)
+ //post-mySubscriptions------------------------------------------------------------
+ const [mySubscriptions,setMySubscriptions] = useState([]);
+ useEffect(() => {
+  async function postDataSubscriptions () {
+    try {
+      const requestData = {
+       data: {
+         avatar: videoInfo.avatar,
+         name: videoInfo.userName
+       }
+      } 
+      console.log(requestData)
+      const response = await axios.post("http://localhost:1337/api/subscriptions",requestData)
+     } catch (error) {
+       console.error("post data failed")
+     }
+    }
+ },[videoInfo])
  
     return (
-        <div className={ut.wrapper}>
+      <>
+         <div className={ut.wrapper}>
            <div className={ut.main}>
             <div className={ut.bg__wrapper}>
                 <div className={ut.overlay}></div>
                 <div className={ut.gradient}></div>
-              <img src={SubscribeBg} alt="bg" />
+              <img src={videoInfo.cover} alt="bg" />
               <div className={ut.statistics__wrapper}>
               <div className={ut.statistics__header}>
-                {isMobile ? (<img src='http://localhost:1337/uploads/subscribe_mobile_fc07ea0b38.svg'/>) : (<img src={'http://localhost:1337/uploads/photo_cae7ef4294.svg'} alt="ava" />)}
+                {isMobile ? (<img src={videoInfo.avatar}/>) : (<img src={videoInfo.avatar} alt="ava" />)}
 
-                {isMobile ?  (<Text24600 text='Eleanor Pena'/>) : (<Text32600 text='Eleanor Pena'/>)}
+                {isMobile ?  (<Text24600 text={videoInfo.usersName}/>) : (<Text32600 text={videoInfo.userName}/>)}
               </div>
               <div className={ut.statistics__body}>
                 <div className={ut.statistics__body__item}>
@@ -97,7 +130,7 @@ const SubscribeUser = (props) => {
                 </div>
               </div>
               {currentSubscribeButton === 'subscribe' &&
-              <div className={ut.button__wrapper}  onClick={() => handleUnSubscribeClick()}>
+              <div className={ut.button__wrapper}  onClick={() => {handleUnSubscribeClick();postDataSubscriptions();}}>
                <Button18044 text={<Text16600 text='Subscribe'/>} borderRadius='8px'/>
                </div>
               }
@@ -150,6 +183,7 @@ const SubscribeUser = (props) => {
       </div>
     </div>
    </div>
+   </>
     )
 }
 

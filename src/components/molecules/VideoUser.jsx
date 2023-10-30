@@ -67,13 +67,13 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
         onMouseOver={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className={vu.video__wrapper} onClick={props.handleClick}>
+        <div className={vu.video__wrapper} onClick={props.clickToSubscriber}>
         <video controls className={vu.video}>
           <source src={props.videoUrl} type="video/mp4" />
         </video>
           <img src={Play} alt="play" className={vu.play}/>
         </div>
-        <div className={vu.video__description}>
+        <div className={vu.video__description} onClick={props.clickToSubscriber}>
                     <ColumnTemplate
                       row1={
                         isMobile ? (

@@ -66,8 +66,7 @@ const HeaderCreator = (props) => {
         const matchingUser = usersData.find(
           (user) => user.attributes.identifier === dataStorage
         );
-        console.log(matchingUser);
-        const avaFromProfile =
+          const avaFromProfile =
           "http://localhost:1337" +
           matchingUser.attributes.avatar.data.attributes.url;
         if (matchingUser) {
@@ -79,10 +78,7 @@ const HeaderCreator = (props) => {
           const avatarResponse = await axios.get(
             "http://localhost:1337/api/clients?populate[0]=avatars"
           );
-          console.log(avatarResponse);
-          // const avatarUrl = avatarResponse.data.attributes.name;
-          console.log("Avatar URL:", avatarResponse);
-        } else {
+         } else {
           console.log("Matching user not found.");
         }
       } catch (error) {
@@ -91,7 +87,6 @@ const HeaderCreator = (props) => {
     };
     fetchData();
   }, []);
-  console.log(userData)
   //data-storage------------------------------------------------------------------
   const dataStorage = localStorage.getItem("id");
   return (

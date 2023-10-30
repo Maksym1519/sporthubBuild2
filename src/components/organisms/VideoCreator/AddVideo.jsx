@@ -18,9 +18,7 @@ import e from "cors";
 import axios from "axios";
 
 const AddVideo = (props) => {
-  console.log(props.avatar)
   const avatar = props.avatar
-  console.log(avatar)
   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
@@ -72,9 +70,7 @@ const AddVideo = (props) => {
       const formDataServer2 = new FormData();
       formDataServer.append("files", formData[0]);
       formDataServer2.append("files", preview[0])
-      console.log(formData);
-
-      const responseVideo = await axios.post(
+        const responseVideo = await axios.post(
         "http://localhost:1337/api/upload",
         formDataServer
       );
@@ -85,8 +81,7 @@ const AddVideo = (props) => {
       if (responseVideo.status === 200) {
         const videoItem = responseVideo.data[0].id;
         const previewItem = responsePreview.data[0].id
-        console.log(videoItem);
-        const requestData = {
+         const requestData = {
           data: {
             videos: videoItem,
             title: formData2.title,
@@ -102,8 +97,7 @@ const AddVideo = (props) => {
           "http://localhost:1337/api/Maksyms",
           requestData
         );
-        console.log(requestData)
-      } else {
+         } else {
         ("upload video failed");
       }
     } catch (error) {

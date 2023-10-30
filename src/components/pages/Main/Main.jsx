@@ -24,6 +24,8 @@ import {
   showViewLater,
   showSubscribe,
 } from "../../../features/videoUserSlice";
+import { setVideoInfo } from "../../../features/videoInfoSlice";
+import { setSubscriptions } from "../../../features/subscriptionSlice";
 import { AvaArray } from "../../../Data";
 import { VideoUserArray } from "../../../Data";
 import UserLatest from "../../organisms/UserLatest";
@@ -46,7 +48,7 @@ import { Link } from "react-router-dom";
 register();
 //------------------------------------------------------------------------
 
-const Main = () => {
+const Main = (props) => {
   //-----------------------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(true);
   useEffect(() => {
@@ -109,8 +111,6 @@ const Main = () => {
   //data-storage-----------------------------------------------
   const dataStorage = localStorage.getItem("id");
   //get-videos-------------------------------------------------
-  //get-videos-------------------------------------------------
-  //get-videos-------------------------------------------------
   const [time, setTime] = useState([]);
   const [link, setVideoLinks] = useState([]);
   const [foundVideo, setFoundVideo] = useState([]);
@@ -118,10 +118,10 @@ const Main = () => {
   const [avatars, setAvatars] = useState([]);
   const [fileNames, setFileNames] = useState([]);
   const [usersName, setUsersName] = useState([]);
+  const [covers, setCovers] = useState([]);
+  const arrayCovers = [];
   const allNamesArray = [];
-  console.log(avatars);
-
-  useEffect(() => {
+   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
@@ -178,6 +178,21 @@ const Main = () => {
               });
               allNames.push(...names);
               setFileNames(allNames);
+              const previewUrl =
+                video.attributes.preview &&
+                video.attributes.preview.data &&
+                video.attributes.preview.data.attributes &&
+                video.attributes.preview.data.attributes.url;
+                const allCovers = videosData.map((video) => {
+                const previewUrl =
+                  video.attributes.preview &&
+                  video.attributes.preview.data &&
+                  video.attributes.preview.data.attributes &&
+                  video.attributes.preview.data.attributes.url;
+                return  "http://localhost:1337" + previewUrl || null; 
+              });
+              //arrayCovers.push(allCovers);
+              setCovers(allCovers)
             }
 
             // Set avatar URL for each video based on matching identifier
@@ -219,13 +234,9 @@ const Main = () => {
 
     fetchData();
   }, []);
-
-  //...
-
   //get-time---------------------------------------------------------------------
   const [propsTime, setPropsTime] = useState([]);
-  console.log(propsTime);
-  useEffect(() => {
+   useEffect(() => {
     function findLastUpdated(time) {
       if (Object.keys(time).length === 0) {
         return null;
@@ -245,23 +256,11 @@ const Main = () => {
     setPropsTime(lastUpdatedValues);
   }, [time]);
   //----------------------------------------------------------
-  const handleVideoClick = () => {
+  const handleVideoClick = (videoData) => {
+    dispatch(setVideoInfo(videoData));
     handleSwitcher(4);
     handleSubscribeClick();
   };
-  //data-for-subscriber--------------------------------------------------------
-const handleClick = () => {
-  // Собираем данные для передачи
-  const videoData = {
-    videoUrl: props.videoUrl,
-    update: props.update,
-    index: props.index,
-    avatar: props.avatar,
-    fileName: props.fileName,
-    usersName: props.usersName,
-    };
-   console.log(videoData)
-}
 
   return (
     <div className={m.main__wrapper}>
@@ -305,19 +304,7 @@ const handleClick = () => {
               <Text12600 text="MY SUBSCRIPTION" color="rgba(173, 121, 85, 1)" />
             </div>
             <div className={m.items__wrapper}>
-              {/* //item1-------------------------------------------------------------- */}
-              <div className={m.item}>
-                <Avatext
-                  img={AvaArray[0]}
-                  text1={
-                    <Text14400
-                      text="Marvin McKinney"
-                      color="rgba(187, 187, 187, 1)"
-                    />
-                  }
-                />
-              </div>
-              {/* //item2-------------------------------------------------------------- */}
+             {/* //item1-------------------------------------------------------------- */}
               <div
                 className={`${m.item} ${activeIndex === 4 ? m.active : ""}`}
                 onClick={() => {
@@ -336,32 +323,6 @@ const handleClick = () => {
                 <div className={m.messages}></div>
               </div>
               {/* //item-------------------------------------------------------------- */}
-            </div>
-            <div className={m.showMore__wrapper}>
-              <div className={m.showMore__button} onClick={toggleMessages}>
-                <Text14400
-                  text="Show moreShow more"
-                  color="rgba(173, 121, 85, 1)"
-                />
-                <img
-                  src={Arrow}
-                  alt="arrow"
-                  className={`${showMore ? m.rotate : ""}`}
-                />
-              </div>
-              {showMore && (
-                <div className={m.item}>
-                  <Avatext
-                    img={AvaArray[9]}
-                    text1={
-                      <Text14400
-                        text="Floyd Miles"
-                        color="rgba(187, 187, 187, 1)"
-                      />
-                    }
-                  />
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -444,22 +405,29 @@ const handleClick = () => {
             )}
             {/* //item4--------------------------------------------------------------- */}
             {currentComponent === "home" && (
-                <div className={m.videos__body}> 
-                  {link.map((link, index) => (
-                    <VideoUser
-                      key={index}
-                      videoUrl={link}
-                      update={propsTime}
-                      index={index}
-                      avatar={avatars[index]}
-                      fileName={fileNames[index]}
-                      usersName={usersName[index]}
-                      clickToSubscriber={handleVideoClick}   
-                      handleClick={handleClick}                  
-                    />
-                  ))}
-                </div>
-               )}
+              <div className={m.videos__body}>
+                {link.map((link, index) => (
+                  <VideoUser
+                    key={index}
+                    videoUrl={link}
+                    update={propsTime}
+                    index={index}
+                    avatar={avatars[index]}
+                    cover={covers[index]}
+                    fileName={fileNames[index]}
+                    usersName={usersName[index]}
+                    clickToSubscriber={() =>
+                      handleVideoClick({
+                        avatar: avatars[index],
+                        cover: covers[index],
+                        fileName: fileNames[index],
+                        userName: usersName[index],
+                      })
+                    }
+                  />
+                ))}
+              </div>
+            )}
             {/* //item--------------------------------------------------------------- */}
           </div>
         )}

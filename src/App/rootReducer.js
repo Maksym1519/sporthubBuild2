@@ -16,7 +16,9 @@ import videoStyleReducer from '../features/videoStyleSlice';
 import videoPlaylistReducer from '../features/videoPlaylistSlice';
 import createPlaylistReducer from '../features/createPlaylistSlice';
 import headerStateReducer from '../features/headerStateSlice';
-import getIdReducer from '../features/getIdSlice'
+import getIdReducer from '../features/getIdSlice';
+import videoInfoReducer from '../features/videoInfoSlice';
+import mySubscriptionsReducer from '../features/subscriptionSlice'
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -36,7 +38,9 @@ const rootReducer = combineReducers({
   //videoPlaylistSlice: videoPlaylistReducer,
   createPlaylistSlice: createPlaylistReducer,
   headerStateSlice: headerStateReducer,
-  loginId: getIdReducer
+  loginId: getIdReducer,
+  videoInfoUser: videoInfoReducer,//get info by click
+  mySubscriptions: mySubscriptionsReducer
 });
 
 export default rootReducer;
