@@ -258,10 +258,10 @@ const Main = (props) => {
   //----------------------------------------------------------
   const handleVideoClick = (videoData) => {
     dispatch(setVideoInfo(videoData));
-    handleSwitcher(4);
+    //handleSwitcher(4);
     handleSubscribeClick();
   };
-  //get-subscriptions----------------------------------------------------------------
+   //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
   let arraySubscriptions = [];
   useEffect(() => {
@@ -275,7 +275,9 @@ const Main = (props) => {
         arraySubscriptions = responseData.map((item) => ({
           avatar: item.attributes.avatar,
           name: item.attributes.name,
-        }));
+          cover: item.attributes.cover,
+          subscribe: item.attributes.subscribe
+         }));
         setSubscriptions(arraySubscriptions);
         console.log(subscriptions);
       } catch (error) {
@@ -329,12 +331,16 @@ const Main = (props) => {
               {/* //item1-------------------------------------------------------------- */}
               {subscriptions.map((item, index) => (
               <div
-                className={`${m.item} ${activeIndex === 4 ? m.active : ""}`}
-                // onClick={() => {
-                //   handleSwitcher(4);
-                // }}
-              >
-              
+                className={`${m.item} ${activeIndex === 4 ? m.active : ""}` }   onClick={() =>
+                  handleVideoClick({
+                    avatar: item.avatar,
+                    cover: item.cover, // Добавьте нужные свойства подписчика
+                    fileName: item.fileName,
+                    userName: item.name,
+                    subscribe: item.subscribe
+                  })
+                }
+                 >
                   <Avatext
                     key={index} 
                     img={item.avatar}
@@ -344,7 +350,7 @@ const Main = (props) => {
                         color="rgba(187, 187, 187, 1)"
                       />
                     }
-                  />
+                    />
                
               </div>
                ))}
