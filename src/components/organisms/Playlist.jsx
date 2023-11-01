@@ -10,7 +10,7 @@ import { Text16600 } from "../atoms/Text";
 import { useEffect, useState } from "react";
 import More from '../../images/more.svg'
 
-const Playlist = () => {
+const Playlist = (props) => {
   //redux-playlist----------------------------------------
   const dispatch = useAppDispatch();
   const currentComponent = useSelector(
@@ -71,20 +71,18 @@ const Playlist = () => {
         </div>
         {/* //videos----------------------------------------------------------------------------------------- */}
         <div className={p.videos__body}>
-          <Video img={VideoUserArray[0]}/>
-          <Video img={VideoUserArray[1]}/>
-          <Video img={VideoUserArray[2]}/>
-          {viewAll && 
-           <Video img={VideoUserArray[3]}/>
-          }
-          {viewAll && 
-           <Video img={VideoUserArray[4]}/>
-          }
-          {viewAll && 
-           <Video img={VideoUserArray[1]}/>
-          }
-           
-          
+        {props.link &&
+                    props.link.map((link, index) => (
+                      <VideoUser
+                        key={index}
+                        videoUrl={link}
+                        update={props.propsTime}
+                        index={index}
+                        avatar={props.avatars[index]}
+                        fileName={props.fileNames[index]}
+                        usersName={props.usersName[index]}
+                      />
+                    ))}        
          </div>
         {/* //-------------------------------------------------------------------------------------------------------- */}
       </div>

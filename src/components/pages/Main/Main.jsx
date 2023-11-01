@@ -261,9 +261,12 @@ const Main = (props) => {
     //handleSwitcher(4);
     handleSubscribeClick();
   };
+    
    //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
+  console.log(subscriptions)
   let arraySubscriptions = [];
+  let counter = 0;
   useEffect(() => {
     async function getSubscriptions() {
       try {
@@ -272,20 +275,63 @@ const Main = (props) => {
         );
         const responseData = response.data.data;
         console.log(responseData);
-        arraySubscriptions = responseData.map((item) => ({
+        arraySubscriptions = responseData.map((item,index) => ({
           avatar: item.attributes.avatar,
           name: item.attributes.name,
           cover: item.attributes.cover,
-          subscribe: item.attributes.subscribe
+          subscribe: item.attributes.subscribe,
+          id: item.id,
+          identifier: item.attributes.identifier
          }));
-        setSubscriptions(arraySubscriptions);
-        console.log(subscriptions);
+        //setSubscriptions(arraySubscriptions);
+        const updatedSubscriptions = arraySubscriptions.filter(
+          (item) => item.identifier === dataStorage
+        );
+          setSubscriptions(updatedSubscriptions);
+        console.log(arraySubscriptions);
       } catch (error) {
         console.error("get subscriptions failed", error);
       }
     }
     getSubscriptions();
   }, []);
+//unsubscribe------------------------------------------------------------------
+  const handleUnsubscribe = (userId) => {
+    const updatedSubscriptions = subscriptions.filter(subscriber => subscriber.userId !== userId);
+    setSubscriptions(updatedSubscriptions);
+  }
+//getting new subsribers list------------------------------------------------------------
+const updateSubscriptions = async () => {
+  try {
+    const response = await axios.get("http://localhost:1337/api/subscriptions");
+    const responseData = response.data.data;
+    const updatedSubscriptions = responseData.map((item, index) => ({
+      avatar: item.attributes.avatar,
+      name: item.attributes.name,
+      cover: item.attributes.cover,
+      subscribe: item.attributes.subscribe,
+      id: item.id,
+      identifier: item.attributes.identifier,
+    }));
+    setSubscriptions(updatedSubscriptions);
+  } catch (error) {
+    console.error("update subscriptions failed", error);
+  }
+};
+
+const handleUnsubscribeClick = async () => {
+  try {
+   console.log("Trying to unsubscribe...");
+   console.log(videoInfo.id);
+     await axios.delete(
+     `http://localhost:1337/api/subscriptions/${videoInfo.id}`
+   );
+   console.log("Unsubscribe successful");
+   props.updateSubscriptions()
+ } catch (error) {
+   console.error("Failed to unsubscribe", error);
+ }
+};
   return (
     <div className={m.main__wrapper}>
       <HeaderCreator num={num} />
@@ -337,7 +383,9 @@ const Main = (props) => {
                     cover: item.cover, // Добавьте нужные свойства подписчика
                     fileName: item.fileName,
                     userName: item.name,
-                    subscribe: item.subscribe
+                    subscribe: item.subscribe,
+                    id: item.id,
+                    identifier: item.identifier
                   })
                 }
                  >
@@ -454,7 +502,8 @@ const Main = (props) => {
                         cover: covers[index],
                         fileName: fileNames[index],
                         userName: usersName[index],
-                      })
+                        identifier: dataStorage,
+                        })
                     }
                   />
                 ))}
@@ -480,7 +529,10 @@ const Main = (props) => {
             avatars={avatars}
             fileNames={fileNames}
             usersName={usersName}
-          />
+            subscribers={subscriptions}
+            handleUnsubscribeClick={handleUnsubscribeClick}
+            updateSubscriptions={updateSubscriptions}
+            />
         )}
         {/* //------------------------------------------------------------------------------------- */}
       </div>

@@ -68,7 +68,7 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
         onMouseLeave={handleMouseLeave}
       >
         <div className={vu.video__wrapper} onClick={props.clickToSubscriber}>
-        <video controls className={vu.video}>
+        <video controls className={vu.video} onClick={props.clickToSubscriber}>
           <source src={props.videoUrl} type="video/mp4" />
         </video>
           <img src={Play} alt="play" className={vu.play}/>

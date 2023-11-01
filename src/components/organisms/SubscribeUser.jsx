@@ -90,6 +90,7 @@ const SubscribeUser = (props) => {
       name: videoInfo.userName,
       cover: videoInfo.cover,
       subscribe: true,
+      identifier: videoInfo.identifier
     },
   };
   console.log(requestData);
@@ -104,7 +105,23 @@ const SubscribeUser = (props) => {
     }
     console.log(requestData);
   }
-
+  console.log(props.subscribers)
+//---------------------------------------------------------------
+const handleUnsubscribeClick = async () => {
+  try {
+    console.log("Trying to unsubscribe...");
+    console.log(videoInfo.id);
+    await axios.delete(`http://localhost:1337/api/subscriptions/${videoInfo.id}`);
+    console.log("Unsubscribe successful");
+    props.updateSubscriptions(); // Обновляем список подписчиков в Main.js
+  } catch (error) {
+    console.error("Failed to unsubscribe", error);
+  }
+};
+//------------------------------------------------------------------
+const unSubscribed = async () => {
+  handleUnSubscribeClick()
+}
   return (
     <>
       <div className={ut.wrapper}>
@@ -165,7 +182,7 @@ const SubscribeUser = (props) => {
               {videoInfo.subscribe ? (
                 <div
                   className={ut.button__wrapper}
-                  onClick={() => handleSubscribeClick()}
+                  onClick={() => {handleSubscribeClick();handleUnsubscribeClick();}}
                 >
                   <Button18044
                     text={<Text16600 text="Unsubscribe" />}
@@ -178,9 +195,10 @@ const SubscribeUser = (props) => {
                     <div
                       className={ut.button__wrapper}
                       onClick={() => {
-                        handleUnSubscribeClick();
+                        unSubscribed()
                         postDataSubscriptions();
-                      }}
+                        props.updateSubscriptions()
+                       }}
                     >
                       <Button18044
                         text={<Text16600 text="Subscribe" />}
@@ -191,7 +209,7 @@ const SubscribeUser = (props) => {
                   {currentSubscribeButton === "unsubscribe" && (
                     <div
                       className={ut.button__wrapper}
-                      onClick={() => handleSubscribeClick()}
+                     onClick={handleUnsubscribeClick()}
                     >
                       <Button18044
                         text={<Text16600 text="Unsubscribe" />}
