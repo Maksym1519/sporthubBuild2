@@ -1,6 +1,6 @@
 import up from "./userVideoPlayer.module.scss";
 import { Link, useLocation } from "react-router-dom";
-import Header from "../../organisms/Header";
+import HeaderCreator from "../../organisms/HeaderCreator";
 import AvaText from "../../molecules/Avatext";
 import Arrow from "../../../images/arrow-left.svg";
 import { AvaArray } from "../../../Data";
@@ -17,6 +17,7 @@ import { Text16500 } from "../../atoms/Text";
 import { Text16300 } from "../../atoms/Text";
 import { Text12300 } from "../../atoms/Text";
 import { Text14500 } from "../../atoms/Text";
+import { selectVideoInfo } from "../../../features/videoInfoSlice";
 import { useAppDispatch, useAppSelector } from "../../../App/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,6 +30,7 @@ import Like from "../../../images/like-icon.svg";
 import Dislike from "../../../images/Dislike.svg";
 import Comment from "../../../images/comment.svg";
 import Dots from "../../../images/Dots.svg";
+import { selectPlayerInfo } from "../../../features/playerInfoSlice";
 
 const UserVideoPlayer = (props) => {
   //redux---------------------------------------------------------
@@ -45,35 +47,36 @@ const showAllClick = () => {
 const showLessClick = () => {
   dispatch(showAll())
 }
-
+//----------------------------------------------------------------
+const videoInfo = useSelector(selectPlayerInfo);
+  console.log(videoInfo);
   return (
     <div className={up.userPlayer__wrapper}>
-      <Header />
+      {/* <HeaderCreator /> */}
       <div className={up.userPlayer__main}>
         <div className={up.functions__wrapper}>
           <div className={up.profile__wrapper}>
-            <Link to="/">
-              <img src={Arrow} alt="arrow" className={up.arrowLeft} />
-            </Link>
-            <AvaText
-              img={EleonaraPena.ava40}
+              <img src={Arrow} alt="arrow" className={up.arrowLeft} onClick={props.handleToSubscribe}/>
+             <AvaText
+              img={''}
               text1={
                 <ColumnTemplate
-                  row1={<Text18600 text="Eleanor Pena" />}
+                  row1={<Text18600 text={''} />}
                   row2={<Text14400 text="145.3K subscribers" />}
                 />
               }
             />
           </div>
-          <div className={up.subscribe__wrapper}>
+          {/* <div className={up.subscribe__wrapper}>
             <div className={up.button__wrapper}>
               <Button18044
                 text={<Text16600 text="Subscribe" />}
                 borderRadius="8px"
+                width="180px"
               />
             </div>
             <img src={Bell} alt="bell" />
-          </div>
+          </div> */}
         </div>
         <div className={up.videoplayer__wrapper}>
           <img src={EleonaraPena.bigVideo} alt="video" />
@@ -204,7 +207,7 @@ const showLessClick = () => {
           </div>
         </div>
       </div>
-      <VideoSlider />
+      {/* <VideoSlider /> */}
     </div>
   );
 };

@@ -18,11 +18,13 @@ import HeaderCreator from "../../organisms/HeaderCreator";
 import SubscribeUser from "../../organisms/SubscribeUser";
 import Subscribe from "../Subscribe/Subscribe";
 import VideoUser from "../../molecules/VideoUser";
+import UserVideoPlayer from "../UserVideoPlayer/UserVideoPlayer";
 import {
   showHome,
   showLatest,
   showViewLater,
   showSubscribe,
+  showSubscribePlayer
 } from "../../../features/videoUserSlice";
 import { setVideoInfo } from "../../../features/videoInfoSlice";
 import { setSubscriptions } from "../../../features/subscriptionSlice";
@@ -84,6 +86,9 @@ const Main = (props) => {
   const handleSubscribeClick = () => {
     dispatch(showSubscribe());
   };
+  const handleSubscribePlayerClick = () => {
+    dispatch(showSubscribePlayer());
+  };
 
   //redux-menu-Dots------------------------------------------------
 
@@ -119,6 +124,7 @@ const Main = (props) => {
   const [fileNames, setFileNames] = useState([]);
   const [usersName, setUsersName] = useState([]);
   const [covers, setCovers] = useState([]);
+  const [dataFromVideo,setDataFromVideo] = useState()
   const arrayCovers = [];
   const allNamesArray = [];
   useEffect(() => {
@@ -133,12 +139,12 @@ const Main = (props) => {
 
         if (response.status === 200) {
           const videosData = response.data.data;
+          setDataFromVideo(videosData)
           const profilesData = responseProfiles.data.data;
 
           const identifiers = profilesData.map(
             (client) => client.attributes.identifier
           );
-
           const allLinks = [];
           const avatarArray = [];
           const allNames = [];
@@ -200,6 +206,7 @@ const Main = (props) => {
               (client) =>
                 client.attributes.identifier === video.attributes.publishedBy
             );
+            console.log(matchingClient)
             if (matchingClient) {
               if (
                 matchingClient.attributes.avatar &&
@@ -258,7 +265,6 @@ const Main = (props) => {
   //----------------------------------------------------------
   const handleVideoClick = (videoData) => {
     dispatch(setVideoInfo(videoData));
-    //handleSwitcher(4);
     handleSubscribeClick();
   };
     
@@ -283,7 +289,6 @@ const Main = (props) => {
           id: item.id,
           identifier: item.attributes.identifier
          }));
-        //setSubscriptions(arraySubscriptions);
         const updatedSubscriptions = arraySubscriptions.filter(
           (item) => item.identifier === dataStorage
         );
@@ -296,10 +301,10 @@ const Main = (props) => {
     getSubscriptions();
   }, []);
 //unsubscribe------------------------------------------------------------------
-  const handleUnsubscribe = (userId) => {
-    const updatedSubscriptions = subscriptions.filter(subscriber => subscriber.userId !== userId);
-    setSubscriptions(updatedSubscriptions);
-  }
+  // const handleUnsubscribe = (userId) => {
+  //   const updatedSubscriptions = subscriptions.filter(subscriber => subscriber.userId !== userId);
+  //   setSubscriptions(updatedSubscriptions);
+  // }
 //getting new subsribers list------------------------------------------------------------
 const updateSubscriptions = async () => {
   try {
@@ -319,19 +324,19 @@ const updateSubscriptions = async () => {
   }
 };
 
-const handleUnsubscribeClick = async () => {
-  try {
-   console.log("Trying to unsubscribe...");
-   console.log(videoInfo.id);
-     await axios.delete(
-     `http://localhost:1337/api/subscriptions/${videoInfo.id}`
-   );
-   console.log("Unsubscribe successful");
-   props.updateSubscriptions()
- } catch (error) {
-   console.error("Failed to unsubscribe", error);
- }
-};
+// const handleUnsubscribeClick = async () => {
+//   try {
+//    console.log("Trying to unsubscribe...");
+//    console.log(videoInfo.id);
+//      await axios.delete(
+//      `http://localhost:1337/api/subscriptions/${videoInfo.id}`
+//    );
+//    console.log("Unsubscribe successful");
+//    props.updateSubscriptions()
+//  } catch (error) {
+//    console.error("Failed to unsubscribe", error);
+//  }
+// };
   return (
     <div className={m.main__wrapper}>
       <HeaderCreator num={num} />
@@ -381,7 +386,7 @@ const handleUnsubscribeClick = async () => {
                   handleVideoClick({
                     avatar: item.avatar,
                     cover: item.cover, // Добавьте нужные свойства подписчика
-                    fileName: item.fileName,
+                    fileName: fileNames[index],
                     userName: item.name,
                     subscribe: item.subscribe,
                     id: item.id,
@@ -503,6 +508,7 @@ const handleUnsubscribeClick = async () => {
                         fileName: fileNames[index],
                         userName: usersName[index],
                         identifier: dataStorage,
+                        videoUrl: link
                         })
                     }
                   />
@@ -530,9 +536,14 @@ const handleUnsubscribeClick = async () => {
             fileNames={fileNames}
             usersName={usersName}
             subscribers={subscriptions}
-            handleUnsubscribeClick={handleUnsubscribeClick}
             updateSubscriptions={updateSubscriptions}
+            subscribePlayer={handleSubscribePlayerClick}
+            dataFromVideo={dataFromVideo}
+            handleVideoClick={handleVideoClick}
             />
+        )}
+        {currentComponent === "subscribePlayer" && (
+          <UserVideoPlayer handleToSubscribe={handleSubscribeClick} />
         )}
         {/* //------------------------------------------------------------------------------------- */}
       </div>

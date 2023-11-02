@@ -14,14 +14,14 @@ import ColumnTemplate from "../molecules/ColumnTemplate";
 import Bio from "./Bio";
 import Store from "./Store";
 import Playlist from "./Playlist";
-import Main from "../pages/Main/Main";
-import HeaderCreator from "./HeaderCreator";
 import {
   showVideo,
   showBio,
   showStore,
   showPlaylist,
 } from "../../features/videoSwitcherSlice";
+import { setVideoInfo } from "../../features/videoInfoSlice";
+import { setPlayerInfo } from "../../features/playerInfoSlice";
 import { subscribe, unsubscribe } from "../../features/subscribeButtonSlice";
 import VideoUser from "../molecules/VideoUser";
 import People from "../../images/people-icon.svg";
@@ -90,7 +90,7 @@ const SubscribeUser = (props) => {
       name: videoInfo.userName,
       cover: videoInfo.cover,
       subscribe: true,
-      identifier: videoInfo.identifier
+      identifier: videoInfo.identifier,
     },
   };
   console.log(requestData);
@@ -105,23 +105,48 @@ const SubscribeUser = (props) => {
     }
     console.log(requestData);
   }
-  console.log(props.subscribers)
-//---------------------------------------------------------------
-const handleUnsubscribeClick = async () => {
-  try {
-    console.log("Trying to unsubscribe...");
-    console.log(videoInfo.id);
-    await axios.delete(`http://localhost:1337/api/subscriptions/${videoInfo.id}`);
-    console.log("Unsubscribe successful");
-    props.updateSubscriptions(); // Обновляем список подписчиков в Main.js
-  } catch (error) {
-    console.error("Failed to unsubscribe", error);
-  }
-};
-//------------------------------------------------------------------
-const unSubscribed = async () => {
-  handleUnSubscribeClick()
-}
+  console.log(props.subscribers);
+  //---------------------------------------------------------------
+  const handleUnsubscribeClick = async () => {
+    try {
+      console.log("Trying to unsubscribe...");
+      console.log(videoInfo.id);
+      await axios.delete(
+        `http://localhost:1337/api/subscriptions/${videoInfo.id}`
+      );
+      console.log("Unsubscribe successful");
+      props.updateSubscriptions(); // Обновляем список подписчиков в Main.js
+    } catch (error) {
+      console.error("Failed to unsubscribe", error);
+    }
+  };
+  //------------------------------------------------------------------
+  const unSubscribed = async () => {
+    handleUnSubscribeClick();
+  };
+  //dataStorage---------------------------------------------------------
+  const dataStorage = localStorage.getItem("id");
+  //set-links-for-user-videos--------------------------------------------
+  const [link, setLink] = useState([]);
+  let arrayLinks = [];
+  const baseURL = "http://localhost:1337";
+  
+  const matchingClient = props.dataFromVideo && props.dataFromVideo.filter(
+    (item) => videoInfo && item.attributes.publishedBy === (videoInfo.identifier || '')
+  );
+  
+  const matchingClientData = matchingClient.map(
+    (item) => item.attributes.videos.data
+  );
+  arrayLinks = matchingClientData.map((item) => item[0].attributes.url);
+  const updatedLinks = arrayLinks.map((link) => baseURL + link);
+  console.log(matchingClientData);
+  console.log(updatedLinks);
+  //-----------------------------------------------------------------------------------
+  const handleVideoInfoClick = (videoData) => {
+    dispatch(setPlayerInfo(videoData));
+    handleSubscribeClick();
+  };
   return (
     <>
       <div className={ut.wrapper}>
@@ -182,7 +207,10 @@ const unSubscribed = async () => {
               {videoInfo.subscribe ? (
                 <div
                   className={ut.button__wrapper}
-                  onClick={() => {handleSubscribeClick();handleUnsubscribeClick();}}
+                  onClick={() => {
+                    handleSubscribeClick();
+                    handleUnsubscribeClick();
+                  }}
                 >
                   <Button18044
                     text={<Text16600 text="Unsubscribe" />}
@@ -195,10 +223,10 @@ const unSubscribed = async () => {
                     <div
                       className={ut.button__wrapper}
                       onClick={() => {
-                        unSubscribed()
+                        unSubscribed();
                         postDataSubscriptions();
-                        props.updateSubscriptions()
-                       }}
+                        props.updateSubscriptions();
+                      }}
                     >
                       <Button18044
                         text={<Text16600 text="Subscribe" />}
@@ -209,7 +237,7 @@ const unSubscribed = async () => {
                   {currentSubscribeButton === "unsubscribe" && (
                     <div
                       className={ut.button__wrapper}
-                     onClick={handleUnsubscribeClick()}
+                      onClick={handleUnsubscribeClick()}
                     >
                       <Button18044
                         text={<Text16600 text="Unsubscribe" />}
@@ -270,20 +298,30 @@ const unSubscribed = async () => {
           <div className={ut.container}>
             {currentComponent === "video" && (
               <div className={ut.videos__wrapper}>
-                <div className={ut.videos__body}>
-                  {props.link &&
-                    props.link.map((link, index) => (
-                      <VideoUser
-                        key={index}
-                        videoUrl={link}
-                        update={props.propsTime}
-                        index={index}
-                        avatar={props.avatars[index]}
-                        fileName={props.fileNames[index]}
-                        usersName={props.usersName[index]}
-                      />
-                    ))}
-                </div>
+                <div className={ut.videos__body}  onClick={props.subscribePlayer}>
+                    {props.link &&
+                      updatedLinks.map((link, index) => (
+                        <VideoUser
+                          key={index}
+                          videoUrl={link}
+                          update={props.propsTime}
+                          index={index}
+                          avatar={props.avatars[index]}
+                          fileName={props.fileNames[index]}
+                          usersName={props.usersName[index]}
+                          clickToSubscriber={() =>
+                            handleVideoInfoClick({
+                              avatar: props.avatars[index],
+                              //cover: props.covers[index],
+                              fileName: props.fileNames[index],
+                              userName: props.usersName[index],
+                              identifier: dataStorage,
+                              videoUrl: link
+                              })
+                          }
+                          />
+                      ))}
+                   </div>
               </div>
             )}
             {currentComponent === "bio" && <Bio />}
