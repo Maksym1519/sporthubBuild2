@@ -127,7 +127,7 @@ const SubscribeUser = (props) => {
   //dataStorage---------------------------------------------------------
   const dataStorage = localStorage.getItem("id");
   //set-links-for-user-videos--------------------------------------------
-  const [link, setLink] = useState([]);
+  const [link, setLink] = useState();
   let arrayLinks = [];
   const baseURL = "http://localhost:1337";
   
@@ -140,8 +140,9 @@ const SubscribeUser = (props) => {
   );
   arrayLinks = matchingClientData.map((item) => item[0].attributes.url);
   const updatedLinks = arrayLinks.map((link) => baseURL + link);
+  setLink(updatedLinks)
   console.log(matchingClientData);
-  console.log(updatedLinks);
+  console.log(link);
   //-----------------------------------------------------------------------------------
   const handleVideoInfoClick = (videoData) => {
     dispatch(setPlayerInfo(videoData));
@@ -300,15 +301,15 @@ const SubscribeUser = (props) => {
               <div className={ut.videos__wrapper}>
                 <div className={ut.videos__body}  onClick={props.subscribePlayer}>
                     {props.link &&
-                      updatedLinks.map((link, index) => (
+                      link.map((link, index) => (
                         <VideoUser
                           key={index}
-                          videoUrl={link}
-                          update={props.propsTime}
+                          videoUrl={videoInfo.videoUrl}
+                          update={videoInfo.update}
                           index={index}
-                          avatar={props.avatars[index]}
-                          fileName={props.fileNames[index]}
-                          usersName={props.usersName[index]}
+                          avatar={videoInfo.avatar}
+                          fileName={videoInfo.fileName}
+                          usersName={videoInfo.userName}
                           clickToSubscriber={() =>
                             handleVideoInfoClick({
                               avatar: props.avatars[index],
@@ -316,7 +317,8 @@ const SubscribeUser = (props) => {
                               fileName: props.fileNames[index],
                               userName: props.usersName[index],
                               identifier: dataStorage,
-                              videoUrl: link
+                              videoUrl: link,
+                              update: props.propsTime
                               })
                           }
                           />

@@ -13,6 +13,9 @@ import Play from '../../images/play-btn.svg'
 
 
 const VideoUser = (props) => {
+  const styled = {
+    minWidth: props.width
+  }
     //redux-state-video-------------------------------------------
   const dispatch = useAppDispatch();
   const currentComponent = useSelector(
@@ -66,9 +69,10 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
         onClick={() => {toggleMenuDots()}}
         onMouseOver={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        style={styled}
       >
-        <div className={vu.video__wrapper} onClick={props.clickToSubscriber}>
-        <video controls className={vu.video} onClick={props.clickToSubscriber}>
+        <div className={vu.video__wrapper} onClick={props.clickToSubscriber} style={styled}>
+        <video controls className={vu.video} onClick={props.clickToSubscriber} style={styled}>
           <source src={props.videoUrl} type="video/mp4" />
         </video>
           <img src={Play} alt="play" className={vu.play}/>

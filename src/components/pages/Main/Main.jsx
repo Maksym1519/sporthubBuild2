@@ -508,7 +508,8 @@ const updateSubscriptions = async () => {
                         fileName: fileNames[index],
                         userName: usersName[index],
                         identifier: dataStorage,
-                        videoUrl: link
+                        videoUrl: link,
+                        update: propsTime
                         })
                     }
                   />

@@ -8,6 +8,7 @@ import { EleonaraPena } from "../../../Data";
 import ColumnTemplate from "../../molecules/ColumnTemplate";
 import { Button18044 } from "../../atoms/Buttons";
 import VideoSlider from "../../organisms/VideoSlider";
+import VideoUser from "../../molecules/VideoUser";
 import { Text18600 } from "../../atoms/Text";
 import { Text18500 } from "../../atoms/Text";
 import { Text14400 } from "../../atoms/Text";
@@ -58,7 +59,7 @@ const videoInfo = useSelector(selectPlayerInfo);
           <div className={up.profile__wrapper}>
               <img src={Arrow} alt="arrow" className={up.arrowLeft} onClick={props.handleToSubscribe}/>
              <AvaText
-              img={''}
+              img={videoInfo.avatar}
               text1={
                 <ColumnTemplate
                   row1={<Text18600 text={''} />}
@@ -79,7 +80,7 @@ const videoInfo = useSelector(selectPlayerInfo);
           </div> */}
         </div>
         <div className={up.videoplayer__wrapper}>
-          <img src={EleonaraPena.bigVideo} alt="video" />
+         <VideoUser videoUrl={videoInfo.videoUrl} update={videoInfo.update} width="100%"/>
         </div>
         <div className={up.videoInfo__wrapper}>
           {isMobile ? (
