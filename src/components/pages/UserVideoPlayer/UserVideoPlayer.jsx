@@ -63,22 +63,12 @@ const videoInfo = useSelector(selectPlayerInfo);
               text1={
                 <ColumnTemplate
                   row1={<Text18600 text={''} />}
-                  row2={<Text14400 text="145.3K subscribers" />}
+                  row2={<Text14400 text={videoInfo.subscriptionsAmount + " " + "subscriber(s)"} />}
                 />
               }
             />
           </div>
-          {/* <div className={up.subscribe__wrapper}>
-            <div className={up.button__wrapper}>
-              <Button18044
-                text={<Text16600 text="Subscribe" />}
-                borderRadius="8px"
-                width="180px"
-              />
-            </div>
-            <img src={Bell} alt="bell" />
-          </div> */}
-        </div>
+         </div>
         <div className={up.videoplayer__wrapper}>
          <VideoUser videoUrl={videoInfo.videoUrl} update={videoInfo.update} width="100%"/>
         </div>

@@ -270,6 +270,8 @@ const Main = (props) => {
     
    //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
+  const [subscriptionsAmount, setSubscriptionsAmount] = useState([])
+  console.log(subscriptionsAmount)
   console.log(subscriptions)
   let arraySubscriptions = [];
   let counter = 0;
@@ -287,12 +289,14 @@ const Main = (props) => {
           cover: item.attributes.cover,
           subscribe: item.attributes.subscribe,
           id: item.id,
-          identifier: item.attributes.identifier
+          identifier: item.attributes.identifier,
+          subscriptionsAmount: item.attributes.subscriptionsAmount
          }));
+         setSubscriptionsAmount(arraySubscriptions)
         const updatedSubscriptions = arraySubscriptions.filter(
           (item) => item.identifier === dataStorage
         );
-          setSubscriptions(updatedSubscriptions);
+        setSubscriptions(updatedSubscriptions);
         console.log(arraySubscriptions);
       } catch (error) {
         console.error("get subscriptions failed", error);
@@ -300,11 +304,6 @@ const Main = (props) => {
     }
     getSubscriptions();
   }, []);
-//unsubscribe------------------------------------------------------------------
-  // const handleUnsubscribe = (userId) => {
-  //   const updatedSubscriptions = subscriptions.filter(subscriber => subscriber.userId !== userId);
-  //   setSubscriptions(updatedSubscriptions);
-  // }
 //getting new subsribers list------------------------------------------------------------
 const updateSubscriptions = async () => {
   try {
@@ -317,7 +316,9 @@ const updateSubscriptions = async () => {
       subscribe: item.attributes.subscribe,
       id: item.id,
       identifier: item.attributes.identifier,
+      subscriptionsAmount: item.attributes.subscriptionsAmount
     }));
+    console.log(updateSubscriptions)
     setSubscriptions(updatedSubscriptions);
   } catch (error) {
     console.error("update subscriptions failed", error);
@@ -385,12 +386,13 @@ const updateSubscriptions = async () => {
                 className={`${m.item} ${activeIndex === 4 ? m.active : ""}` }   onClick={() =>
                   handleVideoClick({
                     avatar: item.avatar,
-                    cover: item.cover, // Добавьте нужные свойства подписчика
+                    cover: item.cover, 
                     fileName: fileNames[index],
                     userName: item.name,
                     subscribe: item.subscribe,
                     id: item.id,
-                    identifier: item.identifier
+                    identifier: item.identifier,
+                    update: propsTime
                   })
                 }
                  >
@@ -537,6 +539,7 @@ const updateSubscriptions = async () => {
             fileNames={fileNames}
             usersName={usersName}
             subscribers={subscriptions}
+            subscriptionsAmount={subscriptionsAmount}//props with all subscriptions
             updateSubscriptions={updateSubscriptions}
             subscribePlayer={handleSubscribePlayerClick}
             dataFromVideo={dataFromVideo}

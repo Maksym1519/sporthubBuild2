@@ -91,6 +91,7 @@ const SubscribeUser = (props) => {
       cover: videoInfo.cover,
       subscribe: true,
       identifier: videoInfo.identifier,
+      subscriptionsAmount: 1
     },
   };
   console.log(requestData);
@@ -140,14 +141,25 @@ const SubscribeUser = (props) => {
   );
   arrayLinks = matchingClientData.map((item) => item[0].attributes.url);
   const updatedLinks = arrayLinks.map((link) => baseURL + link);
-  setLink(updatedLinks)
+  //setLink(updatedLinks)
   console.log(matchingClientData);
-  console.log(link);
+  console.log(updatedLinks);
   //-----------------------------------------------------------------------------------
   const handleVideoInfoClick = (videoData) => {
     dispatch(setPlayerInfo(videoData));
-    handleSubscribeClick();
+   // handleSubscribeClick();
   };
+//get-subscriptions-amount---------------------------
+const clickedUserName = videoInfo.userName;
+const numberOfSubscribers = props.subscriptionsAmount.reduce((count, subscriber) => {
+  if (subscriber.name === clickedUserName && subscriber.subscribe) {
+    return count + 1;
+  }
+  return count;
+}, 0);
+//get-videos-amount-----------------------------------------------
+const videosAmount = updatedLinks.length
+console.log(videosAmount)
   return (
     <>
       <div className={ut.wrapper}>
@@ -174,7 +186,7 @@ const SubscribeUser = (props) => {
                 <div className={ut.statistics__body__item}>
                   <img src={People} alt="logo" />
                   <ColumnTemplate
-                    row1={<Text18700 text="6.4K" />}
+                    row1={<Text18700 text={numberOfSubscribers} />}
                     row2={
                       <Text12300
                         text="Subscribers"
@@ -187,7 +199,7 @@ const SubscribeUser = (props) => {
                 <div className={ut.statistics__body__item}>
                   <img src={Camera} alt="logo" />
                   <ColumnTemplate
-                    row1={<Text18700 text="257" />}
+                    row1={<Text18700 text={videosAmount} />}
                     row2={
                       <Text12300 text="Videos" color="rgba(187, 187, 187, 1)" />
                     }
@@ -301,7 +313,7 @@ const SubscribeUser = (props) => {
               <div className={ut.videos__wrapper}>
                 <div className={ut.videos__body}  onClick={props.subscribePlayer}>
                     {props.link &&
-                      link.map((link, index) => (
+                      updatedLinks.map((link, index) => (
                         <VideoUser
                           key={index}
                           videoUrl={videoInfo.videoUrl}
@@ -312,13 +324,14 @@ const SubscribeUser = (props) => {
                           usersName={videoInfo.userName}
                           clickToSubscriber={() =>
                             handleVideoInfoClick({
-                              avatar: props.avatars[index],
+                              avatar: videoInfo.avatar,
                               //cover: props.covers[index],
-                              fileName: props.fileNames[index],
-                              userName: props.usersName[index],
-                              identifier: dataStorage,
+                              //fileName: props.fileNames[index],
+                              //userName: props.usersName[index],
+                              //identifier: dataStorage,
                               videoUrl: link,
-                              update: props.propsTime
+                              update: videoInfo.update,
+                              subscriptionsAmount: numberOfSubscribers,
                               })
                           }
                           />
