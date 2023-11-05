@@ -51,6 +51,8 @@ const showLessClick = () => {
 //----------------------------------------------------------------
 const videoInfo = useSelector(selectPlayerInfo);
   console.log(videoInfo);
+//get-views------------------------------------------------------
+  
   return (
     <div className={up.userPlayer__wrapper}>
       {/* <HeaderCreator /> */}

@@ -63,6 +63,15 @@
     },
     "publishedBy": {
       "type": "string"
+    },
+    "view": {
+      "type": "integer"
+    },
+    "views": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::view.view",
+      "mappedBy": "videos"
     }
   }
 }

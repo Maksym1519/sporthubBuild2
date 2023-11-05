@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "views",
+  "info": {
+    "singularName": "view",
+    "pluralName": "views",
+    "displayName": "views",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "amountOfView": {
+      "type": "integer"
+    },
+    "videos": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::maksym.maksym",
+      "inversedBy": "views"
+    }
+  }
+}

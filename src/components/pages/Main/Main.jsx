@@ -124,7 +124,9 @@ const Main = (props) => {
   const [fileNames, setFileNames] = useState([]);
   const [usersName, setUsersName] = useState([]);
   const [covers, setCovers] = useState([]);
-  const [dataFromVideo,setDataFromVideo] = useState()
+  const [id, setId] = useState([]);
+  const [dataFromVideo,setDataFromVideo] = useState();
+  const [views,setViews] = useState();
   const arrayCovers = [];
   const allNamesArray = [];
   useEffect(() => {
@@ -149,21 +151,25 @@ const Main = (props) => {
           const avatarArray = [];
           const allNames = [];
           setTime(videosData);
-
+          //names-----------------------------------------------------
           const arrayFound = videosData.map(
             (item) => item.attributes.videos.data
           );
-
           const arrayFoundNames = arrayFound.map(
             (item) => item[0].attributes.name
           );
-
+          setFoundVideo(arrayFoundNames);
+          //published-------------------------------------------------
           const arrayPublished = videosData.map(
             (item) => item.attributes.publishedBy
           );
-
           setPublishedBy(arrayPublished);
-          setFoundVideo(arrayFoundNames);
+          //id-------------------------------------------------------
+          const arrayId = videosData.map((item) => item.id)
+          setId(arrayId)
+          //views---------------------------------------------------------
+          const arrayViews = videosData.map((item) => item.attributes.view)
+          setViews(arrayViews)
 
           videosData.forEach((video) => {
             if (
@@ -206,8 +212,7 @@ const Main = (props) => {
               (client) =>
                 client.attributes.identifier === video.attributes.publishedBy
             );
-            console.log(matchingClient)
-            if (matchingClient) {
+             if (matchingClient) {
               if (
                 matchingClient.attributes.avatar &&
                 matchingClient.attributes.avatar.data &&
@@ -217,7 +222,6 @@ const Main = (props) => {
                   "http://localhost:1337" +
                   matchingClient.attributes.avatar.data.attributes.url;
 
-                // Сохраняем URL изображения в массив
                 avatarArray.push(avatarUrl);
               }
               const fullName =
@@ -226,8 +230,7 @@ const Main = (props) => {
                 matchingClient.attributes.lastName;
               allNamesArray.push(fullName);
               setUsersName(allNamesArray);
-              console.log(allNamesArray);
-            }
+              }
           });
           setAvatars(avatarArray);
           setVideoLinks(allLinks);
@@ -271,8 +274,6 @@ const Main = (props) => {
    //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscriptionsAmount, setSubscriptionsAmount] = useState([])
-  console.log(subscriptionsAmount)
-  console.log(subscriptions)
   let arraySubscriptions = [];
   let counter = 0;
   useEffect(() => {
@@ -297,8 +298,7 @@ const Main = (props) => {
           (item) => item.identifier === dataStorage
         );
         setSubscriptions(updatedSubscriptions);
-        console.log(arraySubscriptions);
-      } catch (error) {
+        } catch (error) {
         console.error("get subscriptions failed", error);
       }
     }
@@ -318,26 +318,12 @@ const updateSubscriptions = async () => {
       identifier: item.attributes.identifier,
       subscriptionsAmount: item.attributes.subscriptionsAmount
     }));
-    console.log(updateSubscriptions)
     setSubscriptions(updatedSubscriptions);
   } catch (error) {
     console.error("update subscriptions failed", error);
   }
 };
 
-// const handleUnsubscribeClick = async () => {
-//   try {
-//    console.log("Trying to unsubscribe...");
-//    console.log(videoInfo.id);
-//      await axios.delete(
-//      `http://localhost:1337/api/subscriptions/${videoInfo.id}`
-//    );
-//    console.log("Unsubscribe successful");
-//    props.updateSubscriptions()
-//  } catch (error) {
-//    console.error("Failed to unsubscribe", error);
-//  }
-// };
   return (
     <div className={m.main__wrapper}>
       <HeaderCreator num={num} />
@@ -507,11 +493,13 @@ const updateSubscriptions = async () => {
                       handleVideoClick({
                         avatar: avatars[index],
                         cover: covers[index],
-                        fileName: fileNames[index],
+                        fileName: fileNames,
                         userName: usersName[index],
-                        identifier: dataStorage,
+                        identifier: publishedBy[index],
                         videoUrl: link,
-                        update: propsTime
+                        update: propsTime,
+                        id: id[index],
+                        views: views
                         })
                     }
                   />
@@ -544,6 +532,7 @@ const updateSubscriptions = async () => {
             subscribePlayer={handleSubscribePlayerClick}
             dataFromVideo={dataFromVideo}
             handleVideoClick={handleVideoClick}
+            views={views}
             />
         )}
         {currentComponent === "subscribePlayer" && (

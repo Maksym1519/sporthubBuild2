@@ -81,7 +81,7 @@ const SubscribeUser = (props) => {
   };
   //info-from-video-click------------------------------------------------------------------------
   const videoInfo = useSelector(selectVideoInfo);
-  console.log(videoInfo);
+  console.log(videoInfo.id);
   //post-mySubscriptions------------------------------------------------------------
   const [mySubscriptions, setMySubscriptions] = useState([]);
   const requestData = {
@@ -133,9 +133,9 @@ const SubscribeUser = (props) => {
   const baseURL = "http://localhost:1337";
   
   const matchingClient = props.dataFromVideo && props.dataFromVideo.filter(
-    (item) => videoInfo && item.attributes.publishedBy === (videoInfo.identifier || '')
+    (item) => item.attributes.publishedBy === (videoInfo.identifier || '')
   );
-  
+  console.log(props.dataFromVideo)
   const matchingClientData = matchingClient.map(
     (item) => item.attributes.videos.data
   );
@@ -159,7 +159,31 @@ const numberOfSubscribers = props.subscriptionsAmount.reduce((count, subscriber)
 }, 0);
 //get-videos-amount-----------------------------------------------
 const videosAmount = updatedLinks.length
-console.log(videosAmount)
+//get-views-amount---------------------------------------------------------------
+const [views, setViews] = useState([]);
+const viewsData = props.dataFromVideo;
+const videoInfoId = videoInfo.id; // Проверь правильность использования Id или id
+const foundObject = viewsData.find(item => item.id === videoInfoId);
+const viewValue = foundObject ? foundObject.attributes.view : null;
+
+console.log(foundObject);
+console.log(viewValue);
+
+ const postView = async () => {
+    try {
+      const requestData = {
+        data: {
+         view: 1,
+       }
+     }
+     console.log(videoInfo)
+     const response = await axios.put(`http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+     requestData)
+    } catch(error) {
+      console.error("post views is failed")
+    }
+  }
+
   return (
     <>
       <div className={ut.wrapper}>
@@ -315,23 +339,21 @@ console.log(videosAmount)
                     {props.link &&
                       updatedLinks.map((link, index) => (
                         <VideoUser
+                          onClick={postView()}
                           key={index}
-                          videoUrl={videoInfo.videoUrl}
+                          videoUrl={link}
                           update={videoInfo.update}
                           index={index}
                           avatar={videoInfo.avatar}
-                          fileName={videoInfo.fileName}
+                          fileName={videoInfo.fileName[props.link.indexOf(link)]}
                           usersName={videoInfo.userName}
                           clickToSubscriber={() =>
                             handleVideoInfoClick({
                               avatar: videoInfo.avatar,
-                              //cover: props.covers[index],
-                              //fileName: props.fileNames[index],
-                              //userName: props.usersName[index],
-                              //identifier: dataStorage,
                               videoUrl: link,
                               update: videoInfo.update,
                               subscriptionsAmount: numberOfSubscribers,
+                              views: videoInfo.views
                               })
                           }
                           />
