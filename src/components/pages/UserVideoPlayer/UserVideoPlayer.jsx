@@ -120,13 +120,13 @@ const videoInfo = useSelector(selectPlayerInfo);
           </div>
           {isMobile ? (
             <div className={up.views__wrapper}>
-              <Text12300 text="145.3K views" color="rgba(187, 187, 187, 1)" />
+              <Text12300 text={videoInfo.views + " " + "views"} color="rgba(187, 187, 187, 1)" />
               <Text12300 text="3h ago" color="rgba(187, 187, 187, 1)" />
             </div>
           ) : (
             <div className={up.views__wrapper}>
-              <Text16300 text="145.3K views" color="rgba(187, 187, 187, 1)" />
-              <Text16300 text="3h ago" color="rgba(187, 187, 187, 1)" />
+              <Text16300 text={videoInfo.views + " " + "views"} color="rgba(187, 187, 187, 1)" />
+              <Text16300 text={videoInfo.update} color="rgba(187, 187, 187, 1)" />
             </div>
           )}
           <div className={up.dots__wrapper}>

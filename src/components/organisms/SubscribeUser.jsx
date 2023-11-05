@@ -162,7 +162,7 @@ const videosAmount = updatedLinks.length
 //get-views-amount---------------------------------------------------------------
 const [views, setViews] = useState([]);
 const viewsData = props.dataFromVideo;
-const videoInfoId = videoInfo.id; // Проверь правильность использования Id или id
+const videoInfoId = videoInfo.id; 
 const foundObject = viewsData.find(item => item.id === videoInfoId);
 const viewValue = foundObject ? foundObject.attributes.view : null;
 
@@ -173,7 +173,7 @@ console.log(viewValue);
     try {
       const requestData = {
         data: {
-         view: 1,
+         view: viewValue + 1,
        }
      }
      console.log(videoInfo)
@@ -353,7 +353,7 @@ console.log(viewValue);
                               videoUrl: link,
                               update: videoInfo.update,
                               subscriptionsAmount: numberOfSubscribers,
-                              views: videoInfo.views
+                              views: viewValue
                               })
                           }
                           />
