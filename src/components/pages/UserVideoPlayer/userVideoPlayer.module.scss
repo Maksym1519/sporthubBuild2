@@ -62,12 +62,14 @@
         border-radius: 8px;
         background: var(--9, #222);
         & .item {
+          max-height: 44px;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 16px;
         }
         & .item_border {
+          max-height: 44px;
           border-right: 1px solid #323232;
         }
         & .item_margin {

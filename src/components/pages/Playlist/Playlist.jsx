@@ -32,6 +32,7 @@ import {
   showResultPlaylist,
   showEditResultPlaylist,
 } from "../../../features/createPlaylistSlice";
+import { setUserPlaylist } from "../../../features/userPlaylistSlice";
 import Mind from "../../organisms/Mind/Mind";
 import Body from "../../organisms/Body/Body";
 import Soul from "../../organisms/Soul/Soul";
@@ -195,8 +196,14 @@ const Playlist = () => {
     }
     getPlaylistsNames();
   }, []);
-  //----------------------------------------------------------------------------
-  return (
+  //get-playlist----------------------------------------------------------------------------
+  const handleUserPlaylist = (playlist) => {
+    dispatch(setUserPlaylist(playlist))
+  }
+  handleUserPlaylist({
+    playlist: playlists
+  })
+   return (
     <div className={p.videoCreator__wrapper}>
       <HeaderCreator />
       <div className={p.videoCreator__container}>

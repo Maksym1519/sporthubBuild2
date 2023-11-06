@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../App/hooks";
 import { showMind, showBody, showSoul } from "../../features/playlistSlice";
 import { AvaArray, VideoUserArray } from "../../Data";
-import Video from '../molecules/Video';
+import VideoUser from "../molecules/VideoUser";
 import { Text16500 } from "../atoms/Text";
 import { Text20600 } from "../atoms/Text";
 import { Text16600 } from "../atoms/Text";
 import { useEffect, useState } from "react";
-import More from '../../images/more.svg'
+import More from "../../images/more.svg";
 
 const Playlist = (props) => {
   //redux-playlist----------------------------------------
@@ -34,10 +34,10 @@ const Playlist = (props) => {
     setActiveIndex(index);
   };
   //viewAll--------------------------------------------------
-  const [viewAll, setViewAll] = useState(false)
+  const [viewAll, setViewAll] = useState(false);
   const toggleViewAll = () => {
-    setViewAll(!viewAll)
-  }
+    setViewAll(!viewAll);
+  };
   return (
     <div className={p.playlist__wrapper}>
       <div className={p.playlist__container}>
@@ -66,24 +66,28 @@ const Playlist = (props) => {
             <Text20600 text="Fitness training" />
           </span>
           <span className={p.link} onClick={() => toggleViewAll()}>
-            {viewAll ? (<Text16600 text="Hide all" color="rgba(173, 121, 85, 1)" />) : (<Text16600 text="View all" color="rgba(173, 121, 85, 1)" />)}
+            {viewAll ? (
+              <Text16600 text="Hide all" color="rgba(173, 121, 85, 1)" />
+            ) : (
+              <Text16600 text="View all" color="rgba(173, 121, 85, 1)" />
+            )}
           </span>
         </div>
         {/* //videos----------------------------------------------------------------------------------------- */}
         <div className={p.videos__body}>
-        {props.link &&
-                    props.link.map((link, index) => (
-                      <VideoUser
-                        key={index}
-                        videoUrl={link}
-                        update={props.propsTime}
-                        index={index}
-                        avatar={props.avatars[index]}
-                        fileName={props.fileNames[index]}
-                        usersName={props.usersName[index]}
-                      />
-                    ))}        
-         </div>
+          {props.link &&
+            props.link.map((link, index) => (
+              <VideoUser
+                key={index}
+                videoUrl={link}
+                update={props.propsTime}
+                index={index}
+                avatar={props.avatars[index]}
+                fileName={props.fileNames[index]}
+                usersName={props.usersName[index]}
+              />
+            ))}
+           </div>
         {/* //-------------------------------------------------------------------------------------------------------- */}
       </div>
     </div>

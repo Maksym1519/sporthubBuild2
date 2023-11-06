@@ -72,6 +72,12 @@
       "relation": "oneToMany",
       "target": "api::view.view",
       "mappedBy": "videos"
+    },
+    "like": {
+      "type": "integer"
+    },
+    "dislike": {
+      "type": "integer"
     }
   }
 }

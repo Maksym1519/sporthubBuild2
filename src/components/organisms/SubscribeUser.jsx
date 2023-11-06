@@ -30,6 +30,7 @@ import Eye from "../../images/eye-icon.svg";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { selectVideoInfo } from "../../features/videoInfoSlice";
+import { selectUserPlaylist } from "../../features/userPlaylistSlice";
 import { setSubscriptions } from "../../features/subscriptionSlice";
 
 const SubscribeUser = (props) => {
@@ -82,6 +83,9 @@ const SubscribeUser = (props) => {
   //info-from-video-click------------------------------------------------------------------------
   const videoInfo = useSelector(selectVideoInfo);
   console.log(videoInfo.id);
+  //get-playlists----------------------------------------------------------------
+  const propsPlaylists = useSelector(selectUserPlaylist)
+  console.log(propsPlaylists)
   //post-mySubscriptions------------------------------------------------------------
   const [mySubscriptions, setMySubscriptions] = useState([]);
   const requestData = {
@@ -183,7 +187,8 @@ console.log(viewValue);
       console.error("post views is failed")
     }
   }
-
+//pass-links-to-playlist------------------------------------
+const propsLinks = props.link
   return (
     <>
       <div className={ut.wrapper}>
@@ -233,7 +238,7 @@ console.log(viewValue);
                 <div className={ut.statistics__body__item}>
                   <img src={Eye} alt="logo" />
                   <ColumnTemplate
-                    row1={<Text18700 text="15K" />}
+                    row1={<Text18700 text={videoInfo.view} />}
                     row2={
                       <Text12300 text="Views" color="rgba(187, 187, 187, 1)" />
                     }
@@ -353,7 +358,10 @@ console.log(viewValue);
                               videoUrl: link,
                               update: videoInfo.update,
                               subscriptionsAmount: numberOfSubscribers,
-                              views: viewValue
+                              views: viewValue,
+                              fileName: videoInfo.fileName[props.link.indexOf(link)],
+                              id: videoInfo.id,
+                              videoInfoData: viewsData
                               })
                           }
                           />
@@ -363,7 +371,7 @@ console.log(viewValue);
             )}
             {currentComponent === "bio" && <Bio />}
             {currentComponent === "store" && <Store />}
-            {currentComponent === "playlist" && <Playlist />}
+            {currentComponent === "playlist" && <Playlist link={propsLinks}/>}
           </div>
         </div>
       </div>

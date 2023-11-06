@@ -251,7 +251,7 @@ const Main = (props) => {
       if (Object.keys(time).length === 0) {
         return null;
       }
-      if ("updatedAt" in time) {
+      if ("createdAt" in time) {
         return time.updatedAt;
       }
       for (const key in time) {
@@ -499,7 +499,8 @@ const updateSubscriptions = async () => {
                         videoUrl: link,
                         update: propsTime,
                         id: id[index],
-                        views: views
+                        views: views,
+                        view: views[index]
                         })
                     }
                   />

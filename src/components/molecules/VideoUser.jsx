@@ -60,8 +60,8 @@ const getTimeDifference = (updateTime) => {
   }
 };
 
-// Используем функцию для каждого элемента массива props.update
 const timeDifferences = props.update.map(updateTime => getTimeDifference(updateTime));
+console.log(timeDifferences)
 
     return (
         <div

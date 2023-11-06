@@ -1,4 +1,6 @@
 import up from "./userVideoPlayer.module.scss";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import HeaderCreator from "../../organisms/HeaderCreator";
 import AvaText from "../../molecules/Avatext";
@@ -33,6 +35,7 @@ import Comment from "../../../images/comment.svg";
 import Dots from "../../../images/Dots.svg";
 import { selectPlayerInfo } from "../../../features/playerInfoSlice";
 
+
 const UserVideoPlayer = (props) => {
   //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
@@ -51,8 +54,54 @@ const showLessClick = () => {
 //----------------------------------------------------------------
 const videoInfo = useSelector(selectPlayerInfo);
   console.log(videoInfo);
-//get-views------------------------------------------------------
-  
+//handle-with-likes------------------------------------------------------
+const [likes, setLikes] = useState(0);
+useEffect(() => {
+  const viewsData = videoInfo.videoInfoData;
+  const videoInfoId = videoInfo.id; 
+  const foundObject = viewsData.find(item => item.id === videoInfoId);
+  const viewValue = foundObject ? foundObject.attributes.like : null;
+  setLikes(viewValue);
+}, [videoInfo]);
+
+const postLike = async () => {
+  try {
+    const requestData = {
+      data: {
+        like: likes + 1,
+      }
+    }
+    const response = await axios.put(`http://localhost:1337/api/Maksyms/${videoInfo.id}`, requestData)
+    setLikes((prevLikes) => prevLikes + 1);
+  } catch(error) {
+    console.error("post views is failed", error)
+  }
+}
+
+//get-dislike-----------------------------------------------------------------------------
+const [dislikes, setDislikes] = useState(0);
+useEffect(() => {
+  const viewsData = videoInfo.videoInfoData;
+  const videoInfoId = videoInfo.id; 
+  const foundObject = viewsData.find(item => item.id === videoInfoId);
+  const viewValue = foundObject ? foundObject.attributes.like : null;
+  setDislikes(viewValue);
+}, [videoInfo]);
+
+const postDislike = async () => {
+  try {
+    const requestData = {
+      data: {
+        dislike: dislikes + 1,
+      }
+    }
+    const response = await axios.put(`http://localhost:1337/api/Maksyms/${videoInfo.id}`, requestData)
+    setDislikes((prevDisLikes) => prevDisLikes + 1);
+  } catch(error) {
+    console.error("post views is failed", error)
+  }
+}
+
   return (
     <div className={up.userPlayer__wrapper}>
       {/* <HeaderCreator /> */}
@@ -72,35 +121,27 @@ const videoInfo = useSelector(selectPlayerInfo);
           </div>
          </div>
         <div className={up.videoplayer__wrapper}>
-         <VideoUser videoUrl={videoInfo.videoUrl} update={videoInfo.update} width="100%"/>
+         <VideoUser videoUrl={videoInfo.videoUrl} update={videoInfo.update} index={0} fileName={videoInfo.fileName} width="100%"/>
         </div>
         <div className={up.videoInfo__wrapper}>
-          {isMobile ? (
-            <div className={up.title}>
-              <Text18500 text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame" />
-            </div>
-          ) : (
-            <div className={up.title}>
-              <Text20600 text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame" />
-            </div>
-          )}
+        
           <div className={up.statistics__wrapper}>
             {isMobile ? (
               <div className={up.statistics__likes}>
-                <div className={up.item + " " + up.item_border}>
-                  <AvaText img={Like} text1={<Text14500 text="5.7K" />} />
+                <div className={up.item + " " + up.item_border} onClick={postLike}>
+                  <AvaText img={Like} text1={<Text14500 text={likes} />} />
                 </div>
-                <div className={up.item}>
-                  <AvaText img={Dislike} text1={<Text14500 text="469" />} />
+                <div className={up.item} onClick={postDislike}>
+                  <AvaText img={Dislike} text1={<Text14500 text={dislikes} />} />
                 </div>
               </div>
             ) : (
               <div className={up.statistics__likes}>
-                <div className={up.item + " " + up.item_border}>
-                  <AvaText img={Like} text1={<Text16500 text="5.7K" />} />
+                <div className={up.item + " " + up.item_border} onClick={postLike}>
+                <AvaText img={Like} text1={<Text16500 text={likes} />} />
                 </div>
-                <div className={up.item}>
-                  <AvaText img={Dislike} text1={<Text16500 text="469" />} />
+                <div className={up.item} onClick={postDislike}>
+                  <AvaText img={Dislike} text1={<Text16500 text={dislikes} />} />
                 </div>
               </div>
             )}
@@ -121,12 +162,12 @@ const videoInfo = useSelector(selectPlayerInfo);
           {isMobile ? (
             <div className={up.views__wrapper}>
               <Text12300 text={videoInfo.views + " " + "views"} color="rgba(187, 187, 187, 1)" />
-              <Text12300 text="3h ago" color="rgba(187, 187, 187, 1)" />
+              <Text12300 text="" color="rgba(187, 187, 187, 1)" />
             </div>
           ) : (
             <div className={up.views__wrapper}>
               <Text16300 text={videoInfo.views + " " + "views"} color="rgba(187, 187, 187, 1)" />
-              <Text16300 text={videoInfo.update} color="rgba(187, 187, 187, 1)" />
+              <Text16300 text={""} color="rgba(187, 187, 187, 1)" />
             </div>
           )}
           <div className={up.dots__wrapper}>
