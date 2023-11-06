@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../App/hooks";
 import { showMind, showBody, showSoul } from "../../features/playlistSlice";
 import { AvaArray, VideoUserArray } from "../../Data";
 import VideoUser from "../molecules/VideoUser";
+import { selectVideoInfo } from "../../features/videoInfoSlice";
 import { Text16500 } from "../atoms/Text";
 import { Text20600 } from "../atoms/Text";
 import { Text16600 } from "../atoms/Text";
@@ -11,6 +12,7 @@ import { useEffect, useState } from "react";
 import More from "../../images/more.svg";
 
 const Playlist = (props) => {
+  console.log(props.playlist)
   //redux-playlist----------------------------------------
   const dispatch = useAppDispatch();
   const currentComponent = useSelector(
@@ -38,6 +40,9 @@ const Playlist = (props) => {
   const toggleViewAll = () => {
     setViewAll(!viewAll);
   };
+  //videoInfo-redux----------------------------------------------
+  const videoInfo = useSelector(selectVideoInfo);
+  console.log(videoInfo);
   return (
     <div className={p.playlist__wrapper}>
       <div className={p.playlist__container}>
@@ -46,24 +51,30 @@ const Playlist = (props) => {
             className={`${p.state__item} ${activeIndex === 1 ? p.active : ""}`}
             onClick={() => handleSwitcher(1)}
           >
-            Mind
+            All
           </div>
           <div
             className={`${p.state__item} ${activeIndex === 2 ? p.active : ""}`}
             onClick={() => handleSwitcher(2)}
           >
-            Body
+            Mind
           </div>
           <div
             className={`${p.state__item} ${activeIndex === 3 ? p.active : ""}`}
             onClick={() => handleSwitcher(3)}
+          >
+            Body
+          </div>
+          <div
+            className={`${p.state__item} ${activeIndex === 4 ? p.active : ""}`}
+            onClick={() => handleSwitcher(4)}
           >
             Soul
           </div>
         </div>
         <div className={p.video__header}>
           <span className={p.title}>
-            <Text20600 text="Fitness training" />
+            <Text20600 text={props.playlistName[0]} />
           </span>
           <span className={p.link} onClick={() => toggleViewAll()}>
             {viewAll ? (
@@ -75,16 +86,17 @@ const Playlist = (props) => {
         </div>
         {/* //videos----------------------------------------------------------------------------------------- */}
         <div className={p.videos__body}>
-          {props.link &&
-            props.link.map((link, index) => (
+          {props.playlist &&
+            props.playlist.map((link, index) => (
               <VideoUser
                 key={index}
                 videoUrl={link}
-                update={props.propsTime}
+                update={props.update}
                 index={index}
-                avatar={props.avatars[index]}
-                fileName={props.fileNames[index]}
-                usersName={props.usersName[index]}
+                avatar={props.avatar}
+                fileName={props.fileName[index]}
+                //fileName={props.fileNames[index]}
+               // usersName={props.usersName[index]}
               />
             ))}
            </div>

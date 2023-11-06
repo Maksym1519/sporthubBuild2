@@ -84,8 +84,8 @@ const SubscribeUser = (props) => {
   const videoInfo = useSelector(selectVideoInfo);
   console.log(videoInfo.id);
   //get-playlists----------------------------------------------------------------
-  const propsPlaylists = useSelector(selectUserPlaylist)
-  console.log(propsPlaylists)
+  const propsPlaylists = useSelector(selectUserPlaylist);
+  console.log(propsPlaylists);
   //post-mySubscriptions------------------------------------------------------------
   const [mySubscriptions, setMySubscriptions] = useState([]);
   const requestData = {
@@ -95,7 +95,7 @@ const SubscribeUser = (props) => {
       cover: videoInfo.cover,
       subscribe: true,
       identifier: videoInfo.identifier,
-      subscriptionsAmount: 1
+      subscriptionsAmount: 1,
     },
   };
   console.log(requestData);
@@ -135,11 +135,13 @@ const SubscribeUser = (props) => {
   const [link, setLink] = useState();
   let arrayLinks = [];
   const baseURL = "http://localhost:1337";
-  
-  const matchingClient = props.dataFromVideo && props.dataFromVideo.filter(
-    (item) => item.attributes.publishedBy === (videoInfo.identifier || '')
-  );
-  console.log(props.dataFromVideo)
+
+  const matchingClient =
+    props.dataFromVideo &&
+    props.dataFromVideo.filter(
+      (item) => item.attributes.publishedBy === (videoInfo.identifier || "")
+    );
+  console.log(props.dataFromVideo);
   const matchingClientData = matchingClient.map(
     (item) => item.attributes.videos.data
   );
@@ -151,44 +153,127 @@ const SubscribeUser = (props) => {
   //-----------------------------------------------------------------------------------
   const handleVideoInfoClick = (videoData) => {
     dispatch(setPlayerInfo(videoData));
-   // handleSubscribeClick();
+    // handleSubscribeClick();
   };
-//get-subscriptions-amount---------------------------
-const clickedUserName = videoInfo.userName;
-const numberOfSubscribers = props.subscriptionsAmount.reduce((count, subscriber) => {
-  if (subscriber.name === clickedUserName && subscriber.subscribe) {
-    return count + 1;
-  }
-  return count;
-}, 0);
-//get-videos-amount-----------------------------------------------
-const videosAmount = updatedLinks.length
-//get-views-amount---------------------------------------------------------------
-const [views, setViews] = useState([]);
-const viewsData = props.dataFromVideo;
-const videoInfoId = videoInfo.id; 
-const foundObject = viewsData.find(item => item.id === videoInfoId);
-const viewValue = foundObject ? foundObject.attributes.view : null;
+  //get-subscriptions-amount---------------------------
+  const clickedUserName = videoInfo.userName;
+  const numberOfSubscribers = props.subscriptionsAmount.reduce(
+    (count, subscriber) => {
+      if (subscriber.name === clickedUserName && subscriber.subscribe) {
+        return count + 1;
+      }
+      return count;
+    },
+    0
+  );
+  //get-videos-amount-----------------------------------------------
+  const videosAmount = updatedLinks.length;
+  //get-views-amount---------------------------------------------------------------
+  const [views, setViews] = useState([]);
+  const viewsData = props.dataFromVideo;
+  const videoInfoId = videoInfo.id;
+  const foundObject = viewsData.find((item) => item.id === videoInfoId);
+  const viewValue = foundObject ? foundObject.attributes.view : null;
 
-console.log(foundObject);
-console.log(viewValue);
+  console.log(foundObject);
+  console.log(viewValue);
 
- const postView = async () => {
+  const postView = async () => {
     try {
       const requestData = {
         data: {
-         view: viewValue + 1,
-       }
-     }
-     console.log(videoInfo)
-     const response = await axios.put(`http://localhost:1337/api/Maksyms/${videoInfo.id}`,
-     requestData)
-    } catch(error) {
-      console.error("post views is failed")
+          view: viewValue + 1,
+        },
+      };
+      console.log(videoInfo);
+      const response = await axios.put(
+        `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+        requestData
+      );
+    } catch (error) {
+      console.error("post views is failed");
+    }
+  };
+  //pass-links-to-playlist------------------------------------
+  const propsLinks = props.link;
+  //data-storage--------------------------------------------------------------
+  const [playlistLinks, setPlaylistLinks] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
+  console.log(playlists);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get("http://localhost:1337/api/Playlists");
+        const responseData = response.data.data;
+        setTime(responseData);
+        const filteredData = responseData.filter(
+          (user) => user.attributes.publishedBy === videoInfo.identifier
+        );
+        const allPlaylists = filteredData.map((playlist) => {
+          const selectedArray = JSON.parse(playlist.attributes.selected);
+          const links = selectedArray.flat().map((videoData) => {
+            return "http://localhost:1337" + videoData;
+          });
+          setPlaylistLinks(links)
+          return {
+            id: playlist.id,
+            playlistName: playlist.attributes.playlistName,
+            links: links,
+          };
+        });
+        setPlaylists(allPlaylists);
+      } catch (error) {
+        console.error("fetch data is failed", error);
+      }
+    }
+    fetchData();
+  }, [dataStorage]);
+  //get-time---------------------------------------------------------------------
+  const [propsTime, setPropsTime] = useState([]);
+  const [time, setTime] = useState([]);
+
+  useEffect(() => {
+    function findLastUpdated(time) {
+      if (Object.keys(time).length === 0) {
+        return null;
+      }
+      if ("updatedAt" in time) {
+        return time.updatedAt;
+      }
+      for (const key in time) {
+        const result = findLastUpdated(time[key]);
+        if (result !== null) {
+          return result;
+        }
+      }
+      return null;
+    }
+    const lastUpdatedValues = time.map((item) => findLastUpdated(item));
+    setPropsTime(lastUpdatedValues);
+    console.log(lastUpdatedValues);
+  }, [time]);
+//get-playlistsName--------------------------------------------------------------
+const [playlistsName, setPlaylistsName] = useState([]);
+useEffect(() => {
+  async function getPlaylistsNames() {
+    try {
+      const response = await axios.get("http://localhost:1337/api/Playlists");
+      const dataResponse = response.data.data;
+      const matchingData = dataResponse.filter((item) => item.attributes.publishedBy === videoInfo.identifier)
+      console.log(matchingData)
+      const arrayResponse = matchingData.map(
+        (item) => item.attributes.playlistName
+      );
+      console.log(dataResponse);
+      console.log(arrayResponse);
+      setPlaylistsName(arrayResponse);
+      console.log(playlistsName);
+    } catch (error) {
+      console.error("get playlists names are failed");
     }
   }
-//pass-links-to-playlist------------------------------------
-const propsLinks = props.link
+  getPlaylistsNames();
+}, []);
   return (
     <>
       <div className={ut.wrapper}>
@@ -340,38 +425,52 @@ const propsLinks = props.link
           <div className={ut.container}>
             {currentComponent === "video" && (
               <div className={ut.videos__wrapper}>
-                <div className={ut.videos__body}  onClick={props.subscribePlayer}>
-                    {props.link &&
-                      updatedLinks.map((link, index) => (
-                        <VideoUser
-                          onClick={postView()}
-                          key={index}
-                          videoUrl={link}
-                          update={videoInfo.update}
-                          index={index}
-                          avatar={videoInfo.avatar}
-                          fileName={videoInfo.fileName[props.link.indexOf(link)]}
-                          usersName={videoInfo.userName}
-                          clickToSubscriber={() =>
-                            handleVideoInfoClick({
-                              avatar: videoInfo.avatar,
-                              videoUrl: link,
-                              update: videoInfo.update,
-                              subscriptionsAmount: numberOfSubscribers,
-                              views: viewValue,
-                              fileName: videoInfo.fileName[props.link.indexOf(link)],
-                              id: videoInfo.id,
-                              videoInfoData: viewsData
-                              })
-                          }
-                          />
-                      ))}
-                   </div>
+                <div
+                  className={ut.videos__body}
+                  onClick={props.subscribePlayer}
+                >
+                  {props.link &&
+                    updatedLinks.map((link, index) => (
+                      <VideoUser
+                        onClick={postView()}
+                        key={index}
+                        videoUrl={link}
+                        update={videoInfo.update}
+                        index={index}
+                        avatar={videoInfo.avatar}
+                        fileName={videoInfo.fileName[props.link.indexOf(link)]}
+                        usersName={videoInfo.userName}
+                        clickToSubscriber={() =>
+                          handleVideoInfoClick({
+                            avatar: videoInfo.avatar,
+                            videoUrl: link,
+                            update: videoInfo.update,
+                            subscriptionsAmount: numberOfSubscribers,
+                            views: viewValue,
+                            fileName:
+                              videoInfo.fileName[props.link.indexOf(link)],
+                            id: videoInfo.id,
+                            videoInfoData: viewsData,
+                            playlistName: playlistsName[index]
+                          })
+                        }
+                      />
+                    ))}
+                </div>
               </div>
             )}
             {currentComponent === "bio" && <Bio />}
             {currentComponent === "store" && <Store />}
-            {currentComponent === "playlist" && <Playlist link={propsLinks}/>}
+            {currentComponent === "playlist" && (
+              <Playlist
+                link={propsLinks}
+                playlist={playlistLinks}
+                update={videoInfo.update}
+                avatar={videoInfo.avatar}
+                fileName={videoInfo.fileName}
+                playlistName={playlistsName}
+                />
+            )}
           </div>
         </div>
       </div>
