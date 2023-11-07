@@ -274,6 +274,7 @@ const Main = (props) => {
    //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscriptionsAmount, setSubscriptionsAmount] = useState([])
+  console.log(subscriptions)
   let arraySubscriptions = [];
   let counter = 0;
   useEffect(() => {
@@ -297,7 +298,22 @@ const Main = (props) => {
         const updatedSubscriptions = arraySubscriptions.filter(
           (item) => item.identifier === dataStorage
         );
-        setSubscriptions(updatedSubscriptions);
+        const uniqueIdentifiers = [...new Set(arraySubscriptions.map(item => item.identifier))];
+
+        // Создаем массив подписокAmount для текущего пользователя
+        const updatedSubscriptionsAmountFromAPI = uniqueIdentifiers.map(identifier => {
+          const user = arraySubscriptions.find(item => item.identifier === identifier);
+          return {
+            avatar: user.avatar,
+            name: user.name,
+            cover: user.cover,
+            subscriptionsAmount: user.subscriptionsAmount
+          };
+        });
+
+        // Обновляем подпискиAmount в стейте
+        setSubscriptions(updatedSubscriptionsAmountFromAPI);
+        //setSubscriptions(arraySubscriptions);
         } catch (error) {
         console.error("get subscriptions failed", error);
       }
@@ -373,7 +389,7 @@ const updateSubscriptions = async () => {
                   handleVideoClick({
                     avatar: item.avatar,
                     cover: item.cover, 
-                    fileName: fileNames[index],
+                    fileName: fileNames,
                     userName: item.name,
                     subscribe: item.subscribe,
                     id: item.id,
@@ -500,8 +516,8 @@ const updateSubscriptions = async () => {
                         update: propsTime,
                         id: id[index],
                         views: views,
-                        view: views[index]
-                        })
+                        view: views[index],
+                         })
                     }
                   />
                 ))}

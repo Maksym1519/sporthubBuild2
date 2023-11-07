@@ -82,7 +82,7 @@ const SubscribeUser = (props) => {
   };
   //info-from-video-click------------------------------------------------------------------------
   const videoInfo = useSelector(selectVideoInfo);
-  console.log(videoInfo.id);
+  console.log(videoInfo);
   //get-playlists----------------------------------------------------------------
   const propsPlaylists = useSelector(selectUserPlaylist);
   console.log(propsPlaylists);
@@ -110,8 +110,7 @@ const SubscribeUser = (props) => {
     }
     console.log(requestData);
   }
-  console.log(props.subscribers);
-  //---------------------------------------------------------------
+   //---------------------------------------------------------------
   const handleUnsubscribeClick = async () => {
     try {
       console.log("Trying to unsubscribe...");
