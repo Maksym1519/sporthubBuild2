@@ -51,6 +51,7 @@ const showAllClick = () => {
 const showLessClick = () => {
   dispatch(showAll())
 }
+//redux
 //----------------------------------------------------------------
 const videoInfo = useSelector(selectPlayerInfo);
   console.log(videoInfo);
@@ -101,8 +102,7 @@ const postDislike = async () => {
     console.error("post views is failed", error)
   }
 }
-
-  return (
+ return (
     <div className={up.userPlayer__wrapper}>
       {/* <HeaderCreator /> */}
       <div className={up.userPlayer__main}>
@@ -241,7 +241,20 @@ const postDislike = async () => {
           </div>
         </div>
       </div>
-      {/* <VideoSlider /> */}
+      <VideoSlider 
+      link={props.link}
+      propsTime={props.propsTime}
+      avatars={props.avatars}
+      fileNames={props.fileNames}
+      usersName={props.usersName}
+      subscribers={props.subscribers}
+      subscriptionsAmount={props.subscriptionsAmount}
+      updateSubscriptions={props.updateSubscriptions}
+      subscribePlayer={props.subscribePlayer}
+      dataFromVideo={props.dataFromVideo}
+      handleVideoClick={props.handleVideoClick}
+      views={props.views}
+      />
     </div>
   );
 };

@@ -22,6 +22,7 @@ import {
 } from "../../features/videoSwitcherSlice";
 import { setVideoInfo } from "../../features/videoInfoSlice";
 import { setPlayerInfo } from "../../features/playerInfoSlice";
+import { selectSubscribersAmount } from "../../features/subscribersAmountSlice";
 import { subscribe, unsubscribe } from "../../features/subscribeButtonSlice";
 import VideoUser from "../molecules/VideoUser";
 import People from "../../images/people-icon.svg";
@@ -80,10 +81,12 @@ const SubscribeUser = (props) => {
   const chooseVideo = () => {
     setSelectedVideoImage(true);
   };
-  //info-from-video-click------------------------------------------------------------------------
+  //select-redux-state-----------------------------------------------------------------------
   const videoInfo = useSelector(selectVideoInfo);
-  console.log(videoInfo);
-  //get-playlists----------------------------------------------------------------
+  console.log(videoInfo)
+  const subscribersListInfo = useSelector(selectSubscribersAmount)
+  console.log(subscribersListInfo)
+    //get-playlists----------------------------------------------------------------
   const propsPlaylists = useSelector(selectUserPlaylist);
   console.log(propsPlaylists);
   //post-mySubscriptions------------------------------------------------------------
@@ -273,6 +276,8 @@ useEffect(() => {
   }
   getPlaylistsNames();
 }, []);
+
+
   return (
     <>
       <div className={ut.wrapper}>
@@ -341,6 +346,7 @@ useEffect(() => {
                   <Button18044
                     text={<Text16600 text="Unsubscribe" />}
                     borderRadius="8px"
+                    width="100%"
                   />
                 </div>
               ) : (
@@ -450,7 +456,8 @@ useEffect(() => {
                               videoInfo.fileName[props.link.indexOf(link)],
                             id: videoInfo.id,
                             videoInfoData: viewsData,
-                            playlistName: playlistsName[index]
+                            playlistName: playlistsName[index],
+                            subscribe: videoInfo.subscribe
                           })
                         }
                       />

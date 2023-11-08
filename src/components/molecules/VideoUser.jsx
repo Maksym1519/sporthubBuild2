@@ -72,7 +72,7 @@ console.log(timeDifferences)
         style={styled}
       >
         <div className={vu.video__wrapper} onClick={props.clickToSubscriber} style={styled}>
-        <video controls className={vu.video} onClick={props.clickToSubscriber} style={styled}>
+        <video controls className={vu.video} onClick={props.clickToSubscriber} >
           <source src={props.videoUrl} type="video/mp4" />
         </video>
           <img src={Play} alt="play" className={vu.play}/>

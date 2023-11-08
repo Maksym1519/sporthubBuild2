@@ -24,9 +24,10 @@ import {
   showLatest,
   showViewLater,
   showSubscribe,
-  showSubscribePlayer
+  showSubscribePlayer,
 } from "../../../features/videoUserSlice";
 import { setVideoInfo } from "../../../features/videoInfoSlice";
+import { setSubscribersAmount } from "../../../features/subscribersAmountSlice";
 import { setSubscriptions } from "../../../features/subscriptionSlice";
 import { AvaArray } from "../../../Data";
 import { VideoUserArray } from "../../../Data";
@@ -125,8 +126,8 @@ const Main = (props) => {
   const [usersName, setUsersName] = useState([]);
   const [covers, setCovers] = useState([]);
   const [id, setId] = useState([]);
-  const [dataFromVideo,setDataFromVideo] = useState();
-  const [views,setViews] = useState();
+  const [dataFromVideo, setDataFromVideo] = useState();
+  const [views, setViews] = useState();
   const arrayCovers = [];
   const allNamesArray = [];
   useEffect(() => {
@@ -141,7 +142,7 @@ const Main = (props) => {
 
         if (response.status === 200) {
           const videosData = response.data.data;
-          setDataFromVideo(videosData)
+          setDataFromVideo(videosData);
           const profilesData = responseProfiles.data.data;
 
           const identifiers = profilesData.map(
@@ -165,11 +166,11 @@ const Main = (props) => {
           );
           setPublishedBy(arrayPublished);
           //id-------------------------------------------------------
-          const arrayId = videosData.map((item) => item.id)
-          setId(arrayId)
+          const arrayId = videosData.map((item) => item.id);
+          setId(arrayId);
           //views---------------------------------------------------------
-          const arrayViews = videosData.map((item) => item.attributes.view)
-          setViews(arrayViews)
+          const arrayViews = videosData.map((item) => item.attributes.view);
+          setViews(arrayViews);
 
           videosData.forEach((video) => {
             if (
@@ -212,7 +213,7 @@ const Main = (props) => {
               (client) =>
                 client.attributes.identifier === video.attributes.publishedBy
             );
-             if (matchingClient) {
+            if (matchingClient) {
               if (
                 matchingClient.attributes.avatar &&
                 matchingClient.attributes.avatar.data &&
@@ -230,7 +231,7 @@ const Main = (props) => {
                 matchingClient.attributes.lastName;
               allNamesArray.push(fullName);
               setUsersName(allNamesArray);
-              }
+            }
           });
           setAvatars(avatarArray);
           setVideoLinks(allLinks);
@@ -252,7 +253,7 @@ const Main = (props) => {
         return null;
       }
       if ("createdAt" in time) {
-        return time.updatedAt;
+        return time.createdAt;
       }
       for (const key in time) {
         const result = findLastUpdated(time[key]);
@@ -265,16 +266,19 @@ const Main = (props) => {
     const lastUpdatedValues = time.map((item) => findLastUpdated(item));
     setPropsTime(lastUpdatedValues);
   }, [time]);
-  //----------------------------------------------------------
+  //redux-state----------------------------------------------------------
   const handleVideoClick = (videoData) => {
     dispatch(setVideoInfo(videoData));
     handleSubscribeClick();
   };
-    
-   //get-subscriptions----------------------------------------------------------------
+  const handleAmountClick = (subs) => {
+    dispatch(setSubscribersAmount(subs));
+    handleSubscribeClick();
+  };
+  //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
-  const [subscriptionsAmount, setSubscriptionsAmount] = useState([])
-  console.log(subscriptions)
+  const [subscriptionsAmount, setSubscriptionsAmount] = useState([]);
+  console.log(subscriptions);
   let arraySubscriptions = [];
   let counter = 0;
   useEffect(() => {
@@ -285,136 +289,156 @@ const Main = (props) => {
         );
         const responseData = response.data.data;
         console.log(responseData);
-        arraySubscriptions = responseData.map((item,index) => ({
+        arraySubscriptions = responseData.map((item, index) => ({
           avatar: item.attributes.avatar,
           name: item.attributes.name,
           cover: item.attributes.cover,
           subscribe: item.attributes.subscribe,
           id: item.id,
           identifier: item.attributes.identifier,
-          subscriptionsAmount: item.attributes.subscriptionsAmount
-         }));
-         setSubscriptionsAmount(arraySubscriptions)
+          subscriptionsAmount: item.attributes.subscriptionsAmount,
+        }));
+        setSubscriptionsAmount(arraySubscriptions);
         const updatedSubscriptions = arraySubscriptions.filter(
           (item) => item.identifier === dataStorage
         );
-        const uniqueIdentifiers = [...new Set(arraySubscriptions.map(item => item.identifier))];
+        const uniqueIdentifiers = [
+          ...new Set(arraySubscriptions.map((item) => item.identifier)),
+        ];
 
         // Создаем массив подписокAmount для текущего пользователя
-        const updatedSubscriptionsAmountFromAPI = uniqueIdentifiers.map(identifier => {
-          const user = arraySubscriptions.find(item => item.identifier === identifier);
-          return {
-            avatar: user.avatar,
-            name: user.name,
-            cover: user.cover,
-            subscriptionsAmount: user.subscriptionsAmount
-          };
-        });
+        const updatedSubscriptionsAmountFromAPI = uniqueIdentifiers.map(
+          (identifier) => {
+            const user = arraySubscriptions.find(
+              (item) => item.identifier === identifier
+            );
+            return {
+              avatar: user.avatar,
+              name: user.name,
+              cover: user.cover,
+              subscriptionsAmount: user.subscriptionsAmount,
+              subscribe: user.subscribe,
+              identifier: user.identifier,
+              id: user.id,
+            };
+          }
+        );
 
         // Обновляем подпискиAmount в стейте
         setSubscriptions(updatedSubscriptionsAmountFromAPI);
         //setSubscriptions(arraySubscriptions);
-        } catch (error) {
+      } catch (error) {
         console.error("get subscriptions failed", error);
       }
     }
     getSubscriptions();
   }, []);
-//getting new subsribers list------------------------------------------------------------
-const updateSubscriptions = async () => {
-  try {
-    const response = await axios.get("http://localhost:1337/api/subscriptions");
-    const responseData = response.data.data;
-    const updatedSubscriptions = responseData.map((item, index) => ({
-      avatar: item.attributes.avatar,
-      name: item.attributes.name,
-      cover: item.attributes.cover,
-      subscribe: item.attributes.subscribe,
-      id: item.id,
-      identifier: item.attributes.identifier,
-      subscriptionsAmount: item.attributes.subscriptionsAmount
-    }));
-    setSubscriptions(updatedSubscriptions);
-  } catch (error) {
-    console.error("update subscriptions failed", error);
-  }
-};
+  //getting new subsribers list------------------------------------------------------------
+  const updateSubscriptions = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:1337/api/subscriptions"
+      );
+      const responseData = response.data.data;
+      const updatedSubscriptions = responseData.map((item, index) => ({
+        avatar: item.attributes.avatar,
+        name: item.attributes.name,
+        cover: item.attributes.cover,
+        subscribe: item.attributes.subscribe,
+        id: item.id,
+        identifier: item.attributes.identifier,
+        subscriptionsAmount: item.attributes.subscriptionsAmount,
+      }));
+      setSubscriptions(updatedSubscriptions);
+    } catch (error) {
+      console.error("update subscriptions failed", error);
+    }
+  };
 
   return (
     <div className={m.main__wrapper}>
       <HeaderCreator num={num} />
-      <div className={m.container}>
-        <div className={m.sidebar__wrapper}>
-          <div className={m.switcher__wrapper}>
-            <div
-              className={`${m.switcher__item} ${
-                activeIndex === 0 ? m.active : ""
-              }`}
-              onClick={() => {
-                handleSwitcher(0), handleHomeClick();
-              }}
-            >
-              <Text16400 text="Home" color="rgba(187, 187, 187, 1)" />
-            </div>
-            <div
-              className={`${m.switcher__item} ${
-                activeIndex === 1 ? m.active : ""
-              }`}
-              onClick={() => {
-                handleSwitcher(1), handleLatestClick();
-              }}
-            >
-              <Text16400 text="Latest" color="rgba(187, 187, 187, 1)" />
-            </div>
-            <div
-              className={`${m.switcher__item} ${
-                activeIndex === 2 ? m.active : ""
-              }`}
-              onClick={() => {
-                handleSwitcher(2), handleViewLaterClick();
-              }}
-            >
-              <Text16400 text="View later" color="rgba(187, 187, 187, 1)" />
-            </div>
-          </div>
-          <div className={m.mySubscription__wrapper}>
-            <div className={m.title}>
-              <Text12600 text="MY SUBSCRIPTION" color="rgba(173, 121, 85, 1)" />
-            </div>
-            <div className={m.items__wrapper}>
-              {/* //item1-------------------------------------------------------------- */}
-              {subscriptions.map((item, index) => (
+      <div
+        className={`${m.container} ${
+          currentComponent === "subscribePlayer" ? m.containerToPlayer : ""
+        }`}
+      >
+        {currentComponent !== "subscribePlayer" && (
+          <div className={m.sidebar__wrapper}>
+            <div className={m.switcher__wrapper}>
               <div
-                className={`${m.item} ${activeIndex === 4 ? m.active : ""}` }   onClick={() =>
-                  handleVideoClick({
-                    avatar: item.avatar,
-                    cover: item.cover, 
-                    fileName: fileNames,
-                    userName: item.name,
-                    subscribe: item.subscribe,
-                    id: item.id,
-                    identifier: item.identifier,
-                    update: propsTime
-                  })
-                }
-                 >
-                  <Avatext
-                    key={index} 
-                    img={item.avatar}
-                    text1={
-                      <Text14400
-                        text={item.name}
-                        color="rgba(187, 187, 187, 1)"
-                      />
-                    }
-                    />
-               
+                className={`${m.switcher__item} ${
+                  activeIndex === 0 ? m.active : ""
+                }`}
+                onClick={() => {
+                  handleSwitcher(0), handleHomeClick();
+                }}
+              >
+                <Text16400 text="Home" color="rgba(187, 187, 187, 1)" />
               </div>
-               ))}
-              {/* //item-------------------------------------------------------------- */}
+              <div
+                className={`${m.switcher__item} ${
+                  activeIndex === 1 ? m.active : ""
+                }`}
+                onClick={() => {
+                  handleSwitcher(1), handleLatestClick();
+                }}
+              >
+                <Text16400 text="Latest" color="rgba(187, 187, 187, 1)" />
+              </div>
+              <div
+                className={`${m.switcher__item} ${
+                  activeIndex === 2 ? m.active : ""
+                }`}
+                onClick={() => {
+                  handleSwitcher(2), handleViewLaterClick();
+                }}
+              >
+                <Text16400 text="View later" color="rgba(187, 187, 187, 1)" />
+              </div>
+            </div>
+            <div className={m.mySubscription__wrapper}>
+              <div className={m.title}>
+                <Text12600
+                  text="MY SUBSCRIPTION"
+                  color="rgba(173, 121, 85, 1)"
+                />
+              </div>
+              <div className={m.items__wrapper}>
+                {/* //item1-------------------------------------------------------------- */}
+                {subscriptions.map((item, index) => (
+                  <div
+                    className={`${m.item} ${activeIndex === 4 ? m.active : ""}`}
+                    onClick={() =>
+                      handleVideoClick({
+                        avatar: item.avatar,
+                        cover: item.cover,
+                        fileName: fileNames,
+                        userName: item.name,
+                        subscribe: item.subscribe,
+                        id: item.id,
+                        identifier: item.identifier,
+                        update: propsTime,
+                      })
+                    }
+                  >
+                    <Avatext
+                      key={index}
+                      img={item.avatar}
+                      text1={
+                        <Text14400
+                          text={item.name}
+                          color="rgba(187, 187, 187, 1)"
+                        />
+                      }
+                    />
+                  </div>
+                ))}
+                {/* //item-------------------------------------------------------------- */}
+              </div>
             </div>
           </div>
-        </div>
+        )}
         {/* //redux-video-state-------------------------------------------------------- */}
         {currentComponent === "home" && (
           <div className={m.videos__wrapper}>
@@ -517,7 +541,8 @@ const updateSubscriptions = async () => {
                         id: id[index],
                         views: views,
                         view: views[index],
-                         })
+                        subscribe: subscriptions[index],
+                      })
                     }
                   />
                 ))}
@@ -544,17 +569,29 @@ const updateSubscriptions = async () => {
             fileNames={fileNames}
             usersName={usersName}
             subscribers={subscriptions}
-            subscriptionsAmount={subscriptionsAmount}//props with all subscriptions
+            subscriptionsAmount={subscriptionsAmount} //props with all subscriptions
             updateSubscriptions={updateSubscriptions}
             subscribePlayer={handleSubscribePlayerClick}
             dataFromVideo={dataFromVideo}
             handleVideoClick={handleVideoClick}
             views={views}
-            />
+          />
         )}
         {currentComponent === "subscribePlayer" && (
-          <UserVideoPlayer handleToSubscribe={handleSubscribeClick} />
-        )}
+          <UserVideoPlayer handleToSubscribe={handleSubscribeClick} link={link}
+          propsTime={propsTime}
+          avatars={avatars}
+          fileNames={fileNames}
+          usersName={usersName}
+          subscribers={subscriptions}
+          subscriptionsAmount={subscriptionsAmount} //props with all subscriptions
+          updateSubscriptions={updateSubscriptions}
+          subscribePlayer={handleSubscribePlayerClick}
+          dataFromVideo={dataFromVideo}
+          handleVideoClick={handleVideoClick}
+          views={views}
+           />
+         )}
         {/* //------------------------------------------------------------------------------------- */}
       </div>
     </div>

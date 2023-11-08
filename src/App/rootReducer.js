@@ -20,7 +20,9 @@ import getIdReducer from '../features/getIdSlice';
 import videoInfoReducer from '../features/videoInfoSlice';
 import mySubscriptionsReducer from '../features/subscriptionSlice';
 import playerInfoReducer from '../features/playerInfoSlice';
-import userPlaylistReducer from '../features/userPlaylistSlice'
+import userPlaylistReducer from '../features/userPlaylistSlice';
+import subscibersAmountReducer from '../features/subscribersAmountSlice';
+import chatSliceReducer from '../features/chatSlice'
 
 const rootReducer = combineReducers({
   counter: counterReducer,
@@ -44,7 +46,9 @@ const rootReducer = combineReducers({
   videoInfoUser: videoInfoReducer,//get info by click
   mySubscriptions: mySubscriptionsReducer,
   playerInfoUser: playerInfoReducer,
-  userPlaylistInfo: userPlaylistReducer
+  userPlaylistInfo: userPlaylistReducer,
+  subscribersAmount: subscibersAmountReducer,
+  chat: chatSliceReducer
  });
 
 export default rootReducer;

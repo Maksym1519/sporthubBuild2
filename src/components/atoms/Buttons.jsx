@@ -21,7 +21,7 @@ export const Button18044 = (props) => {
     }
     return (
         <button className={b.wrapper__18044} style={styled} >
-           <img src={props.img} />
+           {props.img && <img src={props.img} />}
            {props.text}
         </button>
     )

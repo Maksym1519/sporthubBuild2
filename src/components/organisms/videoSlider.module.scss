@@ -10,17 +10,17 @@
         }
     }
     .swiper__container {
-        max-width: 100% !important;
-        display: flex;
-        align-items: center;
-        column-gap: 24px;
+        max-width: 1440px !important;
+        display: flex !important;
+        align-items: center !important;
+        column-gap: 24px !important;
     }
     .swiperSlide {
         display: flex;
         column-gap: 24px;
         max-width: 368px !important;
         margin-right: 24px !important;
-    }
+        }
 }
 
 
@@ -37,7 +37,7 @@
     }
     .swiper__container {
         max-width: 100% !important;
-        max-height: 500px !important;
+        max-height: 900px !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center;
@@ -47,7 +47,7 @@
         display: flex;
         column-gap: 24px;
         width: 100% !important;
-        height: 270px !important;
+        height: 420px !important;
         margin-right: 24px !important;
     }
        
