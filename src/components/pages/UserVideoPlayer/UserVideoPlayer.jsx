@@ -11,6 +11,8 @@ import ColumnTemplate from "../../molecules/ColumnTemplate";
 import { Button18044 } from "../../atoms/Buttons";
 import VideoSlider from "../../organisms/VideoSlider";
 import VideoUser from "../../molecules/VideoUser";
+import Chat from "../../organisms/Chat";
+import { Icones } from "../../../Data";
 import { Text18600 } from "../../atoms/Text";
 import { Text18500 } from "../../atoms/Text";
 import { Text14400 } from "../../atoms/Text";
@@ -26,11 +28,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   showAll,
   showLess,
-  showChat,
+  //showChat,
 } from "../../../features/videoDescriptionChatSlice";
+import { showSlider, showChat } from "../../../features/chatSlice";
 import Bell from "../../../images/bell.svg";
-import Like from "../../../images/like-icon.svg";
-import Dislike from "../../../images/Dislike.svg";
 import Comment from "../../../images/comment.svg";
 import Dots from "../../../images/Dots.svg";
 import { selectPlayerInfo } from "../../../features/playerInfoSlice";
@@ -51,7 +52,15 @@ const showAllClick = () => {
 const showLessClick = () => {
   dispatch(showAll())
 }
-//redux
+//redux-chat------------------------------------------------------
+const chatSliceCurrentComponent = useSelector((state) => state.chat.chatSliceCurrentComponent);
+const showChatClick = () => {
+  if (chatSliceCurrentComponent === 'slider') {
+    dispatch(showChat());
+  } else {
+    dispatch(showSlider());
+  }
+};
 //----------------------------------------------------------------
 const videoInfo = useSelector(selectPlayerInfo);
   console.log(videoInfo);
@@ -129,30 +138,30 @@ const postDislike = async () => {
             {isMobile ? (
               <div className={up.statistics__likes}>
                 <div className={up.item + " " + up.item_border} onClick={postLike}>
-                  <AvaText img={Like} text1={<Text14500 text={likes} />} />
+                  <AvaText img={Icones.like} text1={<Text14500 text={likes} />} />
                 </div>
                 <div className={up.item} onClick={postDislike}>
-                  <AvaText img={Dislike} text1={<Text14500 text={dislikes} />} />
+                  <AvaText img={Icones.dislike} text1={<Text14500 text={dislikes} />} />
                 </div>
               </div>
             ) : (
               <div className={up.statistics__likes}>
                 <div className={up.item + " " + up.item_border} onClick={postLike}>
-                <AvaText img={Like} text1={<Text16500 text={likes} />} />
+                <AvaText img={Icones.like} text1={<Text16500 text={likes} />} />
                 </div>
                 <div className={up.item} onClick={postDislike}>
-                  <AvaText img={Dislike} text1={<Text16500 text={dislikes} />} />
+                  <AvaText img={Icones.dislike} text1={<Text16500 text={dislikes} />} />
                 </div>
               </div>
             )}
             {isMobile ? (
-              <div className={up.statistics__comments}>
+              <div className={up.statistics__comments} onClick={() => showChatClick()}>
                 <div className={up.item + " " + up.item_margin}>
                   <AvaText img={Comment} text1={<Text14500 text="24" />} />
                 </div>
               </div>
             ) : (
-              <div className={up.statistics__comments}>
+              <div className={up.statistics__comments} onClick={() => showChatClick()}>
                 <div className={up.item + " " + up.item_margin}>
                   <AvaText img={Comment} text1={<Text16500 text="24" />} />
                 </div>
@@ -241,6 +250,7 @@ const postDislike = async () => {
           </div>
         </div>
       </div>
+{chatSliceCurrentComponent === "slider" &&
       <VideoSlider 
       link={props.link}
       propsTime={props.propsTime}
@@ -255,6 +265,10 @@ const postDislike = async () => {
       handleVideoClick={props.handleVideoClick}
       views={props.views}
       />
+}
+{chatSliceCurrentComponent === "chat" &&
+  <Chat videoInfo={videoInfo}/>
+  }
     </div>
   );
 };

@@ -44,6 +44,8 @@ const PlaylistLazy = React.lazy(() =>
 import { updateScreenWidth } from "./features/headerSlice";
 import TestStrapi from "./components/pages/Test/Test";
 import Navigation from "./Navigation";
+import Chat from "./components/organisms/Chat";
+import ChatPage from "./components/pages/ChatPage/ChatPage";
 window.addEventListener("resize", () => {
   const newScreenWidth = window.innerWidth;
   store.dispatch(updateScreenWidth(newScreenWidth));
@@ -193,6 +195,14 @@ const App = () => {
           element={
             <React.Suspense>
               <PlaylistLazy />
+            </React.Suspense>
+          }
+        ></Route>
+        <Route
+          path="/ChatPage"
+          element={
+            <React.Suspense>
+              <ChatPage />
             </React.Suspense>
           }
         ></Route>

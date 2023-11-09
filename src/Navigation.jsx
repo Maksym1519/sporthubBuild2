@@ -56,6 +56,7 @@ const Navigation = () => {
         <div class='navLink'><Link to="/VideoCreator">VideoCreator</Link></div>
         <div class='navLink'><Link to="/Playlist">Playlist</Link></div>
         <div class='navLink'><Link to="/SignInCreator">SignInCreator</Link></div>
+        <div class='navLink'><Link to="/ChatPage">Chat</Link></div>
       </nav>
        </>
   );

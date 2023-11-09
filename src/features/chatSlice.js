@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    currentComponent: "slider"
+    chatSliceCurrentComponent: "slider"
 }
 
 const chatSlice = createSlice({
@@ -9,10 +9,10 @@ const chatSlice = createSlice({
     initialState,
     reducers: {
         showSlider:(state) => {
-            state.currentComponent = 'slider'
+            state.chatSliceCurrentComponent = 'slider'
         },
         showChat:(state) => {
-            state.currentComponent = 'chat'
+            state.chatSliceCurrentComponent = 'chat'
         }
         }
 })

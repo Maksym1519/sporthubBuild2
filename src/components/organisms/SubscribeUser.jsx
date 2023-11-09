@@ -457,7 +457,8 @@ useEffect(() => {
                             id: videoInfo.id,
                             videoInfoData: viewsData,
                             playlistName: playlistsName[index],
-                            subscribe: videoInfo.subscribe
+                            subscribe: videoInfo.subscribe,
+                            userName: videoInfo.userName
                           })
                         }
                       />
