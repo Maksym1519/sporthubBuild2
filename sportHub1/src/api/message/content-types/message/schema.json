@@ -26,6 +26,9 @@
     },
     "author": {
       "type": "string"
+    },
+    "avatar": {
+      "type": "string"
     }
   }
 }

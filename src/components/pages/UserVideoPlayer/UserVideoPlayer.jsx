@@ -111,6 +111,7 @@ const postDislike = async () => {
     console.error("post views is failed", error)
   }
 }
+console.log(props.avatars)
  return (
     <div className={up.userPlayer__wrapper}>
       {/* <HeaderCreator /> */}
@@ -267,7 +268,7 @@ const postDislike = async () => {
       />
 }
 {chatSliceCurrentComponent === "chat" &&
-  <Chat videoInfo={videoInfo}/>
+  <Chat videoInfo={videoInfo} avatar={props.chatAvatar}/>
   }
     </div>
   );

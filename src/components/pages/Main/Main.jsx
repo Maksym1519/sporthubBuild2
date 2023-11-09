@@ -128,9 +128,10 @@ const Main = (props) => {
   const [id, setId] = useState([]);
   const [dataFromVideo, setDataFromVideo] = useState();
   const [views, setViews] = useState();
+  const [chatAvatar,setChatAvatar] = useState("")
   const arrayCovers = [];
   const allNamesArray = [];
-  useEffect(() => {
+   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
@@ -222,8 +223,8 @@ const Main = (props) => {
                 const avatarUrl =
                   "http://localhost:1337" +
                   matchingClient.attributes.avatar.data.attributes.url;
-
                 avatarArray.push(avatarUrl);
+                setChatAvatar(avatarUrl)
               }
               const fullName =
                 matchingClient.attributes.firstName +
@@ -235,7 +236,7 @@ const Main = (props) => {
           });
           setAvatars(avatarArray);
           setVideoLinks(allLinks);
-        } else {
+          } else {
           console.error("Не удалось загрузить данные о видео");
         }
       } catch (error) {
@@ -278,7 +279,6 @@ const Main = (props) => {
   //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscriptionsAmount, setSubscriptionsAmount] = useState([]);
-  console.log(subscriptions);
   let arraySubscriptions = [];
   let counter = 0;
   useEffect(() => {
@@ -590,7 +590,8 @@ const Main = (props) => {
           dataFromVideo={dataFromVideo}
           handleVideoClick={handleVideoClick}
           views={views}
-           />
+          chatAvatar={chatAvatar}
+          />
          )}
         {/* //------------------------------------------------------------------------------------- */}
       </div>
