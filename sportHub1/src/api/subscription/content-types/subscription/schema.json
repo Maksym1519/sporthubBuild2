@@ -29,6 +29,9 @@
     },
     "subscriptionsAmount": {
       "type": "integer"
+    },
+    "identifierForVideo": {
+      "type": "string"
     }
   }
 }

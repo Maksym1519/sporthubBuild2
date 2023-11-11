@@ -35,6 +35,9 @@ import { selectUserPlaylist } from "../../features/userPlaylistSlice";
 import { setSubscriptions } from "../../features/subscriptionSlice";
 
 const SubscribeUser = (props) => {
+  //dataStorage---------------------------------------------------------
+  const dataStorage = localStorage.getItem("id");
+  //-----------------------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(0);
   useEffect(() => {
     setActiveIndex(0);
@@ -91,14 +94,16 @@ const SubscribeUser = (props) => {
   console.log(propsPlaylists);
   //post-mySubscriptions------------------------------------------------------------
   const [mySubscriptions, setMySubscriptions] = useState([]);
+  console.log(dataStorage)
   const requestData = {
     data: {
       avatar: videoInfo.avatar,
       name: videoInfo.userName,
       cover: videoInfo.cover,
       subscribe: true,
-      identifier: videoInfo.identifier,
+      identifier: dataStorage,
       subscriptionsAmount: 1,
+      identifierForVideo: videoInfo.identifier
     },
   };
   console.log(requestData);
@@ -131,8 +136,7 @@ const SubscribeUser = (props) => {
   const unSubscribed = async () => {
     handleUnSubscribeClick();
   };
-  //dataStorage---------------------------------------------------------
-  const dataStorage = localStorage.getItem("id");
+  
   //set-links-for-user-videos--------------------------------------------
   const [link, setLink] = useState();
   let arrayLinks = [];
@@ -141,9 +145,9 @@ const SubscribeUser = (props) => {
   const matchingClient =
     props.dataFromVideo &&
     props.dataFromVideo.filter(
-      (item) => item.attributes.publishedBy === (videoInfo.identifier || "")
+      (item) => item.attributes.publishedBy === (videoInfo. identifierForLink || "")
     );
-  console.log(props.dataFromVideo);
+  console.log(matchingClient);
   const matchingClientData = matchingClient.map(
     (item) => item.attributes.videos.data
   );

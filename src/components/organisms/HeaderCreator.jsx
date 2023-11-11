@@ -98,8 +98,8 @@ const HeaderCreator = (props) => {
             <div className={mobileMenu ? hc.burger__close : hc.burger} onClick={toggleMobileMenu}>
               <span className={hc.burger__line}>-</span>
             </div>
-            <Link to="/">
-              <div className={hc.logo__wrapper}>
+            <Link onClick={props.goHome}>
+              <div className={hc.logo__wrapper} >
                 <img src={Icones.logo} alt="logo" />
               </div>
             </Link>
@@ -109,7 +109,7 @@ const HeaderCreator = (props) => {
           </div>
         ) : (
           <div className={hc.wrapper}>
-            <Link to="/">
+            <Link onClick={props.goHome}>
               <div className={hc.logo__wrapper}>
                 <img src={Icones.logo} alt="logo" />
               </div>

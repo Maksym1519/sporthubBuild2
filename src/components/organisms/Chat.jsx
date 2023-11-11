@@ -26,7 +26,8 @@ const Chat = (props) => {
           textMessage: formData.textMessage,
           identifier: props.videoInfo.fileName,
           author: dataStorage,
-          avatar: props.videoInfo.avatar
+          avatar: chatAva,
+          fullName: authorName
         },
       };
       const response = await axios.post(
@@ -43,6 +44,9 @@ const Chat = (props) => {
   const [messages, setMessages] = useState([]);
   const [avatars, setAvatars] = useState([]);
   const [data, setData] = useState({});
+  const [showMessages,setShowMessages] = useState();
+  const [messageAuthor,setMessageAuthor] = useState();
+  console.log(messageAuthor)
   const messagesAmount = messages.length
   useEffect(() => {
     async function getMessages() {
@@ -61,23 +65,34 @@ const Chat = (props) => {
         );
         setMessages(arrayMessages);
         //get-avatars----------------------------------
-        const arrayAvatars = dataResponse.map((item,index) => item.attributes.avatar)
-        setAvatars(arrayAvatars)
+        const arrayAvatars = dataResponse.map((item, index) => item.attributes.avatar);
+        console.log(avatars);
+        setAvatars(arrayAvatars);  // Обновляем avatars
+        
         //set-data-for-map
         setData({
           authors: authors,
           messages: messages,
         });
-        console.log(data);
-      } catch (error) {
+        //get-identifiers-------------------------------------------------
+        const arrayIdentifiers = dataResponse.map((item) => item.attributes.identifier)
+        const identifyMessages = arrayIdentifiers.find((item) => item === props.videoInfo.fileName)
+        setShowMessages(identifyMessages)
+         //get-names------------------------------------------------------
+         const arrayFullNames = dataResponse.map((item) => item.attributes.fullName)
+         console.log(arrayFullNames)
+         setMessageAuthor(arrayFullNames)
+        } catch (error) {
         console.error("getting messages is failed", error);
       }
     }
     getMessages();
   }, []);
+ 
   //get-currentName-for-chat-------------------------------------
-  const [authorName,setAuthorName] = useState("")
-  useEffect(() => {
+  const [authorName,setAuthorName] = useState("");
+  const [chatAva, setChatAva] = useState("");
+   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -92,8 +107,10 @@ const Chat = (props) => {
        const currentLastName = matchingUser.attributes.lastName
        const fullName = `${currentFirstName} ${currentLastName}`
        setAuthorName(fullName)
-       console.log(fullName)
-      } catch (error) {
+       //get-chat-avatar------------------------------------------
+       const chatAvatarFromServer = "http://localhost:1337" + matchingUser.attributes.avatar.data.attributes.url
+       setChatAva(chatAvatarFromServer)
+       } catch (error) {
         console.error("fetchData failed", error);
       }
     };
@@ -105,7 +122,7 @@ const Chat = (props) => {
         <div className={ch.container}>
           <div className={ch.messagesAmount}>
             <span className={ch.messagesAmount__info}>
-              <Text24500 text={messagesAmount} />
+              <Text24500 text={showMessages?  messagesAmount:"0"} />
             </span>
             <span className={ch.messagesAmount__info}>
               <Text24500 text="Comments" />
@@ -125,11 +142,13 @@ const Chat = (props) => {
             </button>
           </div>
           <div className={ch.messages__body}>
+          {showMessages &&
             <div className={ch.message}>
               {authors.map((author, index) => (
                 <>
                   <div>
-                    <AvaText img={props.avatar} text1={authorName} />
+                  <AvaText img={avatars[index]} text1={messageAuthor && messageAuthor[index]} />
+
                   </div>
                   <div className={ch.textMessage}>
                     <Text14400 text={messages[index]} />
@@ -147,9 +166,8 @@ const Chat = (props) => {
               </div>
                 </>
               ))}
-
-             
-            </div>
+           </div>
+            }
           </div>
         </div>
       </div>

@@ -129,6 +129,7 @@ const Main = (props) => {
   const [dataFromVideo, setDataFromVideo] = useState();
   const [views, setViews] = useState();
   const [chatAvatar,setChatAvatar] = useState("")
+  console.log(chatAvatar)
   const arrayCovers = [];
   const allNamesArray = [];
    useEffect(() => {
@@ -297,37 +298,33 @@ const Main = (props) => {
           id: item.id,
           identifier: item.attributes.identifier,
           subscriptionsAmount: item.attributes.subscriptionsAmount,
+          identifierForVideo: item.attributes.identifierForVideo
         }));
         setSubscriptionsAmount(arraySubscriptions);
+        console.log(arraySubscriptions)
         const updatedSubscriptions = arraySubscriptions.filter(
           (item) => item.identifier === dataStorage
         );
-        const uniqueIdentifiers = [
-          ...new Set(arraySubscriptions.map((item) => item.identifier)),
-        ];
-
-        // Создаем массив подписокAmount для текущего пользователя
-        const updatedSubscriptionsAmountFromAPI = uniqueIdentifiers.map(
-          (identifier) => {
-            const user = arraySubscriptions.find(
-              (item) => item.identifier === identifier
-            );
-            return {
-              avatar: user.avatar,
-              name: user.name,
-              cover: user.cover,
-              subscriptionsAmount: user.subscriptionsAmount,
-              subscribe: user.subscribe,
-              identifier: user.identifier,
-              id: user.id,
-            };
-          }
+        
+        const uniqueSubscriptionsMap = new Map();
+        updatedSubscriptions.forEach((item) => {
+          uniqueSubscriptionsMap.set(item.id, item);
+        });
+        
+        const updatedSubscriptionsAmountFromAPI = Array.from(uniqueSubscriptionsMap.values()).map(
+          (user) => ({
+            avatar: user.avatar,
+            name: user.name,
+            cover: user.cover,
+            subscriptionsAmount: user.subscriptionsAmount,
+            subscribe: user.subscribe,
+            identifier: user.identifier,
+            id: user.id,
+            identifierForVideo: user.identifierForVideo
+          })
         );
-
-        // Обновляем подпискиAmount в стейте
         setSubscriptions(updatedSubscriptionsAmountFromAPI);
-        //setSubscriptions(arraySubscriptions);
-      } catch (error) {
+        } catch (error) {
         console.error("get subscriptions failed", error);
       }
     }
@@ -357,7 +354,7 @@ const Main = (props) => {
 
   return (
     <div className={m.main__wrapper}>
-      <HeaderCreator num={num} />
+      <HeaderCreator num={num} goHome={handleHomeClick}/>
       <div
         className={`${m.container} ${
           currentComponent === "subscribePlayer" ? m.containerToPlayer : ""
@@ -419,7 +416,8 @@ const Main = (props) => {
                         id: item.id,
                         identifier: item.identifier,
                         update: propsTime,
-                      })
+                        identifierForLink: item.identifierForVideo
+                        })
                     }
                   >
                     <Avatext
@@ -591,7 +589,7 @@ const Main = (props) => {
           handleVideoClick={handleVideoClick}
           views={views}
           chatAvatar={chatAvatar}
-          />
+           />
          )}
         {/* //------------------------------------------------------------------------------------- */}
       </div>
