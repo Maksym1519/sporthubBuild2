@@ -35,7 +35,7 @@ import { selectUserPlaylist } from "../../features/userPlaylistSlice";
 import { setSubscriptions } from "../../features/subscriptionSlice";
 
 const SubscribeUser = (props) => {
-  //dataStorage---------------------------------------------------------
+   //dataStorage---------------------------------------------------------
   const dataStorage = localStorage.getItem("id");
   //-----------------------------------------------------------------------
   const [activeIndex, setActiveIndex] = useState(0);
@@ -88,10 +88,8 @@ const SubscribeUser = (props) => {
   const videoInfo = useSelector(selectVideoInfo);
   console.log(videoInfo)
   const subscribersListInfo = useSelector(selectSubscribersAmount)
-  console.log(subscribersListInfo)
-    //get-playlists----------------------------------------------------------------
+  //get-playlists----------------------------------------------------------------
   const propsPlaylists = useSelector(selectUserPlaylist);
-  console.log(propsPlaylists);
   //post-mySubscriptions------------------------------------------------------------
   const [mySubscriptions, setMySubscriptions] = useState([]);
   console.log(dataStorage)
@@ -145,21 +143,19 @@ const SubscribeUser = (props) => {
   const matchingClient =
     props.dataFromVideo &&
     props.dataFromVideo.filter(
-      (item) => item.attributes.publishedBy === (videoInfo. identifierForLink || "")
+      (item) => item.attributes.publishedBy === (videoInfo.identifierForLink || videoInfo.identifier)
     );
-  console.log(matchingClient);
   const matchingClientData = matchingClient.map(
     (item) => item.attributes.videos.data
   );
   arrayLinks = matchingClientData.map((item) => item[0].attributes.url);
   const updatedLinks = arrayLinks.map((link) => baseURL + link);
+  console.log(updatedLinks)
   //setLink(updatedLinks)
-  console.log(matchingClientData);
-  console.log(updatedLinks);
   //-----------------------------------------------------------------------------------
   const handleVideoInfoClick = (videoData) => {
     dispatch(setPlayerInfo(videoData));
-    // handleSubscribeClick();
+    handleSubscribeClick();
   };
   //get-subscriptions-amount---------------------------
   const clickedUserName = videoInfo.userName;
@@ -175,16 +171,15 @@ const SubscribeUser = (props) => {
   //get-videos-amount-----------------------------------------------
   const videosAmount = updatedLinks.length;
   //get-views-amount---------------------------------------------------------------
-  const [views, setViews] = useState([]);
+  const [views, setViews] = useState();
   const viewsData = props.dataFromVideo;
   const videoInfoId = videoInfo.id;
   const foundObject = viewsData.find((item) => item.id === videoInfoId);
   const viewValue = foundObject ? foundObject.attributes.view : null;
 
-  console.log(foundObject);
-  console.log(viewValue);
-
-  const postView = async () => {
+  console.log(videoInfo);
+  
+   const postView = async () => {
     try {
       const requestData = {
         data: {
@@ -196,6 +191,7 @@ const SubscribeUser = (props) => {
         `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
         requestData
       );
+      console.log(response)
     } catch (error) {
       console.error("post views is failed");
     }
@@ -205,7 +201,6 @@ const SubscribeUser = (props) => {
   //data-storage--------------------------------------------------------------
   const [playlistLinks, setPlaylistLinks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
-  console.log(playlists);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -362,6 +357,7 @@ useEffect(() => {
                         unSubscribed();
                         postDataSubscriptions();
                         props.updateSubscriptions();
+                        props.getSubscriptions()
                       }}
                     >
                       <Button18044
@@ -455,7 +451,8 @@ useEffect(() => {
                             videoUrl: link,
                             update: videoInfo.update,
                             subscriptionsAmount: numberOfSubscribers,
-                            views: viewValue,
+                            views: videoInfo.view,
+                            view: videoInfo.view,
                             fileName:
                               videoInfo.fileName[props.link.indexOf(link)],
                             id: videoInfo.id,

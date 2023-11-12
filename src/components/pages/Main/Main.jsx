@@ -129,7 +129,6 @@ const Main = (props) => {
   const [dataFromVideo, setDataFromVideo] = useState();
   const [views, setViews] = useState();
   const [chatAvatar,setChatAvatar] = useState("")
-  console.log(chatAvatar)
   const arrayCovers = [];
   const allNamesArray = [];
    useEffect(() => {
@@ -280,10 +279,11 @@ const Main = (props) => {
   //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscriptionsAmount, setSubscriptionsAmount] = useState([]);
+  const [identifierForVideo,setIdentifierForVideo] = useState();
+  console.log(identifierForVideo)
   let arraySubscriptions = [];
   let counter = 0;
-  useEffect(() => {
-    async function getSubscriptions() {
+     async function getSubscriptions() {
       try {
         const response = await axios.get(
           "http://localhost:1337/api/subscriptions"
@@ -310,7 +310,6 @@ const Main = (props) => {
         updatedSubscriptions.forEach((item) => {
           uniqueSubscriptionsMap.set(item.id, item);
         });
-        
         const updatedSubscriptionsAmountFromAPI = Array.from(uniqueSubscriptionsMap.values()).map(
           (user) => ({
             avatar: user.avatar,
@@ -324,12 +323,17 @@ const Main = (props) => {
           })
         );
         setSubscriptions(updatedSubscriptionsAmountFromAPI);
+        //identifierForVideo----------------------------------------
+        const arrayIdentifierForVideo = updatedSubscriptionsAmountFromAPI.map((item) => item.identifierForVideo)
+        setIdentifierForVideo(arrayIdentifierForVideo)
         } catch (error) {
         console.error("get subscriptions failed", error);
       }
     }
-    getSubscriptions();
-  }, []);
+    //getSubscriptions();
+ useEffect(() => {
+  getSubscriptions();
+ },[])
   //getting new subsribers list------------------------------------------------------------
   const updateSubscriptions = async () => {
     try {
@@ -416,7 +420,9 @@ const Main = (props) => {
                         id: item.id,
                         identifier: item.identifier,
                         update: propsTime,
-                        identifierForLink: item.identifierForVideo
+                        identifierForLink: item.identifierForVideo,
+                        views: views,
+                        view: views[index]
                         })
                     }
                   >
@@ -540,6 +546,7 @@ const Main = (props) => {
                         views: views,
                         view: views[index],
                         subscribe: subscriptions[index],
+                        //identifierForLink: identifierForVideo[index]
                       })
                     }
                   />
@@ -573,6 +580,7 @@ const Main = (props) => {
             dataFromVideo={dataFromVideo}
             handleVideoClick={handleVideoClick}
             views={views}
+            getSubscriptions={getSubscriptions}
           />
         )}
         {currentComponent === "subscribePlayer" && (
