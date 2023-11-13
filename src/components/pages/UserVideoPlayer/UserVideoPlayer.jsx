@@ -65,7 +65,11 @@ const showChatClick = () => {
 const videoInfo = useSelector(selectPlayerInfo);
   console.log(videoInfo);
 //handle-with-likes------------------------------------------------------
+const [liked, setLiked] = useState(false);
 const [likes, setLikes] = useState(0);
+const [likeStatus, setLikeStatus] = useState(null);
+//toggle-likes---------------------------------------------
+
 useEffect(() => {
   const viewsData = videoInfo.videoInfoData;
   const videoInfoId = videoInfo.id; 
@@ -77,20 +81,37 @@ useEffect(() => {
 
 const postLike = async () => {
   try {
+    let newLikeStatus = null;
+    
+    if (likeStatus === 'like') {
+      newLikeStatus = null; // отменить лайк
+    } else {
+      newLikeStatus = 'like'; // поставить лайк
+    }
+
     const requestData = {
       data: {
-        like: likes + 1,
-      }
-    }
-    const response = await axios.put(`http://localhost:1337/api/Maksyms/${videoInfo.id}`, requestData)
-    setLikes((prevLikes) => prevLikes + 1);
-  } catch(error) {
-    console.error("post views is failed", error)
-  }
-}
+        like: newLikeStatus === 'like' ? likes + 1 : likes - 1,
+      },
+    };
 
+    const response = await axios.put(
+      `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+      requestData
+    );
+
+    setLikes((prevLikes) =>
+      newLikeStatus === 'like' ? prevLikes + 1 : prevLikes - 1
+    );
+    setLikeStatus(newLikeStatus);
+  } catch (error) {
+    console.error("post like is failed", error);
+  }
+};
 //get-dislike-----------------------------------------------------------------------------
+const [disliked, setDisliked] = useState(false);
 const [dislikes, setDislikes] = useState(0);
+const [dislikeStatus, setDislikeStatus] = useState(null);
 useEffect(() => {
   const viewsData = videoInfo.videoInfoData;
   const videoInfoId = videoInfo.id; 
@@ -98,21 +119,41 @@ useEffect(() => {
   const viewValue = foundObject ? foundObject.attributes.like : null;
   setDislikes(viewValue);
 }, [videoInfo]);
-
 const postDislike = async () => {
   try {
+    let newDislikeStatus = null;
+    
+    if (dislikeStatus === 'dislike') {
+      newDislikeStatus = null; // отменить дизлайк
+    } else {
+      newDislikeStatus = 'dislike'; // поставить дизлайк
+    }
+
     const requestData = {
       data: {
-        dislike: dislikes + 1,
-      }
-    }
-    const response = await axios.put(`http://localhost:1337/api/Maksyms/${videoInfo.id}`, requestData)
-    setDislikes((prevDisLikes) => prevDisLikes + 1);
-  } catch(error) {
-    console.error("post views is failed", error)
+        dislike: newDislikeStatus === 'dislike' ? dislikes + 1 : dislikes - 1,
+      },
+    };
+
+    const response = await axios.put(
+      `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+      requestData
+    );
+
+    setDislikes((prevDislikes) =>
+      newDislikeStatus === 'dislike' ? prevDislikes + 1 : prevDislikes - 1
+    );
+    setDislikeStatus(newDislikeStatus);
+  } catch (error) {
+    console.error("post dislike is failed", error);
   }
+};
+//get-messages-amount-from-chat------------------------------------
+const handleMessageAmount = (amount) => {
+  const messagesAmontFromChat = amount
+  console.log(messagesAmontFromChat)
 }
-console.log(props.avatars)
+
  return (
     <div className={up.userPlayer__wrapper}>
       {/* <HeaderCreator /> */}
@@ -269,7 +310,7 @@ console.log(props.avatars)
       />
 }
 {chatSliceCurrentComponent === "chat" &&
-  <Chat videoInfo={videoInfo} avatar={props.chatAvatar}/>
+  <Chat videoInfo={videoInfo} avatar={props.chatAvatar} onMessageAmount={handleMessageAmount}/>
   }
     </div>
   );

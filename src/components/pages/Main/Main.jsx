@@ -417,7 +417,7 @@ const Main = (props) => {
                         fileName: fileNames,
                         userName: item.name,
                         subscribe: item.subscribe,
-                        id: item.id,
+                        id: id[index],//?
                         identifier: item.identifier,
                         update: propsTime,
                         identifierForLink: item.identifierForVideo,
