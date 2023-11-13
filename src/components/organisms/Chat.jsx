@@ -49,7 +49,7 @@ const Chat = (props) => {
   const [messageAuthor, setMessageAuthor] = useState();
   console.log(messages);
   const messagesAmount = messages.length;
-  props.onMessageAmount(messagesAmount)
+  
     async function getMessages() {
       try {
         const response = await axios.get("http://localhost:1337/api/messages");
@@ -114,8 +114,9 @@ const Chat = (props) => {
     
     useEffect(() => {
       getMessages();
+      
   }, []);
-
+  //props.onMessageAmount(messagesAmount, getMessages)
   //get-currentName-for-chat-------------------------------------
   const [authorName, setAuthorName] = useState("");
   const [chatAva, setChatAva] = useState("");

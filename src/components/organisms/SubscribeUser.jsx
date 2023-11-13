@@ -117,19 +117,17 @@ const SubscribeUser = (props) => {
     console.log(requestData);
   }
    //---------------------------------------------------------------
-  const handleUnsubscribeClick = async () => {
+   const handleUnsubscribeClick = async () => {
     try {
       console.log("Trying to unsubscribe...");
-      console.log(videoInfo.id);
-      await axios.delete(
-        `http://localhost:1337/api/subscriptions/${videoInfo.id}`
-      );
+     await axios.delete(`http://localhost:1337/api/subscriptions/${videoInfo.id}`);
       console.log("Unsubscribe successful");
-      props.updateSubscriptions(); // Обновляем список подписчиков в Main.js
+      props.getSubscriptions();
     } catch (error) {
       console.error("Failed to unsubscribe", error);
     }
   };
+  
   //------------------------------------------------------------------
   const unSubscribed = async () => {
     handleUnSubscribeClick();
@@ -369,7 +367,11 @@ useEffect(() => {
                   {currentSubscribeButton === "unsubscribe" && (
                     <div
                       className={ut.button__wrapper}
-                      onClick={handleUnsubscribeClick()}
+                      onClick={() => {handleUnsubscribeClick();
+                        props.updateSubscriptions();
+                        props.getSubscriptions()
+                      }
+                      }
                     >
                       <Button18044
                         text={<Text16600 text="Unsubscribe" />}

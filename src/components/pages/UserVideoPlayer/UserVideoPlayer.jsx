@@ -148,11 +148,40 @@ const postDislike = async () => {
     console.error("post dislike is failed", error);
   }
 };
-//get-messages-amount-from-chat------------------------------------
-const handleMessageAmount = (amount) => {
-  const messagesAmontFromChat = amount
-  console.log(messagesAmontFromChat)
-}
+// //get-messages-amount-from-chat------------------------------------
+// // const [viewsAmount, setViewsAmount] = useState();
+
+// // const handleMessageAmount = async (amount, getMessages) => {
+// //   const messagesAmountFromChat = amount;
+
+// //   await getMessages(); // Дождитесь завершения getMessages
+
+// //   setViewsAmount(messagesAmountFromChat);
+// //   console.log(messagesAmountFromChat);
+// };
+const [messages, setMessages] = useState([]);
+const messagesAmount = messages.length;
+console.log(messagesAmount)
+useEffect(() => {
+  async function getMessages() {
+    try {
+      const response = await axios.get("http://localhost:1337/api/messages");
+      const dataResponse = response.data.data;
+       //get-messages
+      const arrayMessages = [];
+      dataResponse.forEach((item) => {
+        if (item.attributes.identifier === videoInfo.fileName) {
+          arrayMessages.push(item.attributes.textMessage);
+        }
+      });
+      setMessages(arrayMessages);
+        } catch (error){
+  console.error("get messages failed",error)
+    }
+  }
+  getMessages()
+},[])
+
 
  return (
     <div className={up.userPlayer__wrapper}>
@@ -200,13 +229,13 @@ const handleMessageAmount = (amount) => {
             {isMobile ? (
               <div className={up.statistics__comments} onClick={() => showChatClick()}>
                 <div className={up.item + " " + up.item_margin}>
-                  <AvaText img={Comment} text1={<Text14500 text="24" />} />
+                  <AvaText img={Comment} text1={<Text14500 text={messagesAmount} />} />
                 </div>
               </div>
             ) : (
               <div className={up.statistics__comments} onClick={() => showChatClick()}>
                 <div className={up.item + " " + up.item_margin}>
-                  <AvaText img={Comment} text1={<Text16500 text="24" />} />
+                  <AvaText img={Comment} text1={<Text16500 text={messagesAmount} />} />
                 </div>
               </div>
             )}
@@ -310,7 +339,7 @@ const handleMessageAmount = (amount) => {
       />
 }
 {chatSliceCurrentComponent === "chat" &&
-  <Chat videoInfo={videoInfo} avatar={props.chatAvatar} onMessageAmount={handleMessageAmount}/>
+  <Chat videoInfo={videoInfo} avatar={props.chatAvatar}/>
   }
     </div>
   );
