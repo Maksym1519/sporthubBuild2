@@ -160,11 +160,26 @@
           left: 0;
         }
       }
+      .preview {
+        position: absolute;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
+      }
+      .videoPreview {
+        // position: absolute;
+        // top: 50%;
+        // left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -3;
+      }
 }
 @media (min-width: 575px) and (max-width: 1024px) {
     .overlay {
         width: 100%;
-        min-height: 100vh;
+        min-height: 100%;
         //background: var(--10, #111);
         z-index: 999;
         position: absolute;
@@ -371,7 +386,7 @@
         position: relative;
          & .uploadForm__body {
          position: absolute;
-         top: 50%;
+         top: 40%;
          left: 50%;
          transform: translate(-50%);
          display: flex;

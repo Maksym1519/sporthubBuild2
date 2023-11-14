@@ -37,7 +37,6 @@ import { Link } from "react-router-dom";
 //import { isPartiallyEmittedExpression } from "typescript";
 
 const VideoCreator = (props) => {
-  console.log(props.avatar)
   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;

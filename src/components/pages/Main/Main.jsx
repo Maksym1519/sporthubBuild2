@@ -128,10 +128,10 @@ const Main = (props) => {
   const [id, setId] = useState([]);
   const [dataFromVideo, setDataFromVideo] = useState();
   const [views, setViews] = useState();
-  const [chatAvatar,setChatAvatar] = useState("")
+  const [chatAvatar, setChatAvatar] = useState("");
   const arrayCovers = [];
   const allNamesArray = [];
-   useEffect(() => {
+  useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
@@ -224,7 +224,7 @@ const Main = (props) => {
                   "http://localhost:1337" +
                   matchingClient.attributes.avatar.data.attributes.url;
                 avatarArray.push(avatarUrl);
-                setChatAvatar(avatarUrl)
+                setChatAvatar(avatarUrl);
               }
               const fullName =
                 matchingClient.attributes.firstName +
@@ -236,7 +236,7 @@ const Main = (props) => {
           });
           setAvatars(avatarArray);
           setVideoLinks(allLinks);
-          } else {
+        } else {
           console.error("Не удалось загрузить данные о видео");
         }
       } catch (error) {
@@ -279,61 +279,63 @@ const Main = (props) => {
   //get-subscriptions----------------------------------------------------------------
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscriptionsAmount, setSubscriptionsAmount] = useState([]);
-  const [identifierForVideo,setIdentifierForVideo] = useState();
-  console.log(identifierForVideo)
+  const [identifierForVideo, setIdentifierForVideo] = useState();
+  console.log(identifierForVideo);
   let arraySubscriptions = [];
   let counter = 0;
-     async function getSubscriptions() {
-      try {
-        const response = await axios.get(
-          "http://localhost:1337/api/subscriptions"
-        );
-        const responseData = response.data.data;
-        console.log(responseData);
-        arraySubscriptions = responseData.map((item, index) => ({
-          avatar: item.attributes.avatar,
-          name: item.attributes.name,
-          cover: item.attributes.cover,
-          subscribe: item.attributes.subscribe,
-          id: item.id,
-          identifier: item.attributes.identifier,
-          subscriptionsAmount: item.attributes.subscriptionsAmount,
-          identifierForVideo: item.attributes.identifierForVideo
-        }));
-        setSubscriptionsAmount(arraySubscriptions);
-        console.log(arraySubscriptions)
-        const updatedSubscriptions = arraySubscriptions.filter(
-          (item) => item.identifier === dataStorage
-        );
-        
-        const uniqueSubscriptionsMap = new Map();
-        updatedSubscriptions.forEach((item) => {
-          uniqueSubscriptionsMap.set(item.id, item);
-        });
-        const updatedSubscriptionsAmountFromAPI = Array.from(uniqueSubscriptionsMap.values()).map(
-          (user) => ({
-            avatar: user.avatar,
-            name: user.name,
-            cover: user.cover,
-            subscriptionsAmount: user.subscriptionsAmount,
-            subscribe: user.subscribe,
-            identifier: user.identifier,
-            id: user.id,
-            identifierForVideo: user.identifierForVideo
-          })
-        );
-        setSubscriptions(updatedSubscriptionsAmountFromAPI);
-        //identifierForVideo----------------------------------------
-        const arrayIdentifierForVideo = updatedSubscriptionsAmountFromAPI.map((item) => item.identifierForVideo)
-        setIdentifierForVideo(arrayIdentifierForVideo)
-        } catch (error) {
-        console.error("get subscriptions failed", error);
-      }
+  async function getSubscriptions() {
+    try {
+      const response = await axios.get(
+        "http://localhost:1337/api/subscriptions"
+      );
+      const responseData = response.data.data;
+      console.log(responseData);
+      arraySubscriptions = responseData.map((item, index) => ({
+        avatar: item.attributes.avatar,
+        name: item.attributes.name,
+        cover: item.attributes.cover,
+        subscribe: item.attributes.subscribe,
+        id: item.id,
+        identifier: item.attributes.identifier,
+        subscriptionsAmount: item.attributes.subscriptionsAmount,
+        identifierForVideo: item.attributes.identifierForVideo,
+      }));
+      setSubscriptionsAmount(arraySubscriptions);
+      console.log(arraySubscriptions);
+      const updatedSubscriptions = arraySubscriptions.filter(
+        (item) => item.identifier === dataStorage
+      );
+
+      const uniqueSubscriptionsMap = new Map();
+      updatedSubscriptions.forEach((item) => {
+        uniqueSubscriptionsMap.set(item.id, item);
+      });
+      const updatedSubscriptionsAmountFromAPI = Array.from(
+        uniqueSubscriptionsMap.values()
+      ).map((user) => ({
+        avatar: user.avatar,
+        name: user.name,
+        cover: user.cover,
+        subscriptionsAmount: user.subscriptionsAmount,
+        subscribe: user.subscribe,
+        identifier: user.identifier,
+        id: user.id,
+        identifierForVideo: user.identifierForVideo,
+      }));
+      setSubscriptions(updatedSubscriptionsAmountFromAPI);
+      //identifierForVideo----------------------------------------
+      const arrayIdentifierForVideo = updatedSubscriptionsAmountFromAPI.map(
+        (item) => item.identifierForVideo
+      );
+      setIdentifierForVideo(arrayIdentifierForVideo);
+    } catch (error) {
+      console.error("get subscriptions failed", error);
     }
-    //getSubscriptions();
- useEffect(() => {
-  getSubscriptions();
- },[])
+  }
+  //getSubscriptions();
+  useEffect(() => {
+    getSubscriptions();
+  }, []);
   //getting new subsribers list------------------------------------------------------------
   const updateSubscriptions = async () => {
     try {
@@ -358,7 +360,15 @@ const Main = (props) => {
 
   return (
     <div className={m.main__wrapper}>
-      <HeaderCreator num={num} goHome={handleHomeClick}/>
+      <HeaderCreator
+        num={num}
+        goHome={handleHomeClick}
+        subscriptions={subscriptions}
+        handleVideoClick={handleVideoClick}
+        fileNames={fileNames}
+        propsTime={propsTime}
+        views={views}
+      />
       <div
         className={`${m.container} ${
           currentComponent === "subscribePlayer" ? m.containerToPlayer : ""
@@ -417,13 +427,13 @@ const Main = (props) => {
                         fileName: fileNames,
                         userName: item.name,
                         subscribe: item.subscribe,
-                        id: item.id,//?
+                        id: item.id, //?
                         identifier: item.identifier,
                         update: propsTime,
                         identifierForLink: item.identifierForVideo,
                         views: views,
-                        view: views[index]
-                        })
+                        view: views[index],
+                      })
                     }
                   >
                     <Avatext
@@ -584,21 +594,23 @@ const Main = (props) => {
           />
         )}
         {currentComponent === "subscribePlayer" && (
-          <UserVideoPlayer handleToSubscribe={handleSubscribeClick} link={link}
-          propsTime={propsTime}
-          avatars={avatars}
-          fileNames={fileNames}
-          usersName={usersName}
-          subscribers={subscriptions}
-          subscriptionsAmount={subscriptionsAmount} //props with all subscriptions
-          updateSubscriptions={updateSubscriptions}
-          subscribePlayer={handleSubscribePlayerClick}
-          dataFromVideo={dataFromVideo}
-          handleVideoClick={handleVideoClick}
-          views={views}
-          chatAvatar={chatAvatar}
-           />
-         )}
+          <UserVideoPlayer
+            handleToSubscribe={handleSubscribeClick}
+            link={link}
+            propsTime={propsTime}
+            avatars={avatars}
+            fileNames={fileNames}
+            usersName={usersName}
+            subscribers={subscriptions}
+            subscriptionsAmount={subscriptionsAmount} //props with all subscriptions
+            updateSubscriptions={updateSubscriptions}
+            subscribePlayer={handleSubscribePlayerClick}
+            dataFromVideo={dataFromVideo}
+            handleVideoClick={handleVideoClick}
+            views={views}
+            chatAvatar={chatAvatar}
+          />
+        )}
         {/* //------------------------------------------------------------------------------------- */}
       </div>
     </div>

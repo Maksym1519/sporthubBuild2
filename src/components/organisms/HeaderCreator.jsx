@@ -19,7 +19,6 @@ import SearchSmall from "../../images/search-small.svg";
 import Notification from "../../images/notification.svg";
 import { useEffect, useState } from "react";
 
-
 const HeaderCreator = (props) => {
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
@@ -48,13 +47,13 @@ const HeaderCreator = (props) => {
   const clickShowLogOut = () => {
     dispatch(showLogOut());
   };
-   //post-request-for-avatar-----------------------------------------------
+  //post-request-for-avatar-----------------------------------------------
   const [userData, setUserData] = useState("");
   //mobile-menu-show-----------------------------------------------------
-  const [mobileMenu,setMobileMenu] = useState(false)
+  const [mobileMenu, setMobileMenu] = useState(false);
   const toggleMobileMenu = () => {
-    setMobileMenu(!mobileMenu)
-  }
+    setMobileMenu(!mobileMenu);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,19 +65,19 @@ const HeaderCreator = (props) => {
         const matchingUser = usersData.find(
           (user) => user.attributes.identifier === dataStorage
         );
-          const avaFromProfile =
+        const avaFromProfile =
           "http://localhost:1337" +
           matchingUser.attributes.avatar.data.attributes.url;
         if (matchingUser) {
           setUserData(avaFromProfile);
-            console.log(
+          console.log(
             "Matching user found:",
             matchingUser.attributes.identifier
           );
           const avatarResponse = await axios.get(
             "http://localhost:1337/api/clients?populate[0]=avatars"
           );
-         } else {
+        } else {
           console.log("Matching user not found.");
         }
       } catch (error) {
@@ -91,124 +90,152 @@ const HeaderCreator = (props) => {
   const dataStorage = localStorage.getItem("id");
   return (
     AddVideo({ avatar: userData }),
+    (
       <>
-      {currentComponent === "logout" &&
-        (isMobile ? (
-          <div className={hc.wrapper__mobile}>
-            <div className={mobileMenu ? hc.burger__close : hc.burger} onClick={toggleMobileMenu}>
-              <span className={hc.burger__line}>-</span>
-            </div>
-            <Link onClick={props.goHome}>
-              <div className={hc.logo__wrapper} >
-                <img src={Icones.logo} alt="logo" />
+        {currentComponent === "logout" &&
+          (isMobile ? (
+            <div className={hc.wrapper__mobile}>
+              <div
+                className={mobileMenu ? hc.burger__close : hc.burger}
+                onClick={toggleMobileMenu}
+              >
+                <span className={hc.burger__line}>-</span>
               </div>
-            </Link>
-            <div className={hc.functions__wrapper}>
-              <img src={SearchSmall} alt="icon" />
-            </div>
-          </div>
-        ) : (
-          <div className={hc.wrapper}>
-            <Link onClick={props.goHome}>
-              <div className={hc.logo__wrapper}>
-                <img src={Icones.logo} alt="logo" />
-              </div>
-            </Link>
-            <div className={hc.allFunctions__wrapper}>
+              <Link onClick={props.goHome}>
+                <div className={hc.logo__wrapper}>
+                  <img src={Icones.logo} alt="logo" />
+                </div>
+              </Link>
               <div className={hc.functions__wrapper}>
-                <img src={SearchSmall} alt="icon" className={hc.search} />
-                <img src={Notification} alt="icon" />
-              </div>
-              <div className={hc.navigation}>
-                <div className={hc.videoSwitcher__wrapper}>
-                  <div
-                    className={`${hc.item} ${
-                      activeIndex === 1 ? hc.active : ""
-                    }`}
-                    onClick={() => switchVideo(1)}
-                  >
-                    Video
-                  </div>
-                  <div
-                    className={`${hc.item} ${
-                      activeIndex === 2 ? hc.active : ""
-                    }`}
-                    onClick={() => switchVideo(2)}
-                  >
-                    Store
-                  </div>
-                </div>
-                <div className={hc.profile__wrapper} onClick={toggleMenu}>
-                <img src={userData ? userData : Icones.avaEmpty} alt="ava" className={hc.ava} />
-
-
-                  <Text16400 text="Profile" color="rgba(187, 187, 187, 1)" />
-                </div>
+                <img src={SearchSmall} alt="icon" />
               </div>
             </div>
-            {menu && (
-              <div className={hc.headerProfile__wrapper}>
-                <Link to="/ProfileCreator">
-                  <div className={hc.item}>
-                    <Avatext
-                      img={Icones.edit}
-                      text1={
-                        <Text16400
-                          text="Create profile"
-                          color="rgba(187, 187, 187, 1)"
-                        />
-                      }
-                    />
-                  </div>
-                </Link>
-                <Link to="/ProfileCreatorFilled">
-                  <div className={hc.item}>
-                    <Avatext
-                      img={Icones.edit}
-                      text1={
-                        <Text16400
-                          text="Edit profile"
-                          color="rgba(187, 187, 187, 1)"
-                        />
-                      }
-                    />
-                  </div>
-                </Link>
-                <div className={hc.item}>
-                  <Avatext
-                    img={Icones.diamond}
-                    text1={
-                      <Text16400
-                        text="Switch to business account"
-                        color="rgba(187, 187, 187, 1)"
-                      />
-                    }
-                  />
+          ) : (
+            <div className={hc.wrapper}>
+              <Link onClick={props.goHome}>
+                <div className={hc.logo__wrapper}>
+                  <img src={Icones.logo} alt="logo" />
                 </div>
-                <div
-                  onClick={clickShowLogIn}
-                  className={hc.item + " " + hc.lastItem}
-                >
-                  <Avatext
-                    img={Icones.logOut}
-                    text1={
-                      <Text16400
-                        text="Log out"
-                        color="rgba(187, 187, 187, 1)"
-                      />
-                    }
-                  />
+              </Link>
+              <div className={hc.allFunctions__wrapper}>
+                <div className={hc.functions__wrapper}>
+                  <img src={SearchSmall} alt="icon" className={hc.search} />
+                  <img src={Notification} alt="icon" />
+                </div>
+                <div className={hc.navigation}>
+                  <div className={hc.videoSwitcher__wrapper}>
+                    <div
+                      className={`${hc.item} ${
+                        activeIndex === 1 ? hc.active : ""
+                      }`}
+                      onClick={() => switchVideo(1)}
+                    >
+                      Video
+                    </div>
+                    <div
+                      className={`${hc.item} ${
+                        activeIndex === 2 ? hc.active : ""
+                      }`}
+                      onClick={() => switchVideo(2)}
+                    >
+                      Store
+                    </div>
+                  </div>
+                  <div className={hc.profile__wrapper} onClick={toggleMenu}>
+                    <img
+                      src={userData ? userData : Icones.avaEmpty}
+                      alt="ava"
+                      className={hc.ava}
+                    />
+
+                    <Text16400 text="Profile" color="rgba(187, 187, 187, 1)" />
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-        ))}
-      {currentComponent === "login" && <Header />}
-{mobileMenu &&
-      <MobileMenu userData={userData}/>
-}
-    </>
+              {menu && (
+                <div className={hc.headerProfile__wrapper}>
+                  <Link to="/ProfileCreator">
+                    <div className={hc.item}>
+                      <Avatext
+                        img={Icones.hammer}
+                        text1={
+                          <Text16400
+                            text="Create profile"
+                            color="rgba(187, 187, 187, 1)"
+                          />
+                        }
+                      />
+                    </div>
+                  </Link>
+                  <Link to="/ProfileCreatorFilled">
+                    <div className={hc.item}>
+                      <Avatext
+                        img={Icones.edit}
+                        text1={
+                          <Text16400
+                            text="Edit profile"
+                            color="rgba(187, 187, 187, 1)"
+                          />
+                        }
+                      />
+                    </div>
+                  </Link>
+                  <Link to="/VideoCreator">
+                    <div className={hc.item}>
+                      <Avatext
+                        img={Icones.videoIcon}
+                        text1={
+                          <Text16400
+                            text="Create video"
+                            color="rgba(187, 187, 187, 1)"
+                          />
+                        }
+                      />
+                    </div>
+                  </Link>
+                  <div className={hc.item}>
+                    <Avatext
+                      img={Icones.diamond}
+                      text1={
+                        <Text16400
+                          text="Switch to business account"
+                          color="rgba(187, 187, 187, 1)"
+                        />
+                      }
+                    />
+                  </div>
+                  <div
+                    onClick={clickShowLogIn}
+                    className={hc.item + " " + hc.lastItem}
+                  >
+                    <Avatext
+                      img={Icones.logOut}
+                      text1={
+                        <Text16400
+                          text="Log out"
+                          color="rgba(187, 187, 187, 1)"
+                        />
+                      }
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        {currentComponent === "login" && <Header />}
+        {mobileMenu && (
+          <MobileMenu
+            userData={userData}
+            subscriptions={props.subscriptions}
+            handleVideoClick={props.handleVideoClick}
+            fileNames={props.fileNames}
+            propsTime={props.propsTime}
+            views={props.views}
+          />
+        )}
+      </>
+    )
   );
- };
+};
 
 export default HeaderCreator;

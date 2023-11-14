@@ -78,7 +78,9 @@ export const Icones = {
   avaEmpty: "http://localhost:1337/uploads/ava_empty_5182dede9e.svg",
   logo: "http://localhost:1337/uploads/logo_ef5f778a28.svg",
   like: "http://localhost:1337/uploads/like_7b171e13e7.svg",
-  dislike: "http://localhost:1337/uploads/dislike_3dd75f9c8c.svg"
+  dislike: "http://localhost:1337/uploads/dislike_3dd75f9c8c.svg",
+  videoIcon: "http://localhost:1337/uploads/video_Icon_51d4f245ea.png",
+  hammer: "http://localhost:1337/uploads/hammer_f1f12ed1a2.png"
 }
 export const Preview = {
   previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"

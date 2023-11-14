@@ -12,13 +12,14 @@ import { Text16400 } from "../../atoms/Text";
 import { Text12400 } from "../../atoms/Text";
 import { Icones } from "../../../Data";
 import DownloadVideo from "./DownloadVideo";
+import Video from "../../molecules/Video";
 //images----------------------------------------
 import Dots from "../../../images/Dots.svg";
 import e from "cors";
 import axios from "axios";
 
 const AddVideo = (props) => {
-  const avatar = props.avatar
+  const avatar = props.avatar;
   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
@@ -28,10 +29,28 @@ const AddVideo = (props) => {
     setModal(!isModal);
   };
   //data-storage---------------------------------------------------------------
-  const dataStorage = localStorage.getItem("id")
+  const dataStorage = localStorage.getItem("id");
   //post-data-------------------------------------------------------------------
   const [formData, setFormData] = useState(null); //для видео
   const [preview, setPreview] = useState(null); //для preview
+  const [videoPreview, setVideoPreview] = useState(null);
+  console.log(videoPreview);
+  //set-preview-img-------------------------------------------------
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+  //set-preview-video---------------------------------------------------
+  const handleVideoPreviewChange = (e) => {
+    // Проверка наличия файла
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setVideoPreview(URL.createObjectURL(file));
+    }
+  };
+
   const [formData2, setFormData2] = useState({
     //для inputs инфо про видео
     title: "",
@@ -57,20 +76,20 @@ const AddVideo = (props) => {
       ...formData2,
       category: categoryValue,
     });
-    toggleCategory(); 
+    toggleCategory();
   };
-  
+
   const handleSubmit = async (e) => {
-      try {
+    try {
       if (!formData) {
-       console.error("Please select a file.");
+        console.error("Please select a file.");
         return;
       }
       const formDataServer = new FormData();
       const formDataServer2 = new FormData();
       formDataServer.append("files", formData[0]);
-      formDataServer2.append("files", preview[0])
-        const responseVideo = await axios.post(
+      formDataServer2.append("files", preview[0]);
+      const responseVideo = await axios.post(
         "http://localhost:1337/api/upload",
         formDataServer
       );
@@ -80,8 +99,8 @@ const AddVideo = (props) => {
       );
       if (responseVideo.status === 200) {
         const videoItem = responseVideo.data[0].id;
-        const previewItem = responsePreview.data[0].id
-         const requestData = {
+        const previewItem = responsePreview.data[0].id;
+        const requestData = {
           data: {
             videos: videoItem,
             title: formData2.title,
@@ -90,14 +109,14 @@ const AddVideo = (props) => {
             addShopifyLink: formData2.addShopifyLink,
             preview: previewItem,
             ava: props.avatar,
-            publishedBy: dataStorage
+            publishedBy: dataStorage,
           },
         };
         const profileResponse = await axios.post(
           "http://localhost:1337/api/Maksyms",
           requestData
         );
-         } else {
+      } else {
         ("upload video failed");
       }
     } catch (error) {
@@ -119,12 +138,12 @@ const AddVideo = (props) => {
         );
         if (response.status === 200) {
           const profileData = response.data.data;
-           setFileName({
+          setFileName({
             fileVideoName:
               profileData[profileData.length - 1].attributes.videos.data[0]
                 .attributes.name,
           });
-         } else {
+        } else {
           console.error("Failed to fetch profile data");
         }
       } catch (error) {
@@ -133,13 +152,12 @@ const AddVideo = (props) => {
     }
     fetchData();
   }, []);
-  useEffect(() => {
-   }, [fileName]);
- //fill-category-input---------------------------------------
-const [selectedCategory,setSelectedCategory] = useState("")
-const chooseCategory = (value) => {
-setSelectedCategory(value)
-}
+  useEffect(() => {}, [fileName]);
+  //fill-category-input---------------------------------------
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const chooseCategory = (value) => {
+    setSelectedCategory(value);
+  };
   return (
     <div className={av.container}>
       <div className={av.functions__wrapper}>
@@ -151,7 +169,7 @@ setSelectedCategory(value)
             bg="#777"
             borderRadius="8px"
           />
-          <img src={Icones.dots} alt="dots"/>
+          <img src={Icones.dots} alt="dots" />
         </div>
       </div>
       <div className={av.uploadForm__wrapper}>
@@ -175,6 +193,9 @@ setSelectedCategory(value)
             </div>
           </div>
         )}
+        <video controls className={av.videoPreview} src={videoPreview}>
+          <source src={videoPreview} type="video/mp4" />
+        </video>
       </div>
       {isModal && (
         <form>
@@ -196,7 +217,10 @@ setSelectedCategory(value)
                   <input
                     type="file"
                     className={av.input}
-                    onChange={(e) => setFormData(e.target.files)}
+                    onChange={(e) => {
+                      setFormData(e.target.files);
+                      handleVideoPreviewChange(e);
+                    }}
                   />
                   <div className={av.placeholder__wrapper}>
                     <img src={Icones.addFile} alt="icon" />
@@ -266,7 +290,7 @@ setSelectedCategory(value)
                 <input
                   type="text"
                   className={dv.input}
-                  placeholder= {selectedCategory || "Select category"}
+                  placeholder={selectedCategory || "Select category"}
                   name="category"
                 />
                 <img
@@ -285,7 +309,10 @@ setSelectedCategory(value)
                     value="mind"
                     onChange={() => handleUploadAndSubmit}
                     type="text"
-                    onClick={() => {handleCategoryClick("mind");chooseCategory('mind')}}
+                    onClick={() => {
+                      handleCategoryClick("mind");
+                      chooseCategory("mind");
+                    }}
                   />
                   <input
                     className={dv.item + " " + dv.input}
@@ -294,7 +321,10 @@ setSelectedCategory(value)
                     value="body"
                     onChange={handleUploadAndSubmit}
                     type="text"
-                    onClick={() => {handleCategoryClick("body");chooseCategory('body')}}
+                    onClick={() => {
+                      handleCategoryClick("body");
+                      chooseCategory("body");
+                    }}
                   />
                   <input
                     className={dv.item + " " + dv.input}
@@ -303,7 +333,10 @@ setSelectedCategory(value)
                     value="soul"
                     onChange={handleUploadAndSubmit}
                     type="text"
-                    onClick={() => {handleCategoryClick("soul");chooseCategory('soul')}}
+                    onClick={() => {
+                      handleCategoryClick("soul");
+                      chooseCategory("soul");
+                    }}
                   />
                 </div>
               )}
@@ -348,13 +381,14 @@ setSelectedCategory(value)
             {/* //input-------------------------------------------------------- */}
           </div>
           <div className={av.filepeaker__wrapper}>
-            <img src={Icones.uploadLogo} alt="logo" />
+            <img src={preview} className={av.preview} />
             <Text16400 text="Drag and drop photo to upload" />
             <Text12400 text="Information about adding photo. Amet minim mollit non deserunt ullamco est sit " />
             <input
               type="file"
               className={av.addPreview}
               onChange={(e) => setPreview(e.target.files)}
+              //onChange={handleFileChange}
             />
           </div>
         </div>

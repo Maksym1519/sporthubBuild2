@@ -117,7 +117,7 @@ console.log(timeDifferences)
             />
           </div>
         )}
-        {isMenuVisible && <MenuDots />}
+        {/* {isMenuVisible && <MenuDots />} */}
       </div>
     )
 }

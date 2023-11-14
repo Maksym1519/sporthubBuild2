@@ -9,7 +9,7 @@ import { Text12600 } from "../atoms/Text";
 import { Text14400 } from "../atoms/Text";
 import { Icones } from "../../Data";
 import { AvaArray } from "../../Data";
-import AvaText from "./Avatext";
+import Avatext from "./Avatext";
 import {
   showHome,
   showLatest,
@@ -131,7 +131,7 @@ const MobileMenu = (props) => {
           <div className={mm.headerProfile__wrapper}>
             <Link to="/ProfileCreator">
               <div className={mm.item}>
-                <AvaText
+                <Avatext
                   img={Icones.edit}
                   text1={
                     <Text16400
@@ -144,7 +144,7 @@ const MobileMenu = (props) => {
             </Link>
             <Link to="/ProfileCreatorFilled">
               <div className={mm.item}>
-                <AvaText
+                <Avatext
                   img={Icones.edit}
                   text1={
                     <Text16400
@@ -156,7 +156,7 @@ const MobileMenu = (props) => {
               </div>
             </Link>
             <div className={mm.item}>
-              <AvaText
+              <Avatext
                 img={Icones.diamond}
                 text1={
                   <Text16400
@@ -170,7 +170,7 @@ const MobileMenu = (props) => {
               onClick={clickShowLogIn}
               className={mm.item + " " + mm.lastItem}
             >
-              <AvaText
+              <Avatext
                 img={Icones.logOut}
                 text1={
                   <Text16400 text="Log out" color="rgba(187, 187, 187, 1)" />
@@ -193,12 +193,37 @@ const MobileMenu = (props) => {
               handleSwitcher(4), handleSubscribeClick();
             }}
           >
-            <AvaText
-              img={AvaArray[1]}
-              text1={
-                <Text14400 text="Eleanor Pena" color="rgba(187, 187, 187, 1)" />
-              }
-            />
+          {Array.isArray(props.subscriptions) && props.subscriptions.map((item, index) => (
+                  <div
+                    className={`${mm.item} ${activeIndex === 4 ? mm.active : ""}`}
+                    onClick={() =>
+                      props.handleVideoClick({
+                        avatar: item.avatar,
+                        cover: item.cover,
+                        fileName: props.fileNames,
+                        userName: item.name,
+                        subscribe: item.subscribe,
+                        id: item.id,//?
+                        identifier: item.identifier,
+                        update: props.propsTime,
+                        identifierForLink: item.identifierForVideo,
+                        views: props.views,
+                        view: props.views[index]
+                        })
+                    }
+                  >
+                    <Avatext
+                      key={index}
+                      img={item.avatar}
+                      text1={
+                        <Text14400
+                          text={item.name}
+                          color="rgba(187, 187, 187, 1)"
+                        />
+                      }
+                    />
+                  </div>
+                ))}
           </div>
         </div>
       </div>

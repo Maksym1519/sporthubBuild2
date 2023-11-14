@@ -10,9 +10,28 @@ import { Text14500 } from "../atoms/Text";
 import More from "../../images/more.svg";
 import Play from "../../images/play-btn.svg";
 
-
 const Video = (props) => {
-   //redux-menu-Dots------------------------------------------------
+  //play-img-toggle------------------------------------------------
+  const [play, setPlay] = useState(true);
+  const clickTogglePlay = () => {
+    setPlay(!play);
+  };
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef(null);
+
+  const handleVideoClick = () => {
+    clickTogglePlay()
+    setIsVideoPlaying(!isVideoPlaying);
+    if (videoRef.current) {
+      if (isVideoPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+    }
+  };
+
+  //redux-menu-Dots------------------------------------------------
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const toggleMenuDots = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -27,34 +46,35 @@ const Video = (props) => {
   //redux---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
-//-------------------------------------------------------------------
+  //-------------------------------------------------------------------
 
-//set-Time------------------------------------------------------------------
-const getTimeDifference = (updateTime) => {
-  const currentDate = new Date();
-  const latestUpdate = new Date(updateTime);
+  //set-Time------------------------------------------------------------------
+  const getTimeDifference = (updateTime) => {
+    const currentDate = new Date();
+    const latestUpdate = new Date(updateTime);
 
-  const timeDifference = currentDate - latestUpdate;
+    const timeDifference = currentDate - latestUpdate;
 
-  const seconds = Math.floor(timeDifference / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
 
-  if (days > 0) {
-    return `${days} day ago`;
-  } else if (hours > 0) {
-    return `${hours} hour(s) ago`;
-  } else if (minutes > 0) {
-    return `${minutes} minute(s) ago`;
-  } else {
-    return `${seconds} second ago`;
-  }
-};
+    if (days > 0) {
+      return `${days} day ago`;
+    } else if (hours > 0) {
+      return `${hours} hour(s) ago`;
+    } else if (minutes > 0) {
+      return `${minutes} minute(s) ago`;
+    } else {
+      return `${seconds} second ago`;
+    }
+  };
 
-// Используем функцию для каждого элемента массива props.update
-const timeDifferences = props.update.map(updateTime => getTimeDifference(updateTime));
-
+  // Используем функцию для каждого элемента массива props.update
+  const timeDifferences = props.update.map((updateTime) =>
+    getTimeDifference(updateTime)
+  );
 
   return (
     <div
@@ -65,35 +85,40 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
       onMouseOver={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className={vs.video__wrapper}>
-        <video controls className={vs.video}>
+      <div className={vs.video__wrapper} onClick={handleVideoClick}>
+        <video ref={videoRef} className={vs.video} onClick={handleVideoClick}>
           <source src={props.videoUrl} type="video/mp4" />
         </video>
-        <img src={Play} alt="play" className={vs.play} />
+        {play && <img src={Play} alt="play" className={vs.play} />}
       </div>
       <div className={vs.video__description}>
-   <div className={vs.avatar__wrapper}>
-      <img src={props.avatar} className={vs.avatar}/> 
-        <ColumnTemplate
-          row1={
-            isMobile ? (
-              <Text14500
-                text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                lineHeight="16px"
+        <div className={vs.avatar__wrapper}>
+          {/* <img src={props.avatar} className={vs.avatar}/>  */}
+          <ColumnTemplate
+            row1={
+              isMobile ? (
+                <Text14500
+                  text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                  lineHeight="16px"
+                />
+              ) : (
+                <Text16500
+                  text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
+                  lineHeight="18px"
+                />
+              )
+            }
+            row2={
+              <Text14400
+                text={timeDifferences[props.index]}
+                color="rgba(153, 153, 153, 1)"
               />
-            ) : (
-              <Text16500
-                text="Amet minim mollit non deserunt ullamco est sit aliqua dolor do ame..."
-                lineHeight="18px"
-              />
-            )
-          }
-        row2={<Text14400 text={timeDifferences[props.index]} color="rgba(153, 153, 153, 1)" />}
-        //row2={<Text14400 text={'frcrfrfrf'} color="rgba(153, 153, 153, 1)" />}
-        />
-</div>
+            }
+            //row2={<Text14400 text={'frcrfrfrf'} color="rgba(153, 153, 153, 1)" />}
+          />
+        </div>
       </div>
-      {isMenuVisible && (
+      {/* {isMenuVisible && (
         <div className={vs.dotsMenu}>
           <img
             src={More}
@@ -103,8 +128,8 @@ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateT
             }}
           />
         </div>
-      )}
-      {isMenuVisible && <MenuDots />}
+      )} */}
+      {/* {isMenuVisible && <MenuDots />} */}
     </div>
   );
 };

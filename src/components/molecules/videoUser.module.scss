@@ -30,13 +30,14 @@
       & .dotsMenu {
         position: absolute;
         top: 12px;
-        right: 12px
+        right: 12px;
+        display: none;
       }
     }
     .item:hover .video__description {
       background: var(--9, #222);
       border-radius: 0 0 8px 8px;
-      box-sizing: content-box;
+      box-sizing: border-box;
       }
     .item:hover .video__wrapper img {
       border-radius: 8px 8px 0 0 !important;
@@ -55,7 +56,7 @@
       min-width: 100%;
       max-width: 100%;
       width: 100%;
-      border-radius: 8px;
+      border-radius: 8px 8px 0 0 ;
     }
     .avatar {
       width: 24px;
@@ -104,7 +105,7 @@
           .item:hover .video__description {
             background: var(--9, #222);
             border-radius: 0 0 8px 8px;
-            box-sizing: content-box;
+            box-sizing: border-box;
             }
           .item:hover .video__wrapper img {
             border-radius: 8px 8px 0 0 !important;
@@ -122,6 +123,6 @@
             min-width: 100%;
             max-width: 100%;
             width: 100%;
-            border-radius: 8px;
+            border-radius: 8px 8px 0 0;
           }
   }
