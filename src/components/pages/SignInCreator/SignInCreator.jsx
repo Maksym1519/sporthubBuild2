@@ -36,6 +36,7 @@ import ImgRight3 from "../../../images/rightSliderImg3.webp";
 import Logo from "../../../images/logo-short.webp";
 import Blur1 from "../../../images/blur-signIn.svg";
 import Blur2 from "../../../images/signIn-blur2.svg";
+import { Icones } from "../../../Data";
 
 const SignUpCreator = () => {
   const initialSlide = 0.7;
@@ -126,7 +127,7 @@ const SignUpCreator = () => {
         </div>
       </div>
       <div className={sc.signInForm__wrapper}>
-        {currentComponent === 'signIn' && <SignInForm img={Logo} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} link="/" height='800px'/>}
+        {currentComponent === 'signIn' && <SignInForm img={Icones.logoCenter} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} link="/" height='800px'/>}
         {currentComponent === 'signUp' && <SignUpForm img={Logo} click={handleSignInClick} url="http://localhost:1337/api/clients"/>}
         {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick} img={Logo} height='100%' display='none'/>}
         {currentComponent === 'checkInbox' && <CheckInboxForm img={Logo} height='100%' display='none'/>}

@@ -44,6 +44,8 @@ const ProfileCreatorFilled = () => {
   //form-data--------------------------------------------------
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [coverPreview, setCoverPreview] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
     genderMale: "",
@@ -79,6 +81,20 @@ const ProfileCreatorFilled = () => {
     facebookAccount: "",
     twitterAccount: "",
   });
+  //set-preview-avatar-----------------------------------------
+  const handleAvatarChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+  //set-preview-cover-------------------------------------
+  const handleCoverChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setCoverPreview(URL.createObjectURL(file));
+    }
+  };
   //get-value-from-inputes--------------------------------------------
   const handleUploadAndSubmit = (e) => {
     const { name, value } = e.target;
@@ -368,12 +384,18 @@ const ProfileCreatorFilled = () => {
                 matchingUser.attributes.twitterAccount) ||
               "",
             avatar: "",
-            cover: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
-              ? matchingUser.attributes.cover.data.attributes.url || ""
-              : "",
-            imgCoverName: matchingUser && matchingUser.attributes && matchingUser.attributes.cover
-              ? matchingUser.attributes.cover.data.attributes.name || ""
-              : "",
+            cover:
+              matchingUser &&
+              matchingUser.attributes &&
+              matchingUser.attributes.cover
+                ? matchingUser.attributes.cover.data.attributes.url || ""
+                : "",
+            imgCoverName:
+              matchingUser &&
+              matchingUser.attributes &&
+              matchingUser.attributes.cover
+                ? matchingUser.attributes.cover.data.attributes.name || ""
+                : "",
             imgAvatarName: "",
             id: (matchingUser && matchingUser.id) || "",
           });
@@ -479,14 +501,20 @@ const ProfileCreatorFilled = () => {
                 matchingUser.attributes &&
                 matchingUser.attributes.twitterAccount) ||
               "",
-             avatar: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
-              ? matchingUser.attributes.avatar.data.attributes.url || ""
-              : "",
+            avatar:
+              matchingUser &&
+              matchingUser.attributes &&
+              matchingUser.attributes.avatar
+                ? matchingUser.attributes.avatar.data.attributes.url || ""
+                : "",
             cover: "",
             imgCoverName: "",
-              imgAvatarName: matchingUser && matchingUser.attributes && matchingUser.attributes.avatar
-              ? matchingUser.attributes.avatar.data.attributes.name || ""
-              : "",
+            imgAvatarName:
+              matchingUser &&
+              matchingUser.attributes &&
+              matchingUser.attributes.avatar
+                ? matchingUser.attributes.avatar.data.attributes.name || ""
+                : "",
             id: (matchingUser && matchingUser.id) || "",
           });
           const updateProfileResponse = await axios.put(
@@ -547,12 +575,17 @@ const ProfileCreatorFilled = () => {
                 <input
                   type="file"
                   className={p.filepeaker}
-                  onChange={(e) => setAvatar(e.target.files)}
+                  onChange={(e) => {
+                    setAvatar(e.target.files);
+                    handleAvatarChange(e);
+                  }}
                 />
                 <img
                   src={"http://localhost:1337" + formData.avatar}
                   alt="ava"
+                  className={p.avatarImg}
                 />
+                {avatarPreview && <img src={avatarPreview} className={p.avatarPreview}/>}
                 <ColumnTemplate
                   row1={
                     <Avatext
@@ -584,9 +617,17 @@ const ProfileCreatorFilled = () => {
                 <input
                   type="file"
                   className={p.filepeaker}
-                  onChange={(e) => setCover(e.target.files)}
+                  onChange={(e) => {
+                    setCover(e.target.files);
+                    handleCoverChange(e);
+                  }}
                 />
-                <img src={"http://localhost:1337" + formData.cover} alt="ava" />
+                <img
+                  src={"http://localhost:1337" + formData.cover}
+                  alt="ava"
+                  className={p.avatarImg}
+                />
+                {coverPreview && <img src={coverPreview} className={p.avatarPreview}/>}
                 <ColumnTemplate
                   row1={
                     <Avatext

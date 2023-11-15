@@ -361,7 +361,7 @@
   @media (min-width: 280px) and (max-width: 1024px) {
     .videoCreator__wrapper {
       width: 100%;
-      //min-height: 100vh;
+      min-height: 100vh;
       background: var(--10, #111);
       padding-bottom: 24px;
       overflow: hidden;

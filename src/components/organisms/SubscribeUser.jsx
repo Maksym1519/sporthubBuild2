@@ -273,8 +273,7 @@ useEffect(() => {
   }
   getPlaylistsNames();
 }, []);
-
-
+console.log(videoInfo.update)
   return (
     <>
       <div className={ut.wrapper}>
@@ -442,8 +441,9 @@ useEffect(() => {
                         onClick={postView()}
                         key={index}
                         videoUrl={link}
+                        //update={videoInfo.update[props.link.indexOf(link)]}
                         update={videoInfo.update}
-                        index={index}
+                        index={[props.link.indexOf(link)]}
                         avatar={videoInfo.avatar}
                         fileName={videoInfo.fileName[props.link.indexOf(link)]}
                         usersName={videoInfo.userName}

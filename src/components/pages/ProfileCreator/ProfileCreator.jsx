@@ -27,7 +27,6 @@ import AvaFrame from "../../../images/avaFrame.svg";
 import CoverFrame from "../../../images/coverFrame.svg";
 import Radio from "../../../images/Radiobutton.svg";
 import RadioActive from "../../../images/Radiobutton-active.svg";
- 
 
 const ProfileCreator = () => {
   //redux-gender---- ------------------------------------------
@@ -43,7 +42,7 @@ const ProfileCreator = () => {
       firstName: prevData.firstName, // Сохраняем текущее значение firstName
     }));
   };
-  
+
   const femaleClick = () => {
     dispatch(showFemale());
     setFormData((prevData) => ({
@@ -52,7 +51,7 @@ const ProfileCreator = () => {
       firstName: prevData.firstName,
     }));
   };
-  
+
   const noneClick = () => {
     dispatch(showNone());
     setFormData((prevData) => ({
@@ -61,37 +60,45 @@ const ProfileCreator = () => {
       firstName: prevData.firstName,
     }));
   };
-  
+
   //redux-isMobile---------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
   //get-data-storage--------------------------------------------
-  const dataStorage = localStorage.getItem('id')
+  const dataStorage = localStorage.getItem("id");
   //get-data-from-profiles-------------------------------------
   useEffect(() => {
-    async function requestToProfiles () {
+    async function requestToProfiles() {
       try {
-        const dataFromProfiles = await axios.get("http://localhost:1337/api/profiles?populate=*")
+        const dataFromProfiles = await axios.get(
+          "http://localhost:1337/api/profiles?populate=*"
+        );
         if (dataFromProfiles.status === 200) {
-          const responseData = dataFromProfiles.data.data
-          const matchingData = responseData.find((data) => data.attributes.identifier === dataStorage)
-          console.log(matchingData)
+          const responseData = dataFromProfiles.data.data;
+          const matchingData = responseData.find(
+            (data) => data.attributes.identifier === dataStorage
+          );
+          console.log(matchingData);
           if (matchingData) {
-           alert('User with such identifier already created please proceed to edit your profile')
+            alert(
+              "User with such identifier already created please proceed to edit your profile"
+            );
           } else {
-            console.log("there is no profile with such identifier")
+            console.log("there is no profile with such identifier");
           }
         }
-      } catch(error) {
-        console.error("dataFromProfiles is failed")
+      } catch (error) {
+        console.error("dataFromProfiles is failed");
       }
     }
-    requestToProfiles()
-   },[])
+    requestToProfiles();
+  }, []);
   //form-data--------------------------------------------------
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState();
+  const [avatarPreview, setAvatarPreview] = useState(null);
   const [cover, setCover] = useState();
+  const [coverPreview, setCoverPreview] = useState(null);
   const [formData, setFormData] = useState({
     firstName: null,
     genderMale: null,
@@ -126,8 +133,21 @@ const ProfileCreator = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-  
-  
+
+  //set-preview-avatar-----------------------------------------
+  const handleAvatarChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+  //set-preview-cover-------------------------------------
+  const handleCoverChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setCoverPreview(URL.createObjectURL(file));
+    }
+  };
   const handleSubmit = async (e) => {
     //e.preventDefault();
 
@@ -146,82 +166,79 @@ const ProfileCreator = () => {
         formDataServer2
       );
 
-     
-        const imageAvatar = responseAvatar.data[0].id;
-        const imageCover = responseCover.data[0].id;
-        console.log(imageAvatar);
+      const imageAvatar = responseAvatar.data[0].id;
+      const imageCover = responseCover.data[0].id;
+      console.log(imageAvatar);
 
-         const requestData = {
-          data: {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            dateOfBirthday: formData.dateOfBirthday,
-            address: formData.address,
-            LLC: formData.LLC,
-            description: formData.description,
-            vimeoAccount: formData.vimeoAccount,
-            instagramAccount: formData.instagramAccount,
-            facebookAccount: formData.facebookAccount,
-            twitterAccount: formData.twitterAccount,
-            avatar: imageAvatar, 
-            cover: imageCover, 
-            identifier: dataStorage,
-            genderMale: formData.genderMale,
-            genderFemale: formData.genderFemale,
-            genderNone: formData.genderNone,
-          },
-        };
+      const requestData = {
+        data: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          dateOfBirthday: formData.dateOfBirthday,
+          address: formData.address,
+          LLC: formData.LLC,
+          description: formData.description,
+          vimeoAccount: formData.vimeoAccount,
+          instagramAccount: formData.instagramAccount,
+          facebookAccount: formData.facebookAccount,
+          twitterAccount: formData.twitterAccount,
+          avatar: imageAvatar,
+          cover: imageCover,
+          identifier: dataStorage,
+          genderMale: formData.genderMale,
+          genderFemale: formData.genderFemale,
+          genderNone: formData.genderNone,
+        },
+      };
 
-        // Now, send the requestData to the server
-        const profileResponse = await axios.post(
-          "http://localhost:1337/api/profiles",
-          requestData
-        );
+      // Now, send the requestData to the server
+      const profileResponse = await axios.post(
+        "http://localhost:1337/api/profiles",
+        requestData
+      );
 
-        if (profileResponse.status === 200) {
-          setFormData({
-            firstName: "",
-            lastName: "",
-            dateOfBirthday: "",
-            address: "",
-            LLC: "",
-            description: "",
-            vimeoAccount: "",
-            instagramAccount: "",
-            facebookAccount: "",
-            twitterAccount: "",
-            avatar: "",
-            genderMale: "",
-            genderFemale: "",
-            genderNone: "",
-          });
+      if (profileResponse.status === 200) {
+        setFormData({
+          firstName: "",
+          lastName: "",
+          dateOfBirthday: "",
+          address: "",
+          LLC: "",
+          description: "",
+          vimeoAccount: "",
+          instagramAccount: "",
+          facebookAccount: "",
+          twitterAccount: "",
+          avatar: "",
+          genderMale: "",
+          genderFemale: "",
+          genderNone: "",
+        });
 
-          setPlaceholderData({
-            firstName: "Your First Name",
-            genderMale: "Male",
-            genderFemale: "Female",
-            genderNone: "None",
-            lastName: "Your Last Name",
-            dateOfBirthday: "MM.DD.YYYY",
-            address: "Address",
-            LLC: "Your LLC",
-            description: "Description",
-            vimeoAccount: "Add your Vimeo account",
-            instagramAccount: "Add your Instagram account",
-            facebookAccount: "Add your Facebook account",
-            twitterAccount: "Add your Twitter account",
-          });
-          console.log("Registration successful");
-          
-        } else {
-          console.error("Profile creation failed");
-        }
-    
+        setPlaceholderData({
+          firstName: "Your First Name",
+          genderMale: "Male",
+          genderFemale: "Female",
+          genderNone: "None",
+          lastName: "Your Last Name",
+          dateOfBirthday: "MM.DD.YYYY",
+          address: "Address",
+          LLC: "Your LLC",
+          description: "Description",
+          vimeoAccount: "Add your Vimeo account",
+          instagramAccount: "Add your Instagram account",
+          facebookAccount: "Add your Facebook account",
+          twitterAccount: "Add your Twitter account",
+        });
+        console.log("Registration successful");
+      } else {
+        console.error("Profile creation failed");
+      }
     } catch (error) {
       console.error("Error registering user:", error);
     }
   };
-//directTo-------------------------------------------
+  //directTo-------------------------------------------
   const directTo = async (e) => {
     e.preventDefault(); // Остановить стандартное поведение формы
     try {
@@ -232,9 +249,7 @@ const ProfileCreator = () => {
       console.error("Произошла ошибка при отправке данных:", error);
     }
   };
-//set-avatat-to-client-----------------------------------------------------
-
-
+  //set-avatat-to-client-----------------------------------------------------
 
   return (
     <div className={p.profileCreator__wrapper}>
@@ -270,8 +285,8 @@ const ProfileCreator = () => {
                   <Button18044
                     text={<Text16600 text="Save" />}
                     borderRadius="8px"
-                    width='180px'
-                   />
+                    width="180px"
+                  />
                 )}
               </button>
             </div>
@@ -280,9 +295,15 @@ const ProfileCreator = () => {
                 <input
                   type="file"
                   className={p.filepeaker}
-                  onChange={(e) => setAvatar(e.target.files)}
+                  onChange={(e) => {
+                    setAvatar(e.target.files);
+                    handleAvatarChange(e);
+                  }}
                 />
                 <img src={AvaFrame} alt="ava" />
+                {avatarPreview && (
+                  <img src={avatarPreview} className={p.avatarPreview} />
+                )}
                 <ColumnTemplate
                   row1={<Text16400 text="Information about adding photo" />}
                   row2={
@@ -297,9 +318,13 @@ const ProfileCreator = () => {
                 <input
                   type="file"
                   className={p.filepeaker}
-                  onChange={(e) => setCover(e.target.files)}
+                  onChange={(e) => {
+                    setCover(e.target.files);
+                    handleCoverChange(e);
+                  }}
                 />
                 <img src={CoverFrame} alt="ava" />
+                {coverPreview && <img src={coverPreview} className={p.coverPreview}/>}
                 <ColumnTemplate
                   row1={<Text16400 text="Information about adding cover" />}
                   row2={

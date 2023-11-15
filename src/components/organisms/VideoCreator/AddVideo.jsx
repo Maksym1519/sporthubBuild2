@@ -33,13 +33,16 @@ const AddVideo = (props) => {
   //post-data-------------------------------------------------------------------
   const [formData, setFormData] = useState(null); //для видео
   const [preview, setPreview] = useState(null); //для preview
+  const [previewToServer,setPreviewToServer] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
   console.log(videoPreview);
+  //previewToServer-------------------------------------------------
+ // setPreviewToServer(previewToServer)
   //set-preview-img-------------------------------------------------
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      setPreview(URL.createObjectURL(file));
+      setPreviewToServer(URL.createObjectURL(file));
     }
   };
   //set-preview-video---------------------------------------------------
@@ -381,13 +384,13 @@ const AddVideo = (props) => {
             {/* //input-------------------------------------------------------- */}
           </div>
           <div className={av.filepeaker__wrapper}>
-            <img src={preview} className={av.preview} />
+            <img src={previewToServer} className={av.preview} />
             <Text16400 text="Drag and drop photo to upload" />
             <Text12400 text="Information about adding photo. Amet minim mollit non deserunt ullamco est sit " />
             <input
               type="file"
               className={av.addPreview}
-              onChange={(e) => setPreview(e.target.files)}
+              onChange={(e) => {setPreview(e.target.files);handleFileChange(e)}}
               //onChange={handleFileChange}
             />
           </div>

@@ -80,7 +80,8 @@ export const Icones = {
   like: "http://localhost:1337/uploads/like_7b171e13e7.svg",
   dislike: "http://localhost:1337/uploads/dislike_3dd75f9c8c.svg",
   videoIcon: "http://localhost:1337/uploads/video_Icon_51d4f245ea.png",
-  hammer: "http://localhost:1337/uploads/hammer_f1f12ed1a2.png"
+  hammer: "http://localhost:1337/uploads/hammer_f1f12ed1a2.png",
+  logoCenter: "http://localhost:1337/uploads/logo_center_13f13f4928.svg"
 }
 export const Preview = {
   previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"

@@ -44,6 +44,18 @@
                 transform: translateY(-50%);
                 opacity: 0;
             }
+            & img {
+              width: 120px;
+              height: 120px;
+            }
+            .avatarPreview, .coverPreview {
+              width: 120px;
+              height: 120px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              z-index: 1000;
+            }
           }
         }
       }
@@ -163,6 +175,18 @@
                 top: 50%;
                 transform: translateY(-50%);
                 opacity: 0;
+            }
+            & img {
+              width: 120px;
+              height: 120px;
+            }
+            .avatarPreview {
+              width: 120px;
+              height: 120px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              z-index: 1000;
             }
           }
         }

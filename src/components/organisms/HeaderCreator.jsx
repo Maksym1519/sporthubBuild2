@@ -101,7 +101,7 @@ const HeaderCreator = (props) => {
               >
                 <span className={hc.burger__line}>-</span>
               </div>
-              <Link onClick={props.goHome}>
+              <Link to="/" onClick={props.goHome}>
                 <div className={hc.logo__wrapper}>
                   <img src={Icones.logo} alt="logo" />
                 </div>
@@ -112,7 +112,7 @@ const HeaderCreator = (props) => {
             </div>
           ) : (
             <div className={hc.wrapper}>
-              <Link onClick={props.goHome}>
+              <Link to="/" onClick={props.goHome}>
                 <div className={hc.logo__wrapper}>
                   <img src={Icones.logo} alt="logo" />
                 </div>
@@ -204,20 +204,22 @@ const HeaderCreator = (props) => {
                       }
                     />
                   </div>
-                  <div
-                    onClick={clickShowLogIn}
-                    className={hc.item + " " + hc.lastItem}
-                  >
-                    <Avatext
-                      img={Icones.logOut}
-                      text1={
-                        <Text16400
-                          text="Log out"
-                          color="rgba(187, 187, 187, 1)"
-                        />
-                      }
-                    />
-                  </div>
+                  <Link to="/SignInCreator">
+                    <div
+                      onClick={clickShowLogIn}
+                      className={hc.item + " " + hc.lastItem}
+                    >
+                      <Avatext
+                        img={Icones.logOut}
+                        text1={
+                          <Text16400
+                            text="Log out"
+                            color="rgba(187, 187, 187, 1)"
+                          />
+                        }
+                      />
+                    </div>
+                  </Link>
                 </div>
               )}
             </div>

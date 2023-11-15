@@ -1,257 +1,289 @@
 @media (min-width: 1025px) {
-    .profileCreator__wrapper {
-      width: 100%;
-      min-height: 100vh;
-      background: var(--10, #111);
-      padding-bottom: 62px;
-      overflow: hidden;
-      
-      & .container {
-        max-width: 980px;
-        margin: 16px auto 0;
-        padding: 0 30px;
-         & .main {
-          max-width: 100%;
+  .profileCreator__wrapper {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--10, #111);
+    padding-bottom: 62px;
+    overflow: hidden;
+
+    & .container {
+      max-width: 980px;
+      margin: 16px auto 0;
+      padding: 0 30px;
+      & .main {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        & .main__header {
+          width: 100%;
           display: flex;
-          flex-direction: column;
-          & .main__header {
-            width: 100%;
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--9, #222);
-          }
-          & .profile__wrapper {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            column-gap: 48px;
-            padding-top: 16px;
-            margin-bottom: 32px;
-            & .item__wrapper {
-                width: 50%;
-              display: flex;
-              align-items: center;
-              column-gap: 24px;
-              position: relative;
-              & .filepeaker {
-                  width: 120px;
-                  height: 120px;
-                  border-radius: 100%;
-                  position: absolute;
-                  left: 30%;
-                  top: 50%;
-                  transform: translateY(-50%);
-                  opacity: 0;
-              }
-              & .bucket {
-                position: absolute;
-                top: 50%;
-                right: 0;
-                transform: translateY(-50%);
-              }
-            }
-          }
+          align-items: flex-start;
+          justify-content: space-between;
+          padding-bottom: 16px;
+          border-bottom: 1px solid var(--9, #222);
         }
-      }
-    }
-    .form__wrapper {
-      max-width: 100%;
-      & .inputs__wrapper {
-          max-width: 100%;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
+        & .profile__wrapper {
+          width: 100%;
+          display: flex;
+          align-items: center;
           column-gap: 48px;
-          row-gap: 32px;
-          & .input__wrapper {
-              position: relative;
-              width: 100%;
-              display: flex;
-              flex-direction: column;
-              row-gap: 6px;
-              & .input {
-                  width: 100%;
-                  height: 48px;
-                  border-radius: 8px;
-                  background: var(--9, #222);
-                  padding: 0 15px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                  color: var(--6, #999);
-                  font-family: 'Uto-400';
-                  font-size: 16px;
-                  line-height: normal;
-              }
-              & .input::placeholder {
-                  color: var(--6, #999);
-                  font-family: 'Uto-400';
-                  font-size: 16px;
-                  line-height: normal;
-              }
-              & .inputGender {
-                  max-width: 135px;
-                  padding-left: 50px;
-              }
-          }
-          .inputGender__wrapper {
-              display: flex !important;
-              align-items: center;
-              column-gap: 16px;
-              & .inputRadio__wrapper {
-                  position: relative;
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                      & .radioButton {
-                      position: absolute;
-                      left: 10px;
-                      top: 50%;
-                      transform: translateY(-50%);
-                      margin-right: 10px;
-                  }
-                  & .active {
-                      z-index: 999;
-                  }
-              }
-          }
-          & .input_fullWidth {
-              grid-column-start: 1;
-              grid-column-end: 3;
-          }
-      }
-    }
-  }
-  
-  @media (min-width: 280px) and (max-width: 1024px) {
-    .profileCreator__wrapper {
-      width: 100%;
-      min-height: 100vh;
-      background: var(--10, #111);
-      padding-bottom: 62px;
-      overflow: hidden;
-        & .container {
-        max-width: 920px;
-        margin: 11px auto 0;
-        & .main {
-          max-width: 100%;
-          display: flex;
-          flex-direction: column;
-          padding: 0 16px;
-          & .main__header {
-            width: 100%;
+          padding-top: 16px;
+          margin-bottom: 32px;
+          & .item__wrapper {
+            width: 50%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--9, #222);
-          }
-          & .profile__wrapper {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            column-gap: 0px;
-            row-gap: 34px;
-            padding-top: 25px;
-            margin-bottom: 32px;
-            & .item__wrapper {
-              display: flex;
-              align-items: center;
-              column-gap: 24px;
-              position: relative;
-              & .filepeaker {
-                  width: 120px;
-                  height: 120px;
-                  border-radius: 100%;
-                  position: absolute;
-                  left: 0;
-                  top: 50%;
-                  transform: translateY(-50%);
-                  opacity: 0;
-              }
+            column-gap: 24px;
+            position: relative;
+            .avatarPreview,
+            .coverPreview {
+              width: 120px;
+              height: 120px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              z-index: 1000;
+            }
+            & .avatarImg {
+              width: 120px;
+              height: 120px;
+            }
+            & .filepeaker {
+              width: 120px;
+              height: 120px;
+              border-radius: 100%;
+              position: absolute;
+              left: 30%;
+              top: 50%;
+              transform: translateY(-50%);
+              opacity: 0;
+            }
+            & .bucket {
+              position: absolute;
+              top: 50%;
+              right: 0;
+              transform: translateY(-50%);
             }
           }
         }
       }
     }
-    .form__wrapper {
+  }
+  .form__wrapper {
+    max-width: 100%;
+    & .inputs__wrapper {
       max-width: 100%;
-      & .inputs__wrapper {
-          max-width: 100%;
-          display: grid;
-          grid-template-columns: 1fr;
-          column-gap: 0px;
-          row-gap: 24px;
-          & .input__wrapper {
-              position: relative;
-              width: 100%;
-              display: flex;
-              flex-direction: column;
-              row-gap: 6px;
-              & .input {
-                  width: 100%;
-                  height: 48px;
-                  border-radius: 8px;
-                  background: var(--9, #222);
-                  padding: 0 15px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                  color: var(--6, #999);
-                  font-family: 'Uto-400';
-                  font-size: 16px;
-                  line-height: normal;
-              }
-              & .input::placeholder {
-                  color: var(--6, #999);
-                  font-family: 'Uto-400';
-                  font-size: 16px;
-                  line-height: normal;
-              }
-              & .inputGender {
-                  display: flex;
-                  max-width: 135px;
-                  padding: 0 !important;
-                  }
-              & .inputGender::placeholder {
-                  max-width: 135px;
-                  padding-left: 45px;
-                  font-family: 'Uto-400';
-                  font-size: 14px;
-                  line-height: normal;
-                  color: var(--6, #999);
-                  justify-self: flex-start;
-              }
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 48px;
+      row-gap: 32px;
+      & .input__wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 6px;
+        & .input {
+          width: 100%;
+          height: 48px;
+          border-radius: 8px;
+          background: var(--9, #222);
+          padding: 0 15px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: var(--6, #999);
+          font-family: "Uto-400";
+          font-size: 16px;
+          line-height: normal;
+        }
+        & .input::placeholder {
+          color: var(--6, #999);
+          font-family: "Uto-400";
+          font-size: 16px;
+          line-height: normal;
+        }
+        & .inputGender {
+          max-width: 135px;
+          padding-left: 50px;
+        }
+      }
+      .inputGender__wrapper {
+        display: flex !important;
+        align-items: center;
+        column-gap: 16px;
+        & .inputRadio__wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          & .radioButton {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-right: 10px;
           }
-          .inputGender__wrapper {
-              display: flex !important;
-              align-items: center;
-              column-gap: 16px;
-              & .inputRadio__wrapper {
-                  position: relative;
-                  display: flex;
-                  align-items: center;
-                  justify-content: flex-start;
-                     & .radioButton {
-                      position: absolute;
-                      left: 10px;
-                      top: 50%;
-                      transform: translateY(-50%);
-                      margin-right: 0px !important;
-                      max-width: 28px;
-                  }
-                  & .active {
-                      z-index: 999;
-                  }
-              }
+          & .active {
+            z-index: 999;
           }
-          & .input_fullWidth {
-              grid-column-start: 1;
-              grid-column-end: 2;
-          }
+        }
+      }
+      & .input_fullWidth {
+        grid-column-start: 1;
+        grid-column-end: 3;
       }
     }
   }
-  
+}
+
+@media (min-width: 280px) and (max-width: 1024px) {
+  .profileCreator__wrapper {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--10, #111);
+    padding-bottom: 62px;
+    overflow: hidden;
+    & .container {
+      max-width: 920px;
+      margin: 68px auto 0;
+      & .main {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0 16px;
+        & .main__header {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-bottom: 16px;
+          border-bottom: 1px solid var(--9, #222);
+        }
+        & .profile__wrapper {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          column-gap: 0px;
+          row-gap: 34px;
+          padding-top: 25px;
+          margin-bottom: 32px;
+          & .item__wrapper {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 80px 180px 40px;
+            gap: 16px;
+            align-items: center;
+            position: relative;
+            .avatarPreview,
+            .coverPreview {
+              width: 80px;
+              height: 80px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              z-index: 1000;
+            }
+            & .avatarImg {
+              width: 80px;
+              height: 80px;
+            }
+            & .filepeaker {
+              width: 80px;
+              height: 80px;
+              border-radius: 100%;
+              position: absolute;
+              left: 0;
+              top: 50%;
+              transform: translateY(-50%);
+              opacity: 0;
+            }
+            & .bucket {
+              display: block;
+              justify-self: end;
+            }
+            }
+        }
+      }
+    }
+  }
+  .form__wrapper {
+    max-width: 100%;
+    & .inputs__wrapper {
+      max-width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      column-gap: 0px;
+      row-gap: 24px;
+      & .input__wrapper {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 6px;
+        & .input {
+          width: 100%;
+          height: 48px;
+          border-radius: 8px;
+          background: var(--9, #222);
+          padding: 0 15px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: var(--6, #999);
+          font-family: "Uto-400";
+          font-size: 16px;
+          line-height: normal;
+        }
+        & .input::placeholder {
+          color: var(--6, #999);
+          font-family: "Uto-400";
+          font-size: 16px;
+          line-height: normal;
+        }
+        & .inputGender {
+          display: flex;
+          max-width: 135px;
+          padding-left: 45px !important;
+        }
+        & .inputGender::placeholder {
+          max-width: 135px;
+          //padding-left: 45px;
+          font-family: "Uto-400";
+          font-size: 14px;
+          line-height: normal;
+          color: var(--6, #999);
+          justify-self: flex-start;
+        }
+      }
+      .inputGender__wrapper {
+        display: flex !important;
+        align-items: center;
+        column-gap: 16px;
+        & .inputRadio__wrapper {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          & .radioButton {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-right: 0px !important;
+            max-width: 28px;
+          }
+          & .active {
+            z-index: 999;
+          }
+        }
+      }
+      & .input_fullWidth {
+        grid-column-start: 1;
+        grid-column-end: 2;
+      }
+    }
+  }
+}

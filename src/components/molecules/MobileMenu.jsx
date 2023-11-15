@@ -155,6 +155,19 @@ const MobileMenu = (props) => {
                 />
               </div>
             </Link>
+            <Link to="/VideoCreator">
+              <div className={mm.item}>
+                <Avatext
+                  img={Icones.videoIcon}
+                  text1={
+                    <Text16400
+                      text="Create video"
+                      color="rgba(187, 187, 187, 1)"
+                    />
+                  }
+                />
+              </div>
+            </Link>
             <div className={mm.item}>
               <Avatext
                 img={Icones.diamond}
@@ -166,17 +179,19 @@ const MobileMenu = (props) => {
                 }
               />
             </div>
-            <div
-              onClick={clickShowLogIn}
-              className={mm.item + " " + mm.lastItem}
-            >
-              <Avatext
-                img={Icones.logOut}
-                text1={
-                  <Text16400 text="Log out" color="rgba(187, 187, 187, 1)" />
-                }
-              />
-            </div>
+            <Link to="/SignInCreator">
+              <div
+               // onClick={clickShowLogIn}
+                className={mm.item + " " + mm.lastItem}
+              >
+                <Avatext
+                  img={Icones.logOut}
+                  text1={
+                    <Text16400 text="Log out" color="rgba(187, 187, 187, 1)" />
+                  }
+                />
+              </div>
+            </Link>
           </div>
         )}
         {/* //----------------------------------------------------------------------------------------------  */}
@@ -193,37 +208,38 @@ const MobileMenu = (props) => {
               handleSwitcher(4), handleSubscribeClick();
             }}
           >
-          {Array.isArray(props.subscriptions) && props.subscriptions.map((item, index) => (
-                  <div
-                    className={`${mm.item} ${activeIndex === 4 ? mm.active : ""}`}
-                    onClick={() =>
-                      props.handleVideoClick({
-                        avatar: item.avatar,
-                        cover: item.cover,
-                        fileName: props.fileNames,
-                        userName: item.name,
-                        subscribe: item.subscribe,
-                        id: item.id,//?
-                        identifier: item.identifier,
-                        update: props.propsTime,
-                        identifierForLink: item.identifierForVideo,
-                        views: props.views,
-                        view: props.views[index]
-                        })
+            {Array.isArray(props.subscriptions) &&
+              props.subscriptions.map((item, index) => (
+                <div
+                  className={`${mm.item} ${activeIndex === 4 ? mm.active : ""}`}
+                  onClick={() =>
+                    props.handleVideoClick({
+                      avatar: item.avatar,
+                      cover: item.cover,
+                      fileName: props.fileNames,
+                      userName: item.name,
+                      subscribe: item.subscribe,
+                      id: item.id, //?
+                      identifier: item.identifier,
+                      update: props.propsTime,
+                      identifierForLink: item.identifierForVideo,
+                      views: props.views,
+                      view: props.views[index],
+                    })
+                  }
+                >
+                  <Avatext
+                    key={index}
+                    img={item.avatar}
+                    text1={
+                      <Text14400
+                        text={item.name}
+                        color="rgba(187, 187, 187, 1)"
+                      />
                     }
-                  >
-                    <Avatext
-                      key={index}
-                      img={item.avatar}
-                      text1={
-                        <Text14400
-                          text={item.name}
-                          color="rgba(187, 187, 187, 1)"
-                        />
-                      }
-                    />
-                  </div>
-                ))}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>
