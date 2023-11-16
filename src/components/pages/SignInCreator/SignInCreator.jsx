@@ -128,10 +128,10 @@ const SignUpCreator = () => {
       </div>
       <div className={sc.signInForm__wrapper}>
         {currentComponent === 'signIn' && <SignInForm img={Icones.logoCenter} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} link="/" height='800px'/>}
-        {currentComponent === 'signUp' && <SignUpForm img={Logo} click={handleSignInClick} url="http://localhost:1337/api/clients"/>}
-        {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick} img={Logo} height='100%' display='none'/>}
-        {currentComponent === 'checkInbox' && <CheckInboxForm img={Logo} height='100%' display='none'/>}
-        {currentComponent === 'restorePassword' && <RestorePasswordForm img={Logo} height='100%' display='none'/>} 
+        {currentComponent === 'signUp' && <SignUpForm img={Icones.logoCenter} click={handleSignInClick} url="http://localhost:1337/api/clients"/>}
+        {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick} img={Icones.logoCenter} height='100%' display='none'/>}
+        {currentComponent === 'checkInbox' && <CheckInboxForm img={Icones.logoCenter} height='100%' display='none'/>}
+        {currentComponent === 'restorePassword' && <RestorePasswordForm img={Icones.logoCenter} height='100%' display='none'/>} 
       </div>
       <img src={Blur1} alt="blur1" className={`${sc.blur} ${sc.blur1}`} />
       <img src={Blur2} alt="blur2" className={`${sc.blur} ${sc.blur2}`} />
