@@ -38,45 +38,36 @@ const ForgotPasswordForm = (props) => {
       const randomIndex = Math.floor(Math.random() * charset.length);
       password += charset[randomIndex];
     }
-    console.log(password);
     return password;
   };
+  //------------------------------------------------------------------------
+  const [newPasswordToSever, setNewPasswordToServer] = useState(null);
+  console.log(newPasswordToSever)
+  useEffect(() => {
+    const newPassword = generateRandomPassword();
+    setNewPasswordToServer(newPassword);
+  },[])
+  
   //--------------------------------------------------------------------------------------------------
   const [email, setEmail] = useState(null);
-   useEffect(() => {
-    // Вызывается после каждого обновления email
-    if (email) {
-      getClients();
-     
-    }
-  }, [email]); // Зависимость от email
- useEffect(() => {
-  if (passwordClients && email) {
-    handleChangePassword()
-  }
- },[passwordClients])
   const sendEmail = async (e) => {
     e.preventDefault();
     setEmail(e.target.elements.user_email.value);
     console.log("Email:", email);
-
-    const newPassword = generateRandomPassword();
-    console.log("New Password:", newPassword);
-
     const templateParams = {
       to: "flying1519@ukr.net",
       to_email: email,
       from_name: "Maksym",
       to_name: "Jhon",
-      message: `Ваш новый пароль: ${newPassword}`,
+      message: `Ваш новый пароль: ${newPasswordToSever}`,
     };
 
     try {
       await emailjs.send(
-        "service_jcari1l",
-        "template_94ldbrr",
+        "service_npekptm",
+        "template_kyh2hsb",
         templateParams,
-        "UCvGteeloHhl1Nhul"
+        "MC7BRzxDCdfYOwX2U"
       );
       console.log("Email отправлен");
       // После успешной отправки email вызываем props.click
@@ -86,47 +77,70 @@ const ForgotPasswordForm = (props) => {
     }
   };
   //get-clients-------------------------------------------------------------------------------
+  
   const [passwordClients, setPasswordClients] = useState(null);
   const [newEmail,setNewEmail] = useState(null)
-   async function getClients() {
+  async function getClients() {
     try {
-      const response = await axios.get("http://localhost:1337/api/clients");
+      const response = await axios.get("http://localhost:1337/api/clients?populate=*");
       const dataResponse = response.data.data;
-      console.log(dataResponse);
+      console.log("Data from server:", dataResponse);
   
       const filteredClients = dataResponse.filter(
         (item) => item.attributes.email === email
       );
-      
+  
       setPasswordClients(filteredClients);
-      console.log(filteredClients);
+      console.log("Filtered clients:", filteredClients);
   
       // После получения клиентов вызываем handleChangePassword
-      } catch (error) {
+      handleChangePassword();
+    } catch (error) {
       console.error("get clients failed", error);
     }
+    
   }
+  
   //change-password-on-server-----------------------------------------------------------------
   const handleChangePassword = async () => {
     try {
-      if (passwordClients && passwordClients.length > 0) {
+     console.log(newPasswordToSever)
+      if (newPasswordToSever && passwordClients) {
         const requestData = {
           data: {
-            email: 'aaaaa',
+            password: newPasswordToSever,
           },
         };
-        const clientId = passwordClients[0].id; // Проверяем, что массив существует и содержит данные
-        const response = await axios.put(`http://localhost:1337/api/clients/${clientId}`, requestData);
-        
-        console.log('Change password response:', response.data);
+        const clientId = passwordClients[0].id;
+  console.log(clientId)
+        const updatePasswordOnServer = async () => {
+          try {
+            const response = await axios.put(
+              `http://localhost:1337/api/clients/${clientId}`,
+              requestData
+            );
+            console.log('Change password response:', response.data);
+          } catch (error) {
+            console.error("change password failed", error);
+          }
+        };
   
+        updatePasswordOnServer();
       } else {
         console.error('No clients found or invalid passwordClients array');
       }
     } catch (error) {
       console.error("change password failed", error);
     }
-  }
+  };
+  useEffect(() => {
+    if (email) {
+      getClients();
+      }
+  }, [email]); // Dependency on email
+  
+ 
+  
   
   return (
     <div className={s.signInForm__wrapper} style={styled}>
@@ -161,20 +175,7 @@ const ForgotPasswordForm = (props) => {
               name="user_email"
             />
           </div>
-          {/* <button
-            className={s.button__wrapper}
-            onClick={props.click}
-            type="submit"
-            value="Send"
-             >
-            <Button18044
-              text={<Text16600 text="Send Email" color="#fff" />}
-              bg="rgba(173, 121, 85, 1)"
-              borderRadius="8px"
-            />
-             
-          </button> */}
-          <input type="submit" value="Send" className={s.sendEmail} />
+           <input type="submit" value="Send" className={s.sendEmail}/>
         </div>
       </form>
       <div className={s.terms} style={displayed}>
