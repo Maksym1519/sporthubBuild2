@@ -52,8 +52,8 @@ const ForgotPasswordForm = (props) => {
   const [email, setEmail] = useState(null);
   const sendEmail = async (e) => {
     e.preventDefault();
-    setEmail(e.target.elements.user_email.value);
-    console.log("Email:", email);
+    const newEmail = e.target.elements.user_email.value;
+    setEmail(newEmail)
     const templateParams = {
       to: "flying1519@ukr.net",
       to_email: email,
@@ -75,77 +75,71 @@ const ForgotPasswordForm = (props) => {
     } catch (error) {
       console.error("Ошибка при отправке письма:", error.text);
     }
+   // handleChangePassword()
   };
-  //get-clients-------------------------------------------------------------------------------
-  
-  const [passwordClients, setPasswordClients] = useState(null);
-  const [newEmail,setNewEmail] = useState(null)
-  async function getClients() {
-    try {
-      const response = await axios.get("http://localhost:1337/api/clients?populate=*");
-      const dataResponse = response.data.data;
-      console.log("Data from server:", dataResponse);
-  
-      const filteredClients = dataResponse.filter(
-        (item) => item.attributes.email === email
-      );
-  
-      setPasswordClients(filteredClients);
-      console.log("Filtered clients:", filteredClients);
-  
-      // После получения клиентов вызываем handleChangePassword
-      handleChangePassword();
-    } catch (error) {
-      console.error("get clients failed", error);
-    }
-    
-  }
-  
   //change-password-on-server-----------------------------------------------------------------
-  const handleChangePassword = async () => {
+   async function handleChangePassword() {
     try {
-     console.log(newPasswordToSever)
       if (newPasswordToSever && passwordClients) {
-        const requestData = {
-          data: {
-            password: newPasswordToSever,
-          },
-        };
-        const clientId = passwordClients[0].id;
-  console.log(clientId)
-        const updatePasswordOnServer = async () => {
-          try {
-            const response = await axios.put(
-              `http://localhost:1337/api/clients/${clientId}`,
-              requestData
-            );
-            console.log('Change password response:', response.data);
-          } catch (error) {
-            console.error("change password failed", error);
-          }
-        };
+        if (passwordClients.length > 0) {
+          const requestData = {
+            data: {
+              password: newPasswordToSever,
+            },
+          };
+          const clientId = passwordClients[0].id; // Assuming the first element in the array has an 'id' property
   
-        updatePasswordOnServer();
+          const updatePasswordOnServer = async () => {
+            try {
+              const response = await axios.put(
+                `http://localhost:1337/api/clients/${clientId}`,
+                requestData
+              );
+              console.log('Change password response:', response.data);
+            } catch (error) {
+              console.error("change password failed", error);
+            }
+          };
+  
+          updatePasswordOnServer();
+        } else {
+          console.error('No clients found or invalid passwordClients array');
+        }
       } else {
         console.error('No clients found or invalid passwordClients array');
       }
     } catch (error) {
       console.error("change password failed", error);
     }
-  };
-  useEffect(() => {
-    if (email) {
-      getClients();
-      }
-  }, [email]); // Dependency on email
+  }
+  const [passwordClients, setPasswordClients] = useState([]);
+  async function getClients() {
+    try {
+      const clients = await axios.get("http://localhost:1337/api/clients?populate=*");
+      const dataResponse = clients.data.data;
+      console.log("Data from server:", dataResponse);
   
+      const filteredClients = dataResponse.filter((item) => item.attributes.email === email);
+      setPasswordClients(filteredClients);
+      console.log("Filtered clients:", filteredClients);
+    } catch (error) {
+      console.error("get clients failed", error);
+    }
+  }
+ 
+  useEffect(() => {
+    getClients();
+  }, [email]);
+  useEffect(() => {
+    handleChangePassword()
+  },[email,passwordClients,newPasswordToSever])
  
   
   
   return (
     <div className={s.signInForm__wrapper} style={styled}>
       {props.img ? <img src={props.img} className={s.logo} /> : " "}
-      <form className={s.forgotPassword__form} onSubmit={sendEmail}>
+      <form className={s.forgotPassword__form} onSubmit={sendEmail} >
         {isMobile ? (
           <h3 className={s.title}>
             <Text32500 text="Forgot your password?" textAlign="center" />
@@ -173,9 +167,9 @@ const ForgotPasswordForm = (props) => {
               className={s.input}
               placeholder={"Your Email"}
               name="user_email"
-            />
+               />
           </div>
-           <input type="submit" value="Send" className={s.sendEmail}/>
+           <input type="submit" value="Send" className={s.sendEmail} />
         </div>
       </form>
       <div className={s.terms} style={displayed}>

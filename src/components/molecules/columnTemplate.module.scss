@@ -5,13 +5,14 @@
     padding: 10px;
 }
 .line__wrapper {
+    width: 100%;
     display: flex;
-    flex-direction: row;
+    //flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
 }
 .line__wrapper > * {
-    max-width: 50%; /* Или другое значение, которое подходит в вашем случае */
+   // max-width: 50%; /* Или другое значение, которое подходит в вашем случае */
     box-sizing: border-box; /* Учтите padding и border в расчетах ширины */
 }

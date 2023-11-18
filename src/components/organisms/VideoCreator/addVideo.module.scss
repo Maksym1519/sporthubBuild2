@@ -178,18 +178,21 @@
 }
 @media (min-width: 575px) and (max-width: 1024px) {
     .overlay {
-        width: 100%;
-        min-height: 100%;
-        //background: var(--10, #111);
-        z-index: 999;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
-        }
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); /* цвет и прозрачность фона */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999; /* уровень над другими элементами */
+    }
     .container {
         width: 100%;
         max-width: 100%;
-        margin: 0 auto;
+        margin: 32px auto 0;
         display: flex;
         flex-direction: column;
         padding: 0;
@@ -209,10 +212,11 @@
     }
     .uploadForm__wrapper {
         width: 100%;
-        height: 518px;
+        height: 318px;
         border-radius: 16px;
         background: transparent;
         position: relative;
+        margin-bottom: 32px;
          & .uploadForm__body {
          position: absolute;
          top: 30%;
@@ -231,18 +235,27 @@
          }
         }
     }
+    .videoPreview {
+        // position: absolute;
+        // top: 50%;
+        // left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -3;
+        display: none;
+        }
     //modal--------------------------------------------------
     .modal__wrapper {
         position: absolute;
-        top: 20%;
+        top: 10%;
         left: 50%;
         transform: translate(-50%);
-        width: 100%;
+        width: 70%;
         height: 283px;
         border-radius: 16px;
-        background: transparent;
+        background: var(--9, #222);
         z-index: 1005;
-        padding: 0 16px;
+        padding: 32px 16px;
     }
     .modal__container {
         width: 100%;
@@ -252,6 +265,7 @@
         align-items: flex-start;
         row-gap: 32px;
         margin: 0 auto;
+        z-index: 1007;
         & .header {
             display: flex;
             flex-direction: column;
@@ -346,6 +360,13 @@
           left: 0;
         }
       }
+      .preview {
+        position: absolute;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
+      }
 }
 @media (min-width: 280px) and (max-width: 574px) {
     .overlay {
@@ -380,10 +401,11 @@
     }
     .uploadForm__wrapper {
         width: 100%;
-        height: 518px;
+        height: 318px;
         border-radius: 16px;
         background: transparent;
         position: relative;
+        margin-bottom: 32px;
          & .uploadForm__body {
          position: absolute;
          top: 40%;
@@ -402,18 +424,27 @@
          }
         }
     }
+    .videoPreview {
+        // position: absolute;
+        // top: 50%;
+        // left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -3;
+        display: none;
+        }
     //modal--------------------------------------------------
     .modal__wrapper {
         position: absolute;
-        top: 39%;
+        top: 10%;
         left: 50%;
         transform: translate(-50%);
-        width: 100%;
+        width: 90%;
         height: 283px;
         border-radius: 16px;
-        background: transparent;
+        background: #222;
         z-index: 1005;
-        padding: 0 16px;
+        padding: 32px 16px;
     }
     .modal__container {
         width: 100%;
@@ -510,5 +541,12 @@
           top: 0;
           left: 0;
         }
+      }
+      .preview {
+        position: absolute;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
       }
 }
