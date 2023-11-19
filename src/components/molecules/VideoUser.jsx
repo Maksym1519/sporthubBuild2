@@ -59,9 +59,7 @@ const getTimeDifference = (updateTime) => {
     return `${seconds} second ago`;
   }
 };
- console.log(props.update)
-const timeDifferences = props.update.map(updateTime => getTimeDifference(updateTime));
-console.log(timeDifferences)
+ const timeDifferences = props.update.map(updateTime => getTimeDifference(updateTime));
 
     return (
         <div

@@ -1,6 +1,6 @@
 import up from "./userVideoPlayer.module.scss";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import HeaderCreator from "../../organisms/HeaderCreator";
 import AvaText from "../../molecules/Avatext";
@@ -65,100 +65,174 @@ const showChatClick = () => {
 const videoInfo = useSelector(selectPlayerInfo);
   console.log(videoInfo);
 //handle-with-likes------------------------------------------------------
-const [liked, setLiked] = useState(false);
-const [likes, setLikes] = useState(0);
-const [likeStatus, setLikeStatus] = useState(null);
-//toggle-likes---------------------------------------------
+// const [liked, setLiked] = useState(false);
+// const [likes, setLikes] = useState(0);
+// const [likeStatus, setLikeStatus] = useState(null);
+// //toggle-likes---------------------------------------------
+// useEffect(() => {
+//   const viewsData = videoInfo.videoInfoData;
+//   const videoInfoId = videoInfo.id; 
+//   const foundObject = viewsData.find(item => item.id === videoInfoId);
+//   const viewValue = foundObject ? foundObject.attributes.like : null;
+//   setLikes(viewValue);
+// }, [videoInfo]);
 
-useEffect(() => {
-  const viewsData = videoInfo.videoInfoData;
-  const videoInfoId = videoInfo.id; 
-  const foundObject = viewsData.find(item => item.id === videoInfoId);
-  const viewValue = foundObject ? foundObject.attributes.like : null;
-  console.log(viewValue)
-  setLikes(viewValue);
-}, [videoInfo]);
-
-const postLike = async () => {
-  try {
-    let newLikeStatus = null;
+// const postLike = async () => {
+//   try {
+//     let newLikeStatus = null;
     
-    if (likeStatus === 'like') {
-      newLikeStatus = null; // отменить лайк
-    } else {
-      newLikeStatus = 'like'; // поставить лайк
-    }
+//     if (likeStatus === 'like') {
+//       newLikeStatus = null; // отменить лайк
+//     } else {
+//       newLikeStatus = 'like'; // поставить лайк
+//     }
 
-    const requestData = {
-      data: {
-        like: newLikeStatus === 'like' ? likes + 1 : likes - 1,
-      },
-    };
+//     const requestData = {
+//       data: {
+//         like: newLikeStatus === 'like' ? likes + 1 : likes - 1,
+//       },
+//     };
 
-    const response = await axios.put(
-      `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
-      requestData
-    );
+//     const response = await axios.put(
+//       `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+//       requestData
+//     );
 
-    setLikes((prevLikes) =>
-      newLikeStatus === 'like' ? prevLikes + 1 : prevLikes - 1
-    );
-    setLikeStatus(newLikeStatus);
-  } catch (error) {
-    console.error("post like is failed", error);
-  }
-};
-//get-dislike-----------------------------------------------------------------------------
-const [disliked, setDisliked] = useState(false);
-const [dislikes, setDislikes] = useState(0);
-const [dislikeStatus, setDislikeStatus] = useState(null);
-useEffect(() => {
-  const viewsData = videoInfo.videoInfoData;
-  const videoInfoId = videoInfo.id; 
-  const foundObject = viewsData.find(item => item.id === videoInfoId);
-  const viewValue = foundObject ? foundObject.attributes.like : null;
-  setDislikes(viewValue);
-}, [videoInfo]);
-const postDislike = async () => {
-  try {
-    let newDislikeStatus = null;
-    
-    if (dislikeStatus === 'dislike') {
-      newDislikeStatus = null; // отменить дизлайк
-    } else {
-      newDislikeStatus = 'dislike'; // поставить дизлайк
-    }
-
-    const requestData = {
-      data: {
-        dislike: newDislikeStatus === 'dislike' ? dislikes + 1 : dislikes - 1,
-      },
-    };
-
-    const response = await axios.put(
-      `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
-      requestData
-    );
-
-    setDislikes((prevDislikes) =>
-      newDislikeStatus === 'dislike' ? prevDislikes + 1 : prevDislikes - 1
-    );
-    setDislikeStatus(newDislikeStatus);
-  } catch (error) {
-    console.error("post dislike is failed", error);
-  }
-};
-// //get-messages-amount-from-chat------------------------------------
-// // const [viewsAmount, setViewsAmount] = useState();
-
-// // const handleMessageAmount = async (amount, getMessages) => {
-// //   const messagesAmountFromChat = amount;
-
-// //   await getMessages(); // Дождитесь завершения getMessages
-
-// //   setViewsAmount(messagesAmountFromChat);
-// //   console.log(messagesAmountFromChat);
+//     setLikes((prevLikes) =>
+//       newLikeStatus === 'like' ? prevLikes + 1 : prevLikes - 1
+//     );
+//     setLikeStatus(newLikeStatus);
+//   } catch (error) {
+//     console.error("post like is failed", error);
+//   }
 // };
+// //get-dislike-----------------------------------------------------------------------------
+// const [disliked, setDisliked] = useState(false);
+// const [dislikes, setDislikes] = useState(0);
+// const [dislikeStatus, setDislikeStatus] = useState(null);
+// useEffect(() => {
+//   const viewsData = videoInfo.videoInfoData;
+//   const videoInfoId = videoInfo.id; 
+//   const foundObject = viewsData.find(item => item.id === videoInfoId);
+//   const viewValue = foundObject ? foundObject.attributes.like : null;
+//   setDislikes(viewValue);
+// }, [videoInfo]);
+// const postDislike = async () => {
+//   try {
+//     let newDislikeStatus = null;
+    
+//     if (dislikeStatus === 'dislike') {
+//       newDislikeStatus = null; // отменить дизлайк
+//     } else {
+//       newDislikeStatus = 'dislike'; // поставить дизлайк
+//     }
+
+//     const requestData = {
+//       data: {
+//         dislike: newDislikeStatus === 'dislike' ? dislikes + 1 : dislikes - 1,
+//       },
+//     };
+
+//     const response = await axios.put(
+//       `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+//       requestData
+//     );
+
+//     setDislikes((prevDislikes) =>
+//       newDislikeStatus === 'dislike' ? prevDislikes + 1 : prevDislikes - 1
+//     );
+//     setDislikeStatus(newDislikeStatus);
+//   } catch (error) {
+//     console.error("post dislike is failed", error);
+//   }
+// };
+const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+  const [likeStatus, setLikeStatus] = useState(null);
+  const [dislikeStatus, setDislikeStatus] = useState(null);
+  useEffect(() => {
+      const viewsData = videoInfo.videoInfoData;
+      const videoInfoId = videoInfo.id; 
+      const foundObject = viewsData.find(item => item.id === videoInfoId);
+      const likeValue = foundObject ? foundObject.attributes.like : null;
+      setLikes(likeValue);
+      const dislikeValue = foundObject ? foundObject.attributes.dislike : null;
+      console.log(dislikeValue)
+      setDislikes(dislikeValue)
+    }, [videoInfo]);
+    
+  const toggleDislike = useCallback(async () => {
+    try {
+      let newDislikeStatus = null;
+
+      if (dislikeStatus === 'dislike') {
+        newDislikeStatus = null; // отменить дизлайк
+        setDislikes((prevDislikes) => prevDislikes - 1);
+      } else {
+        newDislikeStatus = 'dislike'; // поставить дизлайк
+        setDislikes((prevDislikes) => prevDislikes + 1);
+        if (likeStatus === 'like') {
+          setLikes((prevLikes) => prevLikes - 1); // отменить лайк
+        }
+      }
+
+      const requestData = {
+        data: {
+          like: likeStatus === 'like' ? likes - 1 : likes,
+          dislike: newDislikeStatus === 'dislike' ? dislikes + 1 : dislikes,
+        },
+      };
+
+      const response = await axios.put(
+        `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+        requestData
+      );
+
+      setDislikeStatus(newDislikeStatus);
+      setLikeStatus(null);
+    } catch (error) {
+      console.error("post dislike is failed", error);
+      // Обработка ошибок при отправке данных на сервер
+    }
+  }, [dislikeStatus, likes, setLikes, dislikes, setDislikes, likeStatus, setLikeStatus, videoInfo.id]);
+
+  const toggleLike = useCallback(async () => {
+    try {
+      let newLikeStatus = null;
+
+      if (likeStatus === 'like') {
+        newLikeStatus = null; // отменить лайк
+        setLikes((prevLikes) => prevLikes - 1);
+      } else {
+        newLikeStatus = 'like'; // поставить лайк
+        setLikes((prevLikes) => prevLikes + 1);
+        if (dislikeStatus === 'dislike') {
+          setDislikes((prevDislikes) => prevDislikes - 1); // отменить дизлайк
+        }
+      }
+
+      const requestData = {
+        data: {
+          like: newLikeStatus === 'like' ? likes + 1 : likes,
+          dislike: dislikeStatus === 'dislike' ? dislikes - 1 : dislikes,
+        },
+      };
+
+      const response = await axios.put(
+        `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+        requestData
+      );
+
+      setLikeStatus(newLikeStatus);
+      setDislikeStatus(null);
+    } catch (error) {
+      console.error("post like is failed", error);
+      // Обработка ошибок при отправке данных на сервер
+    }
+  }, [likeStatus, likes, setLikes, dislikes, setDislikes, dislikeStatus, setDislikeStatus, videoInfo.id]);
+
+
+//---------------------------------------------------------------------------------------
 const [messages, setMessages] = useState([]);
 const messagesAmount = messages.length;
 console.log(messagesAmount)
@@ -209,19 +283,19 @@ useEffect(() => {
           <div className={up.statistics__wrapper}>
             {isMobile ? (
               <div className={up.statistics__likes}>
-                <div className={up.item + " " + up.item_border} onClick={postLike}>
+                <div className={up.item + " " + up.item_border} onClick={toggleLike}>
                   <AvaText img={Icones.like} text1={<Text14500 text={likes} />} />
                 </div>
-                <div className={up.item} onClick={postDislike}>
+                <div className={up.item} onClick={toggleDislike}>
                   <AvaText img={Icones.dislike} text1={<Text14500 text={dislikes} />} />
                 </div>
               </div>
             ) : (
               <div className={up.statistics__likes}>
-                <div className={up.item + " " + up.item_border} onClick={postLike}>
+                <div className={up.item + " " + up.item_border} onClick={toggleLike}>
                 <AvaText img={Icones.like} text1={<Text16500 text={likes} />} />
                 </div>
-                <div className={up.item} onClick={postDislike}>
+                <div className={up.item} onClick={toggleDislike}>
                   <AvaText img={Icones.dislike} text1={<Text16500 text={dislikes} />} />
                 </div>
               </div>

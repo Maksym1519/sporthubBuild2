@@ -50,12 +50,13 @@ const ForgotPasswordForm = (props) => {
   
   //--------------------------------------------------------------------------------------------------
   const [email, setEmail] = useState(null);
+  console.log(email)
   const sendEmail = async (e) => {
     e.preventDefault();
     const newEmail = e.target.elements.user_email.value;
     setEmail(newEmail)
     const templateParams = {
-      to: "flying1519@ukr.net",
+      to: newEmail,
       to_email: email,
       from_name: "Maksym",
       to_name: "Jhon",

@@ -35,7 +35,6 @@ const AddVideo = (props) => {
   const [preview, setPreview] = useState(null); //для preview
   const [previewToServer,setPreviewToServer] = useState(null);
   const [videoPreview, setVideoPreview] = useState(null);
-  console.log(videoPreview);
   //previewToServer-------------------------------------------------
  // setPreviewToServer(previewToServer)
   //set-preview-img-------------------------------------------------

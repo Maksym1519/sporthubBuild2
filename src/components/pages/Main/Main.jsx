@@ -280,7 +280,6 @@ const Main = (props) => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscriptionsAmount, setSubscriptionsAmount] = useState([]);
   const [identifierForVideo, setIdentifierForVideo] = useState();
-  console.log(identifierForVideo);
   let arraySubscriptions = [];
   let counter = 0;
   async function getSubscriptions() {
@@ -427,7 +426,7 @@ const Main = (props) => {
                         fileName: fileNames,
                         userName: item.name,
                         subscribe: item.subscribe,
-                        id: item.id, //?
+                        id: id[index], //?
                         identifier: item.identifier,
                         update: propsTime,
                         identifierForLink: item.identifierForVideo,
