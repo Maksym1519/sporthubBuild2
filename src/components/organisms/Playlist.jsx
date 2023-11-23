@@ -95,9 +95,7 @@ const Playlist = (props) => {
                 index={index}
                 avatar={props.avatar}
                 fileName={props.fileName[index]}
-                //fileName={props.fileNames[index]}
-               // usersName={props.usersName[index]}
-              />
+                />
             ))}
            </div>
         {/* //-------------------------------------------------------------------------------------------------------- */}

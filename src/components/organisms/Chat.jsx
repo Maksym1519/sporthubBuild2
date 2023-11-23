@@ -31,7 +31,7 @@ const Chat = (props) => {
         },
       };
       const response = await axios.post(
-        "http://localhost:1337/api/messages",
+        "https://sporthubdeploy2.onrender.com/api/messages",
         requestData
       );
       setMessages([...messages, formData.textMessage]);
@@ -52,15 +52,16 @@ const Chat = (props) => {
   
     async function getMessages() {
       try {
-        const response = await axios.get("http://localhost:1337/api/messages");
+        const response = await axios.get("https://sporthubdeploy2.onrender.com/api/messages");
         const dataResponse = response.data.data;
-        console.log(dataResponse);
+        const sortedData = dataResponse.sort((a, b) => a.id - b.id);
+        console.log(sortedData);
         //get names who send message
-        const arrayAuthors = dataResponse.map((item) => item.attributes.author);
+        const arrayAuthors = sortedData.map((item) => item.attributes.author);
         setAuthors(arrayAuthors);
         //get-messages
         const arrayMessages = [];
-        dataResponse.forEach((item) => {
+        sortedData.forEach((item) => {
           if (item.attributes.identifier === props.videoInfo.fileName) {
             arrayMessages.push(item.attributes.textMessage);
           }
@@ -69,7 +70,7 @@ const Chat = (props) => {
         console.log(arrayMessages);
          //get-avatars----------------------------------
         const arrayAvatars = [];
-        dataResponse.forEach((item) => {
+        sortedData.forEach((item) => {
           if (item.attributes.identifier === props.videoInfo.fileName) {
           arrayAvatars.push(item.attributes.avatar)
           }
@@ -84,7 +85,7 @@ const Chat = (props) => {
         const matchingAuthors = [];
         const matchingIds = [];
 
-        const arrayIdentifiers = dataResponse.map(
+        const arrayIdentifiers = sortedData.map(
           (item) => item.attributes.identifier
         );
         console.log(arrayIdentifiers);
@@ -102,7 +103,7 @@ const Chat = (props) => {
         const identifyMessages = matchingIds.length > 0;
         setShowMessages(identifyMessages);
         //get-names------------------------------------------------------
-        const arrayFullNames = dataResponse.map(
+        const arrayFullNames = sortedData.map(
           (item) => item.attributes.fullName
         );
         console.log(arrayFullNames);
@@ -124,10 +125,11 @@ const Chat = (props) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/profiles?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/profiles?populate=*"
         );
         const usersData = response.data.data;
-        const matchingUser = usersData.find(
+        const sortedData = usersData.sort((a, b) => a.id - b.id);
+        const matchingUser = sortedData.find(
           (user) => user.attributes.identifier === dataStorage
         );
         const currentFirstName = matchingUser.attributes.firstName;
@@ -136,8 +138,7 @@ const Chat = (props) => {
         setAuthorName(fullName);
         //get-chat-avatar------------------------------------------
         const chatAvatarFromServer =
-          "http://localhost:1337" +
-          matchingUser.attributes.avatar.data.attributes.url;
+           matchingUser.attributes.avatar.data.attributes.url;
         setChatAva(chatAvatarFromServer);
       } catch (error) {
         console.error("fetchData failed", error);

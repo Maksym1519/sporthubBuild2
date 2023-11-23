@@ -37,7 +37,7 @@ import { Link } from "react-router-dom";
 //import { isPartiallyEmittedExpression } from "typescript";
 
 const VideoCreator = (props) => {
-  //isMobile--------------------------------------------------------------
+   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
   //redux-video-states------------------------------------------------------
@@ -103,19 +103,19 @@ const VideoCreator = (props) => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/Maksyms?populate=*"
         );
-  
-        if (response.status === 200) {
+          if (response.status === 200) {
           const videosData = response.data.data;
+          const sortedData = videosData.sort((a, b) => a.id - b.id);
+          console.log(sortedData)
           const allLinks = [];
-          setTime(videosData);
-          console.log(videosData);
-          const arrayFound = videosData.map(item => item.attributes.videos.data)
+          setTime(sortedData);
+          const arrayFound = sortedData.map(item => item.attributes.videos.data)
           console.log(arrayFound)
           const arrayFoundNames = arrayFound.map(item => item[0].attributes.name)
           setFoundVideo(arrayFoundNames)
-          videosData.forEach((video) => {
+          sortedData.forEach((video) => {
             if (
               video.attributes &&
               video.attributes.videos &&
@@ -127,7 +127,7 @@ const VideoCreator = (props) => {
                   videoData.attributes &&
                   videoData.attributes.url
                 ) {
-                  return "http://localhost:1337" + videoData.attributes.url;
+                  return videoData.attributes.url;
                 }
                 return null;
               });

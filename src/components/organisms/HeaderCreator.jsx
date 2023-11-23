@@ -59,15 +59,15 @@ const HeaderCreator = (props) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/profiles?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/profiles?populate=*"
         );
         const usersData = response.data.data;
         const matchingUser = usersData.find(
           (user) => user.attributes.identifier === dataStorage
         );
-        const avaFromProfile =
-          "http://localhost:1337" +
+         const avaFromProfile =
           matchingUser.attributes.avatar.data.attributes.url;
+          console.log(avaFromProfile)
         if (matchingUser) {
           setUserData(avaFromProfile);
           console.log(
@@ -75,7 +75,7 @@ const HeaderCreator = (props) => {
             matchingUser.attributes.identifier
           );
           const avatarResponse = await axios.get(
-            "http://localhost:1337/api/clients?populate[0]=avatars"
+            "https://sporthubdeploy2.onrender.com/api/clients?populate[0]=avatars"
           );
         } else {
           console.log("Matching user not found.");

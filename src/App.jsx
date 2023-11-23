@@ -85,7 +85,14 @@ const App = () => {
             </React.Suspense>
           }
         ></Route>
-
+          <Route
+          path="/SignInCreator"
+          element={
+            <React.Suspense>
+              <SignInCreatorLazy />
+            </React.Suspense>
+          }
+        ></Route>
         <Route
           path="/"
           element={
@@ -94,15 +101,7 @@ const App = () => {
             </React.Suspense>
           }
         ></Route>
-        <Route
-          path="/SignIn"
-          element={
-            <React.Suspense>
-              <SignInLazy />
-            </React.Suspense>
-          }
-        ></Route>
-        <Route
+          <Route
           path="/SignUp"
           element={
             <React.Suspense>

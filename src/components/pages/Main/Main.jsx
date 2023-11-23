@@ -129,21 +129,23 @@ const Main = (props) => {
   const [dataFromVideo, setDataFromVideo] = useState();
   const [views, setViews] = useState();
   const [chatAvatar, setChatAvatar] = useState("");
+  
   const arrayCovers = [];
   const allNamesArray = [];
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/Maksyms?populate=*"
         );
-        const responseProfiles = await axios.get(
-          "http://localhost:1337/api/Profiles?populate=*"
+         const responseProfiles = await axios.get(
+          "https://sporthubdeploy2.onrender.com/api/profiles?populate=*"
         );
 
         if (response.status === 200) {
           const videosData = response.data.data;
-          setDataFromVideo(videosData);
+          const sortedData = videosData.sort((a, b) => a.id - b.id);
+          setDataFromVideo(sortedData);
           const profilesData = responseProfiles.data.data;
 
           const identifiers = profilesData.map(
@@ -169,8 +171,9 @@ const Main = (props) => {
           //id-------------------------------------------------------
           const arrayId = videosData.map((item) => item.id);
           setId(arrayId);
-          //views---------------------------------------------------------
+           //views---------------------------------------------------------
           const arrayViews = videosData.map((item) => item.attributes.view);
+          console.log(arrayViews)
           setViews(arrayViews);
 
           videosData.forEach((video) => {
@@ -182,7 +185,7 @@ const Main = (props) => {
             ) {
               const links = video.attributes.videos.data.map((videoData) => {
                 if (videoData.attributes && videoData.attributes.url) {
-                  return "http://localhost:1337" + videoData.attributes.url;
+                  return videoData.attributes.url;
                 }
                 return null;
               });
@@ -203,7 +206,7 @@ const Main = (props) => {
                   video.attributes.preview.data &&
                   video.attributes.preview.data.attributes &&
                   video.attributes.preview.data.attributes.url;
-                return "http://localhost:1337" + previewUrl || null;
+                return previewUrl || null;
               });
               //arrayCovers.push(allCovers);
               setCovers(allCovers);
@@ -221,7 +224,7 @@ const Main = (props) => {
                 matchingClient.attributes.avatar.data.attributes.url
               ) {
                 const avatarUrl =
-                  "http://localhost:1337" +
+                
                   matchingClient.attributes.avatar.data.attributes.url;
                 avatarArray.push(avatarUrl);
                 setChatAvatar(avatarUrl);
@@ -280,12 +283,13 @@ const Main = (props) => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [subscriptionsAmount, setSubscriptionsAmount] = useState([]);
   const [identifierForVideo, setIdentifierForVideo] = useState();
+  const [subscriptionsId,setSubscriptionsId] = useState([]);
   let arraySubscriptions = [];
-  let counter = 0;
+    let counter = 0;
   async function getSubscriptions() {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/subscriptions"
+        "https://sporthubdeploy2.onrender.com/api/subscriptions"
       );
       const responseData = response.data.data;
       console.log(responseData);
@@ -327,7 +331,10 @@ const Main = (props) => {
         (item) => item.identifierForVideo
       );
       setIdentifierForVideo(arrayIdentifierForVideo);
-    } catch (error) {
+      //getId-----------------------------------------------------
+      const arraySubscriptionsId = responseData.map((item) => item.id)
+      setSubscriptionsId(arraySubscriptionsId)
+       } catch (error) {
       console.error("get subscriptions failed", error);
     }
   }
@@ -339,7 +346,7 @@ const Main = (props) => {
   const updateSubscriptions = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/subscriptions"
+        "https://sporthubdeploy2.onrender.com/api/subscriptions"
       );
       const responseData = response.data.data;
       const updatedSubscriptions = responseData.map((item, index) => ({
@@ -426,7 +433,7 @@ const Main = (props) => {
                         fileName: fileNames,
                         userName: item.name,
                         subscribe: item.subscribe,
-                        id: id[index], //?
+                        id: subscriptionsId[index], //?
                         identifier: item.identifier,
                         update: propsTime,
                         identifierForLink: item.identifierForVideo,
@@ -470,7 +477,7 @@ const Main = (props) => {
                   <div className={m.video__wrapper}>
                     <img
                       src={
-                        "http://localhost:1337/uploads/video_More1_6a77d41eb9.webp"
+                        "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658466/video_More1_8ffa9a5eec.webp"
                       }
                       alt="video"
                     />
@@ -478,7 +485,7 @@ const Main = (props) => {
                   <div className={m.video__wrapper}>
                     <img
                       src={
-                        "http://localhost:1337/uploads/video_More2_6106767343.webp"
+                        "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658486/video_More2_5981aa980f.webp"
                       }
                       alt="video"
                     />
@@ -486,7 +493,7 @@ const Main = (props) => {
                   <div className={m.video__wrapper}>
                     <img
                       src={
-                        "http://localhost:1337/uploads/video_More3_e0e9300cfd.webp"
+                        "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658504/video_More3_cbb7c02142.webp"
                       }
                       alt="video"
                     />
@@ -496,7 +503,7 @@ const Main = (props) => {
                   <div className={m.video__wrapper}>
                     <img
                       src={
-                        "http://localhost:1337/uploads/video_More1_6a77d41eb9.webp"
+                        "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658466/video_More1_8ffa9a5eec.webp"
                       }
                       alt="video"
                     />
@@ -504,7 +511,7 @@ const Main = (props) => {
                   <div className={m.video__wrapper}>
                     <img
                       src={
-                        "http://localhost:1337/uploads/video_More2_6106767343.webp"
+                        "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658486/video_More2_5981aa980f.webp"
                       }
                       alt="video"
                     />
@@ -512,7 +519,7 @@ const Main = (props) => {
                   <div className={m.video__wrapper}>
                     <img
                       src={
-                        "http://localhost:1337/uploads/video_More3_e0e9300cfd.webp"
+                        "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658504/video_More3_cbb7c02142.webp"
                       }
                       alt="video"
                     />

@@ -13,7 +13,7 @@ const Mind = (props) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("http://localhost:1337/api/Playlists");
+        const response = await axios.get("https://sporthubdeploy2.onrender.com/api/Playlists");
         const responseData = response.data.data;
         setTime(responseData);
         const filteredData = responseData.filter(
@@ -30,7 +30,7 @@ const Mind = (props) => {
         const allPlaylists = mindFilteredData.map((playlist) => {
           const selectedArray = JSON.parse(playlist.attributes.selected);
           const links = selectedArray.flat().map((videoData) => {
-            return "http://localhost:1337" + videoData;
+            return videoData;
           });
           console.log(links);
           return {
@@ -54,7 +54,7 @@ const Mind = (props) => {
     async function getMindLinks() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/Maksyms?populate=*"
         );
         const dataResponse = response.data.data;
         const filteredVideos = dataResponse.filter(
@@ -70,7 +70,7 @@ const Mind = (props) => {
           ) {
             const links = video.attributes.videos.data.map((videoData) => {
               if (videoData.attributes && videoData.attributes.url) {
-                return "http://localhost:1337" + videoData.attributes.url;
+                return videoData.attributes.url;
               }
               return null;
             });

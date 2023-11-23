@@ -87,10 +87,10 @@ const PlaylistEditResult = (props) => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/Maksyms?populate=*"
         );
         const responseServerInputs = await axios.get(
-          "http://localhost:1337/api/Playlists?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/Playlists?populate=*"
         );
         const dataFormInputs =
           responseServerInputs.data.data[
@@ -121,7 +121,7 @@ const PlaylistEditResult = (props) => {
               video.attributes.videos.data.length > 0
             ) {
               const links = video.attributes.videos.data.map((videoData) => {
-                return "http://localhost:1337" + videoData.attributes.url;
+                return videoData.attributes.url;
               });
               allLinks.push(...links);
               const names = video.attributes.videos.data.map((namesData) => {
@@ -185,7 +185,7 @@ const PlaylistEditResult = (props) => {
         };
       console.log(requestData.selected);
       const playlistResponse = await axios.put(
-        `http://localhost:1337/api/Playlists/${dataFromServer.id}`,
+        `https://sporthubdeploy2.onrender.com/api/Playlists/${dataFromServer.id}`,
         requestData
       );
     } catch (error) {

@@ -50,7 +50,7 @@ const DownloadVideo = (props) => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/Maksyms?populate=*"
         );
         if (response.status === 200) {
           const profileData = response.data.data;
@@ -94,11 +94,11 @@ const DownloadVideo = (props) => {
   const handleDeleteClick = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/Maksyms?populate=*"
+        "https://sporthubdeploy2.onrender.com/api/Maksyms?populate=*"
       );
       const profileData = response.data.data;
       const videoId = profileData[profileData.length - 1].id;
-      await axios.delete(`http://localhost:1337/api/Maksyms/${videoId}`);
+      await axios.delete(`https://sporthubdeploy2.onrender.com/api/Maksyms/${videoId}`);
       // Обновляем состояние компонента
       setFileName({
         fileVideoName: "",
@@ -167,7 +167,7 @@ const DownloadVideo = (props) => {
           {fileName.videoPlayer && (
             <video controls className={dv.videoplayer}>
               <source
-                src={"http://localhost:1337" + fileName.videoPlayer}
+                src={fileName.videoPlayer}
                 type="video/mp4"
               />
             </video>
@@ -260,7 +260,7 @@ const DownloadVideo = (props) => {
             {/* //input-------------------------------------------------------- */}
           </div>
           <div className={dv.filepeaker__wrapper}>
-            <img src={"http://localhost:1337" + fileName.preview} />
+            <img src={fileName.preview} />
           </div>
         </div>
       </form>

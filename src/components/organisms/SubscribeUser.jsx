@@ -108,7 +108,7 @@ const SubscribeUser = (props) => {
   async function postDataSubscriptions() {
     try {
       const response = await axios.post(
-        "http://localhost:1337/api/subscriptions",
+        "https://sporthubdeploy2.onrender.com/api/subscriptions",
         requestData
       );
     } catch (error) {
@@ -117,10 +117,11 @@ const SubscribeUser = (props) => {
     console.log(requestData);
   }
    //---------------------------------------------------------------
+   console.log(videoInfo)
    const handleUnsubscribeClick = async () => {
     try {
       console.log("Trying to unsubscribe...");
-     await axios.delete(`http://localhost:1337/api/subscriptions/${videoInfo.id}`);
+     await axios.delete(`https://sporthubdeploy2.onrender.com/api/subscriptions/${videoInfo.id}`);
       console.log("Unsubscribe successful");
       props.getSubscriptions();
     } catch (error) {
@@ -136,7 +137,7 @@ const SubscribeUser = (props) => {
   //set-links-for-user-videos--------------------------------------------
   const [link, setLink] = useState();
   let arrayLinks = [];
-  const baseURL = "http://localhost:1337";
+  //const baseURL = "http://localhost:1337";
 
   const matchingClient =
     props.dataFromVideo &&
@@ -147,7 +148,7 @@ const SubscribeUser = (props) => {
     (item) => item.attributes.videos.data
   );
   arrayLinks = matchingClientData.map((item) => item[0].attributes.url);
-  const updatedLinks = arrayLinks.map((link) => baseURL + link);
+  const updatedLinks = arrayLinks.map((link) => link);
   console.log(updatedLinks)
   //setLink(updatedLinks)
   //-----------------------------------------------------------------------------------
@@ -186,7 +187,7 @@ const SubscribeUser = (props) => {
       };
       console.log(videoInfo);
       const response = await axios.put(
-        `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+        `https://sporthubdeploy2.onrender.com/api/Maksyms/${videoInfo.id}`,
         requestData
       );
       console.log(response)
@@ -199,10 +200,10 @@ const SubscribeUser = (props) => {
   //data-storage--------------------------------------------------------------
   const [playlistLinks, setPlaylistLinks] = useState([]);
   const [playlists, setPlaylists] = useState([]);
-  useEffect(() => {
+   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("http://localhost:1337/api/Playlists");
+        const response = await axios.get("https://sporthubdeploy2.onrender.com/api/Playlists");
         const responseData = response.data.data;
         setTime(responseData);
         const filteredData = responseData.filter(
@@ -211,7 +212,7 @@ const SubscribeUser = (props) => {
         const allPlaylists = filteredData.map((playlist) => {
           const selectedArray = JSON.parse(playlist.attributes.selected);
           const links = selectedArray.flat().map((videoData) => {
-            return "http://localhost:1337" + videoData;
+            return videoData;
           });
           setPlaylistLinks(links)
           return {
@@ -256,7 +257,7 @@ const [playlistsName, setPlaylistsName] = useState([]);
 useEffect(() => {
   async function getPlaylistsNames() {
     try {
-      const response = await axios.get("http://localhost:1337/api/Playlists");
+      const response = await axios.get("https://sporthubdeploy2.onrender.com/api/Playlists");
       const dataResponse = response.data.data;
       const matchingData = dataResponse.filter((item) => item.attributes.publishedBy === videoInfo.identifier)
       console.log(matchingData)

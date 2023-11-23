@@ -37,6 +37,7 @@ import Logo from "../../../images/logo-short.webp";
 import Blur1 from "../../../images/blur-signIn.svg";
 import Blur2 from "../../../images/signIn-blur2.svg";
 import { Icones } from "../../../Data";
+import { SignImages } from "../../../Data";
 
 const SignUpCreator = () => {
   const initialSlide = 0.7;
@@ -77,22 +78,22 @@ const SignUpCreator = () => {
             className={sc.leftSlider}
           >
             <SwiperSlide className={sc.swiperSlide + " " + sc.firstSlide}>
-              <img src={Img1} alt="img" />
+              <img src={SignImages.img1} alt="img" />
             </SwiperSlide>
             <SwiperSlide className={sc.swiperSlide}>
-              <img src={Img2} alt="img" />
+              <img src={SignImages.img2} alt="img" />
             </SwiperSlide>
             <SwiperSlide className={sc.swiperSlide}>
-              <img src={Img3} alt="img" />
+              <img src={SignImages.img3} alt="img" />
             </SwiperSlide>
             <SwiperSlide className={sc.swiperSlide}>
-              <img src={Img4} alt="img" />
+              <img src={SignImages.img4} alt="img" />
             </SwiperSlide>
             <SwiperSlide className={sc.swiperSlide}>
-              <img src={Img1} alt="img" />
+              <img src={SignImages.img5} alt="img" />
             </SwiperSlide>
             <SwiperSlide className={sc.swiperSlide}>
-              <img src={Img2} alt="img" />
+              <img src={SignImages.img6} alt="img" />
             </SwiperSlide>
           </Swiper>
         </div>
@@ -128,7 +129,7 @@ const SignUpCreator = () => {
       </div>
       <div className={sc.signInForm__wrapper}>
         {currentComponent === 'signIn' && <SignInForm img={Icones.logoCenter} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} link="/" height='800px'/>}
-        {currentComponent === 'signUp' && <SignUpForm img={Icones.logoCenter} click={handleSignInClick} url="http://localhost:1337/api/clients"/>}
+        {currentComponent === 'signUp' && <SignUpForm img={Icones.logoCenter} click={handleSignInClick} url="https://sporthubdeploy2.onrender.com/api/clients"/>}
         {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick} img={Icones.logoCenter} height='100%' display='none'/>}
         {currentComponent === 'checkInbox' && <CheckInboxForm img={Icones.logoCenter} height='100%' display='none'/>}
         {currentComponent === 'restorePassword' && <RestorePasswordForm img={Icones.logoCenter} height='100%' display='none'/>} 

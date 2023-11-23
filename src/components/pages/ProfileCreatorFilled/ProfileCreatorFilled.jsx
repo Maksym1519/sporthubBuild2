@@ -108,7 +108,7 @@ const ProfileCreatorFilled = () => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/profiles?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/profiles?populate=*"
         );
         if (response.status === 200) {
           const profileData = response.data.data;
@@ -230,7 +230,7 @@ const ProfileCreatorFilled = () => {
       const avatarData = new FormData();
       avatarData.append("files", avatar[0]);
       const responseAvatar = await axios.post(
-        "http://localhost:1337/api/upload",
+        "https://sporthubdeploy2.onrender.com/api/upload",
         avatarData
       );
       const imageAvatar = responseAvatar.data[0].id;
@@ -241,7 +241,7 @@ const ProfileCreatorFilled = () => {
         },
       };
       await axios.put(
-        `http://localhost:1337/api/profiles/${formData.id}`,
+        `https://sporthubdeploy2.onrender.com/api/profiles/${formData.id}`,
         avatarRequestData
       );
     }
@@ -249,7 +249,7 @@ const ProfileCreatorFilled = () => {
       const coverData = new FormData();
       coverData.append("files", cover[0]);
       const responseCover = await axios.post(
-        "http://localhost:1337/api/upload",
+        "https://sporthubdeploy2.onrender.com/api/upload",
         coverData
       );
       const imageCover = responseCover.data[0].id;
@@ -260,7 +260,7 @@ const ProfileCreatorFilled = () => {
         },
       };
       await axios.put(
-        `http://localhost:1337/api/profiles/${formData.id}`,
+        `https://sporthubdeploy2.onrender.com/api/profiles/${formData.id}`,
         coverRequestData
       );
     }
@@ -281,7 +281,7 @@ const ProfileCreatorFilled = () => {
     };
     try {
       const patchResponse = await axios.put(
-        `http://localhost:1337/api/profiles/${formData.id}`,
+        `https://sporthubdeploy2.onrender.com/api/profiles/${formData.id}`,
         requestData
       );
     } catch (error) {
@@ -304,7 +304,7 @@ const ProfileCreatorFilled = () => {
   async function deleteAvatar() {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/profiles?populate=*"
+        "https://sporthubdeploy2.onrender.com/api/profiles?populate=*"
       );
       if (response.status === 200) {
         const profileData = response.data.data;
@@ -400,7 +400,7 @@ const ProfileCreatorFilled = () => {
             id: (matchingUser && matchingUser.id) || "",
           });
           const updateProfileResponse = await axios.put(
-            `http://localhost:1337/api/profiles/${matchingUser.id}`,
+            `https://sporthubdeploy2.onrender.com/api/profiles/${matchingUser.id}`,
             avatarRequestData
           );
           if (updateProfileResponse.status === 200) {
@@ -422,7 +422,7 @@ const ProfileCreatorFilled = () => {
   async function deleteCover() {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/profiles?populate=*"
+        "https://sporthubdeploy2.onrender.com/api/profiles?populate=*"
       );
       if (response.status === 200) {
         const profileData = response.data.data;
@@ -518,7 +518,7 @@ const ProfileCreatorFilled = () => {
             id: (matchingUser && matchingUser.id) || "",
           });
           const updateProfileResponse = await axios.put(
-            `http://localhost:1337/api/profiles/${matchingUser.id}`,
+            `https://sporthubdeploy2.onrender.com/api/profiles/${matchingUser.id}`,
             avatarRequestData
           );
           if (updateProfileResponse.status === 200) {
@@ -581,7 +581,7 @@ const ProfileCreatorFilled = () => {
                   }}
                 />
                 <img
-                  src={"http://localhost:1337" + formData.avatar}
+                  src={formData.avatar}
                   alt="ava"
                   className={p.avatarImg}
                 />
@@ -623,7 +623,7 @@ const ProfileCreatorFilled = () => {
                   }}
                 />
                 <img
-                  src={"http://localhost:1337" + formData.cover}
+                  src={formData.cover}
                   alt="ava"
                   className={p.avatarImg}
                 />

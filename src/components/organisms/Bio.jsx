@@ -5,10 +5,7 @@ import { Text14400 } from "../atoms/Text";
 import { Text16500 } from "../atoms/Text";
 import { Text12400 } from "../atoms/Text";
 import { Text18600 } from "../atoms/Text";
-//images-------------------------------------------
-import Facebook from '../../images/facebook.svg';
-import Instagram from '../../images/instagram.svg';
-import Twitter from '../../images/twitter.svg';
+import { Icones } from "../../Data";
 
 const Bio = () => {
   return (
@@ -51,9 +48,9 @@ const Bio = () => {
         <div className={b.socialMedia}>
             <h3 className={b.title}><Text18600 text='My social media'/></h3>
             <div className={b.items__body}>
-             <AvaText img={Facebook} text1={<Text14400 text='Facebook' color='rgba(187, 187, 187, 1)'/>}/>
-             <AvaText img={Instagram} text1={<Text14400 text='Instagram' color='rgba(187, 187, 187, 1)'/>}/>
-             <AvaText img={Twitter} text1={<Text14400 text='Twitter' color='rgba(187, 187, 187, 1)'/>}/>
+             <AvaText img={Icones.facebook} text1={<Text14400 text='Facebook' color='rgba(187, 187, 187, 1)'/>}/>
+             <AvaText img={Icones.instagram} text1={<Text14400 text='Instagram' color='rgba(187, 187, 187, 1)'/>}/>
+             <AvaText img={Icones.twitter} text1={<Text14400 text='Twitter' color='rgba(187, 187, 187, 1)'/>}/>
             </div>
         </div>
       </div>

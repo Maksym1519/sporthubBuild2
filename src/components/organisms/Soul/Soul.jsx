@@ -15,7 +15,7 @@ const Soul = (props) => {
    useEffect(() => {
      async function fetchData() {
        try {
-         const response = await axios.get("http://localhost:1337/api/Playlists");
+         const response = await axios.get("https://sporthubdeploy2.onrender.com/api/Playlists");
          const responseData = response.data.data;
          setTime(responseData);
          const filteredData = responseData.filter(
@@ -28,7 +28,7 @@ const Soul = (props) => {
          const allPlaylists = mindFilteredData.map((playlist) => {
            const selectedArray = JSON.parse(playlist.attributes.selected);
            const links = selectedArray.flat().map((videoData) => {
-             return "http://localhost:1337" + videoData;
+             return videoData;
            });
            console.log(links)
            return {

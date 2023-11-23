@@ -14,22 +14,22 @@ import AvaText from "../../molecules/Avatext";
 
 const PlaylistResult = (props) => {
   //get-playlist-info--------------------------------------------------
-  useEffect(() => {
-    const putInfo = async () =>  await axios
-     .put("http://localhost:1337/api/Playlists", {
-         playlistName: "newName",
-         email: "",
-         phone: "",
-     })
-     .then((res) => {
-         console.log(res);
-     })
-     .catch((e) => {
-         alert(e.message);
-         console.log(e.message);
-     });
-   putInfo()
-    },[])
+  // useEffect(() => {
+  //   const putInfo = async () =>  await axios
+  //    .put("https://sporthubdeploy2.onrender.com/api/Playlists", {
+  //        playlistName: "newName",
+  //        email: "",
+  //        phone: "",
+  //    })
+  //    .then((res) => {
+  //        console.log(res);
+  //    })
+  //    .catch((e) => {
+  //        alert(e.message);
+  //        console.log(e.message);
+  //    });
+  //  putInfo()
+  //   },[])
       
   const [playlistInfo, setPlaylistInfo] = useState({
     playlistName: "",
@@ -42,7 +42,7 @@ const PlaylistResult = (props) => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/Playlists?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/Playlists?populate=*"
         );
         if (response.status === 200) {
           const playlistsData =
@@ -99,11 +99,7 @@ const PlaylistResult = (props) => {
       };
 
       calculateTimeAgo();
-
-      // Устанавливаем интервал обновления каждые 60 секунд
       const intervalId = setInterval(calculateTimeAgo, 60000);
-
-      // Очищаем интервал при размонтировании компонента
       return () => clearInterval(intervalId);
     }, [published]);
 
@@ -141,13 +137,13 @@ useEffect(() => {
   const handleDeleteClick = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/Playlists?populate=*"
+        "https://sporthubdeploy2.onrender.com/api/Playlists?populate=*"
       );
       const profileData = response.data.data;
       const lastPlaylist = profileData[profileData.length - 1].id;
       setTime(lastPlaylist)
       console.log(lastPlaylist)
-      await axios.delete(`http://localhost:1337/api/Playlists/${lastPlaylist}`);
+      await axios.delete(`https://sporthubdeploy2.onrender.com/api/Playlists/${lastPlaylist}`);
     } catch (error) {
       console.error("delete data is failed",error);
     }
@@ -215,7 +211,7 @@ useEffect(() => {
         <div className={pr.videos__body}>
           {Array.isArray(playlistInfo.selected) ? (
             playlistInfo.selected.map((link, index) => (
-              <Video key={index} videoUrl={`http://localhost:1337${link}`} update={propsTime} index={index}/>
+              <Video key={index} videoUrl={link} update={propsTime} index={index}/>
             ))
           ) : (
             <p>No videos available</p>

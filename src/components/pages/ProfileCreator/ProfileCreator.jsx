@@ -71,7 +71,7 @@ const ProfileCreator = () => {
     async function requestToProfiles() {
       try {
         const dataFromProfiles = await axios.get(
-          "http://localhost:1337/api/profiles?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/profiles?populate=*"
         );
         if (dataFromProfiles.status === 200) {
           const responseData = dataFromProfiles.data.data;
@@ -158,11 +158,11 @@ const ProfileCreator = () => {
       formDataServer2.append("files", cover[0]);
 
       const responseAvatar = await axios.post(
-        "http://localhost:1337/api/upload",
+        "https://sporthubdeploy2.onrender.com/api/upload",
         formDataServer1
       );
       const responseCover = await axios.post(
-        "http://localhost:1337/api/upload",
+        "https://sporthubdeploy2.onrender.com/api/upload",
         formDataServer2
       );
 
@@ -193,7 +193,7 @@ const ProfileCreator = () => {
 
       // Now, send the requestData to the server
       const profileResponse = await axios.post(
-        "http://localhost:1337/api/profiles",
+        "https://sporthubdeploy2.onrender.com/api/profiles",
         requestData
       );
 

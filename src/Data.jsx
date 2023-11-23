@@ -60,33 +60,50 @@ export const RobertFox = {
 }
 
 export const Icones = {
-  greenBird: "http://localhost:1337/uploads/green_bird_f79abeef99.svg",
-  bucket: "http://localhost:1337/uploads/Trash_1e26f8015b.svg",
-  dots: "http://localhost:1337/uploads/dots_a29bc83356.svg",
-  orangeDots: "http://localhost:1337/uploads/orange_dots_5ed11d0a15.svg",
-  uploadLogo: "http://localhost:1337/uploads/upload_logo_5ce3b34e53.svg",
-  addFile: "http://localhost:1337/uploads/add_File_85c60d717f.svg",
-  arrowDown: "http://localhost:1337/uploads/Arrow_down_66cfb82a8d.svg",
-  question: "http://localhost:1337/uploads/question_d479bc24a3.svg",
-  success: "http://localhost:1337/uploads/success_dcdd469bce.svg",
-  search: "http://localhost:1337/uploads/Search_input_0ef97368b8.svg",
-  close: "http://localhost:1337/uploads/Close_5533c351fb.svg",
-  approved: "http://localhost:1337/uploads/aproved_8769dabf9f.svg",
-  edit: "http://localhost:1337/uploads/Edit_20x20_ec3decd7af.svg",
-  diamond: "http://localhost:1337/uploads/Diamond_20x20_8ce22f2803.svg",
-  logOut: "http://localhost:1337/uploads/Log_out_20x20_ff1ba3ce09.svg",
-  avaEmpty: "http://localhost:1337/uploads/ava_empty_5182dede9e.svg",
-  logo: "http://localhost:1337/uploads/logo_ef5f778a28.svg",
-  like: "http://localhost:1337/uploads/like_7b171e13e7.svg",
-  dislike: "http://localhost:1337/uploads/dislike_3dd75f9c8c.svg",
-  videoIcon: "http://localhost:1337/uploads/video_Icon_51d4f245ea.png",
-  hammer: "http://localhost:1337/uploads/hammer_f1f12ed1a2.png",
-  logoCenter: "http://localhost:1337/uploads/logo_center_13f13f4928.svg"
+  greenBird: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700642610/green_bird_d8f7e1a526.svg",
+  bucket: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700642921/bucket_c40b5add1d.svg",
+  dots: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700642975/Dots_82ed12bbc5.svg",
+  orangeDots: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643001/orange_dots_4af926d8b4.svg",
+  uploadLogo: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700676169/upload_b0756e85b7.svg",
+  addFile: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700676346/add_File_5e2212a4bd.svg",
+  arrowDown: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643302/arrow_down_yellow_d3805bf73f.svg",
+  question: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643340/question_16dab8dcb5.svg",
+  success: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643384/success_d71ba43f02.svg",
+  search: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643473/Search_a357c74de3.svg",
+  close: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643504/Close_8f40735f9a.svg",
+  approved: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643523/aproved_161a8a86db.svg",
+  edit: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643560/Edit_20x20_e680e96e6a.svg",
+  diamond: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643587/Diamond_20x20_7bd75420f2.svg",
+  logOut: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700644383/like_a10b54ac0c.svg",
+  avaEmpty: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700643656/ava_empty_faf2097680.svg",
+  logo: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700640013/logo_35b0d124de.svg",
+  like: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700644383/like_a10b54ac0c.svg",
+  dislike: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700644401/dislike_cffecb8f88.svg",
+  videoIcon: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700644430/video_Icon_8ebf7000d9.png",
+  hammer: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700644471/hammer_876d6ad399.png",
+  logoCenter: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700640036/logo_center_8cfc5b87e2.svg",
+  facebook: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700743768/facebook_d83060a535.svg",
+  instagram: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700743787/instagram_8248dd36ae.svg",
+  twitter: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700743808/twitter_fd740eca60.svg",
+  storeAva1: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700744747/store_ava1_17ccbe6cf2.svg",
+  storeAva2: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700744777/store_ava2_c96ff66c08.svg",
+  storeArrow: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700744798/arrow_store_bff6e476df.svg"
 }
 export const Preview = {
   previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"
 }
-
+export const SignImages = {
+  img1: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700655689/sign_In1_14d0aa7a21.webp",
+  img2: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700655719/sign_In2_27bcff7437.webp",
+  img3: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700655736/sign_In3_eeca3bfa76.webp",
+  img4: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700657946/sign_In4_5c4f3a67a9.webp",
+  img5: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700657966/sign_In5_8adbe64e40.webp",
+  img6: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700657990/sign_In6_acb4cb29d5.webp",
+  img7: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658015/sign_In7_a0e51e7b55.webp",
+  img8: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658036/sign_In8_6d37e81c1c.webp",
+  blur1: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658073/blur_sign_In_6645321416.svg",
+  blur2: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700658107/sign_In_blur2_39bbb5cd48.svg"
+}
 
 // export const postVideoDefault = () => {
 //   const videoArray = [Video1,Video2,Video3,Video4,Video5,Video6,Video7,Video8]

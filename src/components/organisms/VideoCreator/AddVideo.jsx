@@ -92,11 +92,11 @@ const AddVideo = (props) => {
       formDataServer.append("files", formData[0]);
       formDataServer2.append("files", preview[0]);
       const responseVideo = await axios.post(
-        "http://localhost:1337/api/upload",
+        "https://sporthubdeploy2.onrender.com/api/upload",
         formDataServer
       );
       const responsePreview = await axios.post(
-        "http://localhost:1337/api/upload",
+        "https://sporthubdeploy2.onrender.com/api/upload",
         formDataServer2
       );
       if (responseVideo.status === 200) {
@@ -115,7 +115,7 @@ const AddVideo = (props) => {
           },
         };
         const profileResponse = await axios.post(
-          "http://localhost:1337/api/Maksyms",
+          "https://sporthubdeploy2.onrender.com/api/Maksyms",
           requestData
         );
       } else {
@@ -136,7 +136,7 @@ const AddVideo = (props) => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/Maksyms?populate=*"
+          "https://sporthubdeploy2.onrender.com/api/Maksyms?populate=*"
         );
         if (response.status === 200) {
           const profileData = response.data.data;
