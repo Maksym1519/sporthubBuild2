@@ -63,7 +63,7 @@ const MobileMenu = (props) => {
     <div className={mm.wrapper}>
       <div className={mm.navigation__wrapper}>
         <ul>
-          <Link to="/">
+          <Link to="#/Main">
             <li
               className={`${mm.switcher__item} ${
                 activeIndex === 0 ? mm.active : ""

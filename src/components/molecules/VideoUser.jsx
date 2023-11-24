@@ -1,4 +1,5 @@
 import vu from './videoUser.module.scss';
+import vs from './video.module.scss';
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../App/hooks";
@@ -10,6 +11,7 @@ import { Text16500 } from "../atoms/Text";
 import { Text14500 } from "../atoms/Text";
 import More from "../../images/more.svg";
 import Play from '../../images/play-btn.svg'
+import videoStyleSlice from '../../features/videoStyleSlice';
 
 
 const VideoUser = (props) => {
@@ -21,7 +23,25 @@ const VideoUser = (props) => {
   const currentComponent = useSelector(
     (state) => state.videoUser.currentComponent
   );
- 
+  //play-img-toggle------------------------------------------------
+  const [play, setPlay] = useState(true);
+  const clickTogglePlay = () => {
+    setPlay(!play);
+  };
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef(null);
+
+  const handleVideoClick = () => {
+    clickTogglePlay()
+    setIsVideoPlaying(!isVideoPlaying);
+    if (videoRef.current) {
+      if (isVideoPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+    }
+  };
    //redux-menu-Dots------------------------------------------------
    const [isMenuVisible, setIsMenuVisible] = useState(false);
    const toggleMenuDots = () => {
@@ -70,10 +90,10 @@ const getTimeDifference = (updateTime) => {
         style={styled}
       >
         <div className={vu.video__wrapper} onClick={props.clickToSubscriber} style={styled}>
-        <video controls className={vu.video} onClick={props.clickToSubscriber} >
+        <video ref={videoRef} onClick={handleVideoClick} className={vs.video}>
           <source src={props.videoUrl} type="video/mp4" />
         </video>
-          <img src={Play} alt="play" className={vu.play}/>
+          {play && <img src={Play} alt="play" className={vu.play}/>}
         </div>
         <div className={vu.video__description} onClick={props.clickToSubscriber}>
                     <ColumnTemplate
