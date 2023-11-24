@@ -72,7 +72,7 @@ const ForgotPasswordForm = (props) => {
       );
       console.log("Email отправлен");
       // После успешной отправки email вызываем props.click
-      //props.click();
+      props.click();
     } catch (error) {
       console.error("Ошибка при отправке письма:", error.text);
     }

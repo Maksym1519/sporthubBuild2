@@ -128,11 +128,11 @@ const SignUpCreator = () => {
         </div>
       </div>
       <div className={sc.signInForm__wrapper}>
-        {currentComponent === 'signIn' && <SignInForm img={Icones.logoCenter} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} link="/" height='800px'/>}
+        {currentComponent === 'signIn' && <SignInForm img={Icones.logoCenter} click={handleSignUpClick} forgotPassword={handleForgotPasswordClick} link="#/Main" height='800px'/>}
         {currentComponent === 'signUp' && <SignUpForm img={Icones.logoCenter} click={handleSignInClick} url="https://sporthubdeploy2.onrender.com/api/clients"/>}
         {currentComponent === 'forgotPassword' && <ForgotPasswordForm click={handlecheckInboxClick} img={Icones.logoCenter} height='100%' display='none'/>}
         {currentComponent === 'checkInbox' && <CheckInboxForm img={Icones.logoCenter} height='100%' display='none'/>}
-        {currentComponent === 'restorePassword' && <RestorePasswordForm img={Icones.logoCenter} height='100%' display='none'/>} 
+        {currentComponent === 'restorePassword' && <RestorePasswordForm img={Icones.logoCenter} height='100%' display='none' click={handleSignInClick}/>} 
       </div>
       <img src={Blur1} alt="blur1" className={`${sc.blur} ${sc.blur1}`} />
       <img src={Blur2} alt="blur2" className={`${sc.blur} ${sc.blur2}`} />

@@ -86,15 +86,15 @@ const App = () => {
           }
         ></Route>
           <Route
-          path="/SignInCreator"
+          path="/"
           element={
             <React.Suspense>
               <SignInCreatorLazy />
             </React.Suspense>
           }
         ></Route>
-        <Route
-          path="/"
+          <Route
+          path="/Main"
           element={
             <React.Suspense>
               <MainLazy />
@@ -157,14 +157,14 @@ const App = () => {
             </React.Suspense>
           }
         ></Route>
-        <Route
+        {/* <Route
           path="/SignInCreator"
           element={
             <React.Suspense>
               <SignInCreatorLazy />
             </React.Suspense>
           }
-        ></Route>
+        ></Route> */}
         <Route
           path="/ProfileCreator"
           element={

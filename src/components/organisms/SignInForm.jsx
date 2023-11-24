@@ -36,7 +36,7 @@ const SignInForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get("http://localhost:1337/api/clients");
+      const response = await axios.get("https://sporthubdeploy2.onrender.com/api/clients");
       const usersData = response.data.data;
       const user = usersData.find(
         (u) =>

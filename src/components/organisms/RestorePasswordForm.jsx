@@ -13,7 +13,7 @@ import { Text16600 } from "../atoms/Text";
 import { Text16500 } from "../atoms/Text";
 import { Text32500 } from "../atoms/Text";
 import Eye from "../../images/eye.svg";
-
+import { Icones } from "../../Data";
 const RestorePasswordForm = (props) => {
   const styled = {
     height: props.height
@@ -54,7 +54,7 @@ const RestorePasswordForm = (props) => {
               name="email"
             />
           </div>
-          <Link to="/" className={s.link}>
+          <Link className={s.link} onClick={props.click}>
             <button className={s.button__wrapper} type="submit">
               <Button18044
                 text={<Text16600 text="Save" color="#fff" />}

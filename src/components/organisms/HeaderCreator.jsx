@@ -112,7 +112,7 @@ const HeaderCreator = (props) => {
             </div>
           ) : (
             <div className={hc.wrapper}>
-              <Link to="/" onClick={props.goHome}>
+              <Link to="/Main" onClick={props.goHome}>
                 <div className={hc.logo__wrapper}>
                   <img src={Icones.logo} alt="logo" />
                 </div>
@@ -204,9 +204,9 @@ const HeaderCreator = (props) => {
                       }
                     />
                   </div>
-                  <Link to="/SignInCreator">
+                  <Link to="/">
                     <div
-                      onClick={clickShowLogIn}
+                      //onClick={clickShowLogIn}
                       className={hc.item + " " + hc.lastItem}
                     >
                       <Avatext
