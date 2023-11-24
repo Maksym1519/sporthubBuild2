@@ -140,9 +140,10 @@ const AddVideo = (props) => {
         );
         if (response.status === 200) {
           const profileData = response.data.data;
+          const sortedData = profileData.sort((a, b) => a.id - b.id);
           setFileName({
             fileVideoName:
-              profileData[profileData.length - 1].attributes.videos.data[0]
+              sortedData[sortedData.length - 1].attributes.videos.data[0]
                 .attributes.name,
           });
         } else {
