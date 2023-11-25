@@ -19,6 +19,7 @@ import e from "cors";
 import axios from "axios";
 
 const AddVideo = (props) => {
+  const [loading, setLoading] = useState(false);
   const avatar = props.avatar;
   //isMobile--------------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
@@ -83,7 +84,8 @@ const AddVideo = (props) => {
 
   const handleSubmit = async (e) => {
     try {
-      if (!formData) {
+      setLoading(true);
+       if (!formData) {
         console.error("Please select a file.");
         return;
       }
@@ -121,7 +123,7 @@ const AddVideo = (props) => {
       } else {
         ("upload video failed");
       }
-    } catch (error) {
+       } catch (error) {
       console.error("error");
     }
   };
@@ -397,6 +399,12 @@ const AddVideo = (props) => {
         </div>
       </form>
       <div className={av.overlay}></div>
+      {loading && (
+        <div className={av.loadingMessage}>
+          <p>Please wait, uploading...</p>
+          <div className="loader"></div>
+        </div>
+      )}
     </div>
   );
 };

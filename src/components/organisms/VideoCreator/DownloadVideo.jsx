@@ -54,23 +54,23 @@ const DownloadVideo = (props) => {
         );
         if (response.status === 200) {
           const profileData = response.data.data;
-          console.log(profileData);
-          setFileName({
+          const sortedData = profileData.sort((a, b) => a.id - b.id);
+            setFileName({
             fileVideoName:
-              profileData[profileData.length - 1].attributes.videos.data[0]
+              sortedData[sortedData.length - 1].attributes.videos.data[0]
                 .attributes.name,
             videoPlayer:
-              profileData[profileData.length - 1].attributes.videos.data[0]
+              sortedData[sortedData.length - 1].attributes.videos.data[0]
                 .attributes.url,
             preview:
-              profileData[profileData.length - 1].attributes.preview.data
+              sortedData[sortedData.length - 1].attributes.preview.data
                 .attributes.url,
-            title: profileData[profileData.length - 1].attributes.title,
-            category: profileData[profileData.length - 1].attributes.category,
+            title: sortedData[sortedData.length - 1].attributes.title,
+            category: sortedData[sortedData.length - 1].attributes.category,
             description:
-              profileData[profileData.length - 1].attributes.description,
+              sortedData[sortedData.length - 1].attributes.description,
             addShopifyLink:
-              profileData[profileData.length - 1].attributes.addShopifyLink,
+              sortedData[sortedData.length - 1].attributes.addShopifyLink,
           });
           console.log(fileName.videoPlayer);
         } else {

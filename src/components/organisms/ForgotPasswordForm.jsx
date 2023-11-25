@@ -93,7 +93,7 @@ const ForgotPasswordForm = (props) => {
           const updatePasswordOnServer = async () => {
             try {
               const response = await axios.put(
-                `http://localhost:1337/api/clients/${clientId}`,
+                `https://sporthubdeploy2.onrender.com/api/clients/${clientId}`,
                 requestData
               );
               console.log('Change password response:', response.data);
@@ -116,7 +116,7 @@ const ForgotPasswordForm = (props) => {
   const [passwordClients, setPasswordClients] = useState([]);
   async function getClients() {
     try {
-      const clients = await axios.get("http://localhost:1337/api/clients?populate=*");
+      const clients = await axios.get("https://sporthubdeploy2.onrender.com/api/clients?populate=*");
       const dataResponse = clients.data.data;
       console.log("Data from server:", dataResponse);
   

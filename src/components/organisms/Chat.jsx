@@ -103,11 +103,13 @@ const Chat = (props) => {
         const identifyMessages = matchingIds.length > 0;
         setShowMessages(identifyMessages);
         //get-names------------------------------------------------------
-        const arrayFullNames = sortedData.map(
-          (item) => item.attributes.fullName
-        );
-        console.log(arrayFullNames);
-        setMessageAuthor(arrayFullNames);
+        const arrayFullNames = [];
+        sortedData.forEach((item) => {
+          if (item.attributes.identifier === props.videoInfo.fileName) {
+            arrayFullNames.push(item.attributes.fullName);
+          }
+        });
+        setMessageAuthor(arrayFullNames)
       } catch (error) {
         console.error("getting messages is failed", error);
       }

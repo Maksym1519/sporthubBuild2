@@ -184,7 +184,7 @@ const [likes, setLikes] = useState(0);
       };
 
       const response = await axios.put(
-        `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+        `https://sporthubdeploy2.onrender.com/api/Maksyms/${videoInfo.id}`,
         requestData
       );
 
@@ -219,7 +219,7 @@ const [likes, setLikes] = useState(0);
       };
 
       const response = await axios.put(
-        `http://localhost:1337/api/Maksyms/${videoInfo.id}`,
+        `https://sporthubdeploy2.onrender.com/api/Maksyms/${videoInfo.id}`,
         requestData
       );
 
@@ -239,7 +239,7 @@ console.log(messagesAmount)
 useEffect(() => {
   async function getMessages() {
     try {
-      const response = await axios.get("http://localhost:1337/api/messages");
+      const response = await axios.get("https://sporthubdeploy2.onrender.com/api/messages");
       const dataResponse = response.data.data;
        //get-messages
       const arrayMessages = [];
