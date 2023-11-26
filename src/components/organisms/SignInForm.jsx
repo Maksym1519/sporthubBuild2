@@ -19,6 +19,8 @@ import { Text16500 } from "../atoms/Text";
 import { Text32500 } from "../atoms/Text";
 import Eye from "../../images/eye.svg";
 import HeaderCreator from "./HeaderCreator";
+import { hidePassword } from "../../features/inputTypeSlice";
+import { showPassword } from "../../features/inputTypeSlice";
 
 const SignInForm = (props) => {
   const styled = {
@@ -73,7 +75,15 @@ const SignInForm = (props) => {
    //isMobile-----------------------------------------------------------
   const screenWidth = useAppSelector((state) => state.screenWidth.screenWidth);
   const isMobile = screenWidth <= 1024;
-
+ //redux-forms--------------------------------------------------------------------
+ const isPasswordVisible = useSelector((state) => state.inputType.isPasswordVisible);
+ const togglePasswordVisibility = () => {
+   if (isPasswordVisible) {
+     dispatch(hidePassword());
+   } else {
+     dispatch(showPassword());
+   }
+ };
   return (
 <>
     <div className={s.signInForm__wrapper} style={styled}>
@@ -122,13 +132,13 @@ const SignInForm = (props) => {
               </span>
             </div>
             <input
-              type="text"
+              type={isPasswordVisible ? 'text' : 'password'}
               className={s.input}
               placeholder={"Your password"}
               name="password"
               onChange={handleChange}
             />
-            <img src={Eye} alt="eye" className={s.eye} />
+            <img src={Eye} alt="eye" className={s.eye} onClick={togglePasswordVisibility}/>
           </div>
         </div>
 
