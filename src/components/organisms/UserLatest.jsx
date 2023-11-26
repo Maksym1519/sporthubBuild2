@@ -1,20 +1,10 @@
 import React from "react";
-import ul from "./userLatest.module";
+import ul from "./userLatest.module.scss";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../App/hooks";
-import { updateScreenWidth } from "../../features/headerSlice";
-import { Text14400 } from "../atoms/Text";
-import { Text16500 } from "../atoms/Text";
-import { Text14500 } from "../atoms/Text";
-import Avatext from "../molecules/Avatext";
-import ColumnTemplate from "../molecules/ColumnTemplate";
-import { AvaArray } from "../../Data";
-import { VideoUserArray } from "../../Data";
 import VideoUser from "../molecules/VideoUser";
-import MenuDots from "../molecules/MenuDots";
 //images------------------------------------------------------------------------
-import More from "../../images/more.svg";
 
 const UserLatest = (props) => {
   const [activeIndex, setActiveIndex] = useState(true);

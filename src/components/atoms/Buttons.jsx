@@ -1,9 +1,15 @@
 import b from './buttons.module.scss';
+import { Text16600 } from './Text';
+
 
 export const Button13040 = (props) => {
     const styled = {
         background: props.bg,
-        borderRadius: props.borderRadius
+        borderRadius: props.borderRadius,
+        width: props.width,
+        color: props.color,
+        fontFamily: props.fontFamily,
+        margin: props.margin
     }
     return (
         <div className={b.wrapper__13040} style={styled}>
@@ -17,7 +23,10 @@ export const Button18044 = (props) => {
         borderRadius: props.borderRadius,
         border: props.border,
         columnGap: props.columnGap,
-        width: props.width
+        width: props.width,
+        color: props.color,
+        fontFamily: props.fontFamily,
+        margin: props.margin
     }
     return (
         <button className={b.wrapper__18044} style={styled} >
@@ -30,7 +39,11 @@ export const Button10644 = (props) => {
     const styled = {
         background: props.bg,
         borderRadius: props.borderRadius,
-        border: props.border
+        border: props.border,
+        width: props.width,
+        color: props.color,
+        fontFamily: props.fontFamily,
+        margin: props.margin
     }
     return (
         <button className={b.wrapper__10644} style={styled} >
