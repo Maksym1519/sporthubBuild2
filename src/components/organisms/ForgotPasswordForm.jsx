@@ -59,7 +59,7 @@ const ForgotPasswordForm = (props) => {
       to: newEmail,
       to_email: email,
       from_name: "Maksym",
-      to_name: "Jhon",
+      to_name: "Guest",
       message: `Ваш новый пароль: ${newPasswordToSever}`,
     };
 
