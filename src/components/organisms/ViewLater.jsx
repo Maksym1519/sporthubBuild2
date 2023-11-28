@@ -1,5 +1,5 @@
 import React from "react";
-import ul from "./userLatest.module";
+import ul from "./userLatest.module.scss";
 import { useState, useEffect, useRef } from "react";
 import {useAppDispatch, useAppSelector} from '../../App/hooks';
 import { increment, incrementByAmount } from '../../features/counter/counterSlice';

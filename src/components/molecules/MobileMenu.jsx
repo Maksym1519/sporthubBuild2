@@ -18,6 +18,9 @@ import {
 } from "../../features/videoUserSlice";
 
 const MobileMenu = (props) => {
+ const styled = {
+  textDecoration: "none"
+ }
   //profileMenu------------------------------------------------
   const [menu, setMenu] = useState(false);
   const toggleMenu = () => {
@@ -63,7 +66,7 @@ const MobileMenu = (props) => {
     <div className={mm.wrapper}>
       <div className={mm.navigation__wrapper}>
         <ul>
-          <Link to="/Main">
+          <Link to="/Main" style={styled}>
             <li
               className={`${mm.switcher__item} ${
                 activeIndex === 0 ? mm.active : ""
@@ -95,7 +98,7 @@ const MobileMenu = (props) => {
           >
             <Text16400 text="View Later" color="rgba(187, 187, 187, 1)" />
           </li>
-          <Link to="/VideoCreator">
+          <Link to="/VideoCreator" style={styled}>
             <li
               className={`${mm.switcher__item} ${
                 activeIndex === 3 ? mm.active : ""
@@ -129,7 +132,7 @@ const MobileMenu = (props) => {
         {/* //profile-menu---------------------------------------------------------------------------------- */}
         {menu && (
           <div className={mm.headerProfile__wrapper}>
-            <Link to="/ProfileCreator">
+            <Link to="/ProfileCreator" style={styled}>
               <div className={mm.item}>
                 <Avatext
                   img={Icones.edit}
@@ -142,7 +145,7 @@ const MobileMenu = (props) => {
                 />
               </div>
             </Link>
-            <Link to="/ProfileCreatorFilled">
+            <Link to="/ProfileCreatorFilled" style={styled}>
               <div className={mm.item}>
                 <Avatext
                   img={Icones.edit}
@@ -155,7 +158,7 @@ const MobileMenu = (props) => {
                 />
               </div>
             </Link>
-            <Link to="/VideoCreator">
+            <Link to="/VideoCreator" style={styled}>
               <div className={mm.item}>
                 <Avatext
                   img={Icones.videoIcon}
@@ -179,7 +182,7 @@ const MobileMenu = (props) => {
                 }
               />
             </div>
-            <Link to="/SignInCreator">
+            <Link to="/SignInCreator" style={styled}>
               <div
                // onClick={clickShowLogIn}
                 className={mm.item + " " + mm.lastItem}

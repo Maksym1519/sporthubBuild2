@@ -32,7 +32,7 @@ console.log(props.avatars)
       </h3>)
 }
       <div className={vs.swiper__wrapper}>
-            <Swiper slidesPerView={3.5} speed={2000} loop={false} direction={isMobile ? ('vertical') : ('horizontal')} className={vs.swiper__container}>
+            <Swiper slidesPerView={1} speed={2000} loop={false} direction={isMobile ? ('vertical') : ('horizontal')} className={vs.swiper__container}>
             {props.link.map((link, index) => (
             <SwiperSlide className={vs.swiperSlide}>
                    <VideoUser

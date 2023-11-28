@@ -143,7 +143,7 @@ const HeaderCreator = (props) => {
                   </div>
                   <div className={hc.profile__wrapper} onClick={toggleMenu}>
                     <img
-                      src={userData ? userData : Icones.avaEmpty}
+                      src={props.userData || userData || Icones.avaEmpty}
                       alt="ava"
                       className={hc.ava}
                     />
@@ -180,7 +180,7 @@ const HeaderCreator = (props) => {
                       />
                     </div>
                   </Link>
-                  <Link to="/VideoCreator">
+                  <Link to="/VideoCreator" className={hc.link}>
                     <div className={hc.item}>
                       <Avatext
                         img={Icones.videoIcon}
