@@ -623,7 +623,7 @@ const ProfileCreatorFilled = () => {
                   }}
                 />
                 <img
-                  src={formData.cover || Icones.cover}
+                  src={formData.cover || Icones.coverFrame}
                   alt="ava"
                   className={p.avatarImg}
                 />

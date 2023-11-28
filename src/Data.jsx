@@ -87,7 +87,8 @@ export const Icones = {
   twitter: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700743808/twitter_fd740eca60.svg",
   storeAva1: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700744747/store_ava1_17ccbe6cf2.svg",
   storeAva2: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700744777/store_ava2_c96ff66c08.svg",
-  storeArrow: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700744798/arrow_store_bff6e476df.svg"
+  storeArrow: "https://res.cloudinary.com/duk3bewdr/image/upload/v1700744798/arrow_store_bff6e476df.svg",
+  coverFrame: "https://res.cloudinary.com/duk3bewdr/image/upload/v1701191180/cover_Frame_0c899e9381.svg"
 }
 export const Preview = {
   previewVimeo: "http://localhost:1337/uploads/vimeo_player_e4351298da.webp"
