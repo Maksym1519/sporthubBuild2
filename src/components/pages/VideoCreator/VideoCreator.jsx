@@ -272,8 +272,7 @@ useEffect(() => {
               </div>
             </div>
             {/* //--------------------------------------------------------------------- */}
-            (
-            {currentStyle === "all" && (
+             {currentStyle === "all" && (
               <div className={vc.videos__body}>
                 {link.map((link, index) => (
                   <Video key={index} videoUrl={link} update={propsTime} index={index}/>
@@ -282,7 +281,7 @@ useEffect(() => {
             )}
             {currentStyle === "mind" && <Mind />}
             {currentStyle === "body" && <Body />}
-            {currentStyle === "soul" && <Soul />})
+            {currentStyle === "soul" && <Soul />}
           </div>
         )}
         {currentComponent === "addVideo" && (
